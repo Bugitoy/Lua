@@ -275,6 +275,10 @@ export default function StatsScreen() {
   const [activeMetric, setActiveMetric] = useState<MetricKey>("goals");
   const [selectedIdx, setSelectedIdx] = useState(6); // today by default
   const [leaderSort, setLeaderSort] = useState<LeaderboardSortKey>("goals");
+  const [leaderPeriod, setLeaderPeriod] = useState<"today" | "week" | "month">("today");
+  const [periodDropdownOpen, setPeriodDropdownOpen] = useState(false);
+
+  const PERIOD_LABELS = { today: "Today", week: "This Week", month: "This Month" } as const;
 
   // Build dataset: 6 historical days + today from live stats
   const today = new Date();
@@ -526,12 +530,77 @@ export default function StatsScreen() {
           ))}
         </View>
         {/* Leaderboard */}
-        <Text
-          className="mb-2 ml-1 mt-5 text-xs uppercase tracking-widest text-neutral-400"
-          style={{ fontFamily: Pixelify.semibold }}
-        >
-          UC Leaderboard · Today
-        </Text>
+        <View className="mt-5 mb-2 ml-1 flex-row items-center gap-2">
+          <Text
+            className="text-xs uppercase tracking-widest text-neutral-400"
+            style={{ fontFamily: Pixelify.semibold }}
+          >
+            UC Leaderboard ·
+          </Text>
+          <View style={{ position: "relative" }}>
+            <Pressable
+              onPress={() => setPeriodDropdownOpen((v) => !v)}
+              className="flex-row items-center gap-1 rounded-md px-2 py-0.5"
+              style={{ backgroundColor: "#f5f5f5", borderWidth: 1, borderColor: "#e5e5e5" }}
+            >
+              <Text
+                className="text-xs uppercase tracking-widest"
+                style={{ fontFamily: Pixelify.bold, color: LUA_GREEN }}
+              >
+                {PERIOD_LABELS[leaderPeriod]}
+              </Text>
+              <Ionicons
+                name={periodDropdownOpen ? "chevron-up" : "chevron-down"}
+                size={11}
+                color={LUA_GREEN}
+              />
+            </Pressable>
+
+            {periodDropdownOpen && (
+              <View
+                style={{
+                  position: "absolute",
+                  top: "100%",
+                  left: 0,
+                  marginTop: 4,
+                  backgroundColor: "#fff",
+                  borderRadius: 10,
+                  borderWidth: 1,
+                  borderColor: "#e5e5e5",
+                  zIndex: 50,
+                  shadowColor: "#000",
+                  shadowOffset: { width: 0, height: 4 },
+                  shadowOpacity: 0.1,
+                  shadowRadius: 8,
+                  elevation: 8,
+                  minWidth: 130,
+                  overflow: "hidden",
+                }}
+              >
+                {(["today", "week", "month"] as const).map((period, i, arr) => (
+                  <Pressable
+                    key={period}
+                    onPress={() => { setLeaderPeriod(period); setPeriodDropdownOpen(false); }}
+                    className="flex-row items-center justify-between px-3 py-2.5 active:bg-neutral-50"
+                  >
+                    <Text
+                      style={{
+                        fontFamily: leaderPeriod === period ? Pixelify.bold : Pixelify.regular,
+                        fontSize: 12,
+                        color: leaderPeriod === period ? LUA_GREEN : "#525252",
+                      }}
+                    >
+                      {PERIOD_LABELS[period]}
+                    </Text>
+                    {leaderPeriod === period && (
+                      <Ionicons name="checkmark" size={14} color={LUA_GREEN} />
+                    )}
+                  </Pressable>
+                ))}
+              </View>
+            )}
+          </View>
+        </View>
 
         {/* Sort pills */}
         <View className="mb-3 flex-row gap-2">
@@ -582,26 +651,30 @@ export default function StatsScreen() {
         >
           {/* "You" row — always first if competitive */}
           {(() => {
-            const meGoalsDone = stats.goalsDone;
-            const meGoalsTotal = stats.goalsTotal;
-            const meDistance = stats.distanceMiles;
-            const meStudy = stats.hoursStudied;
+            // Scale multipliers per period so rankings feel different
+            const scale = leaderPeriod === "today" ? 1 : leaderPeriod === "week" ? 7 : 30;
+            const periodBoard: LeaderEntry[] = LEADERBOARD.map((e) => ({
+              ...e,
+              goalsDone: Math.min(Math.round(e.goalsDone * scale * (0.8 + Math.sin(e.avatarImg) * 0.2)), e.goalsTotal * scale),
+              goalsTotal: e.goalsTotal * scale,
+              distanceMiles: parseFloat((e.distanceMiles * scale * (0.85 + Math.cos(e.avatarImg) * 0.15)).toFixed(1)),
+              hoursStudied: parseFloat((e.hoursStudied * scale * (0.9 + Math.sin(e.id.charCodeAt(0)) * 0.1)).toFixed(1)),
+            }));
 
-            // Build combined list including "you" to find rank
             const meEntry: LeaderEntry = {
               id: "me",
               name: "You",
               major: "University of Cincinnati",
               avatarImg: 12,
-              goalsDone: meGoalsDone,
-              goalsTotal: meGoalsTotal,
-              distanceMiles: meDistance,
-              hoursStudied: meStudy,
+              goalsDone: stats.goalsDone * scale,
+              goalsTotal: stats.goalsTotal * scale,
+              distanceMiles: parseFloat((stats.distanceMiles * scale).toFixed(1)),
+              hoursStudied: parseFloat((stats.hoursStudied * scale).toFixed(1)),
               streak: stats.goalStreak,
             };
-            const combined = sortLeaderboard([...LEADERBOARD, meEntry], leaderSort);
+            const combined = sortLeaderboard([...periodBoard, meEntry], leaderSort);
             const meRank = combined.findIndex((e) => e.id === "me") + 1;
-            const sorted = sortLeaderboard(LEADERBOARD, leaderSort);
+            const sorted = sortLeaderboard(periodBoard, leaderSort);
 
             const sortAccent =
               leaderSort === "goals" ? LUA_GREEN :

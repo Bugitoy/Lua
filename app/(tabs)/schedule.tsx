@@ -92,7 +92,7 @@ export default function ScheduleScreen() {
           <Link href="/(tabs)/profile" asChild>
             <Pressable accessibilityLabel="Open profile">
               <Image
-                source={{ uri: "https://i.pravatar.cc/120" }}
+                source={{ uri: "https://i.pravatar.cc/120?img=12" }}
                 style={{
                   width: 44,
                   height: 44,
