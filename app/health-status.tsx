@@ -167,7 +167,7 @@ export default function HealthStatusScreen() {
         </View>
 
         <Pressable
-          onPress={() => router.replace("/")}
+          onPress={() => router.back()}
           className="mb-3 items-center rounded-xl py-4 active:opacity-90"
           style={{ backgroundColor: LUA_GREEN }}
         >
@@ -175,7 +175,7 @@ export default function HealthStatusScreen() {
             className="text-base uppercase text-white"
             style={{ fontFamily: Pixelify.bold, letterSpacing: 0.5 }}
           >
-            START NEW DAY
+            Back
           </Text>
         </Pressable>
 

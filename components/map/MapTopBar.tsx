@@ -2,8 +2,8 @@ import { Image } from "expo-image";
 import { Link } from "expo-router";
 import { Pressable, Text, View } from "react-native";
 
-import { LUA_LOGO } from "@/constants/mapAssets";
 import { Pixelify } from "@/constants/fonts";
+import { LUA_LOGO } from "@/constants/mapAssets";
 
 type MapTopBarProps = {
   topInset: number;
@@ -25,10 +25,10 @@ export function MapTopBar({ topInset }: MapTopBarProps) {
             accessibilityLabel="Lua logo"
           />
           <Text
-            className="text-2xl text-neutral-900"
+            className="text-xl text-neutral-900"
             style={{ fontFamily: Pixelify.bold }}
           >
-            Lua
+            Campus Flow
           </Text>
         </View>
         <View className="flex-row items-center gap-3">
