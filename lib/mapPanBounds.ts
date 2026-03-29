@@ -1,3 +1,20 @@
+import { CAMPUS_GPS_BOUNDS } from "@/constants/mapAssets";
+
+/**
+ * Convert a GPS coordinate into a normalised (0–1, 0–1) position on the
+ * campus map bitmap, clamped so it never leaves the image bounds.
+ */
+export function gpsToNormalized(lat: number, lng: number): { x: number; y: number } {
+  const { topLeft, botRight } = CAMPUS_GPS_BOUNDS;
+  const x = (lng - topLeft.lng) / (botRight.lng - topLeft.lng);
+  // Latitude decreases downward, so invert the y axis.
+  const y = (lat - topLeft.lat) / (botRight.lat - topLeft.lat);
+  return {
+    x: Math.max(0, Math.min(1, x)),
+    y: Math.max(0, Math.min(1, y)),
+  };
+}
+
 /** Where the map image is drawn inside the `mapW × mapH` box (`resizeMode="contain"`). */
 export function getContainedImageRect(
   vw: number,

@@ -15,6 +15,7 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 import { Pixelify } from "@/constants/fonts";
 import { LUA_GREEN } from "@/constants/mapAssets";
+import { formatHours } from "@/lib/formatters";
 import { useGameStats } from "@/lib/gameStats";
 
 const AVATAR_URI = "https://i.pravatar.cc/240?img=12";
@@ -242,8 +243,8 @@ export default function ProfileScreen() {
             },
             {
               label: "Hours Studied",
-              value: `${stats.hoursStudied}`,
-              sub: "hrs",
+              value: formatHours(stats.hoursStudied),
+              sub: "",
               icon: "book-outline" as const,
               accent: "#8b5cf6",
             },

@@ -13,6 +13,7 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 import { Pixelify } from "@/constants/fonts";
 import { LUA_GREEN } from "@/constants/mapAssets";
+import { formatHours } from "@/lib/formatters";
 import { useGameStats } from "@/lib/gameStats";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
@@ -79,12 +80,11 @@ function sortLeaderboard(entries: LeaderEntry[], key: LeaderboardSortKey): Leade
 function leaderValue(entry: LeaderEntry, key: LeaderboardSortKey): string {
   if (key === "goals") return `${entry.goalsDone}/${entry.goalsTotal}`;
   if (key === "distance") return `${entry.distanceMiles} mi`;
-  return `${entry.hoursStudied} hrs`;
+  return formatHours(entry.hoursStudied);
 }
 
 // ─── Mock history (past 6 days + today placeholder filled from live stats) ───
 
-const DAYS_AGO = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri"];
 
 const HISTORY: Omit<DayData, "label" | "fullDate">[] = [
   { distanceMiles: 2.1, goalsDone: 4,  goalsTotal: 10, hoursStudied: 1.5 },
@@ -126,7 +126,7 @@ const METRICS: MetricConfig[] = [
     unit: "hrs",
     getValue: (d) => d.hoursStudied,
     getMax: (d) => d.hoursStudied,
-    format: (d) => `${d.hoursStudied} hrs`,
+    format: (d) => formatHours(d.hoursStudied),
   },
 ];
 
@@ -288,7 +288,7 @@ export default function StatsScreen() {
       d.setDate(today.getDate() - (HISTORY.length - i));
       return {
         ...h,
-        label: DAYS_AGO[i],
+        label: d.toLocaleDateString("en-US", { weekday: "short" }),
         fullDate: d.toLocaleDateString("en-US", { month: "short", day: "numeric" }),
       };
     }),
@@ -309,7 +309,7 @@ export default function StatsScreen() {
   const summaryCards = [
     { label: "Distance", value: `${selected.distanceMiles} mi`, icon: "footsteps" as const, accent: "#3b82f6" },
     { label: "Goals", value: `${selected.goalsDone}/${selected.goalsTotal}`, icon: "flag-outline" as const, accent: LUA_GREEN },
-    { label: "Study", value: `${selected.hoursStudied} hrs`, icon: "book-outline" as const, accent: "#8b5cf6" },
+    { label: "Study", value: formatHours(selected.hoursStudied), icon: "book-outline" as const, accent: "#8b5cf6" },
   ];
 
   return (
@@ -497,7 +497,7 @@ export default function StatsScreen() {
               icon: "book-outline" as const,
               label: "Avg Study Time",
               accent: "#8b5cf6",
-              value: `${(data.reduce((s, d) => s + d.hoursStudied, 0) / data.length).toFixed(1)} hrs`,
+              value: formatHours(data.reduce((s, d) => s + d.hoursStudied, 0) / data.length),
             },
           ].map((row, i, arr) => (
             <View key={row.label}>

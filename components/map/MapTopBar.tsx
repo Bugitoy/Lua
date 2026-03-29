@@ -1,4 +1,3 @@
-import { Ionicons } from "@expo/vector-icons";
 import { Image } from "expo-image";
 import { Link } from "expo-router";
 import { Pressable, Text, View } from "react-native";
@@ -46,14 +45,6 @@ export function MapTopBar({ topInset }: MapTopBarProps) {
                 }}
                 accessibilityLabel="Profile"
               />
-            </Pressable>
-          </Link>
-          <Link href="/(tabs)/settings" asChild>
-            <Pressable
-              className="size-10 items-center justify-center rounded-full bg-neutral-200/90"
-              accessibilityLabel="Settings"
-            >
-              <Ionicons name="settings-outline" size={22} color="#525252" />
             </Pressable>
           </Link>
         </View>

@@ -16,6 +16,19 @@ export const SHADOW_URI =
 
 export const LUA_GREEN = "#16a34a";
 
+/**
+ * Real-world GPS bounding box of the campus map image.
+ * topLeft  = NW corner (top-left pixel of the bitmap)
+ * botRight = SE corner (bottom-right pixel of the bitmap)
+ *
+ * Calibration tip: cross-reference a known stop against its normalized (x, y)
+ * in mapStops.ts. e.g. Fifth Third Arena ≈ (x:0.68, y:0.45) → ~39.1306°N, 84.5163°W
+ */
+export const CAMPUS_GPS_BOUNDS = {
+  topLeft:  { lat: 39.1372, lng: -84.5248 },
+  botRight: { lat: 39.1255, lng: -84.5065 },
+} as const;
+
 /** Virtual map size vs the visible area — larger = more room to pan */
 export const MAP_SCALE = 3.5;
 
@@ -24,13 +37,13 @@ export const MAP_ZOOM_MIN = 0.68;
 export const MAP_ZOOM_MAX = 1.50;
 export const MAP_ZOOM_STEP = 0.12;
 
-/** Demo stats — replace with real tracking later */
+/** Starting stats — goalsDone/goalsTotal are driven by schedule items at runtime */
 export const MAP_DEMO = {
   healthRatio: 0.9,
-  goalsDone: 6,
-  goalsTotal: 12,
-  goalDayPercent: 88,
-  distanceMiles: 6,
-  hoursStudied: 3,
-  goalStreak: 7,
+  goalsDone: 0,
+  goalsTotal: 0,
+  goalDayPercent: 0,
+  distanceMiles: 0,
+  hoursStudied: 0,
+  goalStreak: 0,
 } as const;

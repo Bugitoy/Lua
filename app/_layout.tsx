@@ -12,10 +12,15 @@ import { useEffect, useRef } from "react";
 import { View } from "react-native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 
+import { useMidnightHealthDepletion } from "@/hooks/useMidnightHealthDepletion";
+
 void SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
   const mountedRef = useRef(true);
+
+  // Depletes health at midnight based on unfinished goals from the prior day
+  useMidnightHealthDepletion();
 
   const [loaded, error] = useFonts({
     PixelifySans_400Regular,

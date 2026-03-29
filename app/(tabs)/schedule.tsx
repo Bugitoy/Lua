@@ -1,7 +1,7 @@
 import { Ionicons } from "@expo/vector-icons";
 import { Image } from "expo-image";
 import { Link } from "expo-router";
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import {
   Platform,
   Pressable,
@@ -16,6 +16,8 @@ import { ScheduleItemCard } from "@/components/schedule/ScheduleItemCard";
 import type { ScheduleItemData } from "@/components/schedule/scheduleTypes";
 import { Pixelify } from "@/constants/fonts";
 import { CAMPUS_MAP, LUA_GREEN } from "@/constants/mapAssets";
+import { updateGameStats } from "@/lib/gameStats";
+import { setScheduledLocations, useCompletedLocations } from "@/lib/scheduleStore";
 
 const INITIAL_SCHEDULE_ITEMS: ScheduleItemData[] = [
   {
@@ -53,12 +55,30 @@ const INITIAL_SCHEDULE_ITEMS: ScheduleItemData[] = [
 export default function ScheduleScreen() {
   const insets = useSafeAreaInsets();
   const [items, setItems] = useState<ScheduleItemData[]>(INITIAL_SCHEDULE_ITEMS);
-  const [checked, setChecked] = useState<Record<string, boolean>>({});
-  const [addOpen, setAddOpen] = useState(false);
+  const completedLocations = useCompletedLocations();
 
-  const toggle = useCallback((id: string) => {
-    setChecked((prev) => ({ ...prev, [id]: !prev[id] }));
+  // Live clock — updates every second
+  const [now, setNow] = useState(() => new Date());
+  const tickRef = useRef<ReturnType<typeof setInterval> | null>(null);
+  useEffect(() => {
+    tickRef.current = setInterval(() => setNow(new Date()), 1000);
+    return () => { if (tickRef.current) clearInterval(tickRef.current); };
   }, []);
+  const timeString = now.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
+
+  // Keep the map store and game stats in sync whenever schedule items change
+  useEffect(() => {
+    setScheduledLocations(items.map((i) => ({ label: i.location, category: i.category })));
+    // goalsTotal = number of schedule items; recompute percentage too
+    updateGameStats({
+      goalsTotal: items.length,
+      goalDayPercent:
+        items.length > 0
+          ? Math.round((completedLocations.size / items.length) * 100)
+          : 0,
+    });
+  }, [items, completedLocations]);
+  const [addOpen, setAddOpen] = useState(false);
 
   const handleSaveNewItem = useCallback(
     (data: Omit<ScheduleItemData, "id">) => {
@@ -123,12 +143,20 @@ export default function ScheduleScreen() {
               className="absolute inset-0 bg-neutral-600/35"
               pointerEvents="none"
             />
-            <View className="absolute bottom-2 left-3 rounded-md bg-black/35 px-2 py-1">
+            <View className="absolute bottom-0 left-0 right-0 flex-row items-center justify-between px-3 py-2">
+              <View className="rounded-md bg-black/35 px-2 py-1">
+                <Text
+                  className="text-xs text-white"
+                  style={{ fontFamily: Pixelify.medium }}
+                >
+                  Campus map
+                </Text>
+              </View>
               <Text
-                className="text-xs text-white"
-                style={{ fontFamily: Pixelify.medium }}
+                className="text-white"
+                style={{ fontFamily: Pixelify.bold, fontSize: 32, lineHeight: 32 }}
               >
-                Campus map
+                {timeString}
               </Text>
             </View>
           </Pressable>
@@ -144,8 +172,7 @@ export default function ScheduleScreen() {
             icon={item.icon}
             gradientColors={item.gradientColors}
             glowColor={item.glowColor}
-            checked={!!checked[item.id]}
-            onToggleCheck={() => toggle(item.id)}
+            locationReached={completedLocations.has(item.location)}
           />
         ))}
       </ScrollView>

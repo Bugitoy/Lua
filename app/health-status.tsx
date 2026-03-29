@@ -9,6 +9,7 @@ import { HealthStatusSprite } from "@/components/health/HealthStatusSprite";
 import { Pixelify } from "@/constants/fonts";
 import { LUA_GREEN } from "@/constants/mapAssets";
 import { useGameStats } from "@/lib/gameStats";
+import { formatHours } from "@/lib/formatters";
 
 function StatRow({
   icon,
@@ -160,7 +161,7 @@ export default function HealthStatusScreen() {
             <StatRow
               icon="book-outline"
               label="Hours Studied"
-              value={`${hoursStudied} hour${hoursStudied === 1 ? "" : "s"}`}
+              value={formatHours(hoursStudied)}
             />
           </View>
         </View>

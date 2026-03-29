@@ -10,7 +10,8 @@ import Animated, {
   withTiming,
 } from "react-native-reanimated";
 
-import { SHADOW_URI, SPRITE_URI } from "@/constants/mapAssets";
+import { MAP_SCALE, MAP_SRC_H, MAP_SRC_W, SHADOW_URI, SPRITE_URI } from "@/constants/mapAssets";
+import { getContainedImageRect } from "@/lib/mapPanBounds";
 
 const GRID = 32;
 const COLS = 4;
@@ -50,9 +51,18 @@ const ROW_INDEX: Record<SpriteDirection, number> = {
 };
 
 type MapCharacterProps = {
-  /** When false, walk animation pauses on the first frame (CSS `animation-play-state: paused`). */
+  /** When false, walk animation pauses on the first frame. */
   isMoving?: boolean;
   direction?: SpriteDirection;
+  /**
+   * Normalised (0–1) position on the campus bitmap.
+   * When provided the sprite is positioned at that GPS-derived location;
+   * when omitted it falls back to the static centre-of-map default.
+   */
+  normX?: number;
+  normY?: number;
+  /** Must match `effectiveMapScale` from useMapPan so marker math is consistent. */
+  mapScale?: number;
 };
 
 /**
@@ -62,6 +72,9 @@ type MapCharacterProps = {
 export function MapCharacter({
   isMoving = true,
   direction = "down",
+  normX,
+  normY,
+  mapScale = MAP_SCALE,
 }: MapCharacterProps) {
   const { width: vw, height: vh } = useWindowDimensions();
 
@@ -78,6 +91,17 @@ export function MapCharacter({
   );
   const sheetW = COLS * frameW;
   const sheetH = ROWS * frameW;
+
+  // GPS-driven absolute position inside the ImageBackground box
+  const spritePos = useMemo(() => {
+    if (normX == null || normY == null) return null;
+    if (vw <= 0 || vh <= 0) return null;
+    const { ox, oy, rw, rh } = getContainedImageRect(vw, vh, mapScale, MAP_SRC_W, MAP_SRC_H);
+    return {
+      left: ox + normX * rw,
+      top: oy + normY * rh,
+    };
+  }, [normX, normY, vw, vh, mapScale]);
 
   const progress = useSharedValue(0);
 
@@ -109,9 +133,25 @@ export function MapCharacter({
 
   return (
     <View
-      className="absolute left-0 right-0 items-center"
-      style={{ top: "34%" }}
       pointerEvents="none"
+      style={
+        spritePos
+          ? {
+              position: "absolute",
+              left: spritePos.left,
+              top: spritePos.top,
+              // Centre the sprite on the GPS pin point (feet at the pin)
+              transform: [{ translateX: -frameW / 2 }, { translateY: -frameW }],
+            }
+          : {
+              // Default: horizontally centred, roughly 45 % down the map
+              position: "absolute",
+              left: 0,
+              right: 0,
+              top: "45%",
+              alignItems: "center",
+            }
+      }
     >
       <View style={{ alignItems: "center" }}>
         <View
