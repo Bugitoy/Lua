@@ -49,7 +49,21 @@ export default function HealthStatusScreen() {
     stats;
 
   const healthPercent = Math.round(healthRatio * 100);
-  const isDead = healthRatio <= 0.001 || goalsDone === 0;
+  const isDead = healthRatio <= 0.001;
+
+  const healthTitle =
+    isDead              ? "LUA HAS DIED" :
+    healthRatio < 0.25  ? "Lua is critical" :
+    healthRatio < 0.50  ? "Lua is hurting" :
+    healthRatio < 0.75  ? "Lua is okay" :
+                          "Lua is healthy";
+
+  const healthSubtitle =
+    isDead              ? "Zero goals completed today. Let's try again tomorrow." :
+    healthRatio < 0.25  ? "Lua is barely hanging on. Complete your goals to recover!" :
+    healthRatio < 0.50  ? "Lua is struggling. Try to get more goals done today." :
+    healthRatio < 0.75  ? "Lua is doing alright, but there's room to improve." :
+                          `${goalsDone} of ${goalsTotal} goals done today. Keep it up!`;
 
   return (
     <View className="flex-1 bg-white">
@@ -99,37 +113,23 @@ export default function HealthStatusScreen() {
           <HealthStatusSprite healthRatio={healthRatio} />
         </View>
 
-        {isDead ? (
-          <>
-            <Text
-              className="mb-3 text-center text-3xl uppercase text-neutral-900"
-              style={{ fontFamily: Pixelify.bold, letterSpacing: 0.5 }}
-            >
-              LUA HAS DIED
-            </Text>
-            <Text
-              className="mb-5 text-center text-base leading-relaxed text-neutral-500"
-              style={{ fontFamily: Pixelify.regular }}
-            >
-              Zero goals completed today. Let&apos;s try again tomorrow.
-            </Text>
-          </>
-        ) : (
-          <>
-            <Text
-              className="mb-3 text-center text-2xl text-neutral-900"
-              style={{ fontFamily: Pixelify.bold }}
-            >
-              Lua is healthy
-            </Text>
-            <Text
-              className="mb-5 text-center text-base leading-relaxed text-neutral-500"
-              style={{ fontFamily: Pixelify.regular }}
-            >
-              {goalsDone} of {goalsTotal} goals done today. Keep it up!
-            </Text>
-          </>
-        )}
+        <Text
+          className="mb-3 text-center text-neutral-900"
+          style={{
+            fontFamily: Pixelify.bold,
+            fontSize: isDead ? 28 : 24,
+            textTransform: isDead ? "uppercase" : "none",
+            letterSpacing: isDead ? 0.5 : 0,
+          }}
+        >
+          {healthTitle}
+        </Text>
+        <Text
+          className="mb-5 text-center text-base leading-relaxed text-neutral-500"
+          style={{ fontFamily: Pixelify.regular }}
+        >
+          {healthSubtitle}
+        </Text>
 
         <View
           className="relative mb-3 overflow-hidden rounded-2xl px-4"

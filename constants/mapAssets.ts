@@ -39,7 +39,7 @@ export const MAP_ZOOM_STEP = 0.12;
 
 /** Starting stats — goalsDone/goalsTotal are driven by schedule items at runtime */
 export const MAP_DEMO = {
-  healthRatio: 0.9,
+  healthRatio: 0,
   goalsDone: 0,
   goalsTotal: 0,
   goalDayPercent: 0,
