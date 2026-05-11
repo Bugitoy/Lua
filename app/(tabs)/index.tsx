@@ -1,169 +1,103 @@
 import { Ionicons } from "@expo/vector-icons";
-import { ImageBackground, Text, View } from "react-native";
-import { GestureDetector } from "react-native-gesture-handler";
-import Animated from "react-native-reanimated";
+import { useEffect, useMemo, useRef, useState } from "react";
+import { Pressable, Text, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
-import { MapCharacter } from "@/components/map/MapCharacter";
+import { GeoMapView } from "@/components/map/GeoMapView";
 import { MapHealthBarCard } from "@/components/map/MapHealthBarCard";
 import { MapStatsCard } from "@/components/map/MapStatsCard";
-import { MapStops } from "@/components/map/MapStops";
 import { MapTopBar } from "@/components/map/MapTopBar";
-import { MapZoomControls } from "@/components/map/MapZoomControls";
 import { Pixelify } from "@/constants/fonts";
-import { CAMPUS_MAP } from "@/constants/mapAssets";
-import { useEffect, useRef } from "react";
-import { useGpsSprite } from "@/hooks/useGpsSprite";
+import { LUA_GREEN } from "@/constants/mapAssets";
+import { useDestinationTracking } from "@/hooks/useDestinationTracking";
 import { useLocation } from "@/hooks/useLocation";
-import { useMapPan } from "@/hooks/useMapPan";
-import { MAP_STOPS } from "@/constants/mapStops";
 import { useGameStats } from "@/lib/gameStats";
-import { getLocationCategory, markLocationCompleted, useScheduledLocations } from "@/lib/scheduleStore";
+import { noopNearbyPlacesProvider, type NearbyPlace } from "@/lib/nearbyPlacesProvider";
 
 export default function MapScreen() {
   const insets = useSafeAreaInsets();
   const { stats, updateStats } = useGameStats();
   const { location, errorMsg } = useLocation();
-  const { normX, normY, direction, isMoving, distanceMeters } = useGpsSprite();
-  const scheduledLocations = useScheduledLocations();
-
-  // Prevents the streak from being incremented more than once per session
-  const streakIncrementedRef = useRef(false);
-
-  /**
-   * Tracks the current Academic stop session.
-   * hoursAtEntry = hoursStudied value when the sprite first entered — used as
-   * the baseline so we just add elapsed hours on top without compounding.
-   */
-  const academicSessionRef = useRef<{
-    label: string;
-    enteredAt: number;
-    hoursAtEntry: number;
-  } | null>(null);
-
-  // Proximity threshold in normalised units (~10 m real-world at NORM_PER_METER=0.005)
-  const ARRIVAL_THRESHOLD = 0.05;
-
-  useEffect(() => {
-    MAP_STOPS.forEach((stop) => {
-      if (!scheduledLocations.has(stop.label)) return;
-      const dx = normX - stop.x;
-      const dy = normY - stop.y;
-      if (Math.sqrt(dx * dx + dy * dy) < ARRIVAL_THRESHOLD) {
-        const isNew = markLocationCompleted(stop.label);
-        if (isNew) {
-          const newDone = stats.goalsDone + 1;
-          const total = stats.goalsTotal;
-          const newPercent = total > 0 ? Math.round((newDone / total) * 100) : 0;
-
-          // All goals completed for the day — increment streak once
-          const allDone = total > 0 && newDone >= total;
-          const streakDelta =
-            allDone && !streakIncrementedRef.current ? 1 : 0;
-          if (allDone && !streakIncrementedRef.current) {
-            streakIncrementedRef.current = true;
-          }
-
-          updateStats({
-            goalsDone: newDone,
-            goalDayPercent: newPercent,
-            ...(streakDelta > 0 && { goalStreak: stats.goalStreak + 1 }),
-          });
-        }
-      }
-    });
-  }, [normX, normY, scheduledLocations, stats.goalsDone, stats.goalsTotal, stats.goalStreak, updateStats]);
-
-  // Detect entry into / exit from Academic stops and start/stop a study session
-  useEffect(() => {
-    let insideAcademic: string | null = null;
-
-    MAP_STOPS.forEach((stop) => {
-      if (!scheduledLocations.has(stop.label)) return;
-      if (getLocationCategory(stop.label)?.toLowerCase() !== "academic") return;
-      const dx = normX - stop.x;
-      const dy = normY - stop.y;
-      if (Math.sqrt(dx * dx + dy * dy) < ARRIVAL_THRESHOLD) {
-        insideAcademic = stop.label;
-      }
-    });
-
-    if (insideAcademic) {
-      // Start session only on first entry (or if moved to a different academic stop)
-      const session = academicSessionRef.current;
-      if (!session || session.label !== insideAcademic) {
-        academicSessionRef.current = {
-          label: insideAcademic,
-          enteredAt: Date.now(),
-          hoursAtEntry: stats.hoursStudied,
-        };
-      }
-    } else if (academicSessionRef.current) {
-      // Left the location — write final elapsed time and clear session
-      const elapsed = (Date.now() - academicSessionRef.current.enteredAt) / 3_600_000;
-      updateStats({
-        hoursStudied: Math.round((academicSessionRef.current.hoursAtEntry + elapsed) * 100) / 100,
-      });
-      academicSessionRef.current = null;
-    }
-  }, [normX, normY, scheduledLocations, stats.hoursStudied, updateStats]);
-
-  // Convert accumulated GPS metres to miles and push to the shared store
-  useEffect(() => {
-    if (distanceMeters === 0) return;
-    const miles = Math.round(distanceMeters * 0.000621371 * 100) / 100;
-    updateStats({ distanceMiles: miles });
-  }, [distanceMeters, updateStats]);
-
-  // Tick every second to update hoursStudied in real-time while inside
-  // an Academic location (normX/normY doesn't change when stationary).
-  useEffect(() => {
-    const id = setInterval(() => {
-      const session = academicSessionRef.current;
-      if (!session) return;
-      const elapsed = (Date.now() - session.enteredAt) / 3_600_000;
-      updateStats({
-        hoursStudied:
-          Math.round((session.hoursAtEntry + elapsed) * 100_000) / 100_000,
-      });
-    }, 1_000);
-    return () => clearInterval(id);
-  }, [updateStats]);
+  const [nearbyPlaces, setNearbyPlaces] = useState<NearbyPlace[]>([]);
   const {
-    onViewportLayout,
-    panGesture,
-    mapPanStyle,
-    mapW,
-    mapH,
-    mapScale,
-    zoomIn,
-    zoomOut,
-    canZoomIn,
-    canZoomOut,
-  } = useMapPan();
+    destination,
+    distanceMeters,
+    bearingDeg,
+    etaMinutes,
+    hasArrived,
+    setDestination,
+    clearDestination,
+  } = useDestinationTracking(location);
+
+  const lastDistanceSampleRef = useRef<{ latitude: number; longitude: number } | null>(null);
+  const totalDistanceMetersRef = useRef(0);
+
+  const distanceMilesToDestination = useMemo(
+    () =>
+      distanceMeters != null
+        ? Math.round(distanceMeters * 0.000621371 * 100) / 100
+        : null,
+    [distanceMeters],
+  );
+
+  useEffect(() => {
+    if (!location) return;
+
+    const prev = lastDistanceSampleRef.current;
+    if (!prev) {
+      lastDistanceSampleRef.current = {
+        latitude: location.latitude,
+        longitude: location.longitude,
+      };
+      return;
+    }
+
+    const latMeters = (location.latitude - prev.latitude) * 111_000;
+    const lngMeters =
+      (location.longitude - prev.longitude) *
+      (111_000 * Math.cos((location.latitude * Math.PI) / 180));
+    const delta = Math.sqrt(latMeters * latMeters + lngMeters * lngMeters);
+
+    if (delta >= 1) {
+      totalDistanceMetersRef.current += delta;
+      lastDistanceSampleRef.current = {
+        latitude: location.latitude,
+        longitude: location.longitude,
+      };
+    }
+
+    const miles =
+      Math.round(totalDistanceMetersRef.current * 0.000621371 * 100) / 100;
+    updateStats({ distanceMiles: miles });
+  }, [location, updateStats]);
+
+  useEffect(() => {
+    let active = true;
+    if (!location) return;
+
+    void noopNearbyPlacesProvider
+      .getNearbyPlaces({
+        latitude: location.latitude,
+        longitude: location.longitude,
+        radiusMeters: 1200,
+      })
+      .then((places) => {
+        if (active) setNearbyPlaces(places);
+      });
+
+    return () => {
+      active = false;
+    };
+  }, [location]);
 
   return (
     <View className="flex-1 bg-neutral-900">
-      <View className="flex-1 overflow-hidden" onLayout={onViewportLayout}>
-        <GestureDetector gesture={panGesture}>
-          <Animated.View style={mapPanStyle}>
-            <ImageBackground
-              source={CAMPUS_MAP}
-              style={{ width: mapW, height: mapH }}
-              resizeMode="contain"
-            >
-              <MapStops mapScale={mapScale} />
-              <MapCharacter
-                isMoving={isMoving}
-                direction={direction}
-                normX={normX}
-                normY={normY}
-                mapScale={mapScale}
-              />
-            </ImageBackground>
-          </Animated.View>
-        </GestureDetector>
-      </View>
+      <GeoMapView
+        currentLocation={location}
+        destination={destination}
+        nearbyPlaces={nearbyPlaces}
+        onSetDestination={setDestination}
+      />
 
       <View className="absolute inset-0 z-10" pointerEvents="box-none">
         <MapTopBar topInset={insets.top} />
@@ -175,21 +109,55 @@ export default function MapScreen() {
           distanceMiles={stats.distanceMiles}
           bottomInset={insets.bottom}
         />
-        <MapZoomControls
-          bottomInset={insets.bottom}
-          canZoomIn={canZoomIn}
-          canZoomOut={canZoomOut}
-          onZoomIn={zoomIn}
-          onZoomOut={zoomOut}
-        />
+        <View
+          pointerEvents="auto"
+          style={{
+            position: "absolute",
+            left: 12,
+            right: 12,
+            bottom: insets.bottom + 24,
+            backgroundColor: "rgba(0,0,0,0.75)",
+            borderRadius: 12,
+            paddingHorizontal: 12,
+            paddingVertical: 10,
+            gap: 4,
+          }}
+        >
+          <View style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "center" }}>
+            <Text style={{ fontFamily: Pixelify.bold, fontSize: 11, color: "#e5e5e5", letterSpacing: 0.6 }}>
+              LIVE TRACKING
+            </Text>
+            {destination ? (
+              <Pressable onPress={clearDestination} hitSlop={8}>
+                <Text style={{ fontFamily: Pixelify.bold, fontSize: 10, color: LUA_GREEN }}>
+                  CLEAR PIN
+                </Text>
+              </Pressable>
+            ) : null}
+          </View>
 
-        {/* GPS debug overlay — remove when done testing */}
+          <Text style={{ fontFamily: Pixelify.regular, fontSize: 10, color: "#d4d4d4" }}>
+            {destination
+              ? `Destination: ${distanceMilesToDestination ?? 0} mi away`
+              : "Long press on the map to place a destination marker"}
+          </Text>
+          {destination ? (
+            <Text style={{ fontFamily: Pixelify.regular, fontSize: 10, color: hasArrived ? "#86efac" : "#a3a3a3" }}>
+              {hasArrived
+                ? "Arrived at destination"
+                : `Bearing: ${bearingDeg != null ? Math.round(bearingDeg) : "?"}°   ETA: ${
+                    etaMinutes != null ? `${Math.max(1, Math.round(etaMinutes))} min` : "n/a"
+                  }`}
+            </Text>
+          ) : null}
+        </View>
+
         <View
           pointerEvents="none"
           style={{
             position: "absolute",
             left: 16,
-            bottom: insets.bottom + 90,
+            bottom: insets.bottom + 150,
             backgroundColor: "rgba(0,0,0,0.72)",
             borderRadius: 10,
             paddingHorizontal: 10,
@@ -226,13 +194,14 @@ export default function MapScreen() {
               <Text style={{ fontFamily: Pixelify.regular, fontSize: 10, color: "#a3a3a3" }}>
                 Spd: {location.speed != null ? `${location.speed.toFixed(2)} m/s` : "n/a"}
               </Text>
-              <View style={{ height: 1, backgroundColor: "rgba(255,255,255,0.12)", marginVertical: 2 }} />
-              <Text style={{ fontFamily: Pixelify.regular, fontSize: 10, color: "#86efac" }}>
-                Map ({normX.toFixed(3)}, {normY.toFixed(3)})
-              </Text>
-              <Text style={{ fontFamily: Pixelify.regular, fontSize: 10, color: "#86efac" }}>
-                Dir: {direction}  {isMoving ? "🚶" : "🧍"}
-              </Text>
+              {destination ? (
+                <>
+                  <View style={{ height: 1, backgroundColor: "rgba(255,255,255,0.12)", marginVertical: 2 }} />
+                  <Text style={{ fontFamily: Pixelify.regular, fontSize: 10, color: "#86efac" }}>
+                    Remaining: {distanceMilesToDestination ?? 0} mi
+                  </Text>
+                </>
+              ) : null}
             </>
           ) : (
             <Text style={{ fontFamily: Pixelify.regular, fontSize: 10, color: "#facc15" }}>
