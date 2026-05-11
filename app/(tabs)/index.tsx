@@ -12,19 +12,23 @@ import { LUA_GREEN } from "@/constants/mapAssets";
 import { useDestinationTracking } from "@/hooks/useDestinationTracking";
 import { useFusedLocation } from "@/hooks/useFusedLocation";
 import { useGameStats } from "@/lib/gameStats";
+import { haversineMeters } from "@/lib/geo";
 import {
   noopNearbyPlacesProvider,
   type NearbyPlace,
 } from "@/lib/nearbyPlacesProvider";
+import { markGoalCompleted, useScheduledItems } from "@/lib/scheduleStore";
 
 const DISTANCE_ACC_MIN_DELTA_METERS = 3;
 const DISTANCE_ACC_MIN_SPEED_MPS = 0.4;
 const M_PER_DEG_LAT = 111_000;
+const GOAL_ARRIVAL_RADIUS_METERS = 25;
 
 export default function MapScreen() {
   const insets = useSafeAreaInsets();
   const { stats, updateStats } = useGameStats();
   const [nearbyPlaces, setNearbyPlaces] = useState<NearbyPlace[]>([]);
+  const scheduledItems = useScheduledItems();
 
   // Two-pass initialization: first render boots the GPS subscription in High mode;
   // once the user drops a destination we switch the same subscription to BestForNavigation.
@@ -120,12 +124,30 @@ export default function MapScreen() {
     };
   }, [location]);
 
+  // Goal arrival detection: any incomplete scheduled item within range gets
+  // flagged as completed. The schedule store de-dupes so this is safe to run
+  // on every fix.
+  useEffect(() => {
+    if (!location) return;
+    for (const item of scheduledItems) {
+      if (item.completed) continue;
+      const d = haversineMeters(
+        { latitude: location.latitude, longitude: location.longitude },
+        { latitude: item.latitude, longitude: item.longitude },
+      );
+      if (d <= GOAL_ARRIVAL_RADIUS_METERS) {
+        markGoalCompleted(item.id);
+      }
+    }
+  }, [location, scheduledItems]);
+
   return (
     <View className="flex-1 bg-neutral-900">
       <GeoMapView
         currentLocation={location}
         destination={destination}
         nearbyPlaces={nearbyPlaces}
+        scheduledItems={scheduledItems}
         onSetDestination={setDestination}
       />
 

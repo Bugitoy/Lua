@@ -16,6 +16,7 @@ import { LUA_GREEN, SPRITE_CHARACTER } from "@/constants/mapAssets";
 import type { LatLngPoint } from "@/hooks/useDestinationTracking";
 import type { FusedLocation } from "@/hooks/useFusedLocation";
 import type { NearbyPlace } from "@/lib/nearbyPlacesProvider";
+import type { ScheduledItem } from "@/lib/scheduleStore";
 
 const SPRITE_COLS = 4;
 const SPRITE_ROWS = 4;
@@ -23,12 +24,21 @@ const SPRITE_FRAME_SIZE = 38;
 
 const MARKER_ANIM_DURATION_MS = 450;
 const INITIAL_REGION_DELTA = 0.0075;
+const GOAL_GLOW_RADIUS_METERS = 30;
+const GOAL_PENDING_FILL = "rgba(250, 204, 21, 0.22)";
+const GOAL_PENDING_STROKE = "rgba(250, 204, 21, 0.85)";
+const GOAL_PENDING_PIN = "#facc15";
+const GOAL_COMPLETED_FILL = "rgba(22, 163, 74, 0.22)";
+const GOAL_COMPLETED_STROKE = "rgba(22, 163, 74, 0.9)";
 
 type GeoMapViewProps = {
   currentLocation: FusedLocation | null;
   destination: LatLngPoint | null;
   nearbyPlaces: NearbyPlace[];
-  onSetDestination: (point: LatLngPoint) => void;
+  scheduledItems?: ScheduledItem[];
+  onSetDestination?: (point: LatLngPoint) => void;
+  /** When false the map ignores taps, hides the recenter button, and disables long-press destination drops. */
+  interactive?: boolean;
 };
 
 function regionFor(latitude: number, longitude: number): Region {
@@ -52,7 +62,9 @@ function GeoMapViewImpl({
   currentLocation,
   destination,
   nearbyPlaces,
+  scheduledItems = [],
   onSetDestination,
+  interactive = true,
 }: GeoMapViewProps) {
   const mapRef = useRef<MapView | null>(null);
   const hasCenteredOnUserRef = useRef(false);
@@ -156,6 +168,7 @@ function GeoMapViewImpl({
   }, [currentLocation, destination]);
 
   const handlePress = (event: MapPressEvent | LongPressEvent) => {
+    if (!interactive || !onSetDestination) return;
     const { latitude, longitude } = event.nativeEvent.coordinate;
     onSetDestination({ latitude, longitude });
   };
@@ -181,8 +194,12 @@ function GeoMapViewImpl({
         initialRegion={initialRegion}
         showsUserLocation={false}
         showsMyLocationButton={false}
-        onLongPress={handlePress}
-        onPress={handlePress}
+        scrollEnabled={interactive}
+        zoomEnabled={interactive}
+        rotateEnabled={interactive}
+        pitchEnabled={interactive}
+        onLongPress={interactive ? handlePress : undefined}
+        onPress={interactive ? handlePress : undefined}
       >
         {currentLocation && accuracyRadius != null ? (
           <Circle
@@ -196,6 +213,39 @@ function GeoMapViewImpl({
             strokeWidth={1}
           />
         ) : null}
+
+        {scheduledItems.map((item) => (
+          <Circle
+            key={`glow-${item.id}`}
+            center={{ latitude: item.latitude, longitude: item.longitude }}
+            radius={GOAL_GLOW_RADIUS_METERS}
+            fillColor={
+              item.completed ? GOAL_COMPLETED_FILL : GOAL_PENDING_FILL
+            }
+            strokeColor={
+              item.completed ? GOAL_COMPLETED_STROKE : GOAL_PENDING_STROKE
+            }
+            strokeWidth={2}
+          />
+        ))}
+
+        {scheduledItems.map((item) => (
+          <Marker
+            key={`pin-${item.id}`}
+            coordinate={{
+              latitude: item.latitude,
+              longitude: item.longitude,
+            }}
+            title={item.label}
+            description={
+              item.completed
+                ? `${item.category} · Goal complete`
+                : item.category
+            }
+            pinColor={item.completed ? LUA_GREEN : GOAL_PENDING_PIN}
+            zIndex={100}
+          />
+        ))}
 
         {currentLocation && animatedCoordinateRef.current ? (
           <MarkerAnimated
@@ -254,16 +304,18 @@ function GeoMapViewImpl({
         ))}
       </MapView>
 
-      <Pressable
-        accessibilityLabel="Recenter on me"
-        onPress={recenterOnUser}
-        style={styles.recenterButton}
-        hitSlop={8}
-      >
-        <Ionicons name="locate" size={18} color="#111827" />
-      </Pressable>
+      {interactive ? (
+        <Pressable
+          accessibilityLabel="Recenter on me"
+          onPress={recenterOnUser}
+          style={styles.recenterButton}
+          hitSlop={8}
+        >
+          <Ionicons name="locate" size={18} color="#111827" />
+        </Pressable>
+      ) : null}
 
-      {!currentLocation ? (
+      {interactive && !currentLocation ? (
         <View style={styles.centeringHint}>
           <Text style={styles.centeringHintText}>Acquiring GPS location...</Text>
         </View>

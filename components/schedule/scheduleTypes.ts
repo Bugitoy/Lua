@@ -10,8 +10,13 @@ export type ScheduleItemData = {
   time: string;
   category: string;
   title: string;
-  /** Shown on the right side of the gradient header. */
+  /** Display label for the place, shown on the gradient header. */
   location: string;
+  /** Coordinates used for the map marker and arrival detection. */
+  latitude: number;
+  longitude: number;
+  /** Nominatim osm_id or any provider id, used to de-dupe and recover place data. */
+  placeId?: string;
   icon: ScheduleIconName;
   gradientColors: [string, string];
   glowColor: string;

@@ -13,7 +13,7 @@ export type ScheduleItemCardProps = {
   gradientColors: [string, string];
   glowColor: string;
   /** True when the sprite arrived at this location via GPS. */
-  locationReached?: boolean;
+  completed?: boolean;
 };
 
 export function ScheduleItemCard({
@@ -24,18 +24,18 @@ export function ScheduleItemCard({
   icon,
   gradientColors,
   glowColor,
-  locationReached = false,
+  completed = false,
 }: ScheduleItemCardProps) {
   return (
     <View
       className="mb-5 overflow-hidden rounded-2xl bg-white"
       style={{
-        opacity: locationReached ? 0.6 : 1,
-        shadowColor: locationReached ? "#000" : glowColor,
-        shadowOffset: { width: 0, height: locationReached ? 2 : 6 },
-        shadowOpacity: locationReached ? 0.06 : 0.38,
-        shadowRadius: locationReached ? 4 : 14,
-        elevation: locationReached ? 1 : 8,
+        opacity: completed ? 0.6 : 1,
+        shadowColor: completed ? "#000" : glowColor,
+        shadowOffset: { width: 0, height: completed ? 2 : 6 },
+        shadowOpacity: completed ? 0.06 : 0.38,
+        shadowRadius: completed ? 4 : 14,
+        elevation: completed ? 1 : 8,
       }}
     >
       <LinearGradient
@@ -72,11 +72,11 @@ export function ScheduleItemCard({
           >
             {location}
           </Text>
-          {locationReached && (
+          {completed && (
             <View className="flex-row items-center gap-1 rounded-full bg-green-600/20 px-2 py-0.5">
-              <Ionicons name="location" size={10} color="#15803d" />
+              <Ionicons name="checkmark-circle" size={10} color="#15803d" />
               <Text style={{ fontFamily: Pixelify.bold, fontSize: 9, color: "#15803d" }}>
-                Arrived!
+                Goal complete
               </Text>
             </View>
           )}
@@ -84,13 +84,13 @@ export function ScheduleItemCard({
       </LinearGradient>
 
       <View className="flex-row items-center gap-3 border-t border-black/5 bg-white px-4 py-3.5">
-        <Ionicons name={icon} size={28} color={locationReached ? "#a3a3a3" : "#171717"} />
+        <Ionicons name={icon} size={28} color={completed ? "#a3a3a3" : "#171717"} />
         <Text
           className="min-w-0 flex-1 text-base leading-snug"
           style={{
             fontFamily: Pixelify.semibold,
-            color: locationReached ? "#a3a3a3" : "#171717",
-            textDecorationLine: locationReached ? "line-through" : "none",
+            color: completed ? "#a3a3a3" : "#171717",
+            textDecorationLine: completed ? "line-through" : "none",
           }}
           numberOfLines={3}
         >

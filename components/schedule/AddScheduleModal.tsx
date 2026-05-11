@@ -12,12 +12,10 @@ import {
 } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
-import {
-  LocationSearchField,
-  matchMapStopLocation,
-} from "@/components/schedule/LocationSearchField";
+import { NearbyLocationSearchField } from "@/components/schedule/NearbyLocationSearchField";
 import { Pixelify } from "@/constants/fonts";
 import { LUA_GREEN } from "@/constants/mapAssets";
+import type { NearbyPlace } from "@/lib/nearbyPlacesProvider";
 
 import {
   SCHEDULE_THEME_PRESETS,
@@ -29,25 +27,30 @@ type AddScheduleModalProps = {
   visible: boolean;
   onClose: () => void;
   onSave: (item: Omit<ScheduleItemData, "id">) => void;
+  /** Current user coordinates — used to anchor the nearby-place search. */
+  userLocation: { latitude: number; longitude: number } | null;
 };
 
 export function AddScheduleModal({
   visible,
   onClose,
   onSave,
+  userLocation,
 }: AddScheduleModalProps) {
   const insets = useSafeAreaInsets();
   const [time, setTime] = useState("");
   const [category, setCategory] = useState("");
   const [title, setTitle] = useState("");
-  const [location, setLocation] = useState("");
+  const [searchQuery, setSearchQuery] = useState("");
+  const [picked, setPicked] = useState<NearbyPlace | null>(null);
   const [theme, setTheme] = useState<ScheduleThemeKey>("academic");
 
   const reset = useCallback(() => {
     setTime("");
     setCategory("");
     setTitle("");
-    setLocation("");
+    setSearchQuery("");
+    setPicked(null);
     setTheme("academic");
   }, []);
 
@@ -58,25 +61,25 @@ export function AddScheduleModal({
 
   const handleSave = useCallback(() => {
     const t = title.trim();
-    if (!t) return;
-    const resolved = matchMapStopLocation(location);
-    if (!resolved) return;
+    if (!t || !picked) return;
     const preset = SCHEDULE_THEME_PRESETS[theme];
     onSave({
       time: time.trim() || "—",
       category: category.trim() || "Event",
       title: t,
-      location: resolved,
+      location: picked.title,
+      latitude: picked.latitude,
+      longitude: picked.longitude,
+      placeId: picked.id,
       icon: preset.icon,
       gradientColors: preset.gradientColors,
       glowColor: preset.glowColor,
     });
     reset();
     onClose();
-  }, [category, location, onClose, onSave, reset, theme, time, title]);
+  }, [category, onClose, onSave, picked, reset, theme, time, title]);
 
-  const canSave =
-    !!title.trim() && matchMapStopLocation(location) !== null;
+  const canSave = !!title.trim() && picked != null;
 
   return (
     <Modal
@@ -201,16 +204,23 @@ export function AddScheduleModal({
             >
               Location
             </Text>
-            <LocationSearchField
-              value={location}
-              onChange={setLocation}
+            <NearbyLocationSearchField
+              value={searchQuery}
+              onChangeQuery={setSearchQuery}
+              onPick={(place) => {
+                setPicked(place);
+                setSearchQuery(place.title);
+              }}
+              userLocation={userLocation}
               active={visible}
+              pickedTitle={picked?.title ?? null}
+              onClearPick={() => setPicked(null)}
             />
             <Text
               className="mb-6 text-xs text-neutral-500"
               style={{ fontFamily: Pixelify.regular }}
             >
-              Search map stops, then tap one to select.
+              Type at least 2 characters to search nearby places.
             </Text>
 
             <Pressable

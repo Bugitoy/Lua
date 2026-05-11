@@ -1,20 +1,31 @@
 import { useSyncExternalStore } from "react";
 
-// ─── State ────────────────────────────────────────────────────────────────────
+// ─── Types ────────────────────────────────────────────────────────────────────
 
-type StoreState = {
-  /** Location labels that appear in the current schedule (yellow markers). */
-  scheduledLocations: ReadonlySet<string>;
-  /** Scheduled locations where the sprite has arrived (green markers). */
-  completedLocations: ReadonlySet<string>;
-  /** Maps each scheduled location label to its category (e.g. "Academic"). */
-  locationCategories: ReadonlyMap<string, string>;
+/**
+ * A scheduled goal as the map / arrival detector cares about it.
+ * The schedule screen owns the richer `ScheduleItemData`; here we only
+ * keep the bits that drive map markers + GPS arrival checks.
+ */
+export type ScheduledItem = {
+  id: string;
+  label: string;
+  category: string;
+  latitude: number;
+  longitude: number;
+  /** True once the sprite has come within the arrival radius. */
+  completed: boolean;
 };
 
+type StoreState = {
+  /** Ordered map of scheduled goals, keyed by stable schedule item id. */
+  items: ReadonlyMap<string, ScheduledItem>;
+};
+
+// ─── State ────────────────────────────────────────────────────────────────────
+
 let state: StoreState = {
-  scheduledLocations: new Set(),
-  completedLocations: new Set(),
-  locationCategories: new Map(),
+  items: new Map(),
 };
 
 // ─── Pub/sub ──────────────────────────────────────────────────────────────────
@@ -33,38 +44,45 @@ function notify(): void {
 
 // ─── Mutations ────────────────────────────────────────────────────────────────
 
-/** Call from the Schedule screen whenever the items list changes. */
-export function setScheduledLocations(
-  items: { label: string; category: string }[],
+/**
+ * Replace the full list of scheduled items.
+ *
+ * Preserves the `completed` flag for items that still exist (matched by id),
+ * so re-saving the schedule never wipes already-earned completions.
+ */
+export function setScheduledItems(
+  incoming: { id: string; label: string; category: string; latitude: number; longitude: number }[],
 ): void {
-  state = {
-    ...state,
-    scheduledLocations: new Set(items.map((i) => i.label)),
-    locationCategories: new Map(items.map((i) => [i.label, i.category])),
-  };
+  const previous = state.items;
+  const next = new Map<string, ScheduledItem>();
+  for (const item of incoming) {
+    const wasCompleted = previous.get(item.id)?.completed ?? false;
+    next.set(item.id, {
+      id: item.id,
+      label: item.label,
+      category: item.category,
+      latitude: item.latitude,
+      longitude: item.longitude,
+      completed: wasCompleted,
+    });
+  }
+  state = { items: next };
   notify();
 }
 
 /**
- * Call when the sprite arrives at a scheduled stop.
- * Returns `true` if this is a new completion, `false` if the location
- * isn't scheduled or was already marked done — so callers can react
- * (e.g. increment goalsDone in the game stats store).
+ * Mark the goal with the given id as completed.
+ * Returns `true` only on the first completion so callers can increment
+ * `gameStats.goalsDone` exactly once per goal.
  */
-export function markLocationCompleted(label: string): boolean {
-  if (!state.scheduledLocations.has(label)) return false;
-  if (state.completedLocations.has(label)) return false;
-  state = {
-    ...state,
-    completedLocations: new Set([...state.completedLocations, label]),
-  };
+export function markGoalCompleted(id: string): boolean {
+  const item = state.items.get(id);
+  if (!item || item.completed) return false;
+  const next = new Map(state.items);
+  next.set(id, { ...item, completed: true });
+  state = { items: next };
   notify();
   return true;
-}
-
-/** Read the category for a location label directly (safe to call inside effects). */
-export function getLocationCategory(label: string): string | undefined {
-  return state.locationCategories.get(label);
 }
 
 // ─── Hooks ────────────────────────────────────────────────────────────────────
@@ -73,10 +91,17 @@ function getSnapshot(): StoreState {
   return state;
 }
 
-export function useScheduledLocations(): ReadonlySet<string> {
-  return useSyncExternalStore(subscribe, getSnapshot).scheduledLocations;
+/** Reactive list of scheduled goals in the order they were inserted. */
+export function useScheduledItems(): ScheduledItem[] {
+  const snap = useSyncExternalStore(subscribe, getSnapshot);
+  return Array.from(snap.items.values());
 }
 
-export function useCompletedLocations(): ReadonlySet<string> {
-  return useSyncExternalStore(subscribe, getSnapshot).completedLocations;
+/**
+ * Cheap lookup — returns whether a given schedule item is marked completed.
+ * Subscribes to the store so card-level UI re-renders on completion.
+ */
+export function useIsGoalCompleted(id: string): boolean {
+  const snap = useSyncExternalStore(subscribe, getSnapshot);
+  return snap.items.get(id)?.completed ?? false;
 }

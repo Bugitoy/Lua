@@ -28,7 +28,14 @@ type UseLocationResult = {
 };
 
 // Filter constants
-const MAX_ACCURACY_METERS = 35;
+/** Steady-state gate: applied after the first fix has been accepted. */
+const MAX_ACCURACY_METERS = 60;
+/**
+ * Cold-start gate: applied until we have any fix to display. Cold-start GPS
+ * fixes (especially indoors / in Expo Go) typically arrive at 60–200 m for
+ * the first 30 s, so the steady-state gate would silently drop them all.
+ */
+const WARMUP_MAX_ACCURACY_METERS = 250;
 const MIN_MEASUREMENT_VARIANCE = 9; // ≈ 3m floor on σ²
 const PROCESS_NOISE_M2_PER_S = 0.4;
 /** Any raw speed below this is treated as exactly zero (kills "phantom motion" noise). */
@@ -116,17 +123,14 @@ export function useLocation(options: UseLocationOptions = {}): UseLocationResult
       }
       if (cancelled) return;
 
-      subscription = await Location.watchPositionAsync(
-        {
-          accuracy: highFidelity
-            ? Location.Accuracy.BestForNavigation
-            : Location.Accuracy.High,
-          timeInterval: highFidelity ? 800 : 1500,
-          distanceInterval: highFidelity ? 1 : 3,
-        },
-        (loc) => {
+      const processFix = (loc: Location.LocationObject) => {
           const accuracy = loc.coords.accuracy ?? null;
-          if (accuracy != null && accuracy > MAX_ACCURACY_METERS) return;
+          // Two-tier gate: be permissive during cold-start so the user sees
+          // *something* quickly, then tighten once we have a fix to refine.
+          const accuracyLimit = initializedRef.current
+            ? MAX_ACCURACY_METERS
+            : WARMUP_MAX_ACCURACY_METERS;
+          if (accuracy != null && accuracy > accuracyLimit) return;
 
           const rawLat = loc.coords.latitude;
           const rawLng = loc.coords.longitude;
@@ -330,7 +334,34 @@ export function useLocation(options: UseLocationOptions = {}): UseLocationResult
             movementHeading: movementHeadingRef.current,
             isStationary: isStationaryRef.current,
           });
+      };
+
+      // Cold-start seed: show the user *something* immediately by reusing the
+      // OS's last-known position. The watch below will refine it as real fixes
+      // arrive. Best-effort only — failures are silent.
+      try {
+        const lastKnown = await Location.getLastKnownPositionAsync({
+          maxAge: 5 * 60 * 1000,
+          requiredAccuracy: 500,
+        });
+        if (lastKnown && !cancelled && !initializedRef.current) {
+          processFix(lastKnown);
+        }
+      } catch {
+        // ignore
+      }
+
+      if (cancelled) return;
+
+      subscription = await Location.watchPositionAsync(
+        {
+          accuracy: highFidelity
+            ? Location.Accuracy.BestForNavigation
+            : Location.Accuracy.High,
+          timeInterval: highFidelity ? 800 : 1500,
+          distanceInterval: highFidelity ? 1 : 3,
         },
+        processFix,
       );
     })();
 
