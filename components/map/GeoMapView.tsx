@@ -1,5 +1,5 @@
-import { memo, useMemo } from "react";
-import { StyleSheet, View } from "react-native";
+import { memo, useEffect, useMemo, useRef } from "react";
+import { StyleSheet, Text, View } from "react-native";
 import MapView, {
   Marker,
   Polyline,
@@ -23,8 +23,8 @@ function toRegion(location: LocationCoords): Region {
   return {
     latitude: location.latitude,
     longitude: location.longitude,
-    latitudeDelta: 0.01,
-    longitudeDelta: 0.01,
+    latitudeDelta: 0.004,
+    longitudeDelta: 0.004,
   };
 }
 
@@ -34,10 +34,22 @@ function GeoMapViewImpl({
   nearbyPlaces,
   onSetDestination,
 }: GeoMapViewProps) {
+  const mapRef = useRef<any>(null);
+  const hasCenteredOnUserRef = useRef(false);
   const initialRegion = useMemo(
     () => (currentLocation ? toRegion(currentLocation) : undefined),
     [currentLocation],
   );
+
+  useEffect(() => {
+    if (!currentLocation || !mapRef.current) return;
+
+    const region = toRegion(currentLocation);
+    const animationDurationMs = hasCenteredOnUserRef.current ? 500 : 750;
+
+    mapRef.current.animateToRegion(region, animationDurationMs);
+    hasCenteredOnUserRef.current = true;
+  }, [currentLocation]);
 
   const pathCoordinates = useMemo(() => {
     if (!currentLocation || !destination) return [];
@@ -58,6 +70,7 @@ function GeoMapViewImpl({
   return (
     <View style={styles.container}>
       <MapView
+        ref={mapRef}
         style={StyleSheet.absoluteFill}
         initialRegion={initialRegion}
         showsUserLocation
@@ -97,12 +110,31 @@ function GeoMapViewImpl({
           />
         ))}
       </MapView>
+      {!currentLocation ? (
+        <View style={styles.centeringHint}>
+          <Text style={styles.centeringHintText}>Acquiring GPS location...</Text>
+        </View>
+      ) : null}
     </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: { flex: 1 },
+  centeringHint: {
+    position: "absolute",
+    left: 12,
+    right: 12,
+    top: 12,
+    paddingHorizontal: 12,
+    paddingVertical: 8,
+    borderRadius: 10,
+    backgroundColor: "rgba(0,0,0,0.65)",
+  },
+  centeringHintText: {
+    color: "#ffffff",
+    fontSize: 12,
+  },
 });
 
 export const GeoMapView = memo(GeoMapViewImpl);
