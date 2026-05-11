@@ -2,7 +2,7 @@ import { Image as RNImage } from "react-native";
 
 export const CAMPUS_MAP = require("../assets/images/campus-map.png");
 export const LUA_LOGO = require("../assets/images/lua-logo.png");
-/** 500×500 / 4 cols × 4 rows — row 0 = full health … row 3 = dead */
+/** 2048×2048 / 4 cols × 4 rows — row 0 = full health … row 3 = dead */
 export const SPRITE_HEALTH = require("../assets/images/sprite-health.png");
 
 const MAP_SRC = RNImage.resolveAssetSource(CAMPUS_MAP);
@@ -39,7 +39,7 @@ export const MAP_ZOOM_STEP = 0.12;
 
 /** Starting stats — goalsDone/goalsTotal are driven by schedule items at runtime */
 export const MAP_DEMO = {
-  healthRatio: 0,
+  healthRatio: 0.5,
   goalsDone: 0,
   goalsTotal: 0,
   goalDayPercent: 0,

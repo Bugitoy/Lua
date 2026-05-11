@@ -13,13 +13,16 @@ import Animated, {
 import { SPRITE_HEALTH } from "@/constants/mapAssets";
 
 /**
- * 500×500 sheet — 4 cols × 4 rows, each tile 125×125 px.
+ * 2048×2048 sheet — 4 cols × 4 rows (512×512 px per cell in the bitmap).
+ * Layout size uses `LAYOUT_REF_TILE_PX` so replacing the asset with higher-res
+ * art does not change on-screen footprint (the sheet is scaled into the same dp box).
+ *
  *   Row 0: full health  (ratio >= 0.75)
  *   Row 1: medium       (ratio >= 0.50)
  *   Row 2: low          (ratio >= 0.25)
  *   Row 3: dead         (ratio <  0.25)
  */
-const SRC_TILE = 125;
+const LAYOUT_REF_TILE_PX = 125;
 const COLS = 4;
 
 function healthRow(ratio: number): number {
@@ -32,7 +35,7 @@ function healthRow(ratio: number): number {
 function frameWidthDp(pixelBase: number): number {
   const dpr = PixelRatio.get();
   const m = Math.max(4, Math.round(pixelBase * dpr));
-  return PixelRatio.roundToNearestPixel((SRC_TILE * m) / dpr);
+  return PixelRatio.roundToNearestPixel((LAYOUT_REF_TILE_PX * m) / dpr);
 }
 
 type HealthStatusSpriteProps = {
