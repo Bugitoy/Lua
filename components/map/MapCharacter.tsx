@@ -10,23 +10,34 @@ import Animated, {
   withTiming,
 } from "react-native-reanimated";
 
-import { MAP_SCALE, MAP_SRC_H, MAP_SRC_W, SHADOW_URI, SPRITE_URI } from "@/constants/mapAssets";
+import {
+  MAP_SCALE,
+  MAP_SRC_H,
+  MAP_SRC_W,
+  SPRITE_CHARACTER,
+  SPRITE_SHADOW,
+} from "@/constants/mapAssets";
 import { getContainedImageRect } from "@/lib/mapPanBounds";
 
-const GRID = 32;
+/** Source sheets are 2048×2048, 4×4 frames → 512×512 px per cell in the bitmap. */
 const COLS = 4;
 const ROWS = 4;
+/**
+ * Baseline cell size for layout / device-pixel snapping only (original 128×128 demo sheet used 32px cells).
+ * On-screen size stays the same when `sprite-character.png` is high-res; the sheet is scaled into the dp box.
+ */
+const LAYOUT_REF_GRID_PX = 32;
 
 /** Slightly smaller on-screen footprint without changing animation math. */
 const SPRITE_DISPLAY_SCALE = 0.8;
 
 /**
  * RN has no `image-rendering: pixelated`. Bilinear filtering looks soft when:
- * - layout size × DPR is not divisible by 32 (misaligned device pixel grid), or
+ * - layout size × DPR is not aligned to the nominal cell grid, or
  * - each source pixel maps to fewer than ~3 physical pixels (tiny upscale = mushy).
  *
- * Pick an integer `m` = physical pixels per source pixel (width of one 1px column in the sheet),
- * then layout width = (32 × m) / DPR so the bitmap scale hits exact device pixels.
+ * Pick an integer `m` = physical pixels per **layout-reference** source pixel,
+ * then layout width = (LAYOUT_REF_GRID_PX × m) / DPR so the bitmap scale hits exact device pixels.
  */
 function frameWidthDpForPhysicalScale(
   pixelBase: number,
@@ -37,7 +48,7 @@ function frameWidthDpForPhysicalScale(
     minPhysicalPxPerSourcePixel,
     Math.round(pixelBase * dpr),
   );
-  const physicalCell = GRID * m;
+  const physicalCell = LAYOUT_REF_GRID_PX * m;
   return PixelRatio.roundToNearestPixel(physicalCell / dpr);
 }
 
@@ -66,7 +77,7 @@ type MapCharacterProps = {
 };
 
 /**
- * Pixel-art RPG sprite: 4×4 sheet (DemoRpgCharacter.png), 32px tiles.
+ * Pixel-art RPG sprite: 4×4 sheet (`sprite-character.png`), 2048×2048 (512px cells in file).
  * Walk: horizontal strip cycles in 1s (same as `steps(4)` + `moveSpritesheet`).
  */
 export function MapCharacter({
@@ -162,7 +173,7 @@ export function MapCharacter({
           }}
         >
           <Image
-            source={{ uri: SHADOW_URI }}
+            source={SPRITE_SHADOW}
             style={{
               position: "absolute",
               bottom: 0,
@@ -186,7 +197,7 @@ export function MapCharacter({
             ]}
           >
             <Image
-              source={{ uri: SPRITE_URI }}
+              source={SPRITE_CHARACTER}
               style={{ width: sheetW, height: sheetH }}
               contentFit="fill"
               allowDownscaling={false}

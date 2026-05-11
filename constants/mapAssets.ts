@@ -9,10 +9,9 @@ const MAP_SRC = RNImage.resolveAssetSource(CAMPUS_MAP);
 export const MAP_SRC_W = MAP_SRC?.width ?? 1;
 export const MAP_SRC_H = MAP_SRC?.height ?? 1;
 
-export const SPRITE_URI =
-  "https://s3-us-west-2.amazonaws.com/s.cdpn.io/21542/DemoRpgCharacter.png";
-export const SHADOW_URI =
-  "https://s3-us-west-2.amazonaws.com/s.cdpn.io/21542/DemoRpgCharacterShadow.png";
+/** 2048×2048 each — `MapCharacter` uses a 4×4 walk sheet + matching shadow. */
+export const SPRITE_CHARACTER = require("../assets/images/sprite-character.png");
+export const SPRITE_SHADOW = require("../assets/images/sprite-shadow.png");
 
 export const LUA_GREEN = "#16a34a";
 
