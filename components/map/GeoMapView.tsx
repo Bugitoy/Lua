@@ -1,41 +1,47 @@
+import { Ionicons } from "@expo/vector-icons";
 import { memo, useEffect, useMemo, useRef, useState } from "react";
-import { Image, StyleSheet, Text, View } from "react-native";
+import { Image, Pressable, StyleSheet, Text, View } from "react-native";
 import MapView, {
+  AnimatedRegion,
+  Circle,
   Marker,
+  MarkerAnimated,
   Polyline,
   type LongPressEvent,
   type MapPressEvent,
   type Region,
 } from "react-native-maps";
 
-import { SPRITE_CHARACTER } from "@/constants/mapAssets";
+import { LUA_GREEN, SPRITE_CHARACTER } from "@/constants/mapAssets";
 import type { LatLngPoint } from "@/hooks/useDestinationTracking";
-import type { LocationCoords } from "@/hooks/useLocation";
+import type { FusedLocation } from "@/hooks/useFusedLocation";
 import type { NearbyPlace } from "@/lib/nearbyPlacesProvider";
 
 const SPRITE_COLS = 4;
 const SPRITE_ROWS = 4;
 const SPRITE_FRAME_SIZE = 38;
-const MOVING_SPEED_THRESHOLD = 0.6;
+
+const MARKER_ANIM_DURATION_MS = 450;
+const INITIAL_REGION_DELTA = 0.0075;
 
 type GeoMapViewProps = {
-  currentLocation: LocationCoords | null;
+  currentLocation: FusedLocation | null;
   destination: LatLngPoint | null;
   nearbyPlaces: NearbyPlace[];
   onSetDestination: (point: LatLngPoint) => void;
 };
 
-function toRegion(location: LocationCoords): Region {
+function regionFor(latitude: number, longitude: number): Region {
   return {
-    latitude: location.latitude,
-    longitude: location.longitude,
-    latitudeDelta: 0.004,
-    longitudeDelta: 0.004,
+    latitude,
+    longitude,
+    latitudeDelta: INITIAL_REGION_DELTA,
+    longitudeDelta: INITIAL_REGION_DELTA,
   };
 }
 
-function headingToSpriteRow(heading: number | null): number {
-  if (heading == null || heading < 0) return 0;
+function headingToSpriteRow(heading: number | null): number | null {
+  if (heading == null || heading < 0) return null;
   if (heading >= 315 || heading < 45) return 2; // up
   if (heading >= 45 && heading < 135) return 1; // right
   if (heading >= 135 && heading < 225) return 0; // down
@@ -48,43 +54,95 @@ function GeoMapViewImpl({
   nearbyPlaces,
   onSetDestination,
 }: GeoMapViewProps) {
-  const mapRef = useRef<any>(null);
+  const mapRef = useRef<MapView | null>(null);
   const hasCenteredOnUserRef = useRef(false);
+
+  const animatedCoordinateRef = useRef<AnimatedRegion | null>(null);
+  if (animatedCoordinateRef.current == null && currentLocation) {
+    animatedCoordinateRef.current = new AnimatedRegion({
+      latitude: currentLocation.latitude,
+      longitude: currentLocation.longitude,
+      latitudeDelta: 0,
+      longitudeDelta: 0,
+    });
+  }
+
   const [spriteFrame, setSpriteFrame] = useState(0);
   const [spriteRow, setSpriteRow] = useState(0);
-  const isMoving = (currentLocation?.speed ?? 0) > MOVING_SPEED_THRESHOLD;
+
+  const isStationary = currentLocation?.isStationary ?? true;
+
   const initialRegion = useMemo(
-    () => (currentLocation ? toRegion(currentLocation) : undefined),
-    [currentLocation],
+    () =>
+      currentLocation
+        ? regionFor(currentLocation.latitude, currentLocation.longitude)
+        : undefined,
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [],
   );
 
+  // Smoothly animate the user marker between fixes at native level.
+  useEffect(() => {
+    if (!currentLocation) return;
+    if (!animatedCoordinateRef.current) {
+      animatedCoordinateRef.current = new AnimatedRegion({
+        latitude: currentLocation.latitude,
+        longitude: currentLocation.longitude,
+        latitudeDelta: 0,
+        longitudeDelta: 0,
+      });
+      return;
+    }
+
+    animatedCoordinateRef.current
+      .timing({
+        latitude: currentLocation.latitude,
+        longitude: currentLocation.longitude,
+        latitudeDelta: 0,
+        longitudeDelta: 0,
+        duration: MARKER_ANIM_DURATION_MS,
+        useNativeDriver: false,
+        // `toValue` is required by the Animated typings, but AnimatedRegion#timing
+        // ignores it and reads each axis (`latitude`, `longitude`, …) directly.
+        toValue: 0,
+      })
+      .start();
+  }, [currentLocation?.latitude, currentLocation?.longitude]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  // Auto-recenter map once on the very first fix; afterwards we leave control to the user
+  // and the explicit recenter button below.
   useEffect(() => {
     if (!currentLocation || !mapRef.current) return;
-
-    const region = toRegion(currentLocation);
-    const animationDurationMs = hasCenteredOnUserRef.current ? 500 : 750;
-
-    mapRef.current.animateToRegion(region, animationDurationMs);
+    if (hasCenteredOnUserRef.current) return;
     hasCenteredOnUserRef.current = true;
+    mapRef.current.animateToRegion(
+      regionFor(currentLocation.latitude, currentLocation.longitude),
+      750,
+    );
   }, [currentLocation]);
 
+  // Sprite row: only adopt a new row when heading is actually known, otherwise hold last.
   useEffect(() => {
-    setSpriteRow(headingToSpriteRow(currentLocation?.heading ?? null));
+    const nextRow = headingToSpriteRow(currentLocation?.heading ?? null);
+    if (nextRow != null) {
+      setSpriteRow(nextRow);
+    }
   }, [currentLocation?.heading]);
 
+  // Walk cycle when moving, gentle idle bob when stationary.
   useEffect(() => {
-    const cadenceMs = isMoving ? 160 : 480;
+    const cadenceMs = isStationary ? 520 : 170;
     const idleFrames = [0, 2] as const;
 
     const id = setInterval(() => {
       setSpriteFrame((prev) => {
-        if (isMoving) return (prev + 1) % SPRITE_COLS;
+        if (!isStationary) return (prev + 1) % SPRITE_COLS;
         return prev === idleFrames[0] ? idleFrames[1] : idleFrames[0];
       });
     }, cadenceMs);
 
     return () => clearInterval(id);
-  }, [isMoving]);
+  }, [isStationary]);
 
   const pathCoordinates = useMemo(() => {
     if (!currentLocation || !destination) return [];
@@ -97,10 +155,23 @@ function GeoMapViewImpl({
     ];
   }, [currentLocation, destination]);
 
-  const onPress = (event: MapPressEvent | LongPressEvent) => {
+  const handlePress = (event: MapPressEvent | LongPressEvent) => {
     const { latitude, longitude } = event.nativeEvent.coordinate;
     onSetDestination({ latitude, longitude });
   };
+
+  const recenterOnUser = () => {
+    if (!currentLocation || !mapRef.current) return;
+    mapRef.current.animateToRegion(
+      regionFor(currentLocation.latitude, currentLocation.longitude),
+      450,
+    );
+  };
+
+  const accuracyRadius =
+    currentLocation?.accuracy != null && currentLocation.accuracy > 0
+      ? Math.min(currentLocation.accuracy, 60)
+      : null;
 
   return (
     <View style={styles.container}>
@@ -109,18 +180,27 @@ function GeoMapViewImpl({
         style={StyleSheet.absoluteFill}
         initialRegion={initialRegion}
         showsUserLocation={false}
-        followsUserLocation
-        showsMyLocationButton
-        onLongPress={onPress}
-        onPress={onPress}
+        showsMyLocationButton={false}
+        onLongPress={handlePress}
+        onPress={handlePress}
       >
-        {currentLocation ? (
-          <Marker
-            coordinate={{
+        {currentLocation && accuracyRadius != null ? (
+          <Circle
+            center={{
               latitude: currentLocation.latitude,
               longitude: currentLocation.longitude,
             }}
-            anchor={{ x: 0.5, y: 0.5 }}
+            radius={accuracyRadius}
+            strokeColor="rgba(22, 163, 74, 0.45)"
+            fillColor="rgba(22, 163, 74, 0.12)"
+            strokeWidth={1}
+          />
+        ) : null}
+
+        {currentLocation && animatedCoordinateRef.current ? (
+          <MarkerAnimated
+            coordinate={animatedCoordinateRef.current as unknown as Region}
+            anchor={{ x: 0.5, y: 0.55 }}
             tracksViewChanges
             zIndex={999}
             title="You"
@@ -139,7 +219,7 @@ function GeoMapViewImpl({
                 ]}
               />
             </View>
-          </Marker>
+          </MarkerAnimated>
         ) : null}
 
         {destination ? (
@@ -147,14 +227,14 @@ function GeoMapViewImpl({
             coordinate={destination}
             title="Destination"
             description="Long press anywhere to move this marker"
-            pinColor="#16a34a"
+            pinColor={LUA_GREEN}
           />
         ) : null}
 
         {pathCoordinates.length === 2 ? (
           <Polyline
             coordinates={pathCoordinates}
-            strokeColor="#16a34a"
+            strokeColor={LUA_GREEN}
             strokeWidth={4}
             lineDashPattern={[6, 8]}
           />
@@ -173,6 +253,16 @@ function GeoMapViewImpl({
           />
         ))}
       </MapView>
+
+      <Pressable
+        accessibilityLabel="Recenter on me"
+        onPress={recenterOnUser}
+        style={styles.recenterButton}
+        hitSlop={8}
+      >
+        <Ionicons name="locate" size={18} color="#111827" />
+      </Pressable>
+
       {!currentLocation ? (
         <View style={styles.centeringHint}>
           <Text style={styles.centeringHintText}>Acquiring GPS location...</Text>
@@ -206,6 +296,22 @@ const styles = StyleSheet.create({
   userSpriteSheet: {
     width: SPRITE_FRAME_SIZE * SPRITE_COLS,
     height: SPRITE_FRAME_SIZE * SPRITE_ROWS,
+  },
+  recenterButton: {
+    position: "absolute",
+    top: 96,
+    right: 12,
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: "#ffffff",
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.15,
+    shadowRadius: 4,
+    elevation: 4,
   },
 });
 

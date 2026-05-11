@@ -77,7 +77,7 @@ export function useDestinationTracking(
     const bearingDeg = bearingDegrees(current, destination);
     const speedMps = Math.max(0, location.speed ?? 0);
     const etaMinutes =
-      speedMps > 0.2 ? Math.max(0, distanceMeters / speedMps / 60) : null;
+      speedMps > 0.4 ? Math.max(0, distanceMeters / speedMps / 60) : null;
 
     return {
       distanceMeters,
