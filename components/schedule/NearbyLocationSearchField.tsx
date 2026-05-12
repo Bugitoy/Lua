@@ -12,7 +12,7 @@ import {
 
 import { Pixelify } from "@/constants/fonts";
 import {
-  nominatimPlacesProvider,
+  schedulePlacesSearchProvider,
   type NearbyPlace,
 } from "@/lib/nearbyPlacesProvider";
 
@@ -72,12 +72,13 @@ export function NearbyLocationSearchField({
       setLoading(true);
       setError(null);
       try {
-        const places = await nominatimPlacesProvider.getNearbyPlaces({
+        const places = await schedulePlacesSearchProvider.getNearbyPlaces({
           latitude: userLocation.latitude,
           longitude: userLocation.longitude,
           radiusMeters: SEARCH_RADIUS_METERS,
           query: trimmed,
           signal: controller.signal,
+          worldwide: true,
         });
         if (!controller.signal.aborted) {
           setResults(places);
@@ -96,7 +97,7 @@ export function NearbyLocationSearchField({
       clearTimeout(handle);
       controller.abort();
     };
-  }, [active, pickedTitle, userLocation, value]);
+  }, [active, pickedTitle, userLocation?.latitude, userLocation?.longitude, value]);
 
   const pick = useCallback(
     (place: NearbyPlace) => {
@@ -163,7 +164,7 @@ export function NearbyLocationSearchField({
             placeholder={
               showWaiting
                 ? "Waiting for GPS…"
-                : "Search any location nearby…"
+                : "Search any place in the world…"
             }
             placeholderTextColor="#a3a3a3"
             className="min-h-[48px] flex-1 py-3 pl-2 pr-2 text-base text-neutral-900"

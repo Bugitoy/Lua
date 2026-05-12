@@ -1,6 +1,6 @@
 import { Ionicons } from "@expo/vector-icons";
 import { useEffect, useMemo, useRef, useState } from "react";
-import { Pressable, Text, View } from "react-native";
+import { Pressable, Text, useWindowDimensions, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 import { GeoMapView } from "@/components/map/GeoMapView";
@@ -24,8 +24,27 @@ const DISTANCE_ACC_MIN_SPEED_MPS = 0.4;
 const M_PER_DEG_LAT = 111_000;
 const GOAL_ARRIVAL_RADIUS_METERS = 25;
 
+/** Mirrors [MapStatsCard](components/map/MapStatsCard.tsx) layout so overlays don't collide. */
+const MAP_STATS_MAX_WIDTH = 180;
+const MAP_STATS_WIDTH_RATIO = 0.58;
+const LIVE_TRACKING_MAX_WIDTH = 320;
+const LIVE_TRACKING_GUTTER = 10;
+
 export default function MapScreen() {
   const insets = useSafeAreaInsets();
+  const { width: windowWidth } = useWindowDimensions();
+  const statsCardVisualWidth = Math.min(
+    MAP_STATS_MAX_WIDTH,
+    windowWidth * MAP_STATS_WIDTH_RATIO,
+  );
+  /** Space reserved on the right for `MapStatsCard` (same as its `right` + width + gutter). */
+  const statsBandFromRight =
+    12 + statsCardVisualWidth + LIVE_TRACKING_GUTTER;
+  const liveTrackingAvailable = windowWidth - 12 - statsBandFromRight;
+  const liveTrackingWidth = Math.min(
+    LIVE_TRACKING_MAX_WIDTH,
+    Math.max(96, liveTrackingAvailable),
+  );
   const { stats, updateStats } = useGameStats();
   const [nearbyPlaces, setNearbyPlaces] = useState<NearbyPlace[]>([]);
   const scheduledItems = useScheduledItems();
@@ -166,8 +185,8 @@ export default function MapScreen() {
           style={{
             position: "absolute",
             left: 12,
-            right: 12,
             bottom: insets.bottom + 24,
+            width: liveTrackingWidth,
             backgroundColor: "rgba(0,0,0,0.75)",
             borderRadius: 12,
             paddingHorizontal: 12,
@@ -241,14 +260,14 @@ export default function MapScreen() {
           pointerEvents="none"
           style={{
             position: "absolute",
-            left: 16,
-            bottom: insets.bottom + 150,
+            left: 12,
+            bottom: insets.bottom + 100,
+            width: liveTrackingWidth,
             backgroundColor: "rgba(0,0,0,0.72)",
             borderRadius: 10,
-            paddingHorizontal: 10,
+            paddingHorizontal: 12,
             paddingVertical: 8,
             gap: 3,
-            maxWidth: 240,
           }}
         >
           <View

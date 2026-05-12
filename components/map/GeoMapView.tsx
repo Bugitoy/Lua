@@ -22,8 +22,20 @@ const SPRITE_COLS = 4;
 const SPRITE_ROWS = 4;
 const SPRITE_FRAME_SIZE = 38;
 
-const MARKER_ANIM_DURATION_MS = 450;
+/**
+ * Sprite movement is driven by `Animated.timing(coords)` between GPS fixes.
+ * The tween adapts to the actual inter-fix delta (so we don't finish in 450ms
+ * and freeze for a second), but it is capped well below the typical 1500ms
+ * fix cadence — otherwise a single noisy indoor fix would get fully painted
+ * across the screen before the next correction can arrive, and the sprite
+ * would always trail real position by the full inter-fix gap.
+ */
+const MARKER_ANIM_MIN_DURATION_MS = 250;
+const MARKER_ANIM_MAX_DURATION_MS = 650;
+const MARKER_ANIM_FIRST_FIX_DURATION_MS = 400;
 const INITIAL_REGION_DELTA = 0.0075;
+/** Hide GPS accuracy ring when zoomed out past this — fixed-meter circle shrinks on-screen and looks odd vs the sprite. */
+const ACCURACY_CIRCLE_HIDE_WHEN_LAT_DELTA_GT = 0.002;
 const GOAL_GLOW_RADIUS_METERS = 30;
 const GOAL_PENDING_FILL = "rgba(250, 204, 21, 0.22)";
 const GOAL_PENDING_STROKE = "rgba(250, 204, 21, 0.85)";
@@ -68,6 +80,8 @@ function GeoMapViewImpl({
 }: GeoMapViewProps) {
   const mapRef = useRef<MapView | null>(null);
   const hasCenteredOnUserRef = useRef(false);
+  /** Wall-clock ms of the previous GPS fix, used to size the next marker tween. */
+  const lastFixMsRef = useRef<number | null>(null);
 
   const animatedCoordinateRef = useRef<AnimatedRegion | null>(null);
   if (animatedCoordinateRef.current == null && currentLocation) {
@@ -81,6 +95,7 @@ function GeoMapViewImpl({
 
   const [spriteFrame, setSpriteFrame] = useState(0);
   const [spriteRow, setSpriteRow] = useState(0);
+  const [mapLatitudeDelta, setMapLatitudeDelta] = useState(INITIAL_REGION_DELTA);
 
   const isStationary = currentLocation?.isStationary ?? true;
 
@@ -103,8 +118,23 @@ function GeoMapViewImpl({
         latitudeDelta: 0,
         longitudeDelta: 0,
       });
+      lastFixMsRef.current = Date.now();
       return;
     }
+
+    // Match the tween to the real inter-fix cadence (~800–1500ms typical) so the
+    // marker keeps sliding instead of finishing a 450ms slide and sitting idle.
+    const now = Date.now();
+    const sincePrev =
+      lastFixMsRef.current == null ? null : now - lastFixMsRef.current;
+    lastFixMsRef.current = now;
+    const duration =
+      sincePrev == null
+        ? MARKER_ANIM_FIRST_FIX_DURATION_MS
+        : Math.min(
+            MARKER_ANIM_MAX_DURATION_MS,
+            Math.max(MARKER_ANIM_MIN_DURATION_MS, sincePrev),
+          );
 
     animatedCoordinateRef.current
       .timing({
@@ -112,7 +142,7 @@ function GeoMapViewImpl({
         longitude: currentLocation.longitude,
         latitudeDelta: 0,
         longitudeDelta: 0,
-        duration: MARKER_ANIM_DURATION_MS,
+        duration,
         useNativeDriver: false,
         // `toValue` is required by the Animated typings, but AnimatedRegion#timing
         // ignores it and reads each axis (`latitude`, `longitude`, …) directly.
@@ -186,6 +216,10 @@ function GeoMapViewImpl({
       ? Math.min(currentLocation.accuracy, 60)
       : null;
 
+  const showAccuracyCircle =
+    accuracyRadius != null &&
+    mapLatitudeDelta <= ACCURACY_CIRCLE_HIDE_WHEN_LAT_DELTA_GT;
+
   return (
     <View style={styles.container}>
       <MapView
@@ -200,14 +234,17 @@ function GeoMapViewImpl({
         pitchEnabled={interactive}
         onLongPress={interactive ? handlePress : undefined}
         onPress={interactive ? handlePress : undefined}
+        onRegionChangeComplete={(region) => {
+          setMapLatitudeDelta(region.latitudeDelta);
+        }}
       >
-        {currentLocation && accuracyRadius != null ? (
+        {currentLocation && showAccuracyCircle ? (
           <Circle
             center={{
               latitude: currentLocation.latitude,
               longitude: currentLocation.longitude,
             }}
-            radius={accuracyRadius}
+            radius={accuracyRadius!}
             strokeColor="rgba(22, 163, 74, 0.45)"
             fillColor="rgba(22, 163, 74, 0.12)"
             strokeWidth={1}

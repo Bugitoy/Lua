@@ -28,6 +28,15 @@ export default function ScheduleScreen() {
   const scheduledItems = useScheduledItems();
   const { location } = useFusedLocation();
 
+  /** Stable reference — inline `{ lat, lng }` changes every parent render and was resetting search debounce every second (live clock). */
+  const userLocationForSearch = useMemo(
+    () =>
+      location
+        ? { latitude: location.latitude, longitude: location.longitude }
+        : null,
+    [location?.latitude, location?.longitude],
+  );
+
   // Live clock — updates every second
   const [now, setNow] = useState(() => new Date());
   const tickRef = useRef<ReturnType<typeof setInterval> | null>(null);
@@ -223,11 +232,7 @@ export default function ScheduleScreen() {
         visible={addOpen}
         onClose={() => setAddOpen(false)}
         onSave={handleSaveNewItem}
-        userLocation={
-          location
-            ? { latitude: location.latitude, longitude: location.longitude }
-            : null
-        }
+        userLocation={userLocationForSearch}
       />
     </View>
   );

@@ -29,7 +29,7 @@ type UseLocationResult = {
 
 // Filter constants
 /** Steady-state gate: applied after the first fix has been accepted. */
-const MAX_ACCURACY_METERS = 60;
+const MAX_ACCURACY_METERS = 20;
 /**
  * Cold-start gate: applied until we have any fix to display. Cold-start GPS
  * fixes (especially indoors / in Expo Go) typically arrive at 60–200 m for
@@ -48,7 +48,15 @@ const SPEED_SMOOTH_ALPHA_FALL = 0.55;
 const SPEED_OUTPUT_CUTOFF_MPS = 0.25;
 // Hysteresis: engage stationary below low threshold, only break above high threshold.
 const STATIONARY_SPEED_MPS = 0.4;
-const MOVING_SPEED_MPS = 1.35;
+/**
+ * Speed (raw, post-deadzone) at which the stationary lock breaks. Was 1.35 m/s
+ * (~4.9 km/h, brisk walking) which left casual walkers stuck on the anchor
+ * until they drifted past the accuracy radius — then the sprite snapped a long
+ * way at once. 0.9 m/s (~3.2 km/h) still sits above the 0.55 m/s deadzone so
+ * idle noise can't trip it, but it catches normal walking on the first or
+ * second fix.
+ */
+const MOVING_SPEED_MPS = 0.9;
 const STATIONARY_HOLD_SECONDS = 2;
 const STATIONARY_BREAK_DRIFT_METERS = 12;
 /** How many consecutive break-eligible fixes are needed to actually exit stationary mode. */
@@ -336,20 +344,10 @@ export function useLocation(options: UseLocationOptions = {}): UseLocationResult
           });
       };
 
-      // Cold-start seed: show the user *something* immediately by reusing the
-      // OS's last-known position. The watch below will refine it as real fixes
-      // arrive. Best-effort only — failures are silent.
-      try {
-        const lastKnown = await Location.getLastKnownPositionAsync({
-          maxAge: 5 * 60 * 1000,
-          requiredAccuracy: 500,
-        });
-        if (lastKnown && !cancelled && !initializedRef.current) {
-          processFix(lastKnown);
-        }
-      } catch {
-        // ignore
-      }
+      // Intentionally no `getLastKnownPositionAsync` seed: the OS cache often
+      // still points at a previous home/office for days after a move, which
+      // makes the map lie until a fresh GPS fix arrives. Cold start is handled
+      // by the warmup accuracy gate + `watchPositionAsync` instead.
 
       if (cancelled) return;
 

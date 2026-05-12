@@ -27,7 +27,7 @@ type AddScheduleModalProps = {
   visible: boolean;
   onClose: () => void;
   onSave: (item: Omit<ScheduleItemData, "id">) => void;
-  /** Current user coordinates — used to anchor the nearby-place search. */
+  /** Current user coordinates — used to rank / disambiguate search results. */
   userLocation: { latitude: number; longitude: number } | null;
 };
 
@@ -220,7 +220,8 @@ export function AddScheduleModal({
               className="mb-6 text-xs text-neutral-500"
               style={{ fontFamily: Pixelify.regular }}
             >
-              Type at least 2 characters to search nearby places.
+              Type at least 2 characters to search anywhere (your location helps
+              rank similar names).
             </Text>
 
             <Pressable
