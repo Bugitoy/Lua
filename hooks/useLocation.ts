@@ -15,6 +15,13 @@ export type LocationCoords = {
   movementHeading: number | null;
   /** True while the stationary-lock is engaged. */
   isStationary: boolean;
+  /**
+   * Filtered velocity components in m/s. East-positive (`vxMps`) and
+   * north-positive (`vyMps`). Forced to 0 while the stationary lock is
+   * engaged so consumers doing dead-reckoning don't drift the marker.
+   */
+  vxMps: number | null;
+  vyMps: number | null;
 };
 
 type UseLocationOptions = {
@@ -29,7 +36,7 @@ type UseLocationResult = {
 
 // Filter constants
 /** Steady-state gate: applied after the first fix has been accepted. */
-const MAX_ACCURACY_METERS = 20;
+const MAX_ACCURACY_METERS = 60;
 /**
  * Cold-start gate: applied until we have any fix to display. Cold-start GPS
  * fixes (especially indoors / in Expo Go) typically arrive at 60–200 m for
@@ -59,8 +66,15 @@ const STATIONARY_SPEED_MPS = 0.4;
 const MOVING_SPEED_MPS = 0.9;
 const STATIONARY_HOLD_SECONDS = 2;
 const STATIONARY_BREAK_DRIFT_METERS = 12;
-/** How many consecutive break-eligible fixes are needed to actually exit stationary mode. */
-const STATIONARY_BREAK_CONFIRMATIONS = 2;
+/**
+ * How many consecutive break-eligible fixes are needed to actually exit
+ * stationary mode. Set to 1 so the leading edge of a walk unlocks the sprite
+ * on the very first valid fix — the 0.55 m/s dead-zone + asymmetric speed
+ * smoothing already filter single-fix noise, so requiring a second
+ * confirmation just added a full inter-fix interval of dead-time before
+ * motion was visible.
+ */
+const STATIONARY_BREAK_CONFIRMATIONS = 1;
 /** Scales the drift-break radius by GPS accuracy so noisy fixes don't trip the lock. */
 const STATIONARY_DRIFT_ACCURACY_MULTIPLIER = 1.75;
 
@@ -188,6 +202,8 @@ export function useLocation(options: UseLocationOptions = {}): UseLocationResult
                   : null,
               movementHeading: null,
               isStationary: true,
+              vxMps: 0,
+              vyMps: 0,
             });
             return;
           }
@@ -332,6 +348,12 @@ export function useLocation(options: UseLocationOptions = {}): UseLocationResult
               ? rawHeading
               : movementHeadingRef.current;
 
+          // Zero out velocity while the stationary lock is engaged so the
+          // dead-reckoning consumer in GeoMapView doesn't push the sprite
+          // forward when we're intentionally pinned to an anchor.
+          const emittedVxMps = isStationaryRef.current ? 0 : vxMps;
+          const emittedVyMps = isStationaryRef.current ? 0 : vyMps;
+
           setLocation({
             latitude: emittedLat,
             longitude: emittedLng,
@@ -341,6 +363,8 @@ export function useLocation(options: UseLocationOptions = {}): UseLocationResult
             heading,
             movementHeading: movementHeadingRef.current,
             isStationary: isStationaryRef.current,
+            vxMps: emittedVxMps,
+            vyMps: emittedVyMps,
           });
       };
 
@@ -353,11 +377,15 @@ export function useLocation(options: UseLocationOptions = {}): UseLocationResult
 
       subscription = await Location.watchPositionAsync(
         {
-          accuracy: highFidelity
-            ? Location.Accuracy.BestForNavigation
-            : Location.Accuracy.High,
-          timeInterval: highFidelity ? 800 : 1500,
-          distanceInterval: highFidelity ? 1 : 3,
+          // Always BestForNavigation: this app is a live-tracking experience,
+          // not a background battery saver. The user opted into the extra drain
+          // in exchange for sub-second response to movement.
+          accuracy: Location.Accuracy.BestForNavigation,
+          timeInterval: highFidelity ? 600 : 1000,
+          // 1m delivers a fresh fix as soon as the user takes a step instead of
+          // waiting out the full timeInterval. Pairs with dead-reckoning in the
+          // marker layer to keep the sprite continuously sliding.
+          distanceInterval: 1,
         },
         processFix,
       );

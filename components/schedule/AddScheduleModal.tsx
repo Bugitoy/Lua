@@ -1,27 +1,43 @@
 import { Ionicons } from "@expo/vector-icons";
 import { useCallback, useState } from "react";
 import {
-  KeyboardAvoidingView,
-  Modal,
-  Platform,
-  Pressable,
-  ScrollView,
-  Text,
-  TextInput,
-  View,
+    KeyboardAvoidingView,
+    Modal,
+    Platform,
+    Pressable,
+    ScrollView,
+    Text,
+    TextInput,
+    View,
 } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 import { NearbyLocationSearchField } from "@/components/schedule/NearbyLocationSearchField";
+import { TimeWheelPicker } from "@/components/schedule/TimeWheelPicker";
 import { Pixelify } from "@/constants/fonts";
 import { LUA_GREEN } from "@/constants/mapAssets";
 import type { NearbyPlace } from "@/lib/nearbyPlacesProvider";
 
 import {
-  SCHEDULE_THEME_PRESETS,
-  type ScheduleItemData,
-  type ScheduleThemeKey,
+    SCHEDULE_THEME_PRESETS,
+    type ScheduleItemData,
+    type ScheduleThemeKey,
 } from "./scheduleTypes";
+
+/** Returns a clean copy of `now` rounded down to the current hour. */
+function defaultPickerTime(): Date {
+  const d = new Date();
+  d.setSeconds(0, 0);
+  return d;
+}
+
+/** Formats a Date as `2:30 PM` style — locale-aware, no seconds. */
+function formatTimeOfDay(d: Date): string {
+  return d.toLocaleTimeString(undefined, {
+    hour: "numeric",
+    minute: "2-digit",
+  });
+}
 
 type AddScheduleModalProps = {
   visible: boolean;
@@ -38,7 +54,9 @@ export function AddScheduleModal({
   userLocation,
 }: AddScheduleModalProps) {
   const insets = useSafeAreaInsets();
-  const [time, setTime] = useState("");
+  const [time, setTime] = useState<Date | null>(null);
+  /** iOS only — the spinner is rendered inline; Android uses an imperative dialog. */
+  const [showTimePicker, setShowTimePicker] = useState(false);
   const [category, setCategory] = useState("");
   const [title, setTitle] = useState("");
   const [searchQuery, setSearchQuery] = useState("");
@@ -46,7 +64,8 @@ export function AddScheduleModal({
   const [theme, setTheme] = useState<ScheduleThemeKey>("academic");
 
   const reset = useCallback(() => {
-    setTime("");
+    setTime(null);
+    setShowTimePicker(false);
     setCategory("");
     setTitle("");
     setSearchQuery("");
@@ -59,12 +78,19 @@ export function AddScheduleModal({
     onClose();
   }, [onClose, reset]);
 
+  const openTimePicker = useCallback(() => {
+    // Seed with a sensible default so the wheel doesn't fall on midnight if the
+    // user opens and immediately confirms without scrolling.
+    if (time == null) setTime(defaultPickerTime());
+    setShowTimePicker((prev) => !prev);
+  }, [time]);
+
   const handleSave = useCallback(() => {
     const t = title.trim();
     if (!t || !picked) return;
     const preset = SCHEDULE_THEME_PRESETS[theme];
     onSave({
-      time: time.trim() || "—",
+      time: time ? formatTimeOfDay(time) : "—",
       category: category.trim() || "Event",
       title: t,
       location: picked.title,
@@ -158,14 +184,49 @@ export function AddScheduleModal({
             >
               Time
             </Text>
-            <TextInput
-              value={time}
-              onChangeText={setTime}
-              placeholder="e.g. 2:30 pm"
-              placeholderTextColor="#a3a3a3"
-              className="mb-4 rounded-xl border border-neutral-200 bg-neutral-50 px-4 py-3 text-base text-neutral-900"
-              style={{ fontFamily: Pixelify.regular }}
-            />
+            <Pressable
+              onPress={openTimePicker}
+              className="mb-2 flex-row items-center justify-between rounded-xl border border-neutral-200 bg-neutral-50 px-4 py-3.5 active:opacity-80"
+              style={{
+                borderColor: showTimePicker ? LUA_GREEN : "#e5e5e5",
+              }}
+            >
+              <Text
+                className="text-base"
+                style={{
+                  fontFamily: Pixelify.regular,
+                  color: time ? "#171717" : "#a3a3a3",
+                }}
+              >
+                {time ? formatTimeOfDay(time) : "Tap to choose a time"}
+              </Text>
+              <Ionicons
+                name={showTimePicker ? "chevron-up" : "chevron-down"}
+                size={18}
+                color={showTimePicker ? LUA_GREEN : "#737373"}
+              />
+            </Pressable>
+            {showTimePicker ? (
+              <View className="mb-2">
+                <TimeWheelPicker
+                  value={time ?? defaultPickerTime()}
+                  onChange={setTime}
+                />
+                <Pressable
+                  onPress={() => setShowTimePicker(false)}
+                  className="mt-2 items-center rounded-xl py-2.5 active:opacity-90"
+                  style={{ backgroundColor: LUA_GREEN }}
+                >
+                  <Text
+                    className="text-sm text-white"
+                    style={{ fontFamily: Pixelify.bold }}
+                  >
+                    Done
+                  </Text>
+                </Pressable>
+              </View>
+            ) : null}
+            <View className="mb-4" />
 
             <Text
               className="mb-1.5 text-xs text-neutral-500"

@@ -10,12 +10,24 @@ export type CompassReading = {
 
 /**
  * Exponential smoothing factor for compass values (0..1, higher = more reactive).
- * 0.25 follows the phone but absorbs the typical magnetometer twitch.
+ * Adaptive: when the user is mostly still / drifting (small angular delta) we
+ * favour smoothing to absorb magnetometer twitch; when they're actively turning
+ * (large angular delta) we react quickly so the sprite faces the right way
+ * within a sample or two instead of lazily catching up over half a second.
  */
-const HEADING_SMOOTH_ALPHA = 0.25;
+const HEADING_ALPHA_STEADY = 0.25;
+const HEADING_ALPHA_TURNING = 0.55;
+/** Absolute angular change (degrees, shortest arc) that flips us into "turning" mode. */
+const TURNING_DEG_THRESHOLD = 18;
 
 /** Below this accuracy bucket (iOS-style 0-3 / Android raw degrees) the heading is dropped. */
 const MAX_HEADING_ACCURACY = 30;
+
+/** Shortest signed arc between two compass headings, in degrees. */
+function shortestArcDeg(prevDeg: number, nextDeg: number): number {
+  const diff = ((nextDeg - prevDeg + 540) % 360) - 180;
+  return Math.abs(diff);
+}
 
 function smoothHeadingCircular(
   previousDeg: number | null,
@@ -57,9 +69,16 @@ export function useCompass(): CompassReading {
           return;
         }
 
-        setHeading((prev) =>
-          smoothHeadingCircular(prev, next, HEADING_SMOOTH_ALPHA),
-        );
+        setHeading((prev) => {
+          // First sample: adopt it verbatim, no smoothing possible.
+          if (prev == null) return ((next % 360) + 360) % 360;
+          const arc = shortestArcDeg(prev, next);
+          const alpha =
+            arc >= TURNING_DEG_THRESHOLD
+              ? HEADING_ALPHA_TURNING
+              : HEADING_ALPHA_STEADY;
+          return smoothHeadingCircular(prev, next, alpha);
+        });
         setAccuracy(reading.accuracy ?? null);
       });
     })();

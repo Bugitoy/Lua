@@ -24,15 +24,22 @@ const SPRITE_FRAME_SIZE = 38;
 
 /**
  * Sprite movement is driven by `Animated.timing(coords)` between GPS fixes.
- * The tween adapts to the actual inter-fix delta (so we don't finish in 450ms
- * and freeze for a second), but it is capped well below the typical 1500ms
- * fix cadence — otherwise a single noisy indoor fix would get fully painted
- * across the screen before the next correction can arrive, and the sprite
- * would always trail real position by the full inter-fix gap.
+ * The tween targets a *projected* position one `MARKER_PROJECT_SECONDS` ahead
+ * of the latest fix using filtered velocity (see below). Because we're always
+ * sliding toward where we think we'll be next, the marker is continuously in
+ * motion at the predicted pace and the next real fix smoothly corrects the
+ * prediction mid-flight. The cap is sized to cover a full inter-fix gap.
  */
-const MARKER_ANIM_MIN_DURATION_MS = 250;
-const MARKER_ANIM_MAX_DURATION_MS = 650;
-const MARKER_ANIM_FIRST_FIX_DURATION_MS = 400;
+const MARKER_ANIM_MIN_DURATION_MS = 400;
+const MARKER_ANIM_MAX_DURATION_MS = 1200;
+const MARKER_ANIM_FIRST_FIX_DURATION_MS = 500;
+/** How far ahead (in seconds) the projected tween target leads the latest fix. */
+const MARKER_PROJECT_SECONDS = 1.0;
+/** Safety clamp on extrapolation distance — caps overshoot if a speed spike slips through the filter. */
+const MARKER_MAX_PROJECT_METERS = 8;
+/** Below this speed, skip projection entirely — micro-velocities are noise. */
+const MARKER_PROJECT_MIN_SPEED_MPS = 0.2;
+const EARTH_METERS_PER_DEG_LAT = 111_000;
 const INITIAL_REGION_DELTA = 0.0075;
 /** Hide GPS accuracy ring when zoomed out past this — fixed-meter circle shrinks on-screen and looks odd vs the sprite. */
 const ACCURACY_CIRCLE_HIDE_WHEN_LAT_DELTA_GT = 0.002;
@@ -108,7 +115,8 @@ function GeoMapViewImpl({
     [],
   );
 
-  // Smoothly animate the user marker between fixes at native level.
+  // Smoothly animate the user marker between fixes at native level, projecting
+  // forward with the latest filtered velocity so we don't freeze between fixes.
   useEffect(() => {
     if (!currentLocation) return;
     if (!animatedCoordinateRef.current) {
@@ -122,8 +130,33 @@ function GeoMapViewImpl({
       return;
     }
 
-    // Match the tween to the real inter-fix cadence (~800–1500ms typical) so the
-    // marker keeps sliding instead of finishing a 450ms slide and sitting idle.
+    // Dead-reckon: aim the tween at where we'll likely be MARKER_PROJECT_SECONDS
+    // from now. If the prediction is right, the next fix barely nudges the tween;
+    // if it's wrong, the next fix replaces the in-flight tween from the current
+    // animated value and corrects smoothly.
+    const vx = currentLocation.vxMps ?? 0;
+    const vy = currentLocation.vyMps ?? 0;
+    const speed = Math.hypot(vx, vy);
+
+    let targetLat = currentLocation.latitude;
+    let targetLng = currentLocation.longitude;
+    if (speed >= MARKER_PROJECT_MIN_SPEED_MPS) {
+      const projMeters = Math.min(
+        speed * MARKER_PROJECT_SECONDS,
+        MARKER_MAX_PROJECT_METERS,
+      );
+      const scale = projMeters / speed;
+      const dyDeg = (vy * scale) / EARTH_METERS_PER_DEG_LAT;
+      const mPerDegLng =
+        EARTH_METERS_PER_DEG_LAT *
+        Math.cos((currentLocation.latitude * Math.PI) / 180);
+      const dxDeg = mPerDegLng > 0 ? (vx * scale) / mPerDegLng : 0;
+      targetLat += dyDeg;
+      targetLng += dxDeg;
+    }
+
+    // Match the tween to the real inter-fix cadence so the slide finishes
+    // around the time the next fix lands. Continuous motion, no freeze.
     const now = Date.now();
     const sincePrev =
       lastFixMsRef.current == null ? null : now - lastFixMsRef.current;
@@ -138,8 +171,8 @@ function GeoMapViewImpl({
 
     animatedCoordinateRef.current
       .timing({
-        latitude: currentLocation.latitude,
-        longitude: currentLocation.longitude,
+        latitude: targetLat,
+        longitude: targetLng,
         latitudeDelta: 0,
         longitudeDelta: 0,
         duration,
@@ -149,7 +182,12 @@ function GeoMapViewImpl({
         toValue: 0,
       })
       .start();
-  }, [currentLocation?.latitude, currentLocation?.longitude]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [
+    currentLocation?.latitude,
+    currentLocation?.longitude,
+    currentLocation?.vxMps,
+    currentLocation?.vyMps,
+  ]); // eslint-disable-line react-hooks/exhaustive-deps
 
   // Auto-recenter map once on the very first fix; afterwards we leave control to the user
   // and the explicit recenter button below.

@@ -28,7 +28,7 @@ export function MapTopBar({ topInset }: MapTopBarProps) {
             className="text-xl text-neutral-900"
             style={{ fontFamily: Pixelify.bold }}
           >
-            Live Flow
+            Lua
           </Text>
         </View>
         <View className="flex-row items-center gap-3">
