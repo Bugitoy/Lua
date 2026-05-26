@@ -107,8 +107,8 @@ export default function ProfileScreen() {
   const xpInLevel = xp % LEVEL_XP_REQUIRED;
   const xpProgress = xpInLevel / LEVEL_XP_REQUIRED;
 
-  const onEditProfile = useCallback(() => {
-    Alert.alert("Edit Profile", "Profile editing coming soon!");
+  const onManageProfile = useCallback(() => {
+    router.push("/manage-profile");
   }, []);
 
   const onSignOut = useCallback(() => {
@@ -153,7 +153,7 @@ export default function ProfileScreen() {
             end={{ x: 0, y: 1 }}
             style={{ padding: 20, alignItems: "center" }}
           >
-            <Pressable onPress={onEditProfile} className="active:opacity-80">
+            <Pressable onPress={onManageProfile} className="active:opacity-80">
               <Image
                 source={{ uri: AVATAR_URI }}
                 style={{
@@ -183,7 +183,7 @@ export default function ProfileScreen() {
               className="text-sm text-neutral-500"
               style={{ fontFamily: Pixelify.regular }}
             >
-              University of Cincinnati
+              @masonmavinga
             </Text>
 
             <View className="mt-4 w-full">
@@ -301,22 +301,15 @@ export default function ProfileScreen() {
         <SectionCard>
           <SettingRow
             icon="person-outline"
-            label="Edit Profile"
-            sublabel="Name, photo, university"
-            onPress={onEditProfile}
+            label="Manage Profile"
+            sublabel="Name, photo, handle"
+            onPress={onManageProfile}
           />
           <View className="mx-4 h-px bg-neutral-100" />
           <SettingRow
             icon="trophy-outline"
             label="Achievements"
             sublabel={`Level ${level} · ${xp} XP total`}
-            onPress={() => {}}
-          />
-          <View className="mx-4 h-px bg-neutral-100" />
-          <SettingRow
-            icon="shield-checkmark-outline"
-            label="Privacy"
-            sublabel="Control your data"
             onPress={() => {}}
           />
         </SectionCard>
@@ -344,10 +337,17 @@ export default function ProfileScreen() {
           />
           <View className="mx-4 h-px bg-neutral-100" />
           <SettingRow
-            icon="map-outline"
-            label="Campus Map"
-            sublabel="Open the map"
-            onPress={() => router.push("/")}
+            icon="language-outline"
+            label="Language"
+            sublabel="English"
+            onPress={() => router.push("/language")}
+          />
+          <View className="mx-4 h-px bg-neutral-100" />
+          <SettingRow
+            icon="color-palette-outline"
+            label="Theme"
+            sublabel="Light"
+            onPress={() => router.push("/theme")}
           />
           <View className="mx-4 h-px bg-neutral-100" />
           <SettingRow
@@ -370,6 +370,20 @@ export default function ProfileScreen() {
             icon="information-circle-outline"
             label="App Version"
             sublabel="Lua v1.0.0"
+            tintColor="#64748b"
+          />
+          <View className="mx-4 h-px bg-neutral-100" />
+          <SettingRow
+            icon="people-outline"
+            label="About Us"
+            onPress={() => router.push("/about-us")}
+            tintColor="#64748b"
+          />
+          <View className="mx-4 h-px bg-neutral-100" />
+          <SettingRow
+            icon="help-circle-outline"
+            label="Help Center"
+            onPress={() => router.push("/help-center")}
             tintColor="#64748b"
           />
           <View className="mx-4 h-px bg-neutral-100" />

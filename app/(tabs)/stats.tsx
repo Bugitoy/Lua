@@ -47,7 +47,7 @@ type LeaderboardSortKey = "goals" | "distance" | "study";
 type LeaderEntry = {
   id: string;
   name: string;
-  major: string;
+  tagline: string;
   avatarImg: number;
   goalsDone: number;
   goalsTotal: number;
@@ -57,13 +57,13 @@ type LeaderEntry = {
 };
 
 const LEADERBOARD: LeaderEntry[] = [
-  { id: "1", name: "Jordan Park",    major: "Computer Science",  avatarImg: 3,  goalsDone: 11, goalsTotal: 12, distanceMiles: 8.4, hoursStudied: 5.5, streak: 14 },
-  { id: "2", name: "Maya Chen",      major: "Biomedical Eng.",   avatarImg: 5,  goalsDone: 10, goalsTotal: 12, distanceMiles: 7.1, hoursStudied: 6.0, streak: 21 },
-  { id: "3", name: "Liam Torres",    major: "Business",          avatarImg: 8,  goalsDone: 9,  goalsTotal: 10, distanceMiles: 5.8, hoursStudied: 3.5, streak: 9  },
-  { id: "4", name: "Ava Johnson",    major: "Nursing",           avatarImg: 9,  goalsDone: 8,  goalsTotal: 10, distanceMiles: 9.2, hoursStudied: 4.0, streak: 6  },
-  { id: "5", name: "Noah Williams",  major: "Architecture",      avatarImg: 11, goalsDone: 8,  goalsTotal: 12, distanceMiles: 6.3, hoursStudied: 4.5, streak: 11 },
-  { id: "6", name: "Sofia Nguyen",   major: "Pharmacy",          avatarImg: 15, goalsDone: 7,  goalsTotal: 10, distanceMiles: 4.5, hoursStudied: 5.0, streak: 4  },
-  { id: "7", name: "Ethan Brown",    major: "Mechanical Eng.",   avatarImg: 17, goalsDone: 7,  goalsTotal: 12, distanceMiles: 3.9, hoursStudied: 3.0, streak: 7  },
+  { id: "1", name: "Jordan Park",    tagline: "Trail walker",     avatarImg: 3,  goalsDone: 11, goalsTotal: 12, distanceMiles: 8.4, hoursStudied: 5.5, streak: 14 },
+  { id: "2", name: "Maya Chen",      tagline: "Streak chaser",     avatarImg: 5,  goalsDone: 10, goalsTotal: 12, distanceMiles: 7.1, hoursStudied: 6.0, streak: 21 },
+  { id: "3", name: "Liam Torres",    tagline: "Goal grinder",      avatarImg: 8,  goalsDone: 9,  goalsTotal: 10, distanceMiles: 5.8, hoursStudied: 3.5, streak: 9  },
+  { id: "4", name: "Ava Johnson",    tagline: "Daily mover",       avatarImg: 9,  goalsDone: 8,  goalsTotal: 10, distanceMiles: 9.2, hoursStudied: 4.0, streak: 6  },
+  { id: "5", name: "Noah Williams",  tagline: "Long-walk fan",     avatarImg: 11, goalsDone: 8,  goalsTotal: 12, distanceMiles: 6.3, hoursStudied: 4.5, streak: 11 },
+  { id: "6", name: "Sofia Nguyen",   tagline: "Consistency > hype",avatarImg: 15, goalsDone: 7,  goalsTotal: 10, distanceMiles: 4.5, hoursStudied: 5.0, streak: 4  },
+  { id: "7", name: "Ethan Brown",    tagline: "Weekend explorer",  avatarImg: 17, goalsDone: 7,  goalsTotal: 12, distanceMiles: 3.9, hoursStudied: 3.0, streak: 7  },
 ];
 
 const RANK_COLORS = ["#f59e0b", "#9ca3af", "#92400e"];
@@ -535,7 +535,7 @@ export default function StatsScreen() {
             className="text-xs uppercase tracking-widest text-neutral-400"
             style={{ fontFamily: Pixelify.semibold }}
           >
-            UC Leaderboard ·
+            Leaderboard ·
           </Text>
           <View style={{ position: "relative" }}>
             <Pressable
@@ -664,7 +664,7 @@ export default function StatsScreen() {
             const meEntry: LeaderEntry = {
               id: "me",
               name: "You",
-              major: "University of Cincinnati",
+              tagline: "Adventurer",
               avatarImg: 12,
               goalsDone: stats.goalsDone * scale,
               goalsTotal: stats.goalsTotal * scale,
@@ -763,7 +763,7 @@ export default function StatsScreen() {
                             style={{ fontFamily: Pixelify.regular, fontSize: 11, color: "#737373" }}
                             numberOfLines={1}
                           >
-                            {entry.major}
+                            {entry.tagline}
                           </Text>
                         </View>
                         <Text style={{ fontFamily: Pixelify.bold, fontSize: 14, color: "#171717" }}>
