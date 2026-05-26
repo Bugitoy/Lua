@@ -33,7 +33,9 @@ export function MapStatsCard({
       pointerEvents="auto"
       style={{
         right: 12,
-        bottom: (Platform.OS === "ios" ? 92 : 25) + bottomInset,
+        // Larger offset = card sits higher above the bottom edge (above tab bar /
+        // overlays). Bumped from 92/25 so Goals Completed clears the map HUDs.
+        bottom: (Platform.OS === "ios" ? 120 : 50) + bottomInset,
         maxWidth: 180,
         width: "58%",
       }}

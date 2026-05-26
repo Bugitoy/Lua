@@ -56,26 +56,23 @@ const SPEED_OUTPUT_CUTOFF_MPS = 0.25;
 // Hysteresis: engage stationary below low threshold, only break above high threshold.
 const STATIONARY_SPEED_MPS = 0.4;
 /**
- * Speed (raw, post-deadzone) at which the stationary lock breaks. Was 1.35 m/s
- * (~4.9 km/h, brisk walking) which left casual walkers stuck on the anchor
- * until they drifted past the accuracy radius — then the sprite snapped a long
- * way at once. 0.9 m/s (~3.2 km/h) still sits above the 0.55 m/s deadzone so
- * idle noise can't trip it, but it catches normal walking on the first or
- * second fix.
+ * Speed (post-deadzone) for speed-only unlock — keep above idle noise, below
+ * full-out running; walking is often ~1.0 m/s on device-reported speed.
  */
-const MOVING_SPEED_MPS = 0.9;
+const MOVING_SPEED_MPS = 1.05;
 const STATIONARY_HOLD_SECONDS = 2;
-const STATIONARY_BREAK_DRIFT_METERS = 12;
+/** Kalman-vs-anchor threshold (slow alone when we hold emissions to anchor). */
+const STATIONARY_BREAK_DRIFT_METERS = 14;
+/** Unlock when the new raw fix is this far past the anchor (fast walking response). */
+const STATIONARY_MIN_RAW_MEASUREMENT_BREAK_M = 6.5;
+const STATIONARY_RAW_DRIFT_ACC_MULT = 0.95;
+const STATIONARY_RAW_DRIFT_HARD_CAP_M = 28;
 /**
- * How many consecutive break-eligible fixes are needed to actually exit
- * stationary mode. Set to 1 so the leading edge of a walk unlocks the sprite
- * on the very first valid fix — the 0.55 m/s dead-zone + asymmetric speed
- * smoothing already filter single-fix noise, so requiring a second
- * confirmation just added a full inter-fix interval of dead-time before
- * motion was visible.
+ * If we only “move” by doppler spikes (no raw displacement), require two agrees
+ * — keeps a single desk spike from unlocking.
  */
-const STATIONARY_BREAK_CONFIRMATIONS = 1;
-/** Scales the drift-break radius by GPS accuracy so noisy fixes don't trip the lock. */
+const SPEED_ONLY_BREAK_CONFIRMATIONS = 2;
+/** Scales the Kalman drift-break radius by GPS accuracy. */
 const STATIONARY_DRIFT_ACCURACY_MULTIPLIER = 1.75;
 
 const M_PER_DEG_LAT = 111_000;
@@ -283,26 +280,47 @@ export function useLocation(options: UseLocationOptions = {}): UseLocationResult
           const anchor = stationaryAnchorRef.current;
 
           if (isStationaryRef.current && anchor) {
-            const driftFromAnchor = distanceMeters(anchor, {
+            const kalmanDriftFromAnchor = distanceMeters(anchor, {
               latitude: estLatRef.current,
               longitude: estLngRef.current,
             });
+            /** Raw-fix drift — reacts immediately when GPS moves with the user while we pin emits to anchor. */
+            const rawMeasDrift = distanceMeters(anchor, {
+              latitude: rawLat,
+              longitude: rawLng,
+            });
             // Inflate the drift radius when GPS accuracy is poor: noisy fixes can drift
             // many metres without the user actually moving.
-            const driftLimit = Math.max(
+            const kalmanLimit = Math.max(
               STATIONARY_BREAK_DRIFT_METERS,
               (accuracy ?? 0) * STATIONARY_DRIFT_ACCURACY_MULTIPLIER,
             );
-            const breakingByDrift = driftFromAnchor > driftLimit;
+            /** More aggressive than kalman-limit so walking unlocks quickly; capped + accuracy-scaled. */
+            const rawBreakLimit = Math.min(
+              STATIONARY_RAW_DRIFT_HARD_CAP_M,
+              Math.max(
+                STATIONARY_MIN_RAW_MEASUREMENT_BREAK_M,
+                (accuracy ?? 15) * STATIONARY_RAW_DRIFT_ACC_MULT,
+              ),
+            );
+            const breakingByKalmanDrift = kalmanDriftFromAnchor > kalmanLimit;
+            const breakingByRawDisplacement = rawMeasDrift > rawBreakLimit;
+
+            const breakingByDrift =
+              breakingByKalmanDrift || breakingByRawDisplacement;
             // Use the raw (post-deadzone) speed for the break decision — the dead-zone
             // already filters noise, and the EMA-smoothed value adds 4–6 fixes of lag
             // before it crosses the threshold, which is felt as a sluggish start.
             const breakingBySpeed = rawSpeedForLock > MOVING_SPEED_MPS;
+            /** Single noisy speed spike shouldn’t unlock; raw displacement does in one shot. */
+            const breakConfirmNeeded =
+              breakingBySpeed &&
+              !breakingByRawDisplacement
+                ? SPEED_ONLY_BREAK_CONFIRMATIONS
+                : 1;
             if (breakingByDrift || breakingBySpeed) {
               breakConfirmationsRef.current += 1;
-              if (
-                breakConfirmationsRef.current >= STATIONARY_BREAK_CONFIRMATIONS
-              ) {
+              if (breakConfirmationsRef.current >= breakConfirmNeeded) {
                 isStationaryRef.current = false;
                 stationaryStartMsRef.current = null;
                 stationaryAnchorRef.current = null;

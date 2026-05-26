@@ -8,8 +8,8 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { HealthStatusSprite } from "@/components/health/HealthStatusSprite";
 import { Pixelify } from "@/constants/fonts";
 import { LUA_GREEN } from "@/constants/mapAssets";
-import { useGameStats } from "@/lib/gameStats";
 import { formatHours } from "@/lib/formatters";
+import { useGameStats } from "@/lib/gameStats";
 
 function StatRow({
   icon,

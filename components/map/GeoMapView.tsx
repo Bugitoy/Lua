@@ -8,13 +8,13 @@ import MapView, {
   MarkerAnimated,
   Polyline,
   type LongPressEvent,
-  type MapPressEvent,
   type Region,
 } from "react-native-maps";
 
 import { LUA_GREEN, SPRITE_CHARACTER } from "@/constants/mapAssets";
-import type { LatLngPoint } from "@/hooks/useDestinationTracking";
 import type { FusedLocation } from "@/hooks/useFusedLocation";
+import type { LatLngPoint } from "@/lib/geo";
+import { spriteMapCoordinate } from "@/lib/mapMarker";
 import type { NearbyPlace } from "@/lib/nearbyPlacesProvider";
 import type { ScheduledItem } from "@/lib/scheduleStore";
 
@@ -33,12 +33,6 @@ const SPRITE_FRAME_SIZE = 38;
 const MARKER_ANIM_MIN_DURATION_MS = 400;
 const MARKER_ANIM_MAX_DURATION_MS = 1200;
 const MARKER_ANIM_FIRST_FIX_DURATION_MS = 500;
-/** How far ahead (in seconds) the projected tween target leads the latest fix. */
-const MARKER_PROJECT_SECONDS = 1.0;
-/** Safety clamp on extrapolation distance — caps overshoot if a speed spike slips through the filter. */
-const MARKER_MAX_PROJECT_METERS = 8;
-/** Below this speed, skip projection entirely — micro-velocities are noise. */
-const MARKER_PROJECT_MIN_SPEED_MPS = 0.2;
 const EARTH_METERS_PER_DEG_LAT = 111_000;
 const INITIAL_REGION_DELTA = 0.0075;
 /** Hide GPS accuracy ring when zoomed out past this — fixed-meter circle shrinks on-screen and looks odd vs the sprite. */
@@ -134,26 +128,9 @@ function GeoMapViewImpl({
     // from now. If the prediction is right, the next fix barely nudges the tween;
     // if it's wrong, the next fix replaces the in-flight tween from the current
     // animated value and corrects smoothly.
-    const vx = currentLocation.vxMps ?? 0;
-    const vy = currentLocation.vyMps ?? 0;
-    const speed = Math.hypot(vx, vy);
-
-    let targetLat = currentLocation.latitude;
-    let targetLng = currentLocation.longitude;
-    if (speed >= MARKER_PROJECT_MIN_SPEED_MPS) {
-      const projMeters = Math.min(
-        speed * MARKER_PROJECT_SECONDS,
-        MARKER_MAX_PROJECT_METERS,
-      );
-      const scale = projMeters / speed;
-      const dyDeg = (vy * scale) / EARTH_METERS_PER_DEG_LAT;
-      const mPerDegLng =
-        EARTH_METERS_PER_DEG_LAT *
-        Math.cos((currentLocation.latitude * Math.PI) / 180);
-      const dxDeg = mPerDegLng > 0 ? (vx * scale) / mPerDegLng : 0;
-      targetLat += dyDeg;
-      targetLng += dxDeg;
-    }
+    const projected = spriteMapCoordinate(currentLocation);
+    const targetLat = projected.latitude;
+    const targetLng = projected.longitude;
 
     // Match the tween to the real inter-fix cadence so the slide finishes
     // around the time the next fix lands. Continuous motion, no freeze.
@@ -226,16 +203,10 @@ function GeoMapViewImpl({
 
   const pathCoordinates = useMemo(() => {
     if (!currentLocation || !destination) return [];
-    return [
-      {
-        latitude: currentLocation.latitude,
-        longitude: currentLocation.longitude,
-      },
-      destination,
-    ];
+    return [spriteMapCoordinate(currentLocation), destination];
   }, [currentLocation, destination]);
 
-  const handlePress = (event: MapPressEvent | LongPressEvent) => {
+  const handleLongPress = (event: LongPressEvent) => {
     if (!interactive || !onSetDestination) return;
     const { latitude, longitude } = event.nativeEvent.coordinate;
     onSetDestination({ latitude, longitude });
@@ -270,8 +241,7 @@ function GeoMapViewImpl({
         zoomEnabled={interactive}
         rotateEnabled={interactive}
         pitchEnabled={interactive}
-        onLongPress={interactive ? handlePress : undefined}
-        onPress={interactive ? handlePress : undefined}
+        onLongPress={interactive ? handleLongPress : undefined}
         onRegionChangeComplete={(region) => {
           setMapLatitudeDelta(region.latitudeDelta);
         }}

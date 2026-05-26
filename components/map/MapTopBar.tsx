@@ -11,11 +11,7 @@ type MapTopBarProps = {
 
 export function MapTopBar({ topInset }: MapTopBarProps) {
   return (
-    <View
-      className="border-b border-black/10 bg-white"
-      style={{ paddingTop: topInset }}
-      pointerEvents="auto"
-    >
+    <View className="bg-white" style={{ paddingTop: topInset }} pointerEvents="auto">
       <View className="flex-row items-center justify-between px-6 pb-1 pt-2">
         <View className="flex-row items-center">
           <Image

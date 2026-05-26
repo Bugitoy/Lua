@@ -9,7 +9,10 @@ import { MapStatsCard } from "@/components/map/MapStatsCard";
 import { MapTopBar } from "@/components/map/MapTopBar";
 import { Pixelify } from "@/constants/fonts";
 import { LUA_GREEN } from "@/constants/mapAssets";
-import { useDestinationTracking } from "@/hooks/useDestinationTracking";
+import {
+  formatWalkingEta,
+  useDestinationTracking,
+} from "@/hooks/useDestinationTracking";
 import { useFusedLocation } from "@/hooks/useFusedLocation";
 import { useGameStats } from "@/lib/gameStats";
 import { haversineMeters } from "@/lib/geo";
@@ -20,7 +23,11 @@ import {
 import { markGoalCompleted, useScheduledItems } from "@/lib/scheduleStore";
 
 const DISTANCE_ACC_MIN_DELTA_METERS = 3;
-const DISTANCE_ACC_MIN_SPEED_MPS = 0.4;
+/** Smoothed-speed floor low enough that light walking registers after stationary unlock. */
+const DISTANCE_ACC_MIN_SPEED_MPS = 0.52;
+/** Discard segment if implied Δ/Δt doesn’t look like a walk (reject teleports + creeping drift). */
+const DISTANCE_IMPLIED_SPEED_MIN_MPS = 0.45;
+const DISTANCE_IMPLIED_SPEED_MAX_MPS = 3.1;
 const M_PER_DEG_LAT = 111_000;
 const GOAL_ARRIVAL_RADIUS_METERS = 25;
 
@@ -74,6 +81,7 @@ export default function MapScreen() {
     latitude: number;
     longitude: number;
   } | null>(null);
+  const lastDistanceAtMsRef = useRef<number | null>(null);
   const totalDistanceMetersRef = useRef(0);
 
   const distanceMilesToDestination = useMemo(
@@ -86,6 +94,8 @@ export default function MapScreen() {
 
   useEffect(() => {
     if (!location) return;
+    const now = Date.now();
+
     // Don't accumulate distance while the stationary lock is engaged or speed is
     // below "actually moving" — this stops GPS jitter from inflating mileage.
     if (location.isStationary) {
@@ -93,6 +103,7 @@ export default function MapScreen() {
         latitude: location.latitude,
         longitude: location.longitude,
       };
+      lastDistanceAtMsRef.current = now;
       return;
     }
     if ((location.speed ?? 0) < DISTANCE_ACC_MIN_SPEED_MPS) return;
@@ -103,6 +114,7 @@ export default function MapScreen() {
         latitude: location.latitude,
         longitude: location.longitude,
       };
+      lastDistanceAtMsRef.current = now;
       return;
     }
 
@@ -113,11 +125,37 @@ export default function MapScreen() {
     const delta = Math.sqrt(latMeters * latMeters + lngMeters * lngMeters);
 
     if (delta >= DISTANCE_ACC_MIN_DELTA_METERS) {
+      const prevAt = lastDistanceAtMsRef.current;
+      // Need a sane Δt — first qualifying hop after bootstrap only primes the baseline.
+      if (prevAt == null) {
+        lastDistanceSampleRef.current = {
+          latitude: location.latitude,
+          longitude: location.longitude,
+        };
+        lastDistanceAtMsRef.current = now;
+        return;
+      }
+
+      const dtSec = Math.max(0.2, (now - prevAt) / 1000);
+      const impliedMps = delta / dtSec;
+      if (
+        impliedMps < DISTANCE_IMPLIED_SPEED_MIN_MPS ||
+        impliedMps > DISTANCE_IMPLIED_SPEED_MAX_MPS
+      ) {
+        lastDistanceSampleRef.current = {
+          latitude: location.latitude,
+          longitude: location.longitude,
+        };
+        lastDistanceAtMsRef.current = now;
+        return;
+      }
+
       totalDistanceMetersRef.current += delta;
       lastDistanceSampleRef.current = {
         latitude: location.latitude,
         longitude: location.longitude,
       };
+      lastDistanceAtMsRef.current = now;
       const miles =
         Math.round(totalDistanceMetersRef.current * 0.000621371 * 100) / 100;
       updateStats({ distanceMiles: miles });
@@ -249,7 +287,7 @@ export default function MapScreen() {
                 ? "Arrived at destination"
                 : `Bearing: ${bearingDeg != null ? Math.round(bearingDeg) : "?"}°   ETA: ${
                     etaMinutes != null
-                      ? `${Math.max(1, Math.round(etaMinutes))} min`
+                      ? formatWalkingEta(etaMinutes)
                       : "n/a"
                   }`}
             </Text>

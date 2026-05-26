@@ -1,14 +1,18 @@
 import { useMemo, useState } from "react";
 
+import type { LatLngPoint } from "@/lib/geo";
 import {
-  bearingDegrees,
-  haversineMeters,
-  type LatLngPoint,
-} from "@/lib/geo";
+  bearingFromSpriteDegrees,
+  distanceFromSpriteMeters,
+  formatWalkingEta,
+  walkingEtaMinutes,
+} from "@/lib/mapMarker";
 
 import type { LocationCoords } from "@/hooks/useLocation";
 
 const ARRIVAL_RADIUS_METERS = 20;
+
+export { formatWalkingEta };
 
 export type { LatLngPoint };
 
@@ -37,15 +41,9 @@ export function useDestinationTracking(
       };
     }
 
-    const current = {
-      latitude: location.latitude,
-      longitude: location.longitude,
-    };
-    const distanceMeters = haversineMeters(current, destination);
-    const bearingDeg = bearingDegrees(current, destination);
-    const speedMps = Math.max(0, location.speed ?? 0);
-    const etaMinutes =
-      speedMps > 0.4 ? Math.max(0, distanceMeters / speedMps / 60) : null;
+    const distanceMeters = distanceFromSpriteMeters(location, destination);
+    const bearingDeg = bearingFromSpriteDegrees(location, destination);
+    const etaMinutes = walkingEtaMinutes(location, destination);
 
     return {
       distanceMeters,
