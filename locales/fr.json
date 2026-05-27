@@ -218,6 +218,9 @@
   },
   "settings": {
     "title": "Paramètres",
+    "systemSettingsTitle": "Paramètres système",
+    "systemSettingsDescription": "Ouvrez les paramètres de l'appareil pour gérer les autorisations comme les notifications.",
+    "openSystemSettings": "Ouvrir les paramètres de l'appareil",
     "comingSoon": "Cette section arrive bientôt.",
     "manageProfile": {
       "title": "Gérer le profil",
@@ -235,6 +238,15 @@
       "title": "Thème",
       "description": "Basculez entre les thèmes clair et sombre ici bientôt."
     }
+  },
+  "notifications": {
+    "unsupportedTitle": "Non pris en charge",
+    "unsupportedMessage": "Les notifications push nécessitent un appareil physique.",
+    "permissionDeniedTitle": "Autorisation requise",
+    "permissionDeniedMessage": "Activez les notifications dans les paramètres de l'appareil pour recevoir des rappels.",
+    "errorTitle": "Erreur de notification",
+    "errorEnabling": "Impossible d'activer les notifications pour le moment. Veuillez réessayer.",
+    "errorDisabling": "Impossible de désactiver les notifications pour le moment. Veuillez réessayer."
   },
   "units": {
     "miles": "miles",

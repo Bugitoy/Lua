@@ -2,15 +2,11 @@ import { Ionicons } from "@expo/vector-icons";
 import { Image } from "expo-image";
 import { LinearGradient } from "expo-linear-gradient";
 import { router } from "expo-router";
-import { useCallback, useMemo, useState } from "react";
-import {
-  Alert,
-  Pressable,
-  ScrollView,
-  Switch,
-  Text,
-  View,
-} from "react-native";
+import { useCallback, useEffect, useMemo, useState } from "react";
+import { Alert, Pressable, ScrollView, Switch, Text, View } from "react-native";
+import * as Device from "expo-device";
+import * as Notifications from "expo-notifications";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useTranslation } from "react-i18next";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
@@ -24,6 +20,7 @@ import { useLanguagePreference } from "@/lib/i18n/LanguageProvider";
 const AVATAR_URI = "https://i.pravatar.cc/240?img=12";
 
 const LEVEL_XP_REQUIRED = 1000;
+const NOTIFICATIONS_ENABLED_KEY = "notificationsEnabled";
 
 function xpForStats(stats: {
   goalsDone: number;
@@ -113,8 +110,69 @@ export default function ProfileScreen() {
   const { t } = useTranslation();
   const { languageLabel } = useLanguagePreference();
   const { stats } = useGameStats();
-  const [notificationsEnabled, setNotificationsEnabled] = useState(true);
+  const [notificationsEnabled, setNotificationsEnabled] = useState(false);
   const [languageModalVisible, setLanguageModalVisible] = useState(false);
+
+  useEffect(() => {
+    const loadNotificationPreference = async () => {
+      try {
+        const stored = await AsyncStorage.getItem(NOTIFICATIONS_ENABLED_KEY);
+        if (stored !== null) {
+          setNotificationsEnabled(stored === "true");
+        }
+      } catch {
+        // ignore storage errors
+      }
+    };
+
+    loadNotificationPreference();
+  }, []);
+
+  const onToggleNotifications = useCallback(
+    async (value: boolean) => {
+      if (value) {
+        if (!Device.isDevice) {
+          Alert.alert(
+            t("notifications.unsupportedTitle"),
+            t("notifications.unsupportedMessage"),
+          );
+          return;
+        }
+
+        try {
+          let permission = await Notifications.getPermissionsAsync();
+
+          if (permission.status !== "granted") {
+            permission = await Notifications.requestPermissionsAsync();
+          }
+
+          if (permission.status !== "granted") {
+            Alert.alert(
+              t("notifications.permissionDeniedTitle"),
+              t("notifications.permissionDeniedMessage"),
+            );
+            setNotificationsEnabled(false);
+            await AsyncStorage.setItem(NOTIFICATIONS_ENABLED_KEY, "false");
+            return;
+          }
+
+          setNotificationsEnabled(true);
+          await AsyncStorage.setItem(NOTIFICATIONS_ENABLED_KEY, "true");
+        } catch {
+          Alert.alert(t("notifications.errorTitle"), t("notifications.errorEnabling"));
+        }
+      } else {
+        try {
+          setNotificationsEnabled(false);
+          await AsyncStorage.setItem(NOTIFICATIONS_ENABLED_KEY, "false");
+          await Notifications.cancelAllScheduledNotificationsAsync();
+        } catch {
+          Alert.alert(t("notifications.errorTitle"), t("notifications.errorDisabling"));
+        }
+      }
+    },
+    [t],
+  );
 
   const xp = xpForStats(stats);
   const level = Math.floor(xp / LEVEL_XP_REQUIRED) + 1;
@@ -359,7 +417,7 @@ export default function ProfileScreen() {
             rightElement={
               <Switch
                 value={notificationsEnabled}
-                onValueChange={setNotificationsEnabled}
+                onValueChange={onToggleNotifications}
                 trackColor={{ true: LUA_GREEN, false: "#d4d4d4" }}
                 thumbColor="#fff"
               />

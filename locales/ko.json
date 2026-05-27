@@ -218,6 +218,9 @@
   },
   "settings": {
     "title": "설정",
+    "systemSettingsTitle": "시스템 설정",
+    "systemSettingsDescription": "알림과 같은 권한을 관리하려면 기기 설정을 여세요.",
+    "openSystemSettings": "기기 설정 열기",
     "comingSoon": "이 섹션은 곧 제공됩니다.",
     "manageProfile": {
       "title": "프로필 관리",
@@ -235,6 +238,15 @@
       "title": "테마",
       "description": "곧 여기에서 라이트 및 다크 테마를 전환할 수 있습니다."
     }
+  },
+  "notifications": {
+    "unsupportedTitle": "지원되지 않음",
+    "unsupportedMessage": "푸시 알림은 실제 기기에서만 사용할 수 있습니다.",
+    "permissionDeniedTitle": "권한 필요",
+    "permissionDeniedMessage": "리마인더를 받으려면 기기 설정에서 알림을 활성화하세요.",
+    "errorTitle": "알림 오류",
+    "errorEnabling": "지금은 알림을 활성화할 수 없습니다. 다시 시도해 주세요.",
+    "errorDisabling": "지금은 알림을 비활성화할 수 없습니다. 다시 시도해 주세요."
   },
   "units": {
     "miles": "마일",

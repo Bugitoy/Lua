@@ -218,6 +218,9 @@
   },
   "settings": {
     "title": "設定",
+    "systemSettingsTitle": "システム設定",
+    "systemSettingsDescription": "通知などの権限を管理するために、端末の設定を開きます。",
+    "openSystemSettings": "端末設定を開く",
     "comingSoon": "このセクションは近日公開予定です。",
     "manageProfile": {
       "title": "プロフィール管理",
@@ -235,6 +238,15 @@
       "title": "テーマ",
       "description": "近日、ここでライトとダークテーマを切り替えられます。"
     }
+  },
+  "notifications": {
+    "unsupportedTitle": "未対応",
+    "unsupportedMessage": "プッシュ通知は実機でのみ利用できます。",
+    "permissionDeniedTitle": "権限が必要です",
+    "permissionDeniedMessage": "リマインダーを受け取るには、端末設定で通知を有効にしてください。",
+    "errorTitle": "通知エラー",
+    "errorEnabling": "現在、通知を有効にできませんでした。もう一度お試しください。",
+    "errorDisabling": "現在、通知を無効にできませんでした。もう一度お試しください。"
   },
   "units": {
     "miles": "マイル",

@@ -218,6 +218,9 @@
   },
   "settings": {
     "title": "सेटिंग्स",
+    "systemSettingsTitle": "सिस्टम सेटिंग्स",
+    "systemSettingsDescription": "सूचनाओं जैसी अनुमतियों को नियंत्रित करने के लिए अपने डिवाइस की सेटिंग्स खोलें।",
+    "openSystemSettings": "डिवाइस सेटिंग्स खोलें",
     "comingSoon": "यह अनुभाग जल्द आ रहा है।",
     "manageProfile": {
       "title": "प्रोफ़ाइल प्रबंधित करें",
@@ -235,6 +238,15 @@
       "title": "थीम",
       "description": "जल्द ही यहाँ हल्की और गहरी थीम के बीच स्विच करें।"
     }
+  },
+  "notifications": {
+    "unsupportedTitle": "समर्थित नहीं",
+    "unsupportedMessage": "पुश नोटिफिकेशन के लिए भौतिक डिवाइस आवश्यक है।",
+    "permissionDeniedTitle": "अनुमति आवश्यक",
+    "permissionDeniedMessage": "रिमाइंडर पाने के लिए डिवाइस सेटिंग्स में नोटिफिकेशन सक्षम करें।",
+    "errorTitle": "नोटिफिकेशन त्रुटि",
+    "errorEnabling": "अभी नोटिफिकेशन सक्षम नहीं किए जा सके। कृपया फिर से प्रयास करें।",
+    "errorDisabling": "अभी नोटिफिकेशन अक्षम नहीं किए जा सके। कृपया फिर से प्रयास करें।"
   },
   "units": {
     "miles": "मील",

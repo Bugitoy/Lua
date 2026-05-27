@@ -218,6 +218,9 @@
   },
   "settings": {
     "title": "设置",
+    "systemSettingsTitle": "系统设置",
+    "systemSettingsDescription": "打开设备设置以管理通知等权限。",
+    "openSystemSettings": "打开设备设置",
     "comingSoon": "此部分即将推出。",
     "manageProfile": {
       "title": "管理个人资料",
@@ -235,6 +238,15 @@
       "title": "主题",
       "description": "即将在此切换浅色和深色主题。"
     }
+  },
+  "notifications": {
+    "unsupportedTitle": "不受支持",
+    "unsupportedMessage": "推送通知需要在真机上使用。",
+    "permissionDeniedTitle": "需要权限",
+    "permissionDeniedMessage": "请在设备设置中启用通知以接收提醒。",
+    "errorTitle": "通知错误",
+    "errorEnabling": "当前无法启用通知，请稍后重试。",
+    "errorDisabling": "当前无法关闭通知，请稍后重试。"
   },
   "units": {
     "miles": "英里",

@@ -218,6 +218,9 @@
   },
   "settings": {
     "title": "Impostazioni",
+    "systemSettingsTitle": "Impostazioni di sistema",
+    "systemSettingsDescription": "Apri le impostazioni del dispositivo per gestire autorizzazioni come le notifiche.",
+    "openSystemSettings": "Apri impostazioni dispositivo",
     "comingSoon": "Questa sezione arriverà presto.",
     "manageProfile": {
       "title": "Gestisci profilo",
@@ -235,6 +238,15 @@
       "title": "Tema",
       "description": "Passa tra tema chiaro e scuro qui a breve."
     }
+  },
+  "notifications": {
+    "unsupportedTitle": "Non supportato",
+    "unsupportedMessage": "Le notifiche push richiedono un dispositivo fisico.",
+    "permissionDeniedTitle": "Autorizzazione necessaria",
+    "permissionDeniedMessage": "Abilita le notifiche nelle impostazioni del dispositivo per ricevere promemoria.",
+    "errorTitle": "Errore notifiche",
+    "errorEnabling": "Non è stato possibile abilitare le notifiche in questo momento. Riprova.",
+    "errorDisabling": "Non è stato possibile disabilitare le notifiche in questo momento. Riprova."
   },
   "units": {
     "miles": "miglia",

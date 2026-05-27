@@ -218,6 +218,9 @@
   },
   "settings": {
     "title": "Einstellungen",
+    "systemSettingsTitle": "Systemeinstellungen",
+    "systemSettingsDescription": "Öffne die Geräteeinstellungen, um Berechtigungen wie Benachrichtigungen zu steuern.",
+    "openSystemSettings": "Geräteeinstellungen öffnen",
     "comingSoon": "Dieser Bereich kommt bald.",
     "manageProfile": {
       "title": "Profil verwalten",
@@ -235,6 +238,15 @@
       "title": "Design",
       "description": "Wechsle hier bald zwischen hellem und dunklem Design."
     }
+  },
+  "notifications": {
+    "unsupportedTitle": "Nicht unterstützt",
+    "unsupportedMessage": "Push-Benachrichtigungen erfordern ein physisches Gerät.",
+    "permissionDeniedTitle": "Berechtigung erforderlich",
+    "permissionDeniedMessage": "Aktiviere Benachrichtigungen in den Geräteeinstellungen, um Erinnerungen zu erhalten.",
+    "errorTitle": "Benachrichtigungsfehler",
+    "errorEnabling": "Benachrichtigungen konnten derzeit nicht aktiviert werden. Bitte versuche es erneut.",
+    "errorDisabling": "Benachrichtigungen konnten derzeit nicht deaktiviert werden. Bitte versuche es erneut."
   },
   "units": {
     "miles": "Meilen",

@@ -218,6 +218,9 @@
   },
   "settings": {
     "title": "Configurações",
+    "systemSettingsTitle": "Configurações do sistema",
+    "systemSettingsDescription": "Abra as configurações do dispositivo para controlar permissões como notificações.",
+    "openSystemSettings": "Abrir configurações do dispositivo",
     "comingSoon": "Esta seção estará disponível em breve.",
     "manageProfile": {
       "title": "Gerenciar perfil",
@@ -235,6 +238,15 @@
       "title": "Tema",
       "description": "Alterne entre temas claro e escuro aqui em breve."
     }
+  },
+  "notifications": {
+    "unsupportedTitle": "Não suportado",
+    "unsupportedMessage": "As notificações push exigem um dispositivo físico.",
+    "permissionDeniedTitle": "Permissão necessária",
+    "permissionDeniedMessage": "Ative as notificações nas configurações do dispositivo para receber lembretes.",
+    "errorTitle": "Erro de notificação",
+    "errorEnabling": "Não foi possível ativar as notificações agora. Tente novamente.",
+    "errorDisabling": "Não foi possível desativar as notificações agora. Tente novamente."
   },
   "units": {
     "miles": "milhas",

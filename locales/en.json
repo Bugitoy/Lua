@@ -218,6 +218,9 @@
   },
   "settings": {
     "title": "Settings",
+    "systemSettingsTitle": "System App Settings",
+    "systemSettingsDescription": "Open your device settings to control permissions like notifications.",
+    "openSystemSettings": "Open Device Settings",
     "comingSoon": "This section is coming soon.",
     "manageProfile": {
       "title": "Manage Profile",
@@ -235,6 +238,15 @@
       "title": "Theme",
       "description": "Switch between light and dark themes here soon."
     }
+  },
+  "notifications": {
+    "unsupportedTitle": "Not Supported",
+    "unsupportedMessage": "Push notifications require a physical device.",
+    "permissionDeniedTitle": "Permission Needed",
+    "permissionDeniedMessage": "Enable notifications in your device settings to receive reminders.",
+    "errorTitle": "Notification Error",
+    "errorEnabling": "We could not enable notifications right now. Please try again.",
+    "errorDisabling": "We could not disable notifications right now. Please try again."
   },
   "units": {
     "miles": "miles",
