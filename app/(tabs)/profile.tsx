@@ -374,13 +374,6 @@ export default function ProfileScreen() {
           />
           <View className="mx-4 h-px bg-neutral-100" />
           <SettingRow
-            icon="color-palette-outline"
-            label={t("profile.rows.theme")}
-            sublabel={t("profile.rows.themeValue")}
-            onPress={() => router.push("/theme")}
-          />
-          <View className="mx-4 h-px bg-neutral-100" />
-          <SettingRow
             icon="settings-outline"
             label={t("profile.rows.appSettings")}
             onPress={() => router.push("/(tabs)/settings")}
