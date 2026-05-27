@@ -1,4 +1,5 @@
 import "@/global.css";
+import "@/lib/i18n";
 import {
   PixelifySans_400Regular,
   PixelifySans_500Medium,
@@ -13,6 +14,7 @@ import { View } from "react-native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 
 import { useMidnightHealthDepletion } from "@/hooks/useMidnightHealthDepletion";
+import { LanguageProvider } from "@/lib/i18n/LanguageProvider";
 
 void SplashScreen.preventAutoHideAsync();
 
@@ -47,9 +49,11 @@ export default function RootLayout() {
 
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
-      <View className="flex-1 font-sans">
-        <Stack screenOptions={{ headerShown: false }} />
-      </View>
+      <LanguageProvider>
+        <View className="flex-1 font-sans">
+          <Stack screenOptions={{ headerShown: false }} />
+        </View>
+      </LanguageProvider>
     </GestureHandlerRootView>
   );
 }

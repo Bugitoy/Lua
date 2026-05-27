@@ -1,6 +1,8 @@
 import * as Location from "expo-location";
 import { useEffect, useRef, useState } from "react";
 
+import i18n from "@/lib/i18n";
+
 export type LocationCoords = {
   latitude: number;
   longitude: number;
@@ -137,7 +139,7 @@ export function useLocation(options: UseLocationOptions = {}): UseLocationResult
     (async () => {
       const { status } = await Location.requestForegroundPermissionsAsync();
       if (status !== "granted") {
-        setErrorMsg("Permission denied");
+        setErrorMsg(i18n.t("errors.permissionDenied"));
         return;
       }
       if (cancelled) return;

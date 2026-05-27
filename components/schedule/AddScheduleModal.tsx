@@ -10,12 +10,14 @@ import {
     TextInput,
     View,
 } from "react-native";
+import { useTranslation } from "react-i18next";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 import { NearbyLocationSearchField } from "@/components/schedule/NearbyLocationSearchField";
 import { TimeWheelPicker } from "@/components/schedule/TimeWheelPicker";
 import { Pixelify } from "@/constants/fonts";
 import { LUA_GREEN } from "@/constants/mapAssets";
+import { formatAppTime } from "@/lib/i18n/formatLocale";
 import type { NearbyPlace } from "@/lib/nearbyPlacesProvider";
 
 import {
@@ -29,14 +31,6 @@ function defaultPickerTime(): Date {
   const d = new Date();
   d.setSeconds(0, 0);
   return d;
-}
-
-/** Formats a Date as `2:30 PM` style — locale-aware, no seconds. */
-function formatTimeOfDay(d: Date): string {
-  return d.toLocaleTimeString(undefined, {
-    hour: "numeric",
-    minute: "2-digit",
-  });
 }
 
 type AddScheduleModalProps = {
@@ -53,6 +47,7 @@ export function AddScheduleModal({
   onSave,
   userLocation,
 }: AddScheduleModalProps) {
+  const { t } = useTranslation();
   const insets = useSafeAreaInsets();
   const [time, setTime] = useState<Date | null>(null);
   /** iOS only — the spinner is rendered inline; Android uses an imperative dialog. */
@@ -86,13 +81,15 @@ export function AddScheduleModal({
   }, [time]);
 
   const handleSave = useCallback(() => {
-    const t = title.trim();
-    if (!t || !picked) return;
+    const trimmedTitle = title.trim();
+    if (!trimmedTitle || !picked) return;
     const preset = SCHEDULE_THEME_PRESETS[theme];
     onSave({
-      time: time ? formatTimeOfDay(time) : "—",
-      category: category.trim() || "Event",
-      title: t,
+      time: time
+        ? formatAppTime(time, { hour: "numeric", minute: "2-digit" })
+        : t("common.emDash"),
+      category: category.trim() || t("schedule.addModal.defaultCategory"),
+      title: trimmedTitle,
       location: picked.title,
       latitude: picked.latitude,
       longitude: picked.longitude,
@@ -103,7 +100,7 @@ export function AddScheduleModal({
     });
     reset();
     onClose();
-  }, [category, onClose, onSave, picked, reset, theme, time, title]);
+  }, [category, onClose, onSave, picked, reset, t, theme, time, title]);
 
   const canSave = !!title.trim() && picked != null;
 
@@ -128,7 +125,7 @@ export function AddScheduleModal({
               className="text-xl text-neutral-900"
               style={{ fontFamily: Pixelify.bold }}
             >
-              New item
+              {t("schedule.addModal.title")}
             </Text>
             <Pressable onPress={handleClose} hitSlop={12}>
               <Ionicons name="close" size={26} color="#525252" />
@@ -144,16 +141,16 @@ export function AddScheduleModal({
               className="mb-1.5 text-xs text-neutral-500"
               style={{ fontFamily: Pixelify.medium }}
             >
-              Type
+              {t("schedule.addModal.type")}
             </Text>
             <View className="mb-4 flex-row flex-wrap gap-2">
               {(
                 [
-                  ["academic", "Academic"],
-                  ["meal", "Meal"],
-                  ["social", "Social"],
+                  ["academic", "schedule.addModal.types.academic"],
+                  ["meal", "schedule.addModal.types.meal"],
+                  ["social", "schedule.addModal.types.social"],
                 ] as const
-              ).map(([key, label]) => {
+              ).map(([key, labelKey]) => {
                 const selected = theme === key;
                 return (
                   <Pressable
@@ -171,7 +168,7 @@ export function AddScheduleModal({
                       className="text-sm text-neutral-800"
                       style={{ fontFamily: Pixelify.semibold }}
                     >
-                      {label}
+                      {t(labelKey)}
                     </Text>
                   </Pressable>
                 );
@@ -182,7 +179,7 @@ export function AddScheduleModal({
               className="mb-1.5 text-xs text-neutral-500"
               style={{ fontFamily: Pixelify.medium }}
             >
-              Time
+              {t("schedule.addModal.time")}
             </Text>
             <Pressable
               onPress={openTimePicker}
@@ -198,7 +195,9 @@ export function AddScheduleModal({
                   color: time ? "#171717" : "#a3a3a3",
                 }}
               >
-                {time ? formatTimeOfDay(time) : "Tap to choose a time"}
+                {time
+                  ? formatAppTime(time, { hour: "numeric", minute: "2-digit" })
+                  : t("schedule.addModal.timePlaceholder")}
               </Text>
               <Ionicons
                 name={showTimePicker ? "chevron-up" : "chevron-down"}
@@ -221,7 +220,7 @@ export function AddScheduleModal({
                     className="text-sm text-white"
                     style={{ fontFamily: Pixelify.bold }}
                   >
-                    Done
+                    {t("common.done")}
                   </Text>
                 </Pressable>
               </View>
@@ -232,12 +231,12 @@ export function AddScheduleModal({
               className="mb-1.5 text-xs text-neutral-500"
               style={{ fontFamily: Pixelify.medium }}
             >
-              Category
+              {t("schedule.addModal.category")}
             </Text>
             <TextInput
               value={category}
               onChangeText={setCategory}
-              placeholder="e.g. Study, Club"
+              placeholder={t("schedule.addModal.categoryPlaceholder")}
               placeholderTextColor="#a3a3a3"
               className="mb-4 rounded-xl border border-neutral-200 bg-neutral-50 px-4 py-3 text-base text-neutral-900"
               style={{ fontFamily: Pixelify.regular }}
@@ -247,12 +246,12 @@ export function AddScheduleModal({
               className="mb-1.5 text-xs text-neutral-500"
               style={{ fontFamily: Pixelify.medium }}
             >
-              Title
+              {t("schedule.addModal.titleLabel")}
             </Text>
             <TextInput
               value={title}
               onChangeText={setTitle}
-              placeholder="Add a title"
+              placeholder={t("schedule.addModal.titlePlaceholder")}
               placeholderTextColor="#a3a3a3"
               className="mb-4 rounded-xl border border-neutral-200 bg-neutral-50 px-4 py-3 text-base text-neutral-900"
               style={{ fontFamily: Pixelify.regular }}
@@ -263,7 +262,7 @@ export function AddScheduleModal({
               className="mb-1.5 text-xs text-neutral-500"
               style={{ fontFamily: Pixelify.medium }}
             >
-              Location
+              {t("schedule.addModal.location")}
             </Text>
             <NearbyLocationSearchField
               value={searchQuery}
@@ -281,8 +280,7 @@ export function AddScheduleModal({
               className="mb-6 text-xs text-neutral-500"
               style={{ fontFamily: Pixelify.regular }}
             >
-              Type at least 2 characters to search anywhere (your location helps
-              rank similar names).
+              {t("schedule.addModal.locationSearchHint")}
             </Text>
 
             <Pressable
@@ -298,7 +296,7 @@ export function AddScheduleModal({
                 className="text-base text-white"
                 style={{ fontFamily: Pixelify.bold }}
               >
-                Add to schedule
+                {t("schedule.addModal.addButton")}
               </Text>
             </Pressable>
           </ScrollView>

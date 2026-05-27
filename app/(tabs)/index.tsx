@@ -1,6 +1,7 @@
 import { Ionicons } from "@expo/vector-icons";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { Pressable, Text, useWindowDimensions, View } from "react-native";
+import { useTranslation } from "react-i18next";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 import { GeoMapView } from "@/components/map/GeoMapView";
@@ -38,6 +39,7 @@ const LIVE_TRACKING_MAX_WIDTH = 320;
 const LIVE_TRACKING_GUTTER = 10;
 
 export default function MapScreen() {
+  const { t } = useTranslation();
   const insets = useSafeAreaInsets();
   const { width: windowWidth } = useWindowDimensions();
   const statsCardVisualWidth = Math.min(
@@ -247,7 +249,7 @@ export default function MapScreen() {
                 letterSpacing: 0.6,
               }}
             >
-              LIVE TRACKING
+              {t("map.liveTracking.title")}
             </Text>
             {destination ? (
               <Pressable onPress={clearDestination} hitSlop={8}>
@@ -258,7 +260,7 @@ export default function MapScreen() {
                     color: LUA_GREEN,
                   }}
                 >
-                  CLEAR PIN
+                  {t("map.liveTracking.clearPin")}
                 </Text>
               </Pressable>
             ) : null}
@@ -272,8 +274,10 @@ export default function MapScreen() {
             }}
           >
             {destination
-              ? `Destination: ${distanceMilesToDestination ?? 0} mi away`
-              : "Long press on the map to place a destination marker"}
+              ? t("map.liveTracking.destinationAway", {
+                  distance: distanceMilesToDestination ?? 0,
+                })
+              : t("map.liveTracking.longPressHint")}
           </Text>
           {destination ? (
             <Text
@@ -284,12 +288,15 @@ export default function MapScreen() {
               }}
             >
               {hasArrived
-                ? "Arrived at destination"
-                : `Bearing: ${bearingDeg != null ? Math.round(bearingDeg) : "?"}°   ETA: ${
-                    etaMinutes != null
-                      ? formatWalkingEta(etaMinutes)
-                      : "n/a"
-                  }`}
+                ? t("map.liveTracking.arrived")
+                : t("map.liveTracking.bearingEta", {
+                    bearing:
+                      bearingDeg != null ? Math.round(bearingDeg) : "?",
+                    eta:
+                      etaMinutes != null
+                        ? formatWalkingEta(etaMinutes)
+                        : t("common.notAvailable"),
+                  })}
             </Text>
           ) : null}
         </View>
@@ -335,7 +342,7 @@ export default function MapScreen() {
                 letterSpacing: 1,
               }}
             >
-              GPS DEBUG
+              {t("map.gpsDebug.title")}
             </Text>
           </View>
           {errorMsg ? (
@@ -357,7 +364,9 @@ export default function MapScreen() {
                   color: "#d4d4d4",
                 }}
               >
-                Lat:  {location.latitude.toFixed(5)}
+                {t("map.gpsDebug.lat", {
+                  value: location.latitude.toFixed(5),
+                })}
               </Text>
               <Text
                 style={{
@@ -366,7 +375,9 @@ export default function MapScreen() {
                   color: "#d4d4d4",
                 }}
               >
-                Lng:  {location.longitude.toFixed(5)}
+                {t("map.gpsDebug.lng", {
+                  value: location.longitude.toFixed(5),
+                })}
               </Text>
               <Text
                 style={{
@@ -375,11 +386,12 @@ export default function MapScreen() {
                   color: "#a3a3a3",
                 }}
               >
-                Acc: ±
-                {location.accuracy != null
-                  ? location.accuracy.toFixed(1)
-                  : "?"}{" "}
-                m
+                {t("map.gpsDebug.accuracy", {
+                  value:
+                    location.accuracy != null
+                      ? location.accuracy.toFixed(1)
+                      : "?",
+                })}
               </Text>
               <Text
                 style={{
@@ -388,15 +400,16 @@ export default function MapScreen() {
                   color: "#a3a3a3",
                 }}
               >
-                Spd:{" "}
-                {location.speed != null
-                  ? `${location.speed.toFixed(2)}`
-                  : "n/a"}
-                {"  raw: "}
-                {location.rawDeviceSpeed != null
-                  ? `${location.rawDeviceSpeed.toFixed(2)}`
-                  : "n/a"}
-                {" m/s"}
+                {t("map.gpsDebug.speed", {
+                  speed:
+                    location.speed != null
+                      ? location.speed.toFixed(2)
+                      : t("common.notAvailable"),
+                  rawSpeed:
+                    location.rawDeviceSpeed != null
+                      ? location.rawDeviceSpeed.toFixed(2)
+                      : t("common.notAvailable"),
+                })}
               </Text>
               <Text
                 style={{
@@ -405,10 +418,13 @@ export default function MapScreen() {
                   color: location.isStationary ? "#a3a3a3" : "#86efac",
                 }}
               >
-                State: {location.isStationary ? "stationary" : "moving"}
-                {location.compassHeading != null
-                  ? `  •  ${Math.round(location.compassHeading)}°`
-                  : ""}
+                {location.isStationary
+                  ? t("map.gpsDebug.stateStationary")
+                  : location.compassHeading != null
+                    ? t("map.gpsDebug.stateMovingWithHeading", {
+                        heading: Math.round(location.compassHeading),
+                      })
+                    : t("map.gpsDebug.stateMoving")}
               </Text>
               {destination ? (
                 <>
@@ -426,7 +442,9 @@ export default function MapScreen() {
                       color: "#86efac",
                     }}
                   >
-                    Remaining: {distanceMilesToDestination ?? 0} mi
+                    {t("map.liveTracking.remaining", {
+                      distance: distanceMilesToDestination ?? 0,
+                    })}
                   </Text>
                 </>
               ) : null}
@@ -439,7 +457,7 @@ export default function MapScreen() {
                 color: "#facc15",
               }}
             >
-              Requesting permission…
+              {t("map.gpsDebug.requestingPermission")}
             </Text>
           )}
         </View>

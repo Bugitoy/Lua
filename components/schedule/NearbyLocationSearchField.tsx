@@ -9,6 +9,7 @@ import {
   TextInput,
   View,
 } from "react-native";
+import { useTranslation } from "react-i18next";
 
 import { Pixelify } from "@/constants/fonts";
 import {
@@ -44,6 +45,7 @@ export function NearbyLocationSearchField({
   pickedTitle,
   onClearPick,
 }: NearbyLocationSearchFieldProps) {
+  const { t } = useTranslation();
   const [results, setResults] = useState<NearbyPlace[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -85,7 +87,9 @@ export function NearbyLocationSearchField({
         }
       } catch (err) {
         if (!controller.signal.aborted) {
-          setError(err instanceof Error ? err.message : "Search failed");
+          setError(
+            err instanceof Error ? err.message : t("errors.searchFailed"),
+          );
           setResults([]);
         }
       } finally {
@@ -97,7 +101,7 @@ export function NearbyLocationSearchField({
       clearTimeout(handle);
       controller.abort();
     };
-  }, [active, pickedTitle, userLocation?.latitude, userLocation?.longitude, value]);
+  }, [active, pickedTitle, t, userLocation?.latitude, userLocation?.longitude, value]);
 
   const pick = useCallback(
     (place: NearbyPlace) => {
@@ -163,8 +167,8 @@ export function NearbyLocationSearchField({
             onFocus={() => setMenuOpen(true)}
             placeholder={
               showWaiting
-                ? "Waiting for GPS…"
-                : "Search any place in the world…"
+                ? t("schedule.search.waitingForGps")
+                : t("schedule.search.placeholder")
             }
             placeholderTextColor="#a3a3a3"
             className="min-h-[48px] flex-1 py-3 pl-2 pr-2 text-base text-neutral-900"
@@ -179,7 +183,7 @@ export function NearbyLocationSearchField({
           <Pressable
             onPress={clearPick}
             hitSlop={8}
-            accessibilityLabel="Clear selected location"
+            accessibilityLabel={t("a11y.clearSelectedLocation")}
           >
             <Ionicons name="close-circle" size={22} color="#525252" />
           </Pressable>
@@ -239,7 +243,7 @@ export function NearbyLocationSearchField({
             className="text-sm text-neutral-500"
             style={{ fontFamily: Pixelify.regular }}
           >
-            No places match. Try a different name.
+            {t("schedule.search.noResults")}
           </Text>
         </View>
       ) : null}

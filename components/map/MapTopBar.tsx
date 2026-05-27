@@ -1,6 +1,7 @@
 import { Image } from "expo-image";
 import { Link } from "expo-router";
 import { Pressable, Text, View } from "react-native";
+import { useTranslation } from "react-i18next";
 
 import { Pixelify } from "@/constants/fonts";
 import { LUA_LOGO } from "@/constants/mapAssets";
@@ -10,6 +11,7 @@ type MapTopBarProps = {
 };
 
 export function MapTopBar({ topInset }: MapTopBarProps) {
+  const { t } = useTranslation();
   return (
     <View className="bg-white" style={{ paddingTop: topInset }} pointerEvents="auto">
       <View className="flex-row items-center justify-between px-6 pb-1 pt-2">
@@ -18,13 +20,13 @@ export function MapTopBar({ topInset }: MapTopBarProps) {
             source={LUA_LOGO}
             style={{ width: 48, height: 48 }}
             contentFit="contain"
-            accessibilityLabel="Lua logo"
+            accessibilityLabel={t("a11y.luaLogo")}
           />
           <Text
             className="text-xl text-neutral-900"
             style={{ fontFamily: Pixelify.bold }}
           >
-            Lua
+            {t("common.appName")}
           </Text>
         </View>
         <View className="flex-row items-center gap-3">
@@ -39,7 +41,7 @@ export function MapTopBar({ topInset }: MapTopBarProps) {
                   borderWidth: 1,
                   borderColor: "rgba(0,0,0,0.08)",
                 }}
-                accessibilityLabel="Profile"
+                accessibilityLabel={t("a11y.profile")}
               />
             </Pressable>
           </Link>

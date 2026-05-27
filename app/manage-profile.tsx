@@ -1,10 +1,13 @@
+import { useTranslation } from "react-i18next";
+
 import { SettingsStubScreen } from "@/components/settings/SettingsStubScreen";
 
 export default function ManageProfileScreen() {
+  const { t } = useTranslation();
   return (
     <SettingsStubScreen
-      title="Manage Profile"
-      description="Update your name, photo, and handle here soon."
+      title={t("settings.manageProfile.title")}
+      description={t("settings.manageProfile.description")}
     />
   );
 }

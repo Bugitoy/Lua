@@ -1,0 +1,260 @@
+{
+  "tabs": {
+    "map": "Mappa",
+    "schedule": "Programma",
+    "profile": "Profilo",
+    "stats": "Statistiche"
+  },
+  "common": {
+    "appName": "Lua",
+    "back": "Indietro",
+    "cancel": "Annulla",
+    "done": "Fatto",
+    "you": "Tu",
+    "today": "Oggi",
+    "notAvailable": "n/d",
+    "emDash": "—",
+    "signOut": "Esci",
+    "signOutConfirmTitle": "Esci",
+    "signOutConfirmMessage": "Sei sicuro di voler uscire?",
+    "am": "AM",
+    "pm": "PM",
+    "chooseLanguage": "Scegli lingua"
+  },
+  "map": {
+    "liveTracking": {
+      "title": "TRACCIAMENTO LIVE",
+      "clearPin": "CANCELLA PIN",
+      "destinationAway": "Destinazione: a {{distance}} mi di distanza",
+      "longPressHint": "Tieni premuto sulla mappa per posizionare un marcatore di destinazione",
+      "arrived": "Arrivato a destinazione",
+      "bearingEta": "Direzione: {{bearing}}°   ETA: {{eta}}",
+      "remaining": "Rimanente: {{distance}} mi"
+    },
+    "gpsDebug": {
+      "title": "DEBUG GPS",
+      "lat": "Lat:  {{value}}",
+      "lng": "Lng:  {{value}}",
+      "accuracy": "Prec: ±{{value}} m",
+      "speed": "Vel: {{speed}}   grezza: {{rawSpeed}} m/s",
+      "stateStationary": "Stato: fermo",
+      "stateMoving": "Stato: in movimento",
+      "stateMovingWithHeading": "Stato: in movimento  •  {{heading}}°",
+      "requestingPermission": "Richiesta autorizzazione…"
+    },
+    "statsCard": {
+      "goalsCompleted": "Obiettivi completati",
+      "dayPercent": "{{percent}}% giornata",
+      "goalsRatio": "{{done}}/{{total}}",
+      "distanceWalked": "Distanza percorsa",
+      "distanceMiles": "{{distance}} miglia",
+      "checkHealth": "Controlla salute"
+    },
+    "healthBar": {
+      "title": "Barra salute"
+    },
+    "zoom": {
+      "label": "Zoom"
+    },
+    "acquiringLocation": "Acquisizione posizione GPS...",
+    "markers": {
+      "you": "Tu",
+      "destination": "Destinazione",
+      "destinationDescription": "Tieni premuto ovunque per spostare questo marcatore",
+      "goalComplete": "Obiettivo completato",
+      "goalCompleteWithCategory": "{{category}} · Obiettivo completato"
+    },
+    "eta": {
+      "lessThanOneMin": "< 1 min",
+      "seconds": "{{count}} sec",
+      "minutes": "{{count}} min",
+      "hoursMinutes": "{{hours}} h {{minutes}} min",
+      "hours": "{{hours}} h"
+    }
+  },
+  "schedule": {
+    "title": "Programma di oggi.",
+    "liveMap": "Mappa live",
+    "empty": {
+      "title": "Nessun obiettivo ancora",
+      "description": "Tocca il pulsante + per aggiungere un luogo. Raggiungerlo camminando sulla mappa live completa l'obiettivo."
+    },
+    "addModal": {
+      "title": "Nuovo elemento",
+      "type": "Tipo",
+      "types": {
+        "academic": "Accademico",
+        "meal": "Pasto",
+        "social": "Sociale"
+      },
+      "time": "Orario",
+      "timePlaceholder": "Tocca per scegliere un orario",
+      "category": "Categoria",
+      "categoryPlaceholder": "es. Studio, Club",
+      "titleLabel": "Titolo",
+      "titlePlaceholder": "Aggiungi un titolo",
+      "location": "Posizione",
+      "locationSearchHint": "Digita almeno 2 caratteri per cercare ovunque (la tua posizione aiuta a ordinare nomi simili).",
+      "addButton": "Aggiungi al programma",
+      "defaultCategory": "Evento"
+    },
+    "search": {
+      "waitingForGps": "In attesa del GPS…",
+      "placeholder": "Cerca un luogo nel mondo…",
+      "noResults": "Nessun luogo corrispondente. Prova un altro nome."
+    },
+    "card": {
+      "goalComplete": "Obiettivo completato"
+    }
+  },
+  "profile": {
+    "title": "Profilo",
+    "displayName": "Mason",
+    "handle": "@masonmavinga",
+    "level": "Livello {{level}}",
+    "xpProgress": "{{current}} / {{total}} XP",
+    "stats": {
+      "goalsToday": "Obiettivi oggi",
+      "goalStreak": "Serie obiettivi completati",
+      "milesWalked": "Miglia percorse",
+      "hoursStudied": "Ore di studio"
+    },
+    "sections": {
+      "account": "Account",
+      "preferences": "Preferenze",
+      "about": "Informazioni"
+    },
+    "rows": {
+      "manageProfile": "Gestisci profilo",
+      "manageProfileSublabel": "Nome, foto, handle",
+      "achievements": "Traguardi",
+      "achievementsSublabel": "Livello {{level}} · {{xp}} XP totali",
+      "notifications": "Notifiche",
+      "notificationsSublabel": "Promemoria giornalieri",
+      "language": "Lingua",
+      "theme": "Tema",
+      "themeValue": "Chiaro",
+      "appSettings": "Impostazioni app",
+      "appVersion": "Versione app",
+      "appVersionValue": "Lua v1.0.0",
+      "aboutUs": "Chi siamo",
+      "helpCenter": "Centro assistenza",
+      "termsPrivacy": "Termini e privacy"
+    }
+  },
+  "stats": {
+    "title": "Statistiche",
+    "metrics": {
+      "distance": "Distanza",
+      "goals": "Obiettivi",
+      "study": "Studio"
+    },
+    "periods": {
+      "today": "Oggi",
+      "week": "Questa settimana",
+      "month": "Questo mese"
+    },
+    "goalsLegend": {
+      "completed": "Completati",
+      "total": "Totale"
+    },
+    "selectedDay": {
+      "todaySuffix": "· Oggi",
+      "allStats": "{{label}} · Tutte le statistiche",
+      "allStatsToday": "Oggi · Tutte le statistiche"
+    },
+    "summary": {
+      "distance": "Distanza",
+      "goals": "Obiettivi",
+      "study": "Studio",
+      "distanceValue": "{{distance}} mi",
+      "goalsValue": "{{done}}/{{total}}"
+    },
+    "averages": {
+      "sectionTitle": "Medie su 7 giorni",
+      "avgDistance": "Distanza media",
+      "avgGoalsDone": "Obiettivi medi completati",
+      "avgStudyTime": "Tempo medio di studio",
+      "avgDistanceValue": "{{value}} mi"
+    },
+    "leaderboard": {
+      "title": "Classifica ·",
+      "youBadge": "TU",
+      "yourTagline": "Avventuriero",
+      "streak": "🔥 Serie di {{count}} giorni",
+      "rank": "#{{rank}}"
+    }
+  },
+  "health": {
+    "title": "Barra salute",
+    "status": {
+      "dead": "LUA È MORTO",
+      "critical": "Lua è in condizioni critiche",
+      "hurting": "Lua sta soffrendo",
+      "okay": "Lua sta bene",
+      "healthy": "Lua è in salute"
+    },
+    "subtitle": {
+      "dead": "Nessun obiettivo completato oggi. Riproviamo domani.",
+      "critical": "Lua sta a malapena in piedi. Completa i tuoi obiettivi per riprenderti!",
+      "hurting": "Lua sta lottando. Cerca di completare più obiettivi oggi.",
+      "okay": "Lua se la cava, ma c'è margine di miglioramento.",
+      "healthy": "{{done}} su {{total}} obiettivi completati oggi. Continua così!"
+    },
+    "stats": {
+      "goalsCompletedToday": "Obiettivi completati oggi",
+      "goalsCompletedValue": "{{done}} / {{total}}",
+      "goalStreak": "Serie obiettivi completati",
+      "goalStreakValue_one": "{{count}} giorno",
+      "goalStreakValue_other": "{{count}} giorni",
+      "distanceWalked": "Distanza percorsa",
+      "distanceWalkedValue": "{{distance}} miglia",
+      "hoursStudied": "Ore di studio"
+    },
+    "actions": {
+      "back": "Indietro",
+      "viewLastSessionStats": "Visualizza statistiche ultima sessione"
+    }
+  },
+  "settings": {
+    "title": "Impostazioni",
+    "comingSoon": "Questa sezione arriverà presto.",
+    "manageProfile": {
+      "title": "Gestisci profilo",
+      "description": "Aggiorna presto qui nome, foto e handle."
+    },
+    "aboutUs": {
+      "title": "Chi siamo",
+      "description": "Scopri di più su Lua e il team dietro l'app."
+    },
+    "helpCenter": {
+      "title": "Centro assistenza",
+      "description": "Trova risposte e supporto qui a breve."
+    },
+    "theme": {
+      "title": "Tema",
+      "description": "Passa tra tema chiaro e scuro qui a breve."
+    }
+  },
+  "units": {
+    "miles": "miglia",
+    "milesShort": "mi",
+    "days": "giorni"
+  },
+  "errors": {
+    "permissionDenied": "Autorizzazione negata",
+    "searchFailed": "Ricerca non riuscita"
+  },
+  "a11y": {
+    "luaLogo": "Logo Lua",
+    "profile": "Profilo",
+    "profileAvatar": "Avatar profilo",
+    "openProfile": "Apri profilo",
+    "openLiveMap": "Apri mappa live",
+    "addScheduleItem": "Aggiungi elemento al programma",
+    "recenterOnMe": "Centra sulla mia posizione",
+    "zoomInMap": "Ingrandisci mappa",
+    "zoomOutMap": "Riduci mappa",
+    "clearSelectedLocation": "Cancella posizione selezionata"
+  }
+}

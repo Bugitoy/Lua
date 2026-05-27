@@ -1,7 +1,7 @@
 import { Ionicons } from "@expo/vector-icons";
 import { Image } from "expo-image";
 import { LinearGradient } from "expo-linear-gradient";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import {
   Dimensions,
   Pressable,
@@ -9,18 +9,21 @@ import {
   Text,
   View,
 } from "react-native";
+import { useTranslation } from "react-i18next";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 import { Pixelify } from "@/constants/fonts";
 import { LUA_GREEN } from "@/constants/mapAssets";
 import { formatHours } from "@/lib/formatters";
 import { useGameStats } from "@/lib/gameStats";
+import { formatAppDate } from "@/lib/i18n/formatLocale";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
 type DayData = {
   label: string;
   fullDate: string;
+  isToday: boolean;
   distanceMiles: number;
   goalsDone: number;
   goalsTotal: number;
@@ -77,57 +80,16 @@ function sortLeaderboard(entries: LeaderEntry[], key: LeaderboardSortKey): Leade
   });
 }
 
-function leaderValue(entry: LeaderEntry, key: LeaderboardSortKey): string {
-  if (key === "goals") return `${entry.goalsDone}/${entry.goalsTotal}`;
-  if (key === "distance") return `${entry.distanceMiles} mi`;
-  return formatHours(entry.hoursStudied);
-}
-
 // ─── Mock history (past 6 days + today placeholder filled from live stats) ───
 
 
-const HISTORY: Omit<DayData, "label" | "fullDate">[] = [
+const HISTORY: Omit<DayData, "label" | "fullDate" | "isToday">[] = [
   { distanceMiles: 2.1, goalsDone: 4,  goalsTotal: 10, hoursStudied: 1.5 },
   { distanceMiles: 4.8, goalsDone: 8,  goalsTotal: 10, hoursStudied: 3.0 },
   { distanceMiles: 3.3, goalsDone: 5,  goalsTotal: 12, hoursStudied: 2.5 },
   { distanceMiles: 6.0, goalsDone: 11, goalsTotal: 12, hoursStudied: 4.0 },
   { distanceMiles: 1.7, goalsDone: 2,  goalsTotal: 8,  hoursStudied: 0.5 },
   { distanceMiles: 5.2, goalsDone: 9,  goalsTotal: 12, hoursStudied: 3.5 },
-];
-
-// ─── Metrics config ───────────────────────────────────────────────────────────
-
-const METRICS: MetricConfig[] = [
-  {
-    key: "distance",
-    label: "Distance",
-    icon: "footsteps",
-    accent: "#3b82f6",
-    unit: "mi",
-    getValue: (d) => d.distanceMiles,
-    getMax: (d) => d.distanceMiles,
-    format: (d) => `${d.distanceMiles} mi`,
-  },
-  {
-    key: "goals",
-    label: "Goals",
-    icon: "flag-outline",
-    accent: LUA_GREEN,
-    unit: "goals",
-    getValue: (d) => d.goalsDone,
-    getMax: (d) => d.goalsTotal,
-    format: (d) => `${d.goalsDone} / ${d.goalsTotal}`,
-  },
-  {
-    key: "study",
-    label: "Study",
-    icon: "book-outline",
-    accent: "#8b5cf6",
-    unit: "hrs",
-    getValue: (d) => d.hoursStudied,
-    getMax: (d) => d.hoursStudied,
-    format: (d) => formatHours(d.hoursStudied),
-  },
 ];
 
 // ─── Bar chart ────────────────────────────────────────────────────────────────
@@ -270,6 +232,7 @@ function BarChart({ data, metric, selectedIdx, onSelect }: BarChartProps) {
 // ─── Screen ───────────────────────────────────────────────────────────────────
 
 export default function StatsScreen() {
+  const { t } = useTranslation();
   const insets = useSafeAreaInsets();
   const { stats } = useGameStats();
   const [activeMetric, setActiveMetric] = useState<MetricKey>("goals");
@@ -278,39 +241,139 @@ export default function StatsScreen() {
   const [leaderPeriod, setLeaderPeriod] = useState<"today" | "week" | "month">("today");
   const [periodDropdownOpen, setPeriodDropdownOpen] = useState(false);
 
-  const PERIOD_LABELS = { today: "Today", week: "This Week", month: "This Month" } as const;
+  const periodLabels = useMemo(
+    () => ({
+      today: t("stats.periods.today"),
+      week: t("stats.periods.week"),
+      month: t("stats.periods.month"),
+    }),
+    [t],
+  );
+
+  const metrics = useMemo<MetricConfig[]>(
+    () => [
+      {
+        key: "distance",
+        label: t("stats.metrics.distance"),
+        icon: "footsteps",
+        accent: "#3b82f6",
+        unit: "mi",
+        getValue: (d) => d.distanceMiles,
+        getMax: (d) => d.distanceMiles,
+        format: (d) =>
+          t("stats.summary.distanceValue", { distance: d.distanceMiles }),
+      },
+      {
+        key: "goals",
+        label: t("stats.metrics.goals"),
+        icon: "flag-outline",
+        accent: LUA_GREEN,
+        unit: "goals",
+        getValue: (d) => d.goalsDone,
+        getMax: (d) => d.goalsTotal,
+        format: (d) =>
+          t("stats.summary.goalsValue", {
+            done: d.goalsDone,
+            total: d.goalsTotal,
+          }),
+      },
+      {
+        key: "study",
+        label: t("stats.metrics.study"),
+        icon: "book-outline",
+        accent: "#8b5cf6",
+        unit: "hrs",
+        getValue: (d) => d.hoursStudied,
+        getMax: (d) => d.hoursStudied,
+        format: (d) => formatHours(d.hoursStudied),
+      },
+    ],
+    [t],
+  );
+
+  const leaderValue = useMemo(
+    () => (entry: LeaderEntry, key: LeaderboardSortKey) => {
+      if (key === "goals") {
+        return t("stats.summary.goalsValue", {
+          done: entry.goalsDone,
+          total: entry.goalsTotal,
+        });
+      }
+      if (key === "distance") {
+        return t("stats.summary.distanceValue", {
+          distance: entry.distanceMiles,
+        });
+      }
+      return formatHours(entry.hoursStudied);
+    },
+    [t],
+  );
 
   // Build dataset: 6 historical days + today from live stats
   const today = new Date();
-  const data: DayData[] = [
-    ...HISTORY.map((h, i) => {
-      const d = new Date(today);
-      d.setDate(today.getDate() - (HISTORY.length - i));
-      return {
-        ...h,
-        label: d.toLocaleDateString("en-US", { weekday: "short" }),
-        fullDate: d.toLocaleDateString("en-US", { month: "short", day: "numeric" }),
-      };
-    }),
-    {
-      label: "Today",
-      fullDate: today.toLocaleDateString("en-US", { month: "short", day: "numeric" }),
-      distanceMiles: stats.distanceMiles,
-      goalsDone: stats.goalsDone,
-      goalsTotal: stats.goalsTotal,
-      hoursStudied: stats.hoursStudied,
-    },
-  ];
+  const data: DayData[] = useMemo(
+    () => [
+      ...HISTORY.map((h, i) => {
+        const d = new Date(today);
+        d.setDate(today.getDate() - (HISTORY.length - i));
+        return {
+          ...h,
+          label: formatAppDate(d, { weekday: "short" }),
+          fullDate: formatAppDate(d, { month: "short", day: "numeric" }),
+          isToday: false,
+        };
+      }),
+      {
+        label: t("common.today"),
+        fullDate: formatAppDate(today, { month: "short", day: "numeric" }),
+        isToday: true,
+        distanceMiles: stats.distanceMiles,
+        goalsDone: stats.goalsDone,
+        goalsTotal: stats.goalsTotal,
+        hoursStudied: stats.hoursStudied,
+      },
+    ],
+    [
+      stats.distanceMiles,
+      stats.goalsDone,
+      stats.goalsTotal,
+      stats.hoursStudied,
+      t,
+      today,
+    ],
+  );
 
-  const metric = METRICS.find((m) => m.key === activeMetric)!;
+  const metric = metrics.find((m) => m.key === activeMetric)!;
   const selected = data[selectedIdx];
 
-  // Summary cards for selected day
-  const summaryCards = [
-    { label: "Distance", value: `${selected.distanceMiles} mi`, icon: "footsteps" as const, accent: "#3b82f6" },
-    { label: "Goals", value: `${selected.goalsDone}/${selected.goalsTotal}`, icon: "flag-outline" as const, accent: LUA_GREEN },
-    { label: "Study", value: formatHours(selected.hoursStudied), icon: "book-outline" as const, accent: "#8b5cf6" },
-  ];
+  const summaryCards = useMemo(
+    () => [
+      {
+        label: t("stats.summary.distance"),
+        value: t("stats.summary.distanceValue", {
+          distance: selected.distanceMiles,
+        }),
+        icon: "footsteps" as const,
+        accent: "#3b82f6",
+      },
+      {
+        label: t("stats.summary.goals"),
+        value: t("stats.summary.goalsValue", {
+          done: selected.goalsDone,
+          total: selected.goalsTotal,
+        }),
+        icon: "flag-outline" as const,
+        accent: LUA_GREEN,
+      },
+      {
+        label: t("stats.summary.study"),
+        value: formatHours(selected.hoursStudied),
+        icon: "book-outline" as const,
+        accent: "#8b5cf6",
+      },
+    ],
+    [selected, t],
+  );
 
   return (
     <View className="flex-1 bg-neutral-100">
@@ -327,7 +390,7 @@ export default function StatsScreen() {
           className="mb-5 text-3xl text-neutral-900"
           style={{ fontFamily: Pixelify.bold }}
         >
-          Stats
+          {t("stats.title")}
         </Text>
 
         {/* Chart card */}
@@ -343,7 +406,7 @@ export default function StatsScreen() {
         >
           {/* Metric selector */}
           <View className="mb-5 flex-row gap-2">
-            {METRICS.map((m) => {
+            {metrics.map((m) => {
               const active = m.key === activeMetric;
               return (
                 <Pressable
@@ -378,7 +441,8 @@ export default function StatsScreen() {
                 className="text-xs text-neutral-400"
                 style={{ fontFamily: Pixelify.regular }}
               >
-                {selected.fullDate} {selected.label === "Today" ? "· Today" : ""}
+                {selected.fullDate}{" "}
+                {selected.isToday ? t("stats.selectedDay.todaySuffix") : ""}
               </Text>
               <Text
                 className="mt-0.5 text-2xl"
@@ -401,13 +465,13 @@ export default function StatsScreen() {
               <View className="flex-row items-center gap-1.5">
                 <View className="size-2.5 rounded-sm" style={{ backgroundColor: LUA_GREEN }} />
                 <Text className="text-xs text-neutral-500" style={{ fontFamily: Pixelify.regular }}>
-                  Completed
+                  {t("stats.goalsLegend.completed")}
                 </Text>
               </View>
               <View className="flex-row items-center gap-1.5">
                 <View className="size-2.5 rounded-sm" style={{ backgroundColor: `${LUA_GREEN}30` }} />
                 <Text className="text-xs text-neutral-500" style={{ fontFamily: Pixelify.regular }}>
-                  Total
+                  {t("stats.goalsLegend.total")}
                 </Text>
               </View>
             </View>
@@ -426,7 +490,9 @@ export default function StatsScreen() {
           className="mb-2 ml-1 text-xs uppercase tracking-widest text-neutral-400"
           style={{ fontFamily: Pixelify.semibold }}
         >
-          {selected.label === "Today" ? "Today" : selected.fullDate} · All stats
+          {selected.isToday
+            ? t("stats.selectedDay.allStatsToday")
+            : t("stats.selectedDay.allStats", { label: selected.fullDate })}
         </Text>
         <View className="flex-row gap-3">
           {summaryCards.map((card) => (
@@ -468,7 +534,7 @@ export default function StatsScreen() {
           className="mb-2 ml-1 mt-5 text-xs uppercase tracking-widest text-neutral-400"
           style={{ fontFamily: Pixelify.semibold }}
         >
-          7-Day Averages
+          {t("stats.averages.sectionTitle")}
         </Text>
         <View
           className="rounded-2xl bg-white px-4"
@@ -483,21 +549,27 @@ export default function StatsScreen() {
           {[
             {
               icon: "footsteps" as const,
-              label: "Avg Distance",
+              label: t("stats.averages.avgDistance"),
               accent: "#3b82f6",
-              value: `${(data.reduce((s, d) => s + d.distanceMiles, 0) / data.length).toFixed(1)} mi`,
+              value: t("stats.averages.avgDistanceValue", {
+                value: (
+                  data.reduce((s, d) => s + d.distanceMiles, 0) / data.length
+                ).toFixed(1),
+              }),
             },
             {
               icon: "flag-outline" as const,
-              label: "Avg Goals Done",
+              label: t("stats.averages.avgGoalsDone"),
               accent: LUA_GREEN,
               value: `${(data.reduce((s, d) => s + d.goalsDone, 0) / data.length).toFixed(1)}`,
             },
             {
               icon: "book-outline" as const,
-              label: "Avg Study Time",
+              label: t("stats.averages.avgStudyTime"),
               accent: "#8b5cf6",
-              value: formatHours(data.reduce((s, d) => s + d.hoursStudied, 0) / data.length),
+              value: formatHours(
+                data.reduce((s, d) => s + d.hoursStudied, 0) / data.length,
+              ),
             },
           ].map((row, i, arr) => (
             <View key={row.label}>
@@ -535,7 +607,7 @@ export default function StatsScreen() {
             className="text-xs uppercase tracking-widest text-neutral-400"
             style={{ fontFamily: Pixelify.semibold }}
           >
-            Leaderboard ·
+            {t("stats.leaderboard.title")}
           </Text>
           <View style={{ position: "relative" }}>
             <Pressable
@@ -547,7 +619,7 @@ export default function StatsScreen() {
                 className="text-xs uppercase tracking-widest"
                 style={{ fontFamily: Pixelify.bold, color: LUA_GREEN }}
               >
-                {PERIOD_LABELS[leaderPeriod]}
+                {periodLabels[leaderPeriod]}
               </Text>
               <Ionicons
                 name={periodDropdownOpen ? "chevron-up" : "chevron-down"}
@@ -590,7 +662,7 @@ export default function StatsScreen() {
                         color: leaderPeriod === period ? LUA_GREEN : "#525252",
                       }}
                     >
-                      {PERIOD_LABELS[period]}
+                      {periodLabels[period]}
                     </Text>
                     {leaderPeriod === period && (
                       <Ionicons name="checkmark" size={14} color={LUA_GREEN} />
@@ -606,9 +678,24 @@ export default function StatsScreen() {
         <View className="mb-3 flex-row gap-2">
           {(
             [
-              { key: "goals" as const,    label: "Goals",    icon: "flag-outline" as const,  accent: LUA_GREEN  },
-              { key: "distance" as const, label: "Distance", icon: "footsteps" as const,      accent: "#3b82f6"  },
-              { key: "study" as const,    label: "Study",    icon: "book-outline" as const,   accent: "#8b5cf6"  },
+              {
+                key: "goals" as const,
+                label: t("stats.metrics.goals"),
+                icon: "flag-outline" as const,
+                accent: LUA_GREEN,
+              },
+              {
+                key: "distance" as const,
+                label: t("stats.metrics.distance"),
+                icon: "footsteps" as const,
+                accent: "#3b82f6",
+              },
+              {
+                key: "study" as const,
+                label: t("stats.metrics.study"),
+                icon: "book-outline" as const,
+                accent: "#8b5cf6",
+              },
             ] as const
           ).map((opt) => {
             const active = leaderSort === opt.key;
@@ -663,8 +750,8 @@ export default function StatsScreen() {
 
             const meEntry: LeaderEntry = {
               id: "me",
-              name: "You",
-              tagline: "Adventurer",
+              name: t("common.you"),
+              tagline: t("stats.leaderboard.yourTagline"),
               avatarImg: 12,
               goalsDone: stats.goalsDone * scale,
               goalsTotal: stats.goalsTotal * scale,
@@ -698,7 +785,7 @@ export default function StatsScreen() {
                         <Ionicons name={RANK_ICONS[meRank - 1]} size={20} color={RANK_COLORS[meRank - 1]} />
                       ) : (
                         <Text style={{ fontFamily: Pixelify.bold, fontSize: 14, color: sortAccent }}>
-                          #{meRank}
+                          {t("stats.leaderboard.rank", { rank: meRank })}
                         </Text>
                       )}
                     </View>
@@ -709,19 +796,19 @@ export default function StatsScreen() {
                     <View className="flex-1 min-w-0">
                       <View className="flex-row items-center gap-1.5">
                         <Text style={{ fontFamily: Pixelify.bold, fontSize: 14, color: "#171717" }}>
-                          You
+                          {t("common.you")}
                         </Text>
                         <View
                           className="rounded px-1.5 py-0.5"
                           style={{ backgroundColor: `${sortAccent}20` }}
                         >
                           <Text style={{ fontFamily: Pixelify.bold, fontSize: 9, color: sortAccent }}>
-                            YOU
+                            {t("stats.leaderboard.youBadge")}
                           </Text>
                         </View>
                       </View>
                       <Text style={{ fontFamily: Pixelify.regular, fontSize: 11, color: "#737373" }}>
-                        🔥 {stats.goalStreak}-day streak
+                        {t("stats.leaderboard.streak", { count: stats.goalStreak })}
                       </Text>
                     </View>
                     <Text style={{ fontFamily: Pixelify.bold, fontSize: 15, color: sortAccent }}>
@@ -744,7 +831,7 @@ export default function StatsScreen() {
                             <Ionicons name={RANK_ICONS[rank - 1]} size={20} color={RANK_COLORS[rank - 1]} />
                           ) : (
                             <Text style={{ fontFamily: Pixelify.semibold, fontSize: 13, color: "#a3a3a3" }}>
-                              #{rank}
+                              {t("stats.leaderboard.rank", { rank })}
                             </Text>
                           )}
                         </View>

@@ -2,6 +2,7 @@ import { Ionicons } from "@expo/vector-icons";
 import { router } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import { Pressable, ScrollView, Text, View } from "react-native";
+import { useTranslation } from "react-i18next";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 import { Pixelify } from "@/constants/fonts";
@@ -13,9 +14,11 @@ type SettingsStubScreenProps = {
 
 export function SettingsStubScreen({
   title,
-  description = "This section is coming soon.",
+  description,
 }: SettingsStubScreenProps) {
+  const { t } = useTranslation();
   const insets = useSafeAreaInsets();
+  const body = description ?? t("settings.comingSoon");
 
   return (
     <View className="flex-1 bg-neutral-100">
@@ -39,7 +42,7 @@ export function SettingsStubScreen({
             className="text-base text-neutral-600"
             style={{ fontFamily: Pixelify.medium }}
           >
-            Back
+            {t("common.back")}
           </Text>
         </Pressable>
 
@@ -64,7 +67,7 @@ export function SettingsStubScreen({
             className="text-base text-neutral-600"
             style={{ fontFamily: Pixelify.regular }}
           >
-            {description}
+            {body}
           </Text>
         </View>
       </ScrollView>

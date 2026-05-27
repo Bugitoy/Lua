@@ -1,0 +1,260 @@
+{
+  "tabs": {
+    "map": "マップ",
+    "schedule": "スケジュール",
+    "profile": "プロフィール",
+    "stats": "統計"
+  },
+  "common": {
+    "appName": "Lua",
+    "back": "戻る",
+    "cancel": "キャンセル",
+    "done": "完了",
+    "you": "あなた",
+    "today": "今日",
+    "notAvailable": "該当なし",
+    "emDash": "—",
+    "signOut": "サインアウト",
+    "signOutConfirmTitle": "サインアウト",
+    "signOutConfirmMessage": "サインアウトしてもよろしいですか？",
+    "am": "AM",
+    "pm": "PM",
+    "chooseLanguage": "言語を選択"
+  },
+  "map": {
+    "liveTracking": {
+      "title": "ライブ追跡",
+      "clearPin": "ピンを消去",
+      "destinationAway": "目的地：あと {{distance}} mi",
+      "longPressHint": "マップを長押しして目的地マーカーを配置",
+      "arrived": "目的地に到着しました",
+      "bearingEta": "方位：{{bearing}}°   到着予定：{{eta}}",
+      "remaining": "残り：{{distance}} mi"
+    },
+    "gpsDebug": {
+      "title": "GPS デバッグ",
+      "lat": "緯度：{{value}}",
+      "lng": "経度：{{value}}",
+      "accuracy": "精度：±{{value}} m",
+      "speed": "速度：{{speed}}   生値：{{rawSpeed}} m/s",
+      "stateStationary": "状態：静止",
+      "stateMoving": "状態：移動中",
+      "stateMovingWithHeading": "状態：移動中  •  {{heading}}°",
+      "requestingPermission": "権限をリクエスト中…"
+    },
+    "statsCard": {
+      "goalsCompleted": "完了した目標",
+      "dayPercent": "今日 {{percent}}%",
+      "goalsRatio": "{{done}}/{{total}}",
+      "distanceWalked": "歩いた距離",
+      "distanceMiles": "{{distance}} マイル",
+      "checkHealth": "健康を確認"
+    },
+    "healthBar": {
+      "title": "ヘルスバー"
+    },
+    "zoom": {
+      "label": "ズーム"
+    },
+    "acquiringLocation": "GPS 位置情報を取得中...",
+    "markers": {
+      "you": "あなた",
+      "destination": "目的地",
+      "destinationDescription": "どこでも長押ししてこのマーカーを移動",
+      "goalComplete": "目標達成",
+      "goalCompleteWithCategory": "{{category}} · 目標達成"
+    },
+    "eta": {
+      "lessThanOneMin": "< 1 分",
+      "seconds": "{{count}} 秒",
+      "minutes": "{{count}} 分",
+      "hoursMinutes": "{{hours}} 時間 {{minutes}} 分",
+      "hours": "{{hours}} 時間"
+    }
+  },
+  "schedule": {
+    "title": "今日のスケジュール。",
+    "liveMap": "ライブマップ",
+    "empty": {
+      "title": "目標がまだありません",
+      "description": "+ ボタンをタップして場所を追加。ライブマップでそこまで歩くと目標が達成されます。"
+    },
+    "addModal": {
+      "title": "新しい項目",
+      "type": "種類",
+      "types": {
+        "academic": "学習",
+        "meal": "食事",
+        "social": "社交"
+      },
+      "time": "時間",
+      "timePlaceholder": "タップして時間を選択",
+      "category": "カテゴリ",
+      "categoryPlaceholder": "例：勉強、クラブ",
+      "titleLabel": "タイトル",
+      "titlePlaceholder": "タイトルを追加",
+      "location": "場所",
+      "locationSearchHint": "2 文字以上入力すると世界中を検索できます（現在地は類似名の並び替えに役立ちます）。",
+      "addButton": "スケジュールに追加",
+      "defaultCategory": "イベント"
+    },
+    "search": {
+      "waitingForGps": "GPS を待機中…",
+      "placeholder": "世界中の場所を検索…",
+      "noResults": "一致する場所がありません。別の名前を試してください。"
+    },
+    "card": {
+      "goalComplete": "目標達成"
+    }
+  },
+  "profile": {
+    "title": "プロフィール",
+    "displayName": "Mason",
+    "handle": "@masonmavinga",
+    "level": "レベル {{level}}",
+    "xpProgress": "{{current}} / {{total}} XP",
+    "stats": {
+      "goalsToday": "今日の目標",
+      "goalStreak": "目標達成連続日数",
+      "milesWalked": "歩いたマイル",
+      "hoursStudied": "学習時間"
+    },
+    "sections": {
+      "account": "アカウント",
+      "preferences": "設定",
+      "about": "情報"
+    },
+    "rows": {
+      "manageProfile": "プロフィール管理",
+      "manageProfileSublabel": "名前、写真、ハンドル",
+      "achievements": "実績",
+      "achievementsSublabel": "レベル {{level}} · 合計 {{xp}} XP",
+      "notifications": "通知",
+      "notificationsSublabel": "毎日のリマインダー",
+      "language": "言語",
+      "theme": "テーマ",
+      "themeValue": "ライト",
+      "appSettings": "アプリ設定",
+      "appVersion": "アプリバージョン",
+      "appVersionValue": "Lua v1.0.0",
+      "aboutUs": "私たちについて",
+      "helpCenter": "ヘルプセンター",
+      "termsPrivacy": "利用規約とプライバシー"
+    }
+  },
+  "stats": {
+    "title": "統計",
+    "metrics": {
+      "distance": "距離",
+      "goals": "目標",
+      "study": "学習"
+    },
+    "periods": {
+      "today": "今日",
+      "week": "今週",
+      "month": "今月"
+    },
+    "goalsLegend": {
+      "completed": "完了",
+      "total": "合計"
+    },
+    "selectedDay": {
+      "todaySuffix": "· 今日",
+      "allStats": "{{label}} · すべての統計",
+      "allStatsToday": "今日 · すべての統計"
+    },
+    "summary": {
+      "distance": "距離",
+      "goals": "目標",
+      "study": "学習",
+      "distanceValue": "{{distance}} mi",
+      "goalsValue": "{{done}}/{{total}}"
+    },
+    "averages": {
+      "sectionTitle": "7 日間平均",
+      "avgDistance": "平均距離",
+      "avgGoalsDone": "平均達成目標",
+      "avgStudyTime": "平均学習時間",
+      "avgDistanceValue": "{{value}} mi"
+    },
+    "leaderboard": {
+      "title": "リーダーボード ·",
+      "youBadge": "あなた",
+      "yourTagline": "冒険者",
+      "streak": "🔥 {{count}} 日連続",
+      "rank": "#{{rank}}"
+    }
+  },
+  "health": {
+    "title": "ヘルスバー",
+    "status": {
+      "dead": "LUA は死んでしまった",
+      "critical": "Lua は危機的状態",
+      "hurting": "Lua は苦しんでいる",
+      "okay": "Lua はまあまあ",
+      "healthy": "Lua は健康"
+    },
+    "subtitle": {
+      "dead": "今日は目標を 1 つも達成できませんでした。明日また挑戦しましょう。",
+      "critical": "Lua はギリギリです。目標を達成して回復しましょう！",
+      "hurting": "Lua は苦戦中です。今日はもっと目標を達成してみましょう。",
+      "okay": "Lua は順調ですが、まだ改善の余地があります。",
+      "healthy": "今日 {{done}}/{{total}} の目標を達成しました。この調子で！"
+    },
+    "stats": {
+      "goalsCompletedToday": "今日達成した目標",
+      "goalsCompletedValue": "{{done}} / {{total}}",
+      "goalStreak": "目標達成連続日数",
+      "goalStreakValue_one": "{{count}} 日",
+      "goalStreakValue_other": "{{count}} 日",
+      "distanceWalked": "歩いた距離",
+      "distanceWalkedValue": "{{distance}} マイル",
+      "hoursStudied": "学習時間"
+    },
+    "actions": {
+      "back": "戻る",
+      "viewLastSessionStats": "前回セッションの統計を表示"
+    }
+  },
+  "settings": {
+    "title": "設定",
+    "comingSoon": "このセクションは近日公開予定です。",
+    "manageProfile": {
+      "title": "プロフィール管理",
+      "description": "近日、ここで名前、写真、ハンドルを更新できるようになります。"
+    },
+    "aboutUs": {
+      "title": "私たちについて",
+      "description": "Lua とアプリ開発チームについて詳しく知る。"
+    },
+    "helpCenter": {
+      "title": "ヘルプセンター",
+      "description": "近日、ここで回答とサポートを見つけられます。"
+    },
+    "theme": {
+      "title": "テーマ",
+      "description": "近日、ここでライトとダークテーマを切り替えられます。"
+    }
+  },
+  "units": {
+    "miles": "マイル",
+    "milesShort": "mi",
+    "days": "日"
+  },
+  "errors": {
+    "permissionDenied": "権限が拒否されました",
+    "searchFailed": "検索に失敗しました"
+  },
+  "a11y": {
+    "luaLogo": "Lua ロゴ",
+    "profile": "プロフィール",
+    "profileAvatar": "プロフィールアバター",
+    "openProfile": "プロフィールを開く",
+    "openLiveMap": "ライブマップを開く",
+    "addScheduleItem": "スケジュール項目を追加",
+    "recenterOnMe": "現在地に再センター",
+    "zoomInMap": "マップを拡大",
+    "zoomOutMap": "マップを縮小",
+    "clearSelectedLocation": "選択した場所を消去"
+  }
+}

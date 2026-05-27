@@ -10,6 +10,7 @@ import {
   Text,
   View,
 } from "react-native";
+import { useTranslation } from "react-i18next";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 import { GeoMapView } from "@/components/map/GeoMapView";
@@ -20,9 +21,11 @@ import { Pixelify } from "@/constants/fonts";
 import { LUA_GREEN } from "@/constants/mapAssets";
 import { useFusedLocation } from "@/hooks/useFusedLocation";
 import { updateGameStats } from "@/lib/gameStats";
+import { formatAppTime } from "@/lib/i18n/formatLocale";
 import { setScheduledItems, useScheduledItems } from "@/lib/scheduleStore";
 
 export default function ScheduleScreen() {
+  const { t } = useTranslation();
   const insets = useSafeAreaInsets();
   const [items, setItems] = useState<ScheduleItemData[]>([]);
   const scheduledItems = useScheduledItems();
@@ -46,7 +49,7 @@ export default function ScheduleScreen() {
       if (tickRef.current) clearInterval(tickRef.current);
     };
   }, []);
-  const timeString = now.toLocaleTimeString([], {
+  const timeString = formatAppTime(now, {
     hour: "2-digit",
     minute: "2-digit",
   });
@@ -112,10 +115,10 @@ export default function ScheduleScreen() {
             className="flex-1 text-neutral-900"
             style={{ fontFamily: Pixelify.bold, fontSize: 30, lineHeight: 34 }}
           >
-            Today&apos;s Schedule.
+            {t("schedule.title")}
           </Text>
           <Link href="/(tabs)/profile" asChild>
-            <Pressable accessibilityLabel="Open profile">
+            <Pressable accessibilityLabel={t("a11y.openProfile")}>
               <Image
                 source={{ uri: "https://i.pravatar.cc/120?img=12" }}
                 style={{
@@ -143,7 +146,7 @@ export default function ScheduleScreen() {
           />
           <Link href="/" asChild>
             <Pressable
-              accessibilityLabel="Open live map"
+              accessibilityLabel={t("a11y.openLiveMap")}
               style={StyleSheet.absoluteFill}
             >
               <View
@@ -156,7 +159,7 @@ export default function ScheduleScreen() {
                     className="text-xs text-white"
                     style={{ fontFamily: Pixelify.medium }}
                   >
-                    Live map
+                    {t("schedule.liveMap")}
                   </Text>
                 </View>
                 <Text
@@ -184,14 +187,13 @@ export default function ScheduleScreen() {
               className="mt-3 text-center text-neutral-700"
               style={{ fontFamily: Pixelify.semibold, fontSize: 14 }}
             >
-              No goals yet
+              {t("schedule.empty.title")}
             </Text>
             <Text
               className="mt-1 text-center text-neutral-500"
               style={{ fontFamily: Pixelify.regular, fontSize: 12 }}
             >
-              Tap the + button to add a place. Walking up to it on the live
-              map completes the goal.
+              {t("schedule.empty.description")}
             </Text>
           </View>
         ) : (
@@ -212,7 +214,7 @@ export default function ScheduleScreen() {
       </ScrollView>
 
       <Pressable
-        accessibilityLabel="Add schedule item"
+        accessibilityLabel={t("a11y.addScheduleItem")}
         onPress={() => setAddOpen(true)}
         className="absolute right-6 z-10 size-14 items-center justify-center rounded-full shadow-lg active:opacity-90"
         style={{

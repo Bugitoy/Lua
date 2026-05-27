@@ -1,6 +1,7 @@
 import { Ionicons } from "@expo/vector-icons";
 import { LinearGradient } from "expo-linear-gradient";
 import { Text, View } from "react-native";
+import { useTranslation } from "react-i18next";
 
 import { Pixelify } from "@/constants/fonts";
 
@@ -26,6 +27,7 @@ export function ScheduleItemCard({
   glowColor,
   completed = false,
 }: ScheduleItemCardProps) {
+  const { t } = useTranslation();
   return (
     <View
       className="mb-5 overflow-hidden rounded-2xl bg-white"
@@ -76,7 +78,7 @@ export function ScheduleItemCard({
             <View className="flex-row items-center gap-1 rounded-full bg-green-600/20 px-2 py-0.5">
               <Ionicons name="checkmark-circle" size={10} color="#15803d" />
               <Text style={{ fontFamily: Pixelify.bold, fontSize: 9, color: "#15803d" }}>
-                Goal complete
+                {t("schedule.card.goalComplete")}
               </Text>
             </View>
           )}

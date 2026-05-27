@@ -1,6 +1,7 @@
 import { Ionicons } from "@expo/vector-icons";
 import { memo, useEffect, useMemo, useRef, useState } from "react";
 import { Image, Pressable, StyleSheet, Text, View } from "react-native";
+import { useTranslation } from "react-i18next";
 import MapView, {
   AnimatedRegion,
   Circle,
@@ -79,6 +80,7 @@ function GeoMapViewImpl({
   onSetDestination,
   interactive = true,
 }: GeoMapViewProps) {
+  const { t } = useTranslation();
   const mapRef = useRef<MapView | null>(null);
   const hasCenteredOnUserRef = useRef(false);
   /** Wall-clock ms of the previous GPS fix, used to size the next marker tween. */
@@ -284,7 +286,9 @@ function GeoMapViewImpl({
             title={item.label}
             description={
               item.completed
-                ? `${item.category} · Goal complete`
+                ? t("map.markers.goalCompleteWithCategory", {
+                    category: item.category,
+                  })
                 : item.category
             }
             pinColor={item.completed ? LUA_GREEN : GOAL_PENDING_PIN}
@@ -298,7 +302,7 @@ function GeoMapViewImpl({
             anchor={{ x: 0.5, y: 0.55 }}
             tracksViewChanges
             zIndex={999}
-            title="You"
+            title={t("map.markers.you")}
           >
             <View style={styles.userSpriteFrame}>
               <Image
@@ -320,8 +324,8 @@ function GeoMapViewImpl({
         {destination ? (
           <Marker
             coordinate={destination}
-            title="Destination"
-            description="Long press anywhere to move this marker"
+            title={t("map.markers.destination")}
+            description={t("map.markers.destinationDescription")}
             pinColor={LUA_GREEN}
           />
         ) : null}
@@ -351,7 +355,7 @@ function GeoMapViewImpl({
 
       {interactive ? (
         <Pressable
-          accessibilityLabel="Recenter on me"
+          accessibilityLabel={t("a11y.recenterOnMe")}
           onPress={recenterOnUser}
           style={styles.recenterButton}
           hitSlop={8}
@@ -362,7 +366,9 @@ function GeoMapViewImpl({
 
       {interactive && !currentLocation ? (
         <View style={styles.centeringHint}>
-          <Text style={styles.centeringHintText}>Acquiring GPS location...</Text>
+          <Text style={styles.centeringHintText}>
+            {t("map.acquiringLocation")}
+          </Text>
         </View>
       ) : null}
     </View>

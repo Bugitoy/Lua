@@ -1,0 +1,260 @@
+{
+  "tabs": {
+    "map": "मानचित्र",
+    "schedule": "कार्यक्रम",
+    "profile": "प्रोफ़ाइल",
+    "stats": "आँकड़े"
+  },
+  "common": {
+    "appName": "Lua",
+    "back": "वापस",
+    "cancel": "रद्द करें",
+    "done": "पूर्ण",
+    "you": "आप",
+    "today": "आज",
+    "notAvailable": "उपलब्ध नहीं",
+    "emDash": "—",
+    "signOut": "साइन आउट",
+    "signOutConfirmTitle": "साइन आउट",
+    "signOutConfirmMessage": "क्या आप वाकई साइन आउट करना चाहते हैं?",
+    "am": "AM",
+    "pm": "PM",
+    "chooseLanguage": "भाषा चुनें"
+  },
+  "map": {
+    "liveTracking": {
+      "title": "लाइव ट्रैकिंग",
+      "clearPin": "पिन हटाएँ",
+      "destinationAway": "गंतव्य: {{distance}} mi दूर",
+      "longPressHint": "गंतव्य मार्कर रखने के लिए मानचित्र पर देर तक दबाएँ",
+      "arrived": "गंतव्य पर पहुँच गए",
+      "bearingEta": "दिशा: {{bearing}}°   अनुमानित समय: {{eta}}",
+      "remaining": "शेष: {{distance}} mi"
+    },
+    "gpsDebug": {
+      "title": "GPS डीबग",
+      "lat": "अक्षांश: {{value}}",
+      "lng": "देशांतर: {{value}}",
+      "accuracy": "सटीकता: ±{{value}} m",
+      "speed": "गति: {{speed}}   कच्ची: {{rawSpeed}} m/s",
+      "stateStationary": "स्थिति: स्थिर",
+      "stateMoving": "स्थिति: चल रहा है",
+      "stateMovingWithHeading": "स्थिति: चल रहा है  •  {{heading}}°",
+      "requestingPermission": "अनुमति का अनुरोध…"
+    },
+    "statsCard": {
+      "goalsCompleted": "पूर्ण लक्ष्य",
+      "dayPercent": "आज {{percent}}%",
+      "goalsRatio": "{{done}}/{{total}}",
+      "distanceWalked": "चली गई दूरी",
+      "distanceMiles": "{{distance}} मील",
+      "checkHealth": "स्वास्थ्य देखें"
+    },
+    "healthBar": {
+      "title": "स्वास्थ्य पट्टी"
+    },
+    "zoom": {
+      "label": "ज़ूम"
+    },
+    "acquiringLocation": "GPS स्थान प्राप्त किया जा रहा है...",
+    "markers": {
+      "you": "आप",
+      "destination": "गंतव्य",
+      "destinationDescription": "इस मार्कर को हटाने के लिए कहीं भी देर तक दबाएँ",
+      "goalComplete": "लक्ष्य पूर्ण",
+      "goalCompleteWithCategory": "{{category}} · लक्ष्य पूर्ण"
+    },
+    "eta": {
+      "lessThanOneMin": "< 1 मिनट",
+      "seconds": "{{count}} सेकंड",
+      "minutes": "{{count}} मिनट",
+      "hoursMinutes": "{{hours}} घंटे {{minutes}} मिनट",
+      "hours": "{{hours}} घंटे"
+    }
+  },
+  "schedule": {
+    "title": "आज का कार्यक्रम।",
+    "liveMap": "लाइव मानचित्र",
+    "empty": {
+      "title": "अभी कोई लक्ष्य नहीं",
+      "description": "स्थान जोड़ने के लिए + बटन दबाएँ। लाइव मानचित्र पर वहाँ तक पहुँचने पर लक्ष्य पूरा हो जाता है।"
+    },
+    "addModal": {
+      "title": "नया आइटम",
+      "type": "प्रकार",
+      "types": {
+        "academic": "शैक्षणिक",
+        "meal": "भोजन",
+        "social": "सामाजिक"
+      },
+      "time": "समय",
+      "timePlaceholder": "समय चुनने के लिए टैप करें",
+      "category": "श्रेणी",
+      "categoryPlaceholder": "जैसे: अध्ययन, क्लब",
+      "titleLabel": "शीर्षक",
+      "titlePlaceholder": "शीर्षक जोड़ें",
+      "location": "स्थान",
+      "locationSearchHint": "कहीं भी खोजने के लिए कम से कम 2 अक्षर लिखें (आपका स्थान समान नामों को क्रमबद्ध करने में मदद करता है)।",
+      "addButton": "कार्यक्रम में जोड़ें",
+      "defaultCategory": "कार्यक्रम"
+    },
+    "search": {
+      "waitingForGps": "GPS की प्रतीक्षा…",
+      "placeholder": "दुनिया में कहीं भी खोजें…",
+      "noResults": "कोई स्थान मेल नहीं खाता। कोई अन्य नाम आज़माएँ।"
+    },
+    "card": {
+      "goalComplete": "लक्ष्य पूर्ण"
+    }
+  },
+  "profile": {
+    "title": "प्रोफ़ाइल",
+    "displayName": "Mason",
+    "handle": "@masonmavinga",
+    "level": "स्तर {{level}}",
+    "xpProgress": "{{current}} / {{total}} XP",
+    "stats": {
+      "goalsToday": "आज के लक्ष्य",
+      "goalStreak": "लक्ष्य पूर्णता श्रृंखला",
+      "milesWalked": "चले गए मील",
+      "hoursStudied": "अध्ययन के घंटे"
+    },
+    "sections": {
+      "account": "खाता",
+      "preferences": "प्राथमिकताएँ",
+      "about": "जानकारी"
+    },
+    "rows": {
+      "manageProfile": "प्रोफ़ाइल प्रबंधित करें",
+      "manageProfileSublabel": "नाम, फ़ोटो, हैंडल",
+      "achievements": "उपलब्धियाँ",
+      "achievementsSublabel": "स्तर {{level}} · कुल {{xp}} XP",
+      "notifications": "सूचनाएँ",
+      "notificationsSublabel": "दैनिक अनुस्मारक",
+      "language": "भाषा",
+      "theme": "थीम",
+      "themeValue": "हल्का",
+      "appSettings": "ऐप सेटिंग्स",
+      "appVersion": "ऐप संस्करण",
+      "appVersionValue": "Lua v1.0.0",
+      "aboutUs": "हमारे बारे में",
+      "helpCenter": "सहायता केंद्र",
+      "termsPrivacy": "नियम और गोपनीयता"
+    }
+  },
+  "stats": {
+    "title": "आँकड़े",
+    "metrics": {
+      "distance": "दूरी",
+      "goals": "लक्ष्य",
+      "study": "अध्ययन"
+    },
+    "periods": {
+      "today": "आज",
+      "week": "इस सप्ताह",
+      "month": "इस महीने"
+    },
+    "goalsLegend": {
+      "completed": "पूर्ण",
+      "total": "कुल"
+    },
+    "selectedDay": {
+      "todaySuffix": "· आज",
+      "allStats": "{{label}} · सभी आँकड़े",
+      "allStatsToday": "आज · सभी आँकड़े"
+    },
+    "summary": {
+      "distance": "दूरी",
+      "goals": "लक्ष्य",
+      "study": "अध्ययन",
+      "distanceValue": "{{distance}} mi",
+      "goalsValue": "{{done}}/{{total}}"
+    },
+    "averages": {
+      "sectionTitle": "7-दिन के औसत",
+      "avgDistance": "औसत दूरी",
+      "avgGoalsDone": "औसत पूर्ण लक्ष्य",
+      "avgStudyTime": "औसत अध्ययन समय",
+      "avgDistanceValue": "{{value}} mi"
+    },
+    "leaderboard": {
+      "title": "लीडरबोर्ड ·",
+      "youBadge": "आप",
+      "yourTagline": "साहसी",
+      "streak": "🔥 {{count}}-दिन की श्रृंखला",
+      "rank": "#{{rank}}"
+    }
+  },
+  "health": {
+    "title": "स्वास्थ्य पट्टी",
+    "status": {
+      "dead": "LUA की मृत्यु हो गई",
+      "critical": "Lua गंभीर स्थिति में है",
+      "hurting": "Lua को दर्द हो रहा है",
+      "okay": "Lua ठीक है",
+      "healthy": "Lua स्वस्थ है"
+    },
+    "subtitle": {
+      "dead": "आज कोई लक्ष्य पूरा नहीं हुआ। कल फिर कोशिश करें।",
+      "critical": "Lua मुश्किल से टिका है। ठीक होने के लिए अपने लक्ष्य पूरे करें!",
+      "hurting": "Lua संघर्ष कर रहा है। आज और लक्ष्य पूरे करने की कोशिश करें।",
+      "okay": "Lua ठीक चल रहा है, लेकिन सुधार की गुंजाइश है।",
+      "healthy": "आज {{done}} में से {{total}} लक्ष्य पूरे हुए। इसी तरह जारी रखें!"
+    },
+    "stats": {
+      "goalsCompletedToday": "आज पूर्ण लक्ष्य",
+      "goalsCompletedValue": "{{done}} / {{total}}",
+      "goalStreak": "लक्ष्य पूर्णता श्रृंखला",
+      "goalStreakValue_one": "{{count}} दिन",
+      "goalStreakValue_other": "{{count}} दिन",
+      "distanceWalked": "चली गई दूरी",
+      "distanceWalkedValue": "{{distance}} मील",
+      "hoursStudied": "अध्ययन के घंटे"
+    },
+    "actions": {
+      "back": "वापस",
+      "viewLastSessionStats": "पिछले सत्र के आँकड़े देखें"
+    }
+  },
+  "settings": {
+    "title": "सेटिंग्स",
+    "comingSoon": "यह अनुभाग जल्द आ रहा है।",
+    "manageProfile": {
+      "title": "प्रोफ़ाइल प्रबंधित करें",
+      "description": "जल्द ही यहाँ अपना नाम, फ़ोटो और हैंडल अपडेट करें।"
+    },
+    "aboutUs": {
+      "title": "हमारे बारे में",
+      "description": "Lua और ऐप के पीछे की टीम के बारे में और जानें।"
+    },
+    "helpCenter": {
+      "title": "सहायता केंद्र",
+      "description": "जल्द ही यहाँ उत्तर और सहायता पाएँ।"
+    },
+    "theme": {
+      "title": "थीम",
+      "description": "जल्द ही यहाँ हल्की और गहरी थीम के बीच स्विच करें।"
+    }
+  },
+  "units": {
+    "miles": "मील",
+    "milesShort": "mi",
+    "days": "दिन"
+  },
+  "errors": {
+    "permissionDenied": "अनुमति अस्वीकृत",
+    "searchFailed": "खोज विफल"
+  },
+  "a11y": {
+    "luaLogo": "Lua लोगो",
+    "profile": "प्रोफ़ाइल",
+    "profileAvatar": "प्रोफ़ाइल अवतार",
+    "openProfile": "प्रोफ़ाइल खोलें",
+    "openLiveMap": "लाइव मानचित्र खोलें",
+    "addScheduleItem": "कार्यक्रम आइटम जोड़ें",
+    "recenterOnMe": "मेरे स्थान पर केंद्रित करें",
+    "zoomInMap": "मानचित्र ज़ूम इन",
+    "zoomOutMap": "मानचित्र ज़ूम आउट",
+    "clearSelectedLocation": "चयनित स्थान हटाएँ"
+  }
+}

@@ -3,6 +3,7 @@ import * as Haptics from "expo-haptics";
 import { router } from "expo-router";
 import { useCallback } from "react";
 import { Platform, Pressable, Text, View } from "react-native";
+import { useTranslation } from "react-i18next";
 
 import { Pixelify } from "@/constants/fonts";
 import { LUA_GREEN } from "@/constants/mapAssets";
@@ -22,6 +23,7 @@ export function MapStatsCard({
   distanceMiles,
   bottomInset,
 }: MapStatsCardProps) {
+  const { t } = useTranslation();
   const openHealthStatus = useCallback(() => {
     void Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
     router.push("/health-status");
@@ -59,20 +61,23 @@ export function MapStatsCard({
                   className="text-xs text-neutral-800"
                   style={{ fontFamily: Pixelify.semibold }}
                 >
-                  Goals Completed
+                  {t("map.statsCard.goalsCompleted")}
                 </Text>
                 <Text
                   className="mt-0.5 text-[11px] text-neutral-500"
                   style={{ fontFamily: Pixelify.semibold }}
                 >
-                  {goalDayPercent}% day
+                  {t("map.statsCard.dayPercent", { percent: goalDayPercent })}
                 </Text>
               </View>
               <Text
                 className="text-base text-neutral-900"
                 style={{ fontFamily: Pixelify.bold }}
               >
-                {goalsDone}/{goalsTotal}
+                {t("map.statsCard.goalsRatio", {
+                  done: goalsDone,
+                  total: goalsTotal,
+                })}
               </Text>
             </View>
             <View className="mt-1.5 h-1 overflow-hidden rounded-full bg-neutral-200">
@@ -94,14 +99,14 @@ export function MapStatsCard({
               className="shrink text-xs text-neutral-800"
               style={{ fontFamily: Pixelify.semibold }}
             >
-              Distance Walked
+              {t("map.statsCard.distanceWalked")}
             </Text>
           </View>
           <Text
             className="text-base text-neutral-900"
             style={{ fontFamily: Pixelify.bold }}
           >
-            {distanceMiles} miles
+            {t("map.statsCard.distanceMiles", { distance: distanceMiles })}
           </Text>
         </View>
 
@@ -114,7 +119,7 @@ export function MapStatsCard({
             className="text-xs text-white"
             style={{ fontFamily: Pixelify.bold }}
           >
-            Check Health
+            {t("map.statsCard.checkHealth")}
           </Text>
         </Pressable>
       </View>

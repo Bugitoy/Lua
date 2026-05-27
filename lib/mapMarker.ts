@@ -4,6 +4,7 @@ import {
   metersPerDegLng,
   type LatLngPoint,
 } from "@/lib/geo";
+import i18n from "@/lib/i18n";
 
 /** Typical walking pace (~5 km/h) for ETA estimates. */
 export const WALKING_PACE_MPS = 1.1;
@@ -83,11 +84,15 @@ export function bearingFromSpriteDegrees(
 export function formatWalkingEta(etaMinutes: number): string {
   const totalSeconds = Math.max(0, Math.ceil(etaMinutes * 60));
   if (totalSeconds < 60) {
-    return totalSeconds <= 1 ? "< 1 min" : `${totalSeconds} sec`;
+    return totalSeconds <= 1
+      ? i18n.t("map.eta.lessThanOneMin")
+      : i18n.t("map.eta.seconds", { count: totalSeconds });
   }
   const minutes = Math.ceil(totalSeconds / 60);
-  if (minutes < 60) return `${minutes} min`;
+  if (minutes < 60) return i18n.t("map.eta.minutes", { count: minutes });
   const hours = Math.floor(minutes / 60);
   const rem = minutes % 60;
-  return rem > 0 ? `${hours} hr ${rem} min` : `${hours} hr`;
+  return rem > 0
+    ? i18n.t("map.eta.hoursMinutes", { hours, minutes: rem })
+    : i18n.t("map.eta.hours", { hours });
 }

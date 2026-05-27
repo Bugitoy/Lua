@@ -1,10 +1,13 @@
+import { useTranslation } from "react-i18next";
+
 import { SettingsStubScreen } from "@/components/settings/SettingsStubScreen";
 
 export default function ThemeScreen() {
+  const { t } = useTranslation();
   return (
     <SettingsStubScreen
-      title="Theme"
-      description="Switch between light and dark themes here soon."
+      title={t("settings.theme.title")}
+      description={t("settings.theme.description")}
     />
   );
 }

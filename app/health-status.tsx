@@ -3,6 +3,7 @@ import { LinearGradient } from "expo-linear-gradient";
 import { router } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import { Pressable, ScrollView, Text, View } from "react-native";
+import { useTranslation } from "react-i18next";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 import { HealthStatusSprite } from "@/components/health/HealthStatusSprite";
@@ -42,6 +43,7 @@ function StatRow({
 }
 
 export default function HealthStatusScreen() {
+  const { t } = useTranslation();
   const insets = useSafeAreaInsets();
   const { stats } = useGameStats();
 
@@ -51,19 +53,25 @@ export default function HealthStatusScreen() {
   const healthPercent = Math.round(healthRatio * 100);
   const isDead = healthRatio <= 0.001;
 
-  const healthTitle =
-    isDead              ? "LUA HAS DIED" :
-    healthRatio < 0.25  ? "Lua is critical" :
-    healthRatio < 0.50  ? "Lua is hurting" :
-    healthRatio < 0.75  ? "Lua is okay" :
-                          "Lua is healthy";
+  const healthTitle = isDead
+    ? t("health.status.dead")
+    : healthRatio < 0.25
+      ? t("health.status.critical")
+      : healthRatio < 0.5
+        ? t("health.status.hurting")
+        : healthRatio < 0.75
+          ? t("health.status.okay")
+          : t("health.status.healthy");
 
-  const healthSubtitle =
-    isDead              ? "Zero goals completed today. Let's try again tomorrow." :
-    healthRatio < 0.25  ? "Lua is barely hanging on. Complete your goals to recover!" :
-    healthRatio < 0.50  ? "Lua is struggling. Try to get more goals done today." :
-    healthRatio < 0.75  ? "Lua is doing alright, but there's room to improve." :
-                          `${goalsDone} of ${goalsTotal} goals done today. Keep it up!`;
+  const healthSubtitle = isDead
+    ? t("health.subtitle.dead")
+    : healthRatio < 0.25
+      ? t("health.subtitle.critical")
+      : healthRatio < 0.5
+        ? t("health.subtitle.hurting")
+        : healthRatio < 0.75
+          ? t("health.subtitle.okay")
+          : t("health.subtitle.healthy", { done: goalsDone, total: goalsTotal });
 
   return (
     <View className="flex-1 bg-white">
@@ -81,7 +89,7 @@ export default function HealthStatusScreen() {
           className="mb-5 text-center text-lg text-neutral-800"
           style={{ fontFamily: Pixelify.semibold }}
         >
-          Health Bar
+          {t("health.title")}
         </Text>
 
         <View className="mb-[-14rem] px-1">
@@ -145,22 +153,27 @@ export default function HealthStatusScreen() {
           <View className="pt-1">
             <StatRow
               icon="flag-outline"
-              label="Goals Completed Today"
-              value={`${goalsDone} / ${goalsTotal}`}
+              label={t("health.stats.goalsCompletedToday")}
+              value={t("health.stats.goalsCompletedValue", {
+                done: goalsDone,
+                total: goalsTotal,
+              })}
             />
             <StatRow
               icon="flame-outline"
-              label="Goal Completion Streak"
-              value={`${goalStreak} day${goalStreak === 1 ? "" : "s"}`}
+              label={t("health.stats.goalStreak")}
+              value={t("health.stats.goalStreakValue", { count: goalStreak })}
             />
             <StatRow
               icon="footsteps"
-              label="Distance Walked"
-              value={`${distanceMiles} miles`}
+              label={t("health.stats.distanceWalked")}
+              value={t("health.stats.distanceWalkedValue", {
+                distance: distanceMiles,
+              })}
             />
             <StatRow
               icon="book-outline"
-              label="Hours Studied"
+              label={t("health.stats.hoursStudied")}
               value={formatHours(hoursStudied)}
             />
           </View>
@@ -175,7 +188,7 @@ export default function HealthStatusScreen() {
             className="text-base uppercase text-white"
             style={{ fontFamily: Pixelify.bold, letterSpacing: 0.5 }}
           >
-            Back
+            {t("health.actions.back")}
           </Text>
         </Pressable>
 
@@ -187,7 +200,7 @@ export default function HealthStatusScreen() {
             className="text-base text-neutral-700"
             style={{ fontFamily: Pixelify.medium }}
           >
-            View last session stats
+            {t("health.actions.viewLastSessionStats")}
           </Text>
         </Pressable>
       </ScrollView>

@@ -1,5 +1,6 @@
 import { LinearGradient } from "expo-linear-gradient";
 import { Text, View } from "react-native";
+import { useTranslation } from "react-i18next";
 
 import { Pixelify } from "@/constants/fonts";
 import { LUA_GREEN } from "@/constants/mapAssets";
@@ -9,6 +10,7 @@ type MapHealthBarCardProps = {
 };
 
 export function MapHealthBarCard({ healthRatio }: MapHealthBarCardProps) {
+  const { t } = useTranslation();
   return (
     <View className="mt-2 items-center px-4" pointerEvents="auto">
       <View
@@ -25,7 +27,7 @@ export function MapHealthBarCard({ healthRatio }: MapHealthBarCardProps) {
           className="text-left text-sm text-neutral-800"
           style={{ fontFamily: Pixelify.bold }}
         >
-          Health Bar
+          {t("map.healthBar.title")}
         </Text>
         <View className="mt-1 h-4 overflow-hidden rounded-full bg-neutral-200">
           <LinearGradient

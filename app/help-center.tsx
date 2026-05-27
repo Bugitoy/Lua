@@ -1,10 +1,13 @@
+import { useTranslation } from "react-i18next";
+
 import { SettingsStubScreen } from "@/components/settings/SettingsStubScreen";
 
 export default function HelpCenterScreen() {
+  const { t } = useTranslation();
   return (
     <SettingsStubScreen
-      title="Help Center"
-      description="Find answers and get support here soon."
+      title={t("settings.helpCenter.title")}
+      description={t("settings.helpCenter.description")}
     />
   );
 }

@@ -6,6 +6,7 @@ import {
   Text,
   View,
 } from "react-native";
+import { useTranslation } from "react-i18next";
 
 import { Pixelify } from "@/constants/fonts";
 import { LUA_GREEN } from "@/constants/mapAssets";
@@ -136,7 +137,12 @@ function WheelColumn({
 }
 
 export function TimeWheelPicker({ value, onChange }: TimeWheelPickerProps) {
+  const { t } = useTranslation();
   const parts = useMemo(() => partsFromDate(value), [value]);
+  const periodLabels = useMemo(
+    () => [t("common.am"), t("common.pm")] as const,
+    [t],
+  );
 
   const hourIndex = parts.h12 - 1;
   const minuteIndex = parts.minute;
@@ -198,7 +204,7 @@ export function TimeWheelPicker({ value, onChange }: TimeWheelPickerProps) {
         />
         <View style={{ width: 12 }} />
         <WheelColumn
-          items={PERIODS as readonly string[]}
+          items={periodLabels as readonly string[]}
           selectedIndex={periodIndex}
           width={56}
           onSelectIndex={(idx) =>

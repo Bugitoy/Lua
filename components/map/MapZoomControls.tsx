@@ -1,5 +1,6 @@
 import { Ionicons } from "@expo/vector-icons";
 import { Pressable, Text, View } from "react-native";
+import { useTranslation } from "react-i18next";
 
 import { Pixelify } from "@/constants/fonts";
 
@@ -18,6 +19,7 @@ export function MapZoomControls({
   onZoomIn,
   onZoomOut,
 }: MapZoomControlsProps) {
+  const { t } = useTranslation();
   return (
     <View
       className="absolute z-[11] flex-row items-center gap-0.5 rounded-xl border border-black/10 bg-white/95 shadow-md"
@@ -30,7 +32,7 @@ export function MapZoomControls({
       pointerEvents="auto"
     >
       <Pressable
-        accessibilityLabel="Zoom out map"
+        accessibilityLabel={t("a11y.zoomOutMap")}
         hitSlop={8}
         disabled={!canZoomOut}
         onPress={onZoomOut}
@@ -43,10 +45,10 @@ export function MapZoomControls({
         className="mx-1 text-xs text-neutral-500"
         style={{ fontFamily: Pixelify.semibold }}
       >
-        Zoom
+        {t("map.zoom.label")}
       </Text>
       <Pressable
-        accessibilityLabel="Zoom in map"
+        accessibilityLabel={t("a11y.zoomInMap")}
         hitSlop={8}
         disabled={!canZoomIn}
         onPress={onZoomIn}

@@ -1,0 +1,260 @@
+{
+  "tabs": {
+    "map": "Map",
+    "schedule": "Schedule",
+    "profile": "Profile",
+    "stats": "Stats"
+  },
+  "common": {
+    "appName": "Lua",
+    "back": "Back",
+    "cancel": "Cancel",
+    "done": "Done",
+    "you": "You",
+    "today": "Today",
+    "notAvailable": "n/a",
+    "emDash": "—",
+    "signOut": "Sign Out",
+    "signOutConfirmTitle": "Sign Out",
+    "signOutConfirmMessage": "Are you sure you want to sign out?",
+    "am": "AM",
+    "pm": "PM",
+    "chooseLanguage": "Choose Language"
+  },
+  "map": {
+    "liveTracking": {
+      "title": "LIVE TRACKING",
+      "clearPin": "CLEAR PIN",
+      "destinationAway": "Destination: {{distance}} mi away",
+      "longPressHint": "Long press on the map to place a destination marker",
+      "arrived": "Arrived at destination",
+      "bearingEta": "Bearing: {{bearing}}°   ETA: {{eta}}",
+      "remaining": "Remaining: {{distance}} mi"
+    },
+    "gpsDebug": {
+      "title": "GPS DEBUG",
+      "lat": "Lat:  {{value}}",
+      "lng": "Lng:  {{value}}",
+      "accuracy": "Acc: ±{{value}} m",
+      "speed": "Spd: {{speed}}   raw: {{rawSpeed}} m/s",
+      "stateStationary": "State: stationary",
+      "stateMoving": "State: moving",
+      "stateMovingWithHeading": "State: moving  •  {{heading}}°",
+      "requestingPermission": "Requesting permission…"
+    },
+    "statsCard": {
+      "goalsCompleted": "Goals Completed",
+      "dayPercent": "{{percent}}% day",
+      "goalsRatio": "{{done}}/{{total}}",
+      "distanceWalked": "Distance Walked",
+      "distanceMiles": "{{distance}} miles",
+      "checkHealth": "Check Health"
+    },
+    "healthBar": {
+      "title": "Health Bar"
+    },
+    "zoom": {
+      "label": "Zoom"
+    },
+    "acquiringLocation": "Acquiring GPS location...",
+    "markers": {
+      "you": "You",
+      "destination": "Destination",
+      "destinationDescription": "Long press anywhere to move this marker",
+      "goalComplete": "Goal complete",
+      "goalCompleteWithCategory": "{{category}} · Goal complete"
+    },
+    "eta": {
+      "lessThanOneMin": "< 1 min",
+      "seconds": "{{count}} sec",
+      "minutes": "{{count}} min",
+      "hoursMinutes": "{{hours}} hr {{minutes}} min",
+      "hours": "{{hours}} hr"
+    }
+  },
+  "schedule": {
+    "title": "Today's Schedule.",
+    "liveMap": "Live map",
+    "empty": {
+      "title": "No goals yet",
+      "description": "Tap the + button to add a place. Walking up to it on the live map completes the goal."
+    },
+    "addModal": {
+      "title": "New item",
+      "type": "Type",
+      "types": {
+        "academic": "Academic",
+        "meal": "Meal",
+        "social": "Social"
+      },
+      "time": "Time",
+      "timePlaceholder": "Tap to choose a time",
+      "category": "Category",
+      "categoryPlaceholder": "e.g. Study, Club",
+      "titleLabel": "Title",
+      "titlePlaceholder": "Add a title",
+      "location": "Location",
+      "locationSearchHint": "Type at least 2 characters to search anywhere (your location helps rank similar names).",
+      "addButton": "Add to schedule",
+      "defaultCategory": "Event"
+    },
+    "search": {
+      "waitingForGps": "Waiting for GPS…",
+      "placeholder": "Search any place in the world…",
+      "noResults": "No places match. Try a different name."
+    },
+    "card": {
+      "goalComplete": "Goal complete"
+    }
+  },
+  "profile": {
+    "title": "Profile",
+    "displayName": "Mason",
+    "handle": "@masonmavinga",
+    "level": "Level {{level}}",
+    "xpProgress": "{{current}} / {{total}} XP",
+    "stats": {
+      "goalsToday": "Goals Today",
+      "goalStreak": "Goal Completion Streak",
+      "milesWalked": "Miles Walked",
+      "hoursStudied": "Hours Studied"
+    },
+    "sections": {
+      "account": "Account",
+      "preferences": "Preferences",
+      "about": "About"
+    },
+    "rows": {
+      "manageProfile": "Manage Profile",
+      "manageProfileSublabel": "Name, photo, handle",
+      "achievements": "Achievements",
+      "achievementsSublabel": "Level {{level}} · {{xp}} XP total",
+      "notifications": "Notifications",
+      "notificationsSublabel": "Daily reminders",
+      "language": "Language",
+      "theme": "Theme",
+      "themeValue": "Light",
+      "appSettings": "App Settings",
+      "appVersion": "App Version",
+      "appVersionValue": "Lua v1.0.0",
+      "aboutUs": "About Us",
+      "helpCenter": "Help Center",
+      "termsPrivacy": "Terms & Privacy"
+    }
+  },
+  "stats": {
+    "title": "Stats",
+    "metrics": {
+      "distance": "Distance",
+      "goals": "Goals",
+      "study": "Study"
+    },
+    "periods": {
+      "today": "Today",
+      "week": "This Week",
+      "month": "This Month"
+    },
+    "goalsLegend": {
+      "completed": "Completed",
+      "total": "Total"
+    },
+    "selectedDay": {
+      "todaySuffix": "· Today",
+      "allStats": "{{label}} · All stats",
+      "allStatsToday": "Today · All stats"
+    },
+    "summary": {
+      "distance": "Distance",
+      "goals": "Goals",
+      "study": "Study",
+      "distanceValue": "{{distance}} mi",
+      "goalsValue": "{{done}}/{{total}}"
+    },
+    "averages": {
+      "sectionTitle": "7-Day Averages",
+      "avgDistance": "Avg Distance",
+      "avgGoalsDone": "Avg Goals Done",
+      "avgStudyTime": "Avg Study Time",
+      "avgDistanceValue": "{{value}} mi"
+    },
+    "leaderboard": {
+      "title": "Leaderboard ·",
+      "youBadge": "YOU",
+      "yourTagline": "Adventurer",
+      "streak": "🔥 {{count}}-day streak",
+      "rank": "#{{rank}}"
+    }
+  },
+  "health": {
+    "title": "Health Bar",
+    "status": {
+      "dead": "LUA HAS DIED",
+      "critical": "Lua is critical",
+      "hurting": "Lua is hurting",
+      "okay": "Lua is okay",
+      "healthy": "Lua is healthy"
+    },
+    "subtitle": {
+      "dead": "Zero goals completed today. Let's try again tomorrow.",
+      "critical": "Lua is barely hanging on. Complete your goals to recover!",
+      "hurting": "Lua is struggling. Try to get more goals done today.",
+      "okay": "Lua is doing alright, but there's room to improve.",
+      "healthy": "{{done}} of {{total}} goals done today. Keep it up!"
+    },
+    "stats": {
+      "goalsCompletedToday": "Goals Completed Today",
+      "goalsCompletedValue": "{{done}} / {{total}}",
+      "goalStreak": "Goal Completion Streak",
+      "goalStreakValue_one": "{{count}} day",
+      "goalStreakValue_other": "{{count}} days",
+      "distanceWalked": "Distance Walked",
+      "distanceWalkedValue": "{{distance}} miles",
+      "hoursStudied": "Hours Studied"
+    },
+    "actions": {
+      "back": "Back",
+      "viewLastSessionStats": "View last session stats"
+    }
+  },
+  "settings": {
+    "title": "Settings",
+    "comingSoon": "This section is coming soon.",
+    "manageProfile": {
+      "title": "Manage Profile",
+      "description": "Update your name, photo, and handle here soon."
+    },
+    "aboutUs": {
+      "title": "About Us",
+      "description": "Learn more about Lua and the team behind the app."
+    },
+    "helpCenter": {
+      "title": "Help Center",
+      "description": "Find answers and get support here soon."
+    },
+    "theme": {
+      "title": "Theme",
+      "description": "Switch between light and dark themes here soon."
+    }
+  },
+  "units": {
+    "miles": "miles",
+    "milesShort": "mi",
+    "days": "days"
+  },
+  "errors": {
+    "permissionDenied": "Permission denied",
+    "searchFailed": "Search failed"
+  },
+  "a11y": {
+    "luaLogo": "Lua logo",
+    "profile": "Profile",
+    "profileAvatar": "Profile avatar",
+    "openProfile": "Open profile",
+    "openLiveMap": "Open live map",
+    "addScheduleItem": "Add schedule item",
+    "recenterOnMe": "Recenter on me",
+    "zoomInMap": "Zoom in map",
+    "zoomOutMap": "Zoom out map",
+    "clearSelectedLocation": "Clear selected location"
+  }
+}

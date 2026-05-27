@@ -1,10 +1,13 @@
+import { useTranslation } from "react-i18next";
+
 import { SettingsStubScreen } from "@/components/settings/SettingsStubScreen";
 
 export default function AboutUsScreen() {
+  const { t } = useTranslation();
   return (
     <SettingsStubScreen
-      title="About Us"
-      description="Learn more about Lua and the team behind the app."
+      title={t("settings.aboutUs.title")}
+      description={t("settings.aboutUs.description")}
     />
   );
 }

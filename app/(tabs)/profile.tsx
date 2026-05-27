@@ -2,7 +2,7 @@ import { Ionicons } from "@expo/vector-icons";
 import { Image } from "expo-image";
 import { LinearGradient } from "expo-linear-gradient";
 import { router } from "expo-router";
-import { useCallback, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import {
   Alert,
   Pressable,
@@ -11,19 +11,30 @@ import {
   Text,
   View,
 } from "react-native";
+import { useTranslation } from "react-i18next";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
+import { LanguagePickerModal } from "@/components/settings/LanguagePickerModal";
 import { Pixelify } from "@/constants/fonts";
 import { LUA_GREEN } from "@/constants/mapAssets";
 import { formatHours } from "@/lib/formatters";
 import { useGameStats } from "@/lib/gameStats";
+import { useLanguagePreference } from "@/lib/i18n/LanguageProvider";
 
 const AVATAR_URI = "https://i.pravatar.cc/240?img=12";
 
 const LEVEL_XP_REQUIRED = 1000;
 
-function xpForStats(stats: { goalsDone: number; distanceMiles: number; hoursStudied: number }) {
-  return stats.goalsDone * 50 + Math.floor(stats.distanceMiles) * 30 + stats.hoursStudied * 40;
+function xpForStats(stats: {
+  goalsDone: number;
+  distanceMiles: number;
+  hoursStudied: number;
+}) {
+  return (
+    stats.goalsDone * 50 +
+    Math.floor(stats.distanceMiles) * 30 +
+    stats.hoursStudied * 40
+  );
 }
 
 type SettingRowProps = {
@@ -99,24 +110,73 @@ function SectionCard({ children }: { children: React.ReactNode }) {
 
 export default function ProfileScreen() {
   const insets = useSafeAreaInsets();
+  const { t } = useTranslation();
+  const { languageLabel } = useLanguagePreference();
   const { stats } = useGameStats();
   const [notificationsEnabled, setNotificationsEnabled] = useState(true);
+  const [languageModalVisible, setLanguageModalVisible] = useState(false);
 
   const xp = xpForStats(stats);
   const level = Math.floor(xp / LEVEL_XP_REQUIRED) + 1;
   const xpInLevel = xp % LEVEL_XP_REQUIRED;
   const xpProgress = xpInLevel / LEVEL_XP_REQUIRED;
 
+  const statCards = useMemo(
+    () => [
+      {
+        key: "goalsToday",
+        label: t("profile.stats.goalsToday"),
+        value: `${stats.goalsDone}`,
+        sub: `/ ${stats.goalsTotal}`,
+        icon: "flag-outline" as const,
+        accent: LUA_GREEN,
+      },
+      {
+        key: "goalStreak",
+        label: t("profile.stats.goalStreak"),
+        value: `${stats.goalStreak}`,
+        sub: t("units.days"),
+        icon: "flame-outline" as const,
+        accent: "#f97316",
+      },
+      {
+        key: "milesWalked",
+        label: t("profile.stats.milesWalked"),
+        value: `${stats.distanceMiles}`,
+        sub: t("units.milesShort"),
+        icon: "footsteps" as const,
+        accent: "#3b82f6",
+      },
+      {
+        key: "hoursStudied",
+        label: t("profile.stats.hoursStudied"),
+        value: formatHours(stats.hoursStudied),
+        sub: "",
+        icon: "book-outline" as const,
+        accent: "#8b5cf6",
+      },
+    ],
+    [stats, t],
+  );
+
   const onManageProfile = useCallback(() => {
     router.push("/manage-profile");
   }, []);
 
   const onSignOut = useCallback(() => {
-    Alert.alert("Sign Out", "Are you sure you want to sign out?", [
-      { text: "Cancel", style: "cancel" },
-      { text: "Sign Out", style: "destructive", onPress: () => {} },
-    ]);
-  }, []);
+    Alert.alert(
+      t("common.signOutConfirmTitle"),
+      t("common.signOutConfirmMessage"),
+      [
+        { text: t("common.cancel"), style: "cancel" },
+        {
+          text: t("common.signOut"),
+          style: "destructive",
+          onPress: () => {},
+        },
+      ],
+    );
+  }, [t]);
 
   return (
     <View className="flex-1 bg-neutral-100">
@@ -133,10 +193,9 @@ export default function ProfileScreen() {
           className="mb-5 text-3xl text-neutral-900"
           style={{ fontFamily: Pixelify.bold }}
         >
-          Profile
+          {t("profile.title")}
         </Text>
 
-        {/* Avatar + name card */}
         <View
           className="mb-4 overflow-hidden rounded-2xl bg-white"
           style={{
@@ -163,7 +222,7 @@ export default function ProfileScreen() {
                   borderWidth: 3,
                   borderColor: LUA_GREEN,
                 }}
-                accessibilityLabel="Profile avatar"
+                accessibilityLabel={t("a11y.profileAvatar")}
               />
               <View
                 className="absolute bottom-0 right-0 size-7 items-center justify-center rounded-full border-2 border-white"
@@ -177,13 +236,13 @@ export default function ProfileScreen() {
               className="mt-3 text-xl text-neutral-900"
               style={{ fontFamily: Pixelify.bold }}
             >
-              Mason
+              {t("profile.displayName")}
             </Text>
             <Text
               className="text-sm text-neutral-500"
               style={{ fontFamily: Pixelify.regular }}
             >
-              @masonmavinga
+              {t("profile.handle")}
             </Text>
 
             <View className="mt-4 w-full">
@@ -192,13 +251,16 @@ export default function ProfileScreen() {
                   className="text-xs text-neutral-600"
                   style={{ fontFamily: Pixelify.semibold }}
                 >
-                  Level {level}
+                  {t("profile.level", { level })}
                 </Text>
                 <Text
                   className="text-xs text-neutral-400"
                   style={{ fontFamily: Pixelify.regular }}
                 >
-                  {xpInLevel} / {LEVEL_XP_REQUIRED} XP
+                  {t("profile.xpProgress", {
+                    current: xpInLevel,
+                    total: LEVEL_XP_REQUIRED,
+                  })}
                 </Text>
               </View>
               <View className="h-3 overflow-hidden rounded-full bg-neutral-200">
@@ -217,40 +279,10 @@ export default function ProfileScreen() {
           </LinearGradient>
         </View>
 
-        {/* Stats grid */}
         <View className="mb-4 flex-row flex-wrap gap-3">
-          {[
-            {
-              label: "Goals Today",
-              value: `${stats.goalsDone}`,
-              sub: `/ ${stats.goalsTotal}`,
-              icon: "flag-outline" as const,
-              accent: LUA_GREEN,
-            },
-            {
-              label: "Goal Completion Streak",
-              value: `${stats.goalStreak}`,
-              sub: "days",
-              icon: "flame-outline" as const,
-              accent: "#f97316",
-            },
-            {
-              label: "Miles Walked",
-              value: `${stats.distanceMiles}`,
-              sub: "mi",
-              icon: "footsteps" as const,
-              accent: "#3b82f6",
-            },
-            {
-              label: "Hours Studied",
-              value: formatHours(stats.hoursStudied),
-              sub: "",
-              icon: "book-outline" as const,
-              accent: "#8b5cf6",
-            },
-          ].map((item) => (
+          {statCards.map((item) => (
             <View
-              key={item.label}
+              key={item.key}
               className="items-center rounded-2xl bg-white py-4"
               style={{
                 width: "47.5%",
@@ -291,41 +323,39 @@ export default function ProfileScreen() {
           ))}
         </View>
 
-        {/* Account */}
         <Text
           className="mb-2 ml-1 text-xs uppercase tracking-widest text-neutral-400"
           style={{ fontFamily: Pixelify.semibold }}
         >
-          Account
+          {t("profile.sections.account")}
         </Text>
         <SectionCard>
           <SettingRow
             icon="person-outline"
-            label="Manage Profile"
-            sublabel="Name, photo, handle"
+            label={t("profile.rows.manageProfile")}
+            sublabel={t("profile.rows.manageProfileSublabel")}
             onPress={onManageProfile}
           />
           <View className="mx-4 h-px bg-neutral-100" />
           <SettingRow
             icon="trophy-outline"
-            label="Achievements"
-            sublabel={`Level ${level} · ${xp} XP total`}
+            label={t("profile.rows.achievements")}
+            sublabel={t("profile.rows.achievementsSublabel", { level, xp })}
             onPress={() => {}}
           />
         </SectionCard>
 
-        {/* Preferences */}
         <Text
           className="mb-2 ml-1 text-xs uppercase tracking-widest text-neutral-400"
           style={{ fontFamily: Pixelify.semibold }}
         >
-          Preferences
+          {t("profile.sections.preferences")}
         </Text>
         <SectionCard>
           <SettingRow
             icon="notifications-outline"
-            label="Notifications"
-            sublabel="Daily reminders"
+            label={t("profile.rows.notifications")}
+            sublabel={t("profile.rows.notificationsSublabel")}
             rightElement={
               <Switch
                 value={notificationsEnabled}
@@ -338,64 +368,62 @@ export default function ProfileScreen() {
           <View className="mx-4 h-px bg-neutral-100" />
           <SettingRow
             icon="language-outline"
-            label="Language"
-            sublabel="English"
-            onPress={() => router.push("/language")}
+            label={t("profile.rows.language")}
+            sublabel={languageLabel}
+            onPress={() => setLanguageModalVisible(true)}
           />
           <View className="mx-4 h-px bg-neutral-100" />
           <SettingRow
             icon="color-palette-outline"
-            label="Theme"
-            sublabel="Light"
+            label={t("profile.rows.theme")}
+            sublabel={t("profile.rows.themeValue")}
             onPress={() => router.push("/theme")}
           />
           <View className="mx-4 h-px bg-neutral-100" />
           <SettingRow
             icon="settings-outline"
-            label="App Settings"
+            label={t("profile.rows.appSettings")}
             onPress={() => router.push("/(tabs)/settings")}
             tintColor="#6366f1"
           />
         </SectionCard>
 
-        {/* About */}
         <Text
           className="mb-2 ml-1 text-xs uppercase tracking-widest text-neutral-400"
           style={{ fontFamily: Pixelify.semibold }}
         >
-          About
+          {t("profile.sections.about")}
         </Text>
         <SectionCard>
           <SettingRow
             icon="information-circle-outline"
-            label="App Version"
-            sublabel="Lua v1.0.0"
+            label={t("profile.rows.appVersion")}
+            sublabel={t("profile.rows.appVersionValue")}
             tintColor="#64748b"
           />
           <View className="mx-4 h-px bg-neutral-100" />
           <SettingRow
             icon="people-outline"
-            label="About Us"
+            label={t("profile.rows.aboutUs")}
             onPress={() => router.push("/about-us")}
             tintColor="#64748b"
           />
           <View className="mx-4 h-px bg-neutral-100" />
           <SettingRow
             icon="help-circle-outline"
-            label="Help Center"
+            label={t("profile.rows.helpCenter")}
             onPress={() => router.push("/help-center")}
             tintColor="#64748b"
           />
           <View className="mx-4 h-px bg-neutral-100" />
           <SettingRow
             icon="document-text-outline"
-            label="Terms & Privacy"
+            label={t("profile.rows.termsPrivacy")}
             onPress={() => {}}
             tintColor="#64748b"
           />
         </SectionCard>
 
-        {/* Sign out */}
         <Pressable
           onPress={onSignOut}
           className="items-center rounded-2xl bg-white py-4 active:opacity-80"
@@ -411,10 +439,15 @@ export default function ProfileScreen() {
             className="text-base text-red-500"
             style={{ fontFamily: Pixelify.semibold }}
           >
-            Sign Out
+            {t("common.signOut")}
           </Text>
         </Pressable>
       </ScrollView>
+
+      <LanguagePickerModal
+        visible={languageModalVisible}
+        onClose={() => setLanguageModalVisible(false)}
+      />
     </View>
   );
 }

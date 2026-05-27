@@ -1,14 +1,13 @@
-import React from "react";
 import { Text, View } from "react-native";
+import { useTranslation } from "react-i18next";
 
 import { Pixelify } from "@/constants/fonts";
 
-const settings = () => {
+export default function SettingsScreen() {
+  const { t } = useTranslation();
   return (
     <View>
-      <Text style={{ fontFamily: Pixelify.regular }}>settings</Text>
+      <Text style={{ fontFamily: Pixelify.regular }}>{t("settings.title")}</Text>
     </View>
   );
-};
-
-export default settings
+}

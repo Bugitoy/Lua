@@ -1,0 +1,260 @@
+{
+  "tabs": {
+    "map": "지도",
+    "schedule": "일정",
+    "profile": "프로필",
+    "stats": "통계"
+  },
+  "common": {
+    "appName": "Lua",
+    "back": "뒤로",
+    "cancel": "취소",
+    "done": "완료",
+    "you": "나",
+    "today": "오늘",
+    "notAvailable": "해당 없음",
+    "emDash": "—",
+    "signOut": "로그아웃",
+    "signOutConfirmTitle": "로그아웃",
+    "signOutConfirmMessage": "정말 로그아웃하시겠습니까?",
+    "am": "AM",
+    "pm": "PM",
+    "chooseLanguage": "언어 선택"
+  },
+  "map": {
+    "liveTracking": {
+      "title": "실시간 추적",
+      "clearPin": "핀 지우기",
+      "destinationAway": "목적지: {{distance}} mi 남음",
+      "longPressHint": "지도를 길게 눌러 목적지 마커를 배치하세요",
+      "arrived": "목적지에 도착했습니다",
+      "bearingEta": "방위: {{bearing}}°   예상 도착: {{eta}}",
+      "remaining": "남은 거리: {{distance}} mi"
+    },
+    "gpsDebug": {
+      "title": "GPS 디버그",
+      "lat": "위도: {{value}}",
+      "lng": "경도: {{value}}",
+      "accuracy": "정확도: ±{{value}} m",
+      "speed": "속도: {{speed}}   원시: {{rawSpeed}} m/s",
+      "stateStationary": "상태: 정지",
+      "stateMoving": "상태: 이동 중",
+      "stateMovingWithHeading": "상태: 이동 중  •  {{heading}}°",
+      "requestingPermission": "권한 요청 중…"
+    },
+    "statsCard": {
+      "goalsCompleted": "완료한 목표",
+      "dayPercent": "오늘 {{percent}}%",
+      "goalsRatio": "{{done}}/{{total}}",
+      "distanceWalked": "걸은 거리",
+      "distanceMiles": "{{distance}}마일",
+      "checkHealth": "건강 확인"
+    },
+    "healthBar": {
+      "title": "체력 바"
+    },
+    "zoom": {
+      "label": "확대/축소"
+    },
+    "acquiringLocation": "GPS 위치를 가져오는 중...",
+    "markers": {
+      "you": "나",
+      "destination": "목적지",
+      "destinationDescription": "아무 곳이나 길게 눌러 이 마커를 이동하세요",
+      "goalComplete": "목표 완료",
+      "goalCompleteWithCategory": "{{category}} · 목표 완료"
+    },
+    "eta": {
+      "lessThanOneMin": "< 1분",
+      "seconds": "{{count}}초",
+      "minutes": "{{count}}분",
+      "hoursMinutes": "{{hours}}시간 {{minutes}}분",
+      "hours": "{{hours}}시간"
+    }
+  },
+  "schedule": {
+    "title": "오늘의 일정.",
+    "liveMap": "실시간 지도",
+    "empty": {
+      "title": "아직 목표가 없습니다",
+      "description": "+ 버튼을 눌러 장소를 추가하세요. 실시간 지도에서 그곳까지 걸어가면 목표가 완료됩니다."
+    },
+    "addModal": {
+      "title": "새 항목",
+      "type": "유형",
+      "types": {
+        "academic": "학습",
+        "meal": "식사",
+        "social": "사교"
+      },
+      "time": "시간",
+      "timePlaceholder": "탭하여 시간 선택",
+      "category": "카테고리",
+      "categoryPlaceholder": "예: 공부, 동아리",
+      "titleLabel": "제목",
+      "titlePlaceholder": "제목 추가",
+      "location": "위치",
+      "locationSearchHint": "2자 이상 입력하면 전 세계를 검색할 수 있습니다(내 위치는 비슷한 이름 정렬에 도움이 됩니다).",
+      "addButton": "일정에 추가",
+      "defaultCategory": "이벤트"
+    },
+    "search": {
+      "waitingForGps": "GPS 대기 중…",
+      "placeholder": "전 세계 장소 검색…",
+      "noResults": "일치하는 장소가 없습니다. 다른 이름을 시도해 보세요."
+    },
+    "card": {
+      "goalComplete": "목표 완료"
+    }
+  },
+  "profile": {
+    "title": "프로필",
+    "displayName": "Mason",
+    "handle": "@masonmavinga",
+    "level": "레벨 {{level}}",
+    "xpProgress": "{{current}} / {{total}} XP",
+    "stats": {
+      "goalsToday": "오늘의 목표",
+      "goalStreak": "목표 완료 연속 일수",
+      "milesWalked": "걸은 마일",
+      "hoursStudied": "학습 시간"
+    },
+    "sections": {
+      "account": "계정",
+      "preferences": "환경설정",
+      "about": "정보"
+    },
+    "rows": {
+      "manageProfile": "프로필 관리",
+      "manageProfileSublabel": "이름, 사진, 핸들",
+      "achievements": "업적",
+      "achievementsSublabel": "레벨 {{level}} · 총 {{xp}} XP",
+      "notifications": "알림",
+      "notificationsSublabel": "매일 알림",
+      "language": "언어",
+      "theme": "테마",
+      "themeValue": "라이트",
+      "appSettings": "앱 설정",
+      "appVersion": "앱 버전",
+      "appVersionValue": "Lua v1.0.0",
+      "aboutUs": "회사 소개",
+      "helpCenter": "고객센터",
+      "termsPrivacy": "약관 및 개인정보"
+    }
+  },
+  "stats": {
+    "title": "통계",
+    "metrics": {
+      "distance": "거리",
+      "goals": "목표",
+      "study": "학습"
+    },
+    "periods": {
+      "today": "오늘",
+      "week": "이번 주",
+      "month": "이번 달"
+    },
+    "goalsLegend": {
+      "completed": "완료",
+      "total": "전체"
+    },
+    "selectedDay": {
+      "todaySuffix": "· 오늘",
+      "allStats": "{{label}} · 전체 통계",
+      "allStatsToday": "오늘 · 전체 통계"
+    },
+    "summary": {
+      "distance": "거리",
+      "goals": "목표",
+      "study": "학습",
+      "distanceValue": "{{distance}} mi",
+      "goalsValue": "{{done}}/{{total}}"
+    },
+    "averages": {
+      "sectionTitle": "7일 평균",
+      "avgDistance": "평균 거리",
+      "avgGoalsDone": "평균 완료 목표",
+      "avgStudyTime": "평균 학습 시간",
+      "avgDistanceValue": "{{value}} mi"
+    },
+    "leaderboard": {
+      "title": "리더보드 ·",
+      "youBadge": "나",
+      "yourTagline": "모험가",
+      "streak": "🔥 {{count}}일 연속",
+      "rank": "#{{rank}}"
+    }
+  },
+  "health": {
+    "title": "체력 바",
+    "status": {
+      "dead": "LUA가 죽었습니다",
+      "critical": "Lua가 위험합니다",
+      "hurting": "Lua가 아픕니다",
+      "okay": "Lua는 괜찮습니다",
+      "healthy": "Lua가 건강합니다"
+    },
+    "subtitle": {
+      "dead": "오늘 완료한 목표가 없습니다. 내일 다시 도전해 보세요.",
+      "critical": "Lua가 간신히 버티고 있습니다. 목표를 완료해 회복하세요!",
+      "hurting": "Lua가 힘들어하고 있습니다. 오늘 더 많은 목표를 완료해 보세요.",
+      "okay": "Lua는 괜찮지만, 더 개선할 여지가 있습니다.",
+      "healthy": "오늘 {{done}}/{{total}}개 목표를 완료했습니다. 계속 유지하세요!"
+    },
+    "stats": {
+      "goalsCompletedToday": "오늘 완료한 목표",
+      "goalsCompletedValue": "{{done}} / {{total}}",
+      "goalStreak": "목표 완료 연속 일수",
+      "goalStreakValue_one": "{{count}}일",
+      "goalStreakValue_other": "{{count}}일",
+      "distanceWalked": "걸은 거리",
+      "distanceWalkedValue": "{{distance}}마일",
+      "hoursStudied": "학습 시간"
+    },
+    "actions": {
+      "back": "뒤로",
+      "viewLastSessionStats": "지난 세션 통계 보기"
+    }
+  },
+  "settings": {
+    "title": "설정",
+    "comingSoon": "이 섹션은 곧 제공됩니다.",
+    "manageProfile": {
+      "title": "프로필 관리",
+      "description": "곧 여기에서 이름, 사진, 핸들을 업데이트할 수 있습니다."
+    },
+    "aboutUs": {
+      "title": "회사 소개",
+      "description": "Lua와 앱 개발팀에 대해 자세히 알아보세요."
+    },
+    "helpCenter": {
+      "title": "고객센터",
+      "description": "곧 여기에서 답변과 지원을 받을 수 있습니다."
+    },
+    "theme": {
+      "title": "테마",
+      "description": "곧 여기에서 라이트 및 다크 테마를 전환할 수 있습니다."
+    }
+  },
+  "units": {
+    "miles": "마일",
+    "milesShort": "mi",
+    "days": "일"
+  },
+  "errors": {
+    "permissionDenied": "권한이 거부되었습니다",
+    "searchFailed": "검색에 실패했습니다"
+  },
+  "a11y": {
+    "luaLogo": "Lua 로고",
+    "profile": "프로필",
+    "profileAvatar": "프로필 아바타",
+    "openProfile": "프로필 열기",
+    "openLiveMap": "실시간 지도 열기",
+    "addScheduleItem": "일정 항목 추가",
+    "recenterOnMe": "내 위치로 재중심",
+    "zoomInMap": "지도 확대",
+    "zoomOutMap": "지도 축소",
+    "clearSelectedLocation": "선택한 위치 지우기"
+  }
+}
