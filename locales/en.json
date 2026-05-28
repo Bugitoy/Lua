@@ -172,6 +172,70 @@
       }
     }
   },
+  "helpCenter": {
+    "title": "Help Center & FAQ",
+    "welcome": "Welcome to the Help Center! If you are having trouble keeping your daily streak or navigating the map, you can find answers to our most common questions below.",
+    "sectionKeys": ["gameplay", "gps", "account"],
+    "sections": [
+      {
+        "title": "Gameplay & Mechanics",
+        "faqs": [
+          {
+            "q": "Why did my avatar's health drop?",
+            "a": "Lua's health is directly tied to your real-world follow-through. If you have pending goals on your schedule that you do not physically complete by midnight, Lua's health will deplete the following day (up to 25% depending on how many goals you missed). To heal Lua, simply get back on track and complete your scheduled goals!"
+          },
+          {
+            "q": "How do I earn XP and level up?",
+            "a": "You earn Experience Points (XP) by staying active and sticking to your schedule. You can earn XP in three ways:\n\nCompleting Goals: +50 XP per arrived destination\n\nWalking Distance: +30 XP per mile\n\nStudy Hours: +40 XP per hour"
+          }
+        ]
+      },
+      {
+        "title": "GPS & Tracking",
+        "faqs": [
+          {
+            "q": "I am at my destination, but the goal won't mark as complete. Why?",
+            "a": "Lua needs to verify you are within a 25-meter radius of your scheduled destination. If it is not updating automatically:\n\nCheck Permissions: Ensure your device's Location Permissions are enabled and set to \"Precise Location.\"\n\nSignal Interference: GPS signals can be blocked by thick walls or large buildings. Try stepping outside or near a window for a few seconds to let your location update.\n\nCheck the Pin: Open the live map to ensure your destination pin is in the correct spot."
+          },
+          {
+            "q": "Why isn't my walking distance accumulating on the stats page?",
+            "a": "Lua uses a custom location tracker designed to filter out \"GPS jitter\" (when your phone thinks you are drifting while sitting still) and vehicular travel. Distance only accumulates when your movement matches a natural, real-world walking pace."
+          },
+          {
+            "q": "How does the Navigation mode work?",
+            "a": "If you need help finding your goal, long-press on the map to set a destination pin. Lua will switch to a high-accuracy GPS mode, providing you with your walking ETA, bearing, and distance to the target."
+          }
+        ]
+      },
+      {
+        "title": "Account & Cloud Syncing",
+        "faqs": [
+          {
+            "q": "Will I lose my progress if I delete the app or get a new phone?",
+            "a": "No! Your progress is safely backed up to the cloud. As long as you sign back into your account, your profile, schedule, XP, and Lua's health will automatically sync right back to your device."
+          },
+          {
+            "q": "How does the Leaderboard work?",
+            "a": "As you earn XP and level up by completing your daily goals, your progress is updated live on the community leaderboard. Keep hitting your physical destinations to climb the ranks!"
+          },
+          {
+            "q": "Can I change the app's language?",
+            "a": "Absolutely. Lua supports 10 different languages. You can switch your preferred language at any time by navigating to the Profile tab."
+          },
+          {
+            "q": "How do I manage my notifications?",
+            "a": "You can toggle notifications on or off within the Profile tab. To adjust deeper system permissions (like background location or camera access), tap App Settings on your profile, which will open your phone's native settings menu."
+          }
+        ]
+      }
+    ],
+    "support": {
+      "title": "Still Need Help?",
+      "body": "If you have encountered a bug, have a feature request, or need further technical assistance, we would love to hear from you.",
+      "contactLabel": "Contact Support:",
+      "email": "moaloslt@mail.uc.edu"
+    }
+  },
   "manageProfile": {
     "title": "Manage Profile",
     "changePhoto": "Change photo",
