@@ -474,8 +474,15 @@ export default function ProfileScreen() {
           <View className="mx-4 h-px bg-neutral-100" />
           <SettingRow
             icon="document-text-outline"
-            label={t("profile.rows.termsPrivacy")}
-            onPress={() => {}}
+            label={t("profile.rows.termsConditions")}
+            onPress={() => router.push("/terms")}
+            tintColor="#64748b"
+          />
+          <View className="mx-4 h-px bg-neutral-100" />
+          <SettingRow
+            icon="shield-checkmark-outline"
+            label={t("profile.rows.privacyPolicy")}
+            onPress={() => router.push("/privacy-policy")}
             tintColor="#64748b"
           />
         </SectionCard>

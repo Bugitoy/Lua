@@ -139,7 +139,8 @@
       "appVersionValue": "Lua v1.0.0",
       "aboutUs": "회사 소개",
       "helpCenter": "고객센터",
-      "termsPrivacy": "약관 및 개인정보"
+      "termsConditions": "이용약관",
+      "privacyPolicy": "개인정보 처리방침"
     }
   },
   "aboutUs": {

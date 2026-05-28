@@ -139,7 +139,8 @@
       "appVersionValue": "Lua v1.0.0",
       "aboutUs": "私たちについて",
       "helpCenter": "ヘルプセンター",
-      "termsPrivacy": "利用規約とプライバシー"
+      "termsConditions": "利用規約",
+      "privacyPolicy": "プライバシーポリシー"
     }
   },
   "aboutUs": {

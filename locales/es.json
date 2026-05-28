@@ -139,7 +139,8 @@
       "appVersionValue": "Lua v1.0.0",
       "aboutUs": "Sobre nosotros",
       "helpCenter": "Centro de ayuda",
-      "termsPrivacy": "Términos y privacidad"
+      "termsConditions": "Términos y condiciones",
+      "privacyPolicy": "Política de privacidad"
     }
   },
   "aboutUs": {
