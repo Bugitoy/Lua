@@ -3,7 +3,7 @@ import { Image } from "expo-image";
 import { LinearGradient } from "expo-linear-gradient";
 import { router } from "expo-router";
 import { useCallback, useEffect, useMemo, useState } from "react";
-import { Alert, Pressable, ScrollView, Switch, Text, View } from "react-native";
+import { Alert, Linking, Pressable, ScrollView, Switch, Text, View } from "react-native";
 import * as Device from "expo-device";
 import * as Notifications from "expo-notifications";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -16,8 +16,7 @@ import { LUA_GREEN } from "@/constants/mapAssets";
 import { formatHours } from "@/lib/formatters";
 import { useGameStats } from "@/lib/gameStats";
 import { useLanguagePreference } from "@/lib/i18n/LanguageProvider";
-
-const AVATAR_URI = "https://i.pravatar.cc/240?img=12";
+import { useProfile } from "@/lib/profileStore";
 
 const LEVEL_XP_REQUIRED = 1000;
 const NOTIFICATIONS_ENABLED_KEY = "notificationsEnabled";
@@ -110,6 +109,7 @@ export default function ProfileScreen() {
   const { t } = useTranslation();
   const { languageLabel } = useLanguagePreference();
   const { stats } = useGameStats();
+  const { profile, avatarUri } = useProfile();
   const [notificationsEnabled, setNotificationsEnabled] = useState(false);
   const [languageModalVisible, setLanguageModalVisible] = useState(false);
 
@@ -221,6 +221,10 @@ export default function ProfileScreen() {
     router.push("/manage-profile");
   }, []);
 
+  const onOpenAppSettings = useCallback(() => {
+    Linking.openSettings();
+  }, []);
+
   const onSignOut = useCallback(() => {
     Alert.alert(
       t("common.signOutConfirmTitle"),
@@ -272,7 +276,7 @@ export default function ProfileScreen() {
           >
             <Pressable onPress={onManageProfile} className="active:opacity-80">
               <Image
-                source={{ uri: AVATAR_URI }}
+                source={{ uri: avatarUri }}
                 style={{
                   width: 88,
                   height: 88,
@@ -294,13 +298,13 @@ export default function ProfileScreen() {
               className="mt-3 text-xl text-neutral-900"
               style={{ fontFamily: Pixelify.bold }}
             >
-              {t("profile.displayName")}
+              {profile.displayName}
             </Text>
             <Text
               className="text-sm text-neutral-500"
               style={{ fontFamily: Pixelify.regular }}
             >
-              {t("profile.handle")}
+              {profile.handle}
             </Text>
 
             <View className="mt-4 w-full">
@@ -434,7 +438,8 @@ export default function ProfileScreen() {
           <SettingRow
             icon="settings-outline"
             label={t("profile.rows.appSettings")}
-            onPress={() => router.push("/(tabs)/settings")}
+            sublabel={t("settings.systemSettingsDescription")}
+            onPress={onOpenAppSettings}
             tintColor="#6366f1"
           />
         </SectionCard>

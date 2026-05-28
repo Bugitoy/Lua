@@ -142,6 +142,50 @@
       "termsPrivacy": "Conditions et confidentialité"
     }
   },
+  "aboutUs": {
+    "heroTagline": "Combler l'écart entre la planification numérique et l'action physique.",
+    "origin": {
+      "title": "L'origine",
+      "chipHackathon": "Hackathon 24 h",
+      "chipCampusFlow": "Campus Flow",
+      "paragraph1": "Lua n'a pas commencé dans une salle de réunion, mais lors d'un sprint de 24 heures à un hackathon universitaire. Conçue par l'étudiant en génie informatique Lefika Moalosi, le premier prototype s'appelait « Campus Flow ». Le problème visé était simple : il est trop facile d'écrire un emploi du temps ambitieux et de rester immobile dans une chambre toute la journée. L'app devait forcer le mouvement, en exigeant que les utilisateurs (surtout les étudiants) se rendent physiquement à leurs cours, repas et événements sociaux pour les cocher.",
+      "companionCaption": "Voici Lua — votre compagnon numérique",
+      "paragraph2": "Le projet n'a pas remporté le hackathon, mais la mécanique centrale était trop efficace pour être abandonnée. Au cœur de l'app se trouvait un petit compagnon numérique nommé Lua. Parce que les utilisateurs tenaient tant à garder l'avatar en vie, Lefika a continué à développer l'app, renommant finalement tout le projet « Lua ». Aujourd'hui, c'est passé d'un outil réservé au campus à un projet expérientiel plus large pour quiconque veut relier planification numérique et action physique."
+    },
+    "howItWorks": {
+      "title": "Comment ça marche",
+      "intro": "La plupart des trackers d'habitudes vous laissent cocher une case depuis votre lit. Lua exige que vous le méritiez. En reliant vos objectifs quotidiens à de vraies coordonnées géographiques, l'app vérifie votre suivi via le GPS en direct.",
+      "steps": {
+        "plan": {
+          "title": "Planifiez votre journée",
+          "body": "Recherchez et planifiez de vraies destinations — amphithéâtre, salle de sport ou café."
+        },
+        "prove": {
+          "title": "Prouvez que vous y étiez",
+          "body": "À moins de 25 mètres de la destination, l'app détecte automatiquement votre arrivée et marque l'objectif comme terminé."
+        },
+        "consequences": {
+          "title": "Les actions ont des conséquences",
+          "body": "Atteignez vos objectifs et Lua gagne en santé pendant que vous gagnez de l'XP. Ratez-les et la santé de Lua baisse à minuit. Un jeu où votre élan physique est la manette."
+        }
+      }
+    }
+  },
+  "manageProfile": {
+    "title": "Gérer le profil",
+    "changePhoto": "Changer la photo",
+    "displayNameLabel": "Nom affiché",
+    "displayNamePlaceholder": "Votre nom",
+    "handleLabel": "Identifiant",
+    "handlePlaceholder": "@utilisateur",
+    "save": "Enregistrer",
+    "errorTitle": "Échec de l'enregistrement",
+    "errorEmptyName": "Veuillez saisir un nom affiché.",
+    "errorInvalidHandle": "L'identifiant doit faire 2–30 caractères (lettres, chiffres, tiret bas) et commencer par @.",
+    "errorSave": "Une erreur s'est produite. Réessayez.",
+    "permissionDeniedTitle": "Autorisation requise",
+    "permissionDeniedMessage": "Autorisez l'accès aux photos pour choisir une photo de profil."
+  },
   "stats": {
     "title": "Statistiques",
     "metrics": {

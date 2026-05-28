@@ -142,6 +142,50 @@
       "termsPrivacy": "Terms & Privacy"
     }
   },
+  "aboutUs": {
+    "heroTagline": "Bridge the gap between digital planning and physical action.",
+    "origin": {
+      "title": "The Origin",
+      "chipHackathon": "24-hour hackathon",
+      "chipCampusFlow": "Campus Flow",
+      "paragraph1": "Lua didn't start in a boardroom; it began as a 24-hour sprint during a college hackathon. Built by Computer Engineering student Lefika Moalosi, the original prototype was called \"Campus Flow.\" The core problem it aimed to solve was simple: it is too easy to write down an ambitious schedule but stay stagnant in a room all day. The app was designed to force movement, requiring users (particularly students) to physically walk to their classes, meals, and social events to check them off.",
+      "companionCaption": "Meet Lua — your digital companion",
+      "paragraph2": "The project didn't take home the hackathon prize, but the central mechanic was too effective to leave behind. At the heart of the app was a little digital companion named Lua. Because users connected so strongly with keeping the avatar alive, Lefika kept developing the app, eventually renaming the entire project to \"Lua.\" Today, it has evolved from a campus-only tool into a broader experiential project for anyone who wants to bridge the gap between digital planning and physical action."
+    },
+    "howItWorks": {
+      "title": "How It Works",
+      "intro": "Most habit trackers let you check a box from your bed. Lua requires you to earn it. By tying your daily goals to real geographic coordinates, the app verifies your follow-through using live GPS.",
+      "steps": {
+        "plan": {
+          "title": "Plan Your Day",
+          "body": "Search and schedule real-world destinations, whether that is a lecture hall, a gym, or a coffee shop."
+        },
+        "prove": {
+          "title": "Prove You Were There",
+          "body": "When you walk within 25 meters of your destination, the app automatically detects your arrival and marks the goal complete."
+        },
+        "consequences": {
+          "title": "Actions Have Consequences",
+          "body": "Complete your goals, and your companion sprite, Lua, gains health while you earn XP. Miss your marks, and Lua's health drops at midnight. It is a game where your physical momentum is the controller."
+        }
+      }
+    }
+  },
+  "manageProfile": {
+    "title": "Manage Profile",
+    "changePhoto": "Change photo",
+    "displayNameLabel": "Display name",
+    "displayNamePlaceholder": "Your name",
+    "handleLabel": "Handle",
+    "handlePlaceholder": "@username",
+    "save": "Save changes",
+    "errorTitle": "Could not save",
+    "errorEmptyName": "Please enter a display name.",
+    "errorInvalidHandle": "Handle must be 2–30 characters (letters, numbers, underscore) and start with @.",
+    "errorSave": "Something went wrong. Please try again.",
+    "permissionDeniedTitle": "Permission needed",
+    "permissionDeniedMessage": "Allow photo access to choose a profile picture."
+  },
   "stats": {
     "title": "Stats",
     "metrics": {

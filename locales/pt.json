@@ -142,6 +142,50 @@
       "termsPrivacy": "Termos e privacidade"
     }
   },
+  "aboutUs": {
+    "heroTagline": "Ligue o planejamento digital à ação física.",
+    "origin": {
+      "title": "A origem",
+      "chipHackathon": "Hackathon de 24 horas",
+      "chipCampusFlow": "Campus Flow",
+      "paragraph1": "A Lua não começou numa sala de reuniões; começou num sprint de 24 horas num hackathon universitário. Criada pelo estudante de Engenharia da Computação Lefika Moalosi, o protótipo original chamava-se \"Campus Flow\". O problema central era simples: é fácil demais escrever uma agenda ambiciosa e ficar parado num quarto o dia todo. O app foi feito para forçar movimento, exigindo que os usuários (especialmente estudantes) caminhem até aulas, refeições e eventos sociais para marcá-los como feitos.",
+      "companionCaption": "Conheça a Lua — sua companheira digital",
+      "paragraph2": "O projeto não ganhou o hackathon, mas a mecânica central era forte demais para abandonar. No coração do app estava uma pequena companheira digital chamada Lua. Como os usuários se importavam tanto em manter o avatar vivo, Lefika seguiu desenvolvendo o app e acabou renomeando todo o projeto para \"Lua\". Hoje evoluiu de ferramenta só de campus para um projeto experiencial mais amplo para quem quer unir planejamento digital e ação física."
+    },
+    "howItWorks": {
+      "title": "Como funciona",
+      "intro": "A maioria dos rastreadores de hábitos deixa você marcar uma caixa da cama. A Lua exige que você conquiste. Ao ligar suas metas diárias a coordenadas geográficas reais, o app verifica seu cumprimento com GPS ao vivo.",
+      "steps": {
+        "plan": {
+          "title": "Planeje seu dia",
+          "body": "Pesquise e agende destinos reais — sala de aula, academia ou cafeteria."
+        },
+        "prove": {
+          "title": "Prove que você esteve lá",
+          "body": "Ao caminhar a menos de 25 metros do destino, o app detecta sua chegada automaticamente e marca a meta como concluída."
+        },
+        "consequences": {
+          "title": "Ações têm consequências",
+          "body": "Complete suas metas e a Lua ganha saúde enquanto você ganha XP. Perca e a saúde da Lua cai à meia-noite. Um jogo em que seu impulso físico é o controle."
+        }
+      }
+    }
+  },
+  "manageProfile": {
+    "title": "Gerenciar perfil",
+    "changePhoto": "Alterar foto",
+    "displayNameLabel": "Nome de exibição",
+    "displayNamePlaceholder": "Seu nome",
+    "handleLabel": "Usuário",
+    "handlePlaceholder": "@usuario",
+    "save": "Salvar alterações",
+    "errorTitle": "Não foi possível salvar",
+    "errorEmptyName": "Digite um nome de exibição.",
+    "errorInvalidHandle": "O usuário deve ter 2–30 caracteres (letras, números, sublinhado) e começar com @.",
+    "errorSave": "Algo deu errado. Tente novamente.",
+    "permissionDeniedTitle": "Permissão necessária",
+    "permissionDeniedMessage": "Permita acesso às fotos para escolher uma foto de perfil."
+  },
   "stats": {
     "title": "Estatísticas",
     "metrics": {

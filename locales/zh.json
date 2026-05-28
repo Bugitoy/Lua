@@ -142,6 +142,50 @@
       "termsPrivacy": "条款与隐私"
     }
   },
+  "aboutUs": {
+    "heroTagline": "弥合数字规划与实际行动之间的鸿沟。",
+    "origin": {
+      "title": "起源",
+      "chipHackathon": "24 小时黑客松",
+      "chipCampusFlow": "Campus Flow",
+      "paragraph1": "Lua 并非诞生于会议室，而是始于大学黑客松的一场 24 小时冲刺。由计算机工程学生 Lefika Moalosi 打造，最初原型名为「Campus Flow」。它要解决的核心问题很简单：写下雄心勃勃的日程却整天待在房间里太容易了。应用旨在迫使人们动起来，要求用户（尤其是学生）亲自走到课堂、用餐和社交地点才能完成打卡。",
+      "companionCaption": "认识 Lua — 你的数字伙伴",
+      "paragraph2": "项目没有赢得黑客松奖项，但核心机制太有效，无法放下。应用中心是一个名叫 Lua 的小数字伙伴。因为用户非常在意让角色保持存活，Lefika 继续开发应用，最终将整个项目更名为「Lua」。如今它已从校园专用工具，演变为帮助任何人连接数字规划与实际行动的更广体验项目。"
+    },
+    "howItWorks": {
+      "title": "如何运作",
+      "intro": "大多数习惯追踪器让你在床上就能勾选。Lua 要求你真正赢得它。将每日目标绑定到真实地理坐标，应用通过实时 GPS 验证你的执行。",
+      "steps": {
+        "plan": {
+          "title": "规划你的一天",
+          "body": "搜索并安排真实目的地——教室、健身房或咖啡店。"
+        },
+        "prove": {
+          "title": "证明你到过",
+          "body": "当你走到目的地 25 米范围内，应用会自动检测到达并将目标标为完成。"
+        },
+        "consequences": {
+          "title": "行动必有后果",
+          "body": "完成目标，伙伴 Lua 恢复健康，你获得 XP；未完成，Lua 的体力在午夜下降。这是一款以你的物理动量为控制器的手游。"
+        }
+      }
+    }
+  },
+  "manageProfile": {
+    "title": "管理个人资料",
+    "changePhoto": "更换照片",
+    "displayNameLabel": "显示名称",
+    "displayNamePlaceholder": "你的姓名",
+    "handleLabel": "用户名",
+    "handlePlaceholder": "@username",
+    "save": "保存更改",
+    "errorTitle": "无法保存",
+    "errorEmptyName": "请输入显示名称。",
+    "errorInvalidHandle": "用户名须以 @ 开头，长度为 2–30 个字符（字母、数字、下划线）。",
+    "errorSave": "出错了，请重试。",
+    "permissionDeniedTitle": "需要权限",
+    "permissionDeniedMessage": "请允许访问照片以选择头像。"
+  },
   "stats": {
     "title": "统计",
     "metrics": {

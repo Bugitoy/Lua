@@ -142,6 +142,50 @@
       "termsPrivacy": "Termini e privacy"
     }
   },
+  "aboutUs": {
+    "heroTagline": "Colma il divario tra pianificazione digitale e azione fisica.",
+    "origin": {
+      "title": "Le origini",
+      "chipHackathon": "Hackathon 24 ore",
+      "chipCampusFlow": "Campus Flow",
+      "paragraph1": "Lua non è nata in una sala riunioni, ma durante uno sprint di 24 ore a un hackathon universitario. Creata dallo studente di Ingegneria Informatica Lefika Moalosi, il prototipo originale si chiamava \"Campus Flow\". Il problema da risolvere era semplice: è troppo facile scrivere un programma ambizioso e restare fermi in camera tutto il giorno. L'app è stata pensata per forzare il movimento, chiedendo agli utenti (soprattutto studenti) di raggiungere a piedi lezioni, pasti ed eventi sociali per spuntarli.",
+      "companionCaption": "Ecco Lua — il tuo compagno digitale",
+      "paragraph2": "Il progetto non vinse l'hackathon, ma la meccanica centrale era troppo efficace per abbandonarla. Al cuore dell'app c'era un piccolo compagno digitale chiamato Lua. Poiché gli utenti erano molto legati al mantenere vivo l'avatar, Lefika continuò a sviluppare l'app, rinominando infine l'intero progetto \"Lua\". Oggi è passata da strumento solo per campus a progetto esperienziale più ampio per chi vuole unire pianificazione digitale e azione fisica."
+    },
+    "howItWorks": {
+      "title": "Come funziona",
+      "intro": "La maggior parte dei tracker di abitudini ti lascia spuntare una casella dal letto. Lua richiede che te lo guadagni. Legando i tuoi obiettivi giornalieri a coordinate geografiche reali, l'app verifica il tuo impegno con GPS in tempo reale.",
+      "steps": {
+        "plan": {
+          "title": "Pianifica la giornata",
+          "body": "Cerca e programma destinazioni reali — aula, palestra o caffetteria."
+        },
+        "prove": {
+          "title": "Dimostra che c'eri",
+          "body": "Entro 25 metri dalla destinazione, l'app rileva automaticamente il tuo arrivo e segna l'obiettivo come completato."
+        },
+        "consequences": {
+          "title": "Le azioni hanno conseguenze",
+          "body": "Completa gli obiettivi e Lua guadagna salute mentre tu guadagni XP. Sbaglia e la salute di Lua cala a mezzanotte. Un gioco in cui il tuo slancio fisico è il controller."
+        }
+      }
+    }
+  },
+  "manageProfile": {
+    "title": "Gestisci profilo",
+    "changePhoto": "Cambia foto",
+    "displayNameLabel": "Nome visualizzato",
+    "displayNamePlaceholder": "Il tuo nome",
+    "handleLabel": "Handle",
+    "handlePlaceholder": "@utente",
+    "save": "Salva modifiche",
+    "errorTitle": "Salvataggio non riuscito",
+    "errorEmptyName": "Inserisci un nome visualizzato.",
+    "errorInvalidHandle": "L'handle deve avere 2–30 caratteri (lettere, numeri, underscore) e iniziare con @.",
+    "errorSave": "Qualcosa è andato storto. Riprova.",
+    "permissionDeniedTitle": "Autorizzazione necessaria",
+    "permissionDeniedMessage": "Consenti l'accesso alle foto per scegliere un'immagine del profilo."
+  },
   "stats": {
     "title": "Statistiche",
     "metrics": {

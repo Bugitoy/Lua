@@ -142,6 +142,50 @@
       "termsPrivacy": "AGB & Datenschutz"
     }
   },
+  "aboutUs": {
+    "heroTagline": "Schließe die Lücke zwischen digitaler Planung und realer Handlung.",
+    "origin": {
+      "title": "Der Ursprung",
+      "chipHackathon": "24-Stunden-Hackathon",
+      "chipCampusFlow": "Campus Flow",
+      "paragraph1": "Lua begann nicht im Boardroom, sondern als 24-Stunden-Sprint bei einem College-Hackathon. Gebaut vom Informatikstudenten Lefika Moalosi hieß der erste Prototyp „Campus Flow“. Das Kernproblem war einfach: Es ist zu leicht, einen ehrgeizigen Plan zu schreiben und den ganzen Tag im Zimmer zu verharren. Die App sollte Bewegung erzwingen und Nutzer (besonders Studierende) dazu bringen, physisch zu Vorlesungen, Mahlzeiten und sozialen Terminen zu gehen, um sie abzuhaken.",
+      "companionCaption": "Lerne Lua kennen — deinen digitalen Begleiter",
+      "paragraph2": "Das Projekt gewann den Hackathon nicht, aber die Kernmechanik war zu wirkungsvoll, um sie liegen zu lassen. Im Herzen der App war ein kleiner digitaler Begleiter namens Lua. Weil Nutzer so stark darauf achteten, den Avatar am Leben zu halten, entwickelte Lefika die App weiter und benannte schließlich das gesamte Projekt in „Lua“ um. Heute ist es von einem reinen Campus-Tool zu einem breiteren Erlebnisprojekt für alle gewachsen, die digitale Planung und physische Aktion verbinden wollen."
+    },
+    "howItWorks": {
+      "title": "So funktioniert es",
+      "intro": "Die meisten Gewohnheitstracker lassen dich vom Bett aus abhaken. Lua verlangt, dass du es dir verdienst. Indem deine Tagesziele an echte Koordinaten gebunden sind, prüft die App dein Durchhalten mit Live-GPS.",
+      "steps": {
+        "plan": {
+          "title": "Plane deinen Tag",
+          "body": "Suche und plane echte Ziele — ob Hörsaal, Fitnessstudio oder Café."
+        },
+        "prove": {
+          "title": "Beweise, dass du da warst",
+          "body": "Kommst du innerhalb von 25 Metern an, erkennt die App deine Ankunft automatisch und hakt das Ziel ab."
+        },
+        "consequences": {
+          "title": "Handeln hat Folgen",
+          "body": "Schaffst du deine Ziele, gewinnt Lua Gesundheit und du XP. Verpasst du sie, sinkt Lunas Gesundheit um Mitternacht. Ein Spiel, bei dem deine physische Bewegung der Controller ist."
+        }
+      }
+    }
+  },
+  "manageProfile": {
+    "title": "Profil verwalten",
+    "changePhoto": "Foto ändern",
+    "displayNameLabel": "Anzeigename",
+    "displayNamePlaceholder": "Dein Name",
+    "handleLabel": "Handle",
+    "handlePlaceholder": "@benutzername",
+    "save": "Änderungen speichern",
+    "errorTitle": "Speichern fehlgeschlagen",
+    "errorEmptyName": "Bitte gib einen Anzeigenamen ein.",
+    "errorInvalidHandle": "Handle muss 2–30 Zeichen haben (Buchstaben, Zahlen, Unterstrich) und mit @ beginnen.",
+    "errorSave": "Etwas ist schiefgelaufen. Bitte versuche es erneut.",
+    "permissionDeniedTitle": "Berechtigung erforderlich",
+    "permissionDeniedMessage": "Erlaube Fotozugriff, um ein Profilbild auszuwählen."
+  },
   "stats": {
     "title": "Statistiken",
     "metrics": {

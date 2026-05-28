@@ -11,7 +11,8 @@
     "ios": {
       "supportsTablet": true,
       "infoPlist": {
-        "NSLocationWhenInUseUsageDescription": "Lua uses your location to show nearby places and track your progress to destinations you set on the map."
+        "NSLocationWhenInUseUsageDescription": "Lua uses your location to show nearby places and track your progress to destinations you set on the map.",
+        "NSPhotoLibraryUsageDescription": "Lua needs access to your photos so you can choose a profile picture."
       }
     },
     "android": {
@@ -48,7 +49,13 @@
       ],
       "expo-web-browser",
       "expo-localization",
-      "expo-notifications"
+      "expo-notifications",
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "Lua needs access to your photos so you can choose a profile picture."
+        }
+      ]
     ],
     "experiments": {
       "typedRoutes": true,

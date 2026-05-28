@@ -142,6 +142,50 @@
       "termsPrivacy": "약관 및 개인정보"
     }
   },
+  "aboutUs": {
+    "heroTagline": "디지털 계획과 실제 행동 사이의 간극을 메웁니다.",
+    "origin": {
+      "title": "시작",
+      "chipHackathon": "24시간 해커톤",
+      "chipCampusFlow": "Campus Flow",
+      "paragraph1": "Lua는 회의실이 아니라 대학 해커톤의 24시간 스프린트에서 시작되었습니다. 컴퓨터공학과 학생 Lefika Moalosi가 만들었고, 최초 프로토타입 이름은 \"Campus Flow\"였습니다. 해결하려 한 문제는 단순했습니다. 야심 찬 일정을 적어도 하루 종일 방에만 있기 쉽다는 것. 수업, 식사, 사교 행사까지 실제로 걸어가 체크하도록, 특히 학생들에게 움직임을 요구하는 앱이었습니다.",
+      "companionCaption": "Lua를 만나보세요 — 디지털 동반자",
+      "paragraph2": "해커톤 상은 받지 못했지만, 핵심 메커니즘은 너무 효과적이어서 놓을 수 없었습니다. 앱의 중심에는 Lua라는 작은 디지털 동반이 있었습니다. 아바타를 살리려는 사용자들의 열정에 Lefika는 개발을 이어갔고, 결국 프로젝트 전체 이름을 \"Lua\"로 바꿨습니다. 오늘날 캠퍼스 전용 도구에서 디지털 계획과 실제 행동을 잇고 싶은 모든 이를 위한 더 넓은 경험 프로젝트로 발전했습니다."
+    },
+    "howItWorks": {
+      "title": "작동 방식",
+      "intro": "대부분의 습관 추적기는 침대에서 체크할 수 있습니다. Lua는 직접 획득해야 합니다. 일일 목표를 실제 지리 좌표에 묶어 라이브 GPS로 이행을 검증합니다.",
+      "steps": {
+        "plan": {
+          "title": "하루 계획",
+          "body": "강의실, 체육관, 카페 등 실제 목적지를 검색해 일정에 넣습니다."
+        },
+        "prove": {
+          "title": "도착 증명",
+          "body": "목적지 25미터 이내에 들어가면 앱이 자동으로 도착을 감지하고 목표를 완료 처리합니다."
+        },
+        "consequences": {
+          "title": "행동에는 결과가 있다",
+          "body": "목표를 달성하면 Lua의 체력이 오르고 XP를 얻습니다. 놓치면 자정에 Lua의 체력이 떨어집니다. 신체적 추진력이 컨트롤러인 게임입니다."
+        }
+      }
+    }
+  },
+  "manageProfile": {
+    "title": "프로필 관리",
+    "changePhoto": "사진 변경",
+    "displayNameLabel": "표시 이름",
+    "displayNamePlaceholder": "이름",
+    "handleLabel": "핸들",
+    "handlePlaceholder": "@username",
+    "save": "변경 사항 저장",
+    "errorTitle": "저장할 수 없음",
+    "errorEmptyName": "표시 이름을 입력하세요.",
+    "errorInvalidHandle": "핸들은 @로 시작하고 2–30자(영문, 숫자, 밑줄)여야 합니다.",
+    "errorSave": "문제가 발생했습니다. 다시 시도하세요.",
+    "permissionDeniedTitle": "권한 필요",
+    "permissionDeniedMessage": "프로필 사진을 선택하려면 사진 접근을 허용하세요."
+  },
   "stats": {
     "title": "통계",
     "metrics": {
