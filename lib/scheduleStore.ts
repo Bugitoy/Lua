@@ -1,5 +1,7 @@
 import { useSyncExternalStore } from "react";
 
+import type { ScheduleThemeKey } from "@/components/schedule/scheduleTypes";
+
 // ─── Types ────────────────────────────────────────────────────────────────────
 
 /**
@@ -11,6 +13,8 @@ export type ScheduledItem = {
   id: string;
   label: string;
   category: string;
+  /** Goal type from schedule theme; may be missing for legacy items. */
+  themeKey?: ScheduleThemeKey;
   latitude: number;
   longitude: number;
   /** True once the sprite has come within the arrival radius. */
@@ -51,7 +55,14 @@ function notify(): void {
  * so re-saving the schedule never wipes already-earned completions.
  */
 export function setScheduledItems(
-  incoming: { id: string; label: string; category: string; latitude: number; longitude: number }[],
+  incoming: {
+    id: string;
+    label: string;
+    category: string;
+    themeKey?: ScheduleThemeKey;
+    latitude: number;
+    longitude: number;
+  }[],
 ): void {
   const previous = state.items;
   const next = new Map<string, ScheduledItem>();
@@ -61,6 +72,7 @@ export function setScheduledItems(
       id: item.id,
       label: item.label,
       category: item.category,
+      themeKey: item.themeKey,
       latitude: item.latitude,
       longitude: item.longitude,
       completed: wasCompleted,

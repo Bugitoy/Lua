@@ -1,7 +1,7 @@
 import { Ionicons } from "@expo/vector-icons";
 import { useEffect, useMemo, useRef, useState } from "react";
-import { Pressable, Text, useWindowDimensions, View } from "react-native";
 import { useTranslation } from "react-i18next";
+import { Pressable, Text, useWindowDimensions, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 import { GeoMapView } from "@/components/map/GeoMapView";
@@ -22,6 +22,11 @@ import {
   type NearbyPlace,
 } from "@/lib/nearbyPlacesProvider";
 import { markGoalCompleted, useScheduledItems } from "@/lib/scheduleStore";
+import {
+  startStudySession,
+  stopStudySession,
+  useStudySession,
+} from "@/lib/studySession";
 
 const DISTANCE_ACC_MIN_DELTA_METERS = 3;
 /** Smoothed-speed floor low enough that light walking registers after stationary unlock. */
@@ -31,6 +36,7 @@ const DISTANCE_IMPLIED_SPEED_MIN_MPS = 0.45;
 const DISTANCE_IMPLIED_SPEED_MAX_MPS = 3.1;
 const M_PER_DEG_LAT = 111_000;
 const GOAL_ARRIVAL_RADIUS_METERS = 25;
+const STUDY_EXIT_RADIUS_METERS = 50;
 
 /** Mirrors [MapStatsCard](components/map/MapStatsCard.tsx) layout so overlays don't collide. */
 const MAP_STATS_MAX_WIDTH = 180;
@@ -55,8 +61,12 @@ export default function MapScreen() {
     Math.max(96, liveTrackingAvailable),
   );
   const { stats, updateStats } = useGameStats();
+  const studySession = useStudySession();
   const [nearbyPlaces, setNearbyPlaces] = useState<NearbyPlace[]>([]);
   const scheduledItems = useScheduledItems();
+  const [studyCalloutGoalId, setStudyCalloutGoalId] = useState<string | null>(
+    null,
+  );
 
   // Two-pass initialization: first render boots the GPS subscription in High mode;
   // once the user drops a destination we switch the same subscription to BestForNavigation.
@@ -183,22 +193,84 @@ export default function MapScreen() {
     };
   }, [location]);
 
-  // Goal arrival detection: any incomplete scheduled item within range gets
-  // flagged as completed. The schedule store de-dupes so this is safe to run
-  // on every fix.
+  // Goal arrival detection + academic study prompt routing.
   useEffect(() => {
     if (!location) return;
+
+    // Always auto-stop if the active study target is no longer near.
+    if (studySession.activeGoalId) {
+      const activeGoal = scheduledItems.find(
+        (item) => item.id === studySession.activeGoalId,
+      );
+      if (!activeGoal) {
+        stopStudySession();
+      } else {
+        const activeDist = haversineMeters(
+          { latitude: location.latitude, longitude: location.longitude },
+          { latitude: activeGoal.latitude, longitude: activeGoal.longitude },
+        );
+        if (activeDist > STUDY_EXIT_RADIUS_METERS) {
+          stopStudySession();
+        }
+      }
+    }
+
+    let nearestAcademic: (typeof scheduledItems)[number] | null = null;
+    let nearestAcademicDist = Number.POSITIVE_INFINITY;
+
     for (const item of scheduledItems) {
-      if (item.completed) continue;
       const d = haversineMeters(
         { latitude: location.latitude, longitude: location.longitude },
         { latitude: item.latitude, longitude: item.longitude },
       );
-      if (d <= GOAL_ARRIVAL_RADIUS_METERS) {
+
+      if (!item.completed && d <= GOAL_ARRIVAL_RADIUS_METERS) {
         markGoalCompleted(item.id);
       }
+
+      const isAcademicGoal =
+        item.themeKey === "academic" ||
+        (item.themeKey == null &&
+          /academic|study|class|lecture/i.test(item.category));
+      if (isAcademicGoal && d <= GOAL_ARRIVAL_RADIUS_METERS && d < nearestAcademicDist) {
+        nearestAcademic = item;
+        nearestAcademicDist = d;
+      }
     }
-  }, [location, scheduledItems]);
+
+    if (nearestAcademic) {
+      setStudyCalloutGoalId(nearestAcademic.id);
+      return;
+    }
+
+    if (!studyCalloutGoalId) return;
+    const calloutGoal = scheduledItems.find((item) => item.id === studyCalloutGoalId);
+    if (!calloutGoal) {
+      setStudyCalloutGoalId(null);
+      return;
+    }
+
+    const d = haversineMeters(
+      { latitude: location.latitude, longitude: location.longitude },
+      { latitude: calloutGoal.latitude, longitude: calloutGoal.longitude },
+    );
+    if (d > STUDY_EXIT_RADIUS_METERS) {
+      setStudyCalloutGoalId(null);
+    }
+  }, [location, scheduledItems, studyCalloutGoalId, studySession.activeGoalId]);
+
+  const studyCalloutGoal = useMemo(
+    () =>
+      studyCalloutGoalId
+        ? scheduledItems.find((item) => item.id === studyCalloutGoalId) ?? null
+        : null,
+    [scheduledItems, studyCalloutGoalId],
+  );
+
+  const isStudyingAtCalloutGoal =
+    !!studyCalloutGoal &&
+    studySession.activeGoalId === studyCalloutGoal.id &&
+    studySession.startedAtMs != null;
 
   return (
     <View className="flex-1 bg-neutral-900">
@@ -212,7 +284,24 @@ export default function MapScreen() {
 
       <View className="absolute inset-0 z-10" pointerEvents="box-none">
         <MapTopBar topInset={insets.top} />
-        <MapHealthBarCard healthRatio={stats.healthRatio} />
+        <MapHealthBarCard
+          healthRatio={stats.healthRatio}
+          studyEligible={!!studyCalloutGoal}
+          isStudying={isStudyingAtCalloutGoal}
+          studyElapsedMs={isStudyingAtCalloutGoal ? studySession.elapsedMs : 0}
+          studyStartedAtMs={
+            isStudyingAtCalloutGoal ? studySession.startedAtMs : null
+          }
+          studyGoalLabel={studyCalloutGoal?.label}
+          onBeginStudy={
+            studyCalloutGoal
+              ? () => startStudySession(studyCalloutGoal.id, stats.hoursStudied)
+              : undefined
+          }
+          onStopStudy={() => {
+            stopStudySession();
+          }}
+        />
         <MapStatsCard
           goalsDone={stats.goalsDone}
           goalsTotal={stats.goalsTotal}

@@ -64,6 +64,14 @@
       "goalComplete": "Goal complete",
       "goalCompleteWithCategory": "{{category}} · Goal complete"
     },
+    "study": {
+      "promptTitle": "Begin studying here?",
+      "beginStudying": "Begin Studying",
+      "stopStudying": "Stop Studying",
+      "studying": "Studying in progress",
+      "timer": "Study time",
+      "eligibleHint": "Academic goal nearby"
+    },
     "eta": {
       "lessThanOneMin": "< 1 min",
       "seconds": "{{count}} sec",
@@ -186,7 +194,7 @@
           },
           {
             "q": "How do I earn XP and level up?",
-            "a": "You earn Experience Points (XP) by staying active and sticking to your schedule. You can earn XP in three ways:\n\nCompleting Goals: +50 XP per arrived destination\n\nWalking Distance: +30 XP per mile\n\nStudy Hours: +40 XP per hour"
+            "a": "You earn Experience Points (XP) by staying active and sticking to your schedule. You can earn XP in three ways:\n\nGoal Streak: +50 XP per goal streak achieved\n\nWalking Distance: +30 XP per mile\n\nStudy Hours: +40 XP per hour"
           }
         ]
       },

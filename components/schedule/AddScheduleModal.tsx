@@ -85,6 +85,7 @@ export function AddScheduleModal({
     if (!trimmedTitle || !picked) return;
     const preset = SCHEDULE_THEME_PRESETS[theme];
     onSave({
+      themeKey: theme,
       time: time
         ? formatAppTime(time, { hour: "numeric", minute: "2-digit" })
         : t("common.emDash"),

@@ -7,6 +7,7 @@ export type ScheduleThemeKey = "academic" | "meal" | "social";
 
 export type ScheduleItemData = {
   id: string;
+  themeKey: ScheduleThemeKey;
   time: string;
   category: string;
   title: string;

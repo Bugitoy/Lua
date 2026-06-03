@@ -1,7 +1,7 @@
 import { Ionicons } from "@expo/vector-icons";
 import { memo, useEffect, useMemo, useRef, useState } from "react";
-import { Image, Pressable, StyleSheet, Text, View } from "react-native";
 import { useTranslation } from "react-i18next";
+import { Image, Pressable, StyleSheet, Text, View } from "react-native";
 import MapView, {
   AnimatedRegion,
   Circle,

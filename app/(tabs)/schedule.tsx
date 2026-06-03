@@ -62,6 +62,7 @@ export default function ScheduleScreen() {
         id: i.id,
         label: i.location,
         category: i.category,
+        themeKey: i.themeKey,
         latitude: i.latitude,
         longitude: i.longitude,
       })),
