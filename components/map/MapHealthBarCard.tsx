@@ -60,7 +60,6 @@ export function MapHealthBarCard({
           height={cardSize.height}
           isStudying={isStudying}
           studyStartedAtMs={studyStartedAtMs}
-          studyElapsedMs={studyElapsedMs}
         />
 
         <View

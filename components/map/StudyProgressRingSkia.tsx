@@ -34,7 +34,6 @@ type StudyProgressRingSkiaProps = {
   height: number;
   isStudying: boolean;
   studyStartedAtMs: number | null;
-  studyElapsedMs?: number;
   ringCycleMs?: number;
 };
 
@@ -95,12 +94,15 @@ function trimPathWrap(
   if (end > start) {
     return trimPath(source, start, end);
   }
+  // When the head front sits exactly on the path seam (t=0), treat as t=1 so the
+  // wrap segment is not dropped for a frame.
+  const endTrim = end <= 0 ? 1 : end;
   const combined = Skia.Path.Make();
   if (start < 1) {
     combined.addPath(trimPath(source, start, 1));
   }
-  if (end > 0) {
-    combined.addPath(trimPath(source, 0, end));
+  if (endTrim > 0) {
+    combined.addPath(trimPath(source, 0, endTrim));
   }
   return combined;
 }
@@ -124,7 +126,6 @@ export function StudyProgressRingSkia({
   height,
   isStudying,
   studyStartedAtMs,
-  studyElapsedMs = 0,
   ringCycleMs = RING_CYCLE_MS,
 }: StudyProgressRingSkiaProps) {
   const elapsedMs = useSharedValue(0);
@@ -153,25 +154,11 @@ export function StudyProgressRingSkia({
     isStudyingSV.value = isStudying ? 1 : 0;
     if (isStudying && studyStartedAtMs != null) {
       startedAtSV.value = studyStartedAtMs;
-      elapsedMs.value = Math.max(0, studyElapsedMs);
       return;
     }
     startedAtSV.value = 0;
     elapsedMs.value = 0;
-  }, [
-    isStudying,
-    studyStartedAtMs,
-    studyElapsedMs,
-    isStudyingSV,
-    startedAtSV,
-    elapsedMs,
-  ]);
-
-  useEffect(() => {
-    if (isStudying && studyElapsedMs > 0) {
-      elapsedMs.value = studyElapsedMs;
-    }
-  }, [studyElapsedMs, isStudying, elapsedMs]);
+  }, [isStudying, studyStartedAtMs, isStudyingSV, startedAtSV, elapsedMs]);
 
   useFrameCallback(() => {
     "worklet";
