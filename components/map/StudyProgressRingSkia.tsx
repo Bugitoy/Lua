@@ -9,8 +9,10 @@ import {
 
 /** One full border loop while studying (default: 1 hour). Use 60_000 for a 1-minute test loop. */
 export const RING_CYCLE_MS = 10_000;
-export const RING_RADIUS = 18;
+/** Matches MapHealthBarCard `rounded-2xl` (16px), minus half the stroke (centerline path). */
+export const HEALTH_BAR_BORDER_RADIUS = 14;
 export const RING_STROKE = 4;
+export const RING_RADIUS = HEALTH_BAR_BORDER_RADIUS - RING_STROKE / 2;
 const RING_ACCENT_COLOR = "#4ade80";
 const RING_TRACK_COLOR = "rgba(22, 163, 74, 0.18)";
 const RING_HEAD_FRACTION = 0.1;
