@@ -1,6 +1,6 @@
 import { Image as RNImage } from "react-native";
 
-export const CAMPUS_MAP = require("../assets/images/campus-map.png");
+export const CAMPUS_MAP = require("../assets/images/campus-map.jpg");
 export const LUA_LOGO = require("../assets/images/lua-logo.png");
 /** 2048×2048 / 4 cols × 4 rows — row 0 = full health … row 3 = dead */
 export const SPRITE_HEALTH = require("../assets/images/sprite-health.png");
