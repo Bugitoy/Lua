@@ -41,6 +41,11 @@ function getSnapshot(): GameStats {
   return state;
 }
 
+/** Current stats for non-React callers such as background location tasks. */
+export function getGameStats(): GameStats {
+  return state;
+}
+
 /** Call from anywhere to update stats and instantly notify all subscribers. */
 export function updateGameStats(partial: Partial<GameStats>): void {
   state = { ...state, ...partial };
