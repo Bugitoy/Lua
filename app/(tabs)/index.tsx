@@ -1,5 +1,5 @@
 import { Ionicons } from "@expo/vector-icons";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Pressable, Text, useWindowDimensions, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
@@ -14,6 +14,7 @@ import {
   formatWalkingEta,
   useDestinationTracking,
 } from "@/hooks/useDestinationTracking";
+import { useDistanceOdometer } from "@/hooks/useDistanceOdometer";
 import { useFusedLocation } from "@/hooks/useFusedLocation";
 import { useGameStats } from "@/lib/gameStats";
 import { haversineMeters } from "@/lib/geo";
@@ -28,13 +29,6 @@ import {
   useStudySession,
 } from "@/lib/studySession";
 
-const DISTANCE_ACC_MIN_DELTA_METERS = 3;
-/** Smoothed-speed floor low enough that light walking registers after stationary unlock. */
-const DISTANCE_ACC_MIN_SPEED_MPS = 0.52;
-/** Discard segment if implied Δ/Δt doesn’t look like a walk (reject teleports + creeping drift). */
-const DISTANCE_IMPLIED_SPEED_MIN_MPS = 0.45;
-const DISTANCE_IMPLIED_SPEED_MAX_MPS = 3.1;
-const M_PER_DEG_LAT = 111_000;
 const GOAL_ARRIVAL_RADIUS_METERS = 25;
 const STUDY_EXIT_RADIUS_METERS = 50;
 
@@ -60,7 +54,7 @@ export default function MapScreen() {
     LIVE_TRACKING_MAX_WIDTH,
     Math.max(96, liveTrackingAvailable),
   );
-  const { stats, updateStats } = useGameStats();
+  const { stats } = useGameStats();
   const studySession = useStudySession();
   const [nearbyPlaces, setNearbyPlaces] = useState<NearbyPlace[]>([]);
   const scheduledItems = useScheduledItems();
@@ -89,12 +83,7 @@ export default function MapScreen() {
     setHasDestination(destination != null);
   }, [destination]);
 
-  const lastDistanceSampleRef = useRef<{
-    latitude: number;
-    longitude: number;
-  } | null>(null);
-  const lastDistanceAtMsRef = useRef<number | null>(null);
-  const totalDistanceMetersRef = useRef(0);
+  useDistanceOdometer(location);
 
   const distanceMilesToDestination = useMemo(
     () =>
@@ -103,76 +92,6 @@ export default function MapScreen() {
         : null,
     [distanceMeters],
   );
-
-  useEffect(() => {
-    if (!location) return;
-    const now = Date.now();
-
-    // Don't accumulate distance while the stationary lock is engaged or speed is
-    // below "actually moving" — this stops GPS jitter from inflating mileage.
-    if (location.isStationary) {
-      lastDistanceSampleRef.current = {
-        latitude: location.latitude,
-        longitude: location.longitude,
-      };
-      lastDistanceAtMsRef.current = now;
-      return;
-    }
-    if ((location.speed ?? 0) < DISTANCE_ACC_MIN_SPEED_MPS) return;
-
-    const prev = lastDistanceSampleRef.current;
-    if (!prev) {
-      lastDistanceSampleRef.current = {
-        latitude: location.latitude,
-        longitude: location.longitude,
-      };
-      lastDistanceAtMsRef.current = now;
-      return;
-    }
-
-    const latMeters = (location.latitude - prev.latitude) * M_PER_DEG_LAT;
-    const lngMeters =
-      (location.longitude - prev.longitude) *
-      (M_PER_DEG_LAT * Math.cos((location.latitude * Math.PI) / 180));
-    const delta = Math.sqrt(latMeters * latMeters + lngMeters * lngMeters);
-
-    if (delta >= DISTANCE_ACC_MIN_DELTA_METERS) {
-      const prevAt = lastDistanceAtMsRef.current;
-      // Need a sane Δt — first qualifying hop after bootstrap only primes the baseline.
-      if (prevAt == null) {
-        lastDistanceSampleRef.current = {
-          latitude: location.latitude,
-          longitude: location.longitude,
-        };
-        lastDistanceAtMsRef.current = now;
-        return;
-      }
-
-      const dtSec = Math.max(0.2, (now - prevAt) / 1000);
-      const impliedMps = delta / dtSec;
-      if (
-        impliedMps < DISTANCE_IMPLIED_SPEED_MIN_MPS ||
-        impliedMps > DISTANCE_IMPLIED_SPEED_MAX_MPS
-      ) {
-        lastDistanceSampleRef.current = {
-          latitude: location.latitude,
-          longitude: location.longitude,
-        };
-        lastDistanceAtMsRef.current = now;
-        return;
-      }
-
-      totalDistanceMetersRef.current += delta;
-      lastDistanceSampleRef.current = {
-        latitude: location.latitude,
-        longitude: location.longitude,
-      };
-      lastDistanceAtMsRef.current = now;
-      const miles =
-        Math.round(totalDistanceMetersRef.current * 0.000621371 * 100) / 100;
-      updateStats({ distanceMiles: miles });
-    }
-  }, [location, updateStats]);
 
   useEffect(() => {
     let active = true;
