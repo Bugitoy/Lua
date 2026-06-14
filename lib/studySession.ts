@@ -100,6 +100,11 @@ function getSnapshot(): StudySessionState {
   return state;
 }
 
+/** Current session for non-React callers such as background location tasks. */
+export function getStudySession(): StudySessionState {
+  return state;
+}
+
 export function useStudySession() {
   return useSyncExternalStore(subscribe, getSnapshot);
 }

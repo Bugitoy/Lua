@@ -103,10 +103,27 @@ function getSnapshot(): StoreState {
   return state;
 }
 
+/** Scheduled goals for non-React callers such as background location tasks. */
+export function getScheduledItems(): ScheduledItem[] {
+  return Array.from(state.items.values());
+}
+
+export function hasUnfinishedGoals(): boolean {
+  for (const item of state.items.values()) {
+    if (!item.completed) return true;
+  }
+  return false;
+}
+
 /** Reactive list of scheduled goals in the order they were inserted. */
 export function useScheduledItems(): ScheduledItem[] {
   const snap = useSyncExternalStore(subscribe, getSnapshot);
   return Array.from(snap.items.values());
+}
+
+/** Re-renders only when the answer flips, not on every schedule change. */
+export function useHasUnfinishedGoals(): boolean {
+  return useSyncExternalStore(subscribe, hasUnfinishedGoals);
 }
 
 /**
