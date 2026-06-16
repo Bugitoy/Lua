@@ -19,18 +19,20 @@ import { useFusedLocation } from "@/hooks/useFusedLocation";
 import { useGameStats } from "@/lib/gameStats";
 import { haversineMeters } from "@/lib/geo";
 import {
+  checkInAtGoals,
+  GOAL_ARRIVAL_RADIUS_METERS,
+  STUDY_EXIT_RADIUS_METERS,
+} from "@/lib/goalCheckIn";
+import {
   noopNearbyPlacesProvider,
   type NearbyPlace,
 } from "@/lib/nearbyPlacesProvider";
-import { markGoalCompleted, useScheduledItems } from "@/lib/scheduleStore";
+import { useScheduledItems } from "@/lib/scheduleStore";
 import {
   startStudySession,
   stopStudySession,
   useStudySession,
 } from "@/lib/studySession";
-
-const GOAL_ARRIVAL_RADIUS_METERS = 25;
-const STUDY_EXIT_RADIUS_METERS = 50;
 
 /** Mirrors [MapStatsCard](components/map/MapStatsCard.tsx) layout so overlays don't collide. */
 const MAP_STATS_MAX_WIDTH = 180;
@@ -116,23 +118,7 @@ export default function MapScreen() {
   useEffect(() => {
     if (!location) return;
 
-    // Always auto-stop if the active study target is no longer near.
-    if (studySession.activeGoalId) {
-      const activeGoal = scheduledItems.find(
-        (item) => item.id === studySession.activeGoalId,
-      );
-      if (!activeGoal) {
-        stopStudySession();
-      } else {
-        const activeDist = haversineMeters(
-          { latitude: location.latitude, longitude: location.longitude },
-          { latitude: activeGoal.latitude, longitude: activeGoal.longitude },
-        );
-        if (activeDist > STUDY_EXIT_RADIUS_METERS) {
-          stopStudySession();
-        }
-      }
-    }
+    checkInAtGoals(location);
 
     let nearestAcademic: (typeof scheduledItems)[number] | null = null;
     let nearestAcademicDist = Number.POSITIVE_INFINITY;
@@ -142,10 +128,6 @@ export default function MapScreen() {
         { latitude: location.latitude, longitude: location.longitude },
         { latitude: item.latitude, longitude: item.longitude },
       );
-
-      if (!item.completed && d <= GOAL_ARRIVAL_RADIUS_METERS) {
-        markGoalCompleted(item.id);
-      }
 
       const isAcademicGoal =
         item.themeKey === "academic" ||
