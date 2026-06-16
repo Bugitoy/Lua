@@ -49,6 +49,14 @@
       ],
       "expo-web-browser",
       "expo-localization",
+      [
+        "expo-location",
+        {
+          "locationAlwaysAndWhenInUsePermission": "Lua uses your location while the screen is off to count the distance you walk and check you in at your scheduled goals.",
+          "isIosBackgroundLocationEnabled": true,
+          "isAndroidForegroundServiceEnabled": true
+        }
+      ],
       "expo-notifications",
       [
         "expo-image-picker",
