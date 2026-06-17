@@ -489,6 +489,10 @@
     "errorEnabling": "We could not enable notifications right now. Please try again.",
     "errorDisabling": "We could not disable notifications right now. Please try again."
   },
+  "backgroundTracking": {
+    "notificationTitle": "Lua is tracking your walk",
+    "notificationBody": "Counting your distance and checking you in at goals while the screen is off."
+  },
   "units": {
     "miles": "miles",
     "milesShort": "mi",

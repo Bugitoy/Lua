@@ -293,6 +293,10 @@
     "errorEnabling": "지금은 알림을 활성화할 수 없습니다. 다시 시도해 주세요.",
     "errorDisabling": "지금은 알림을 비활성화할 수 없습니다. 다시 시도해 주세요."
   },
+  "backgroundTracking": {
+    "notificationTitle": "Lua가 걷기를 기록하고 있습니다",
+    "notificationBody": "화면이 꺼져 있어도 걸은 거리를 기록하고 목표에 도착하면 완료로 표시합니다."
+  },
   "units": {
     "miles": "마일",
     "milesShort": "mi",

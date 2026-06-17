@@ -293,6 +293,10 @@
     "errorEnabling": "当前无法启用通知，请稍后重试。",
     "errorDisabling": "当前无法关闭通知，请稍后重试。"
   },
+  "backgroundTracking": {
+    "notificationTitle": "Lua 正在记录你的步行",
+    "notificationBody": "屏幕关闭时也会统计步行距离，并在到达目标时完成打卡。"
+  },
   "units": {
     "miles": "英里",
     "milesShort": "英里",

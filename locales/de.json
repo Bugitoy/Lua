@@ -293,6 +293,10 @@
     "errorEnabling": "Benachrichtigungen konnten derzeit nicht aktiviert werden. Bitte versuche es erneut.",
     "errorDisabling": "Benachrichtigungen konnten derzeit nicht deaktiviert werden. Bitte versuche es erneut."
   },
+  "backgroundTracking": {
+    "notificationTitle": "Lua verfolgt deinen Weg",
+    "notificationBody": "Zählt deine Strecke und hakt Ziele ab, auch wenn der Bildschirm aus ist."
+  },
   "units": {
     "miles": "Meilen",
     "milesShort": "mi",

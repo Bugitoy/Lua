@@ -293,6 +293,10 @@
     "errorEnabling": "Impossible d'activer les notifications pour le moment. Veuillez réessayer.",
     "errorDisabling": "Impossible de désactiver les notifications pour le moment. Veuillez réessayer."
   },
+  "backgroundTracking": {
+    "notificationTitle": "Lua suit votre marche",
+    "notificationBody": "Votre distance est comptée et vos objectifs validés même écran éteint."
+  },
   "units": {
     "miles": "miles",
     "milesShort": "mi",

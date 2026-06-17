@@ -293,6 +293,10 @@
     "errorEnabling": "No se pudieron activar las notificaciones en este momento. Inténtalo de nuevo.",
     "errorDisabling": "No se pudieron desactivar las notificaciones en este momento. Inténtalo de nuevo."
   },
+  "backgroundTracking": {
+    "notificationTitle": "Lua está registrando tu caminata",
+    "notificationBody": "Contando tu distancia y completando tus metas mientras la pantalla está apagada."
+  },
   "units": {
     "miles": "millas",
     "milesShort": "mi",

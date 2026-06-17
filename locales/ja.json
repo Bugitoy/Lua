@@ -293,6 +293,10 @@
     "errorEnabling": "現在、通知を有効にできませんでした。もう一度お試しください。",
     "errorDisabling": "現在、通知を無効にできませんでした。もう一度お試しください。"
   },
+  "backgroundTracking": {
+    "notificationTitle": "Lua が歩行を記録中",
+    "notificationBody": "画面がオフでも歩いた距離を記録し、目標に着いたら達成にします。"
+  },
   "units": {
     "miles": "マイル",
     "milesShort": "mi",
