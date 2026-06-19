@@ -14,6 +14,7 @@ import { View } from "react-native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 
 import { useMidnightHealthDepletion } from "@/hooks/useMidnightHealthDepletion";
+import { useBackgroundTracking } from "@/lib/backgroundTracking";
 import { LanguageProvider } from "@/lib/i18n/LanguageProvider";
 import { ProfileProvider } from "@/lib/ProfileProvider";
 
@@ -24,6 +25,7 @@ export default function RootLayout() {
 
   // Depletes health at midnight based on unfinished goals from the prior day
   useMidnightHealthDepletion();
+  useBackgroundTracking();
 
   const [loaded, error] = useFonts({
     PixelifySans_400Regular,
