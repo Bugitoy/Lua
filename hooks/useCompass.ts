@@ -1,6 +1,8 @@
 import * as Location from "expo-location";
 import { useEffect, useState } from "react";
 
+import { useIsOnScreen } from "./useIsOnScreen";
+
 export type CompassReading = {
   /** Smoothed heading in degrees, [0, 360). `null` until first valid sample. */
   heading: number | null;
@@ -49,8 +51,11 @@ function smoothHeadingCircular(
 export function useCompass(): CompassReading {
   const [heading, setHeading] = useState<number | null>(null);
   const [accuracy, setAccuracy] = useState<number | null>(null);
+  const onScreen = useIsOnScreen();
 
   useEffect(() => {
+    if (!onScreen) return;
+
     let cancelled = false;
     let subscription: Location.LocationSubscription | null = null;
 
@@ -87,7 +92,7 @@ export function useCompass(): CompassReading {
       cancelled = true;
       subscription?.remove();
     };
-  }, []);
+  }, [onScreen]);
 
   return { heading, accuracy };
 }

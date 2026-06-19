@@ -1,9 +1,10 @@
 import * as Location from "expo-location";
 import * as TaskManager from "expo-task-manager";
-import { useEffect, useState } from "react";
-import { AppState, Platform, type AppStateStatus } from "react-native";
+import { useEffect } from "react";
+import { AppState, Platform } from "react-native";
 
 import { LUA_GREEN } from "@/constants/mapAssets";
+import { isOnScreen, useIsOnScreen } from "@/hooks/useIsOnScreen";
 import { haversineMeters, type LatLngPoint } from "@/lib/geo";
 import { checkInAtGoals } from "@/lib/goalCheckIn";
 import i18n from "@/lib/i18n";
@@ -114,7 +115,7 @@ TaskManager.defineTask<{ locations: Location.LocationObject[] }>(
     if (error || !data) return;
 
     // While Lua is on screen the map's own GPS pipeline handles every fix.
-    if (AppState.currentState === "active") {
+    if (isOnScreen(AppState.currentState)) {
       lastFix = null;
       return;
     }
@@ -140,17 +141,10 @@ TaskManager.defineTask<{ locations: Location.LocationObject[] }>(
  */
 export function useBackgroundTracking(): void {
   const goalsPending = useHasUnfinishedGoals();
-  const [appState, setAppState] = useState<AppStateStatus>(
-    AppState.currentState,
-  );
+  const onScreen = useIsOnScreen();
 
   useEffect(() => {
-    const subscription = AppState.addEventListener("change", setAppState);
-    return () => subscription.remove();
-  }, []);
-
-  useEffect(() => {
-    if (appState !== "active") return;
+    if (!onScreen) return;
     void enqueue(goalsPending ? startTracking : stopTracking);
-  }, [appState, goalsPending]);
+  }, [onScreen, goalsPending]);
 }

@@ -3,6 +3,8 @@ import { useEffect, useRef, useState } from "react";
 
 import i18n from "@/lib/i18n";
 
+import { useIsOnScreen } from "./useIsOnScreen";
+
 export type LocationCoords = {
   latitude: number;
   longitude: number;
@@ -131,8 +133,18 @@ export function useLocation(options: UseLocationOptions = {}): UseLocationResult
   const isStationaryRef = useRef(false);
   /** Counts consecutive break-eligible fixes so a single noisy reading can't unlock us. */
   const breakConfirmationsRef = useRef(0);
+  const onScreen = useIsOnScreen();
 
   useEffect(() => {
+    // No fixes arrive while off screen, so start fresh on return instead of
+    // easing out from wherever Lua last saw the user.
+    if (!onScreen) initializedRef.current = false;
+  }, [onScreen]);
+
+  useEffect(() => {
+    // Screen-off distance and check-ins come from the low-power background task.
+    if (!onScreen) return;
+
     let subscription: Location.LocationSubscription | null = null;
     let cancelled = false;
 
@@ -415,7 +427,7 @@ export function useLocation(options: UseLocationOptions = {}): UseLocationResult
       cancelled = true;
       subscription?.remove();
     };
-  }, [highFidelity]);
+  }, [highFidelity, onScreen]);
 
   return { location, errorMsg };
 }

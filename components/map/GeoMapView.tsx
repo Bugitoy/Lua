@@ -14,6 +14,7 @@ import MapView, {
 
 import { LUA_GREEN, SPRITE_CHARACTER } from "@/constants/mapAssets";
 import type { FusedLocation } from "@/hooks/useFusedLocation";
+import { useIsOnScreen } from "@/hooks/useIsOnScreen";
 import type { LatLngPoint } from "@/lib/geo";
 import { spriteMapCoordinate } from "@/lib/mapMarker";
 import type { NearbyPlace } from "@/lib/nearbyPlacesProvider";
@@ -101,6 +102,7 @@ function GeoMapViewImpl({
   const [mapLatitudeDelta, setMapLatitudeDelta] = useState(INITIAL_REGION_DELTA);
 
   const isStationary = currentLocation?.isStationary ?? true;
+  const onScreen = useIsOnScreen();
 
   const initialRegion = useMemo(
     () =>
@@ -190,6 +192,7 @@ function GeoMapViewImpl({
 
   // Walk cycle when moving, gentle idle bob when stationary.
   useEffect(() => {
+    if (!onScreen) return;
     const cadenceMs = isStationary ? 520 : 170;
     const idleFrames = [0, 2] as const;
 
@@ -201,7 +204,7 @@ function GeoMapViewImpl({
     }, cadenceMs);
 
     return () => clearInterval(id);
-  }, [isStationary]);
+  }, [isStationary, onScreen]);
 
   const pathCoordinates = useMemo(() => {
     if (!currentLocation || !destination) return [];
