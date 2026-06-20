@@ -1,4 +1,5 @@
 import * as Location from "expo-location";
+import * as Notifications from "expo-notifications";
 import * as TaskManager from "expo-task-manager";
 import { useEffect } from "react";
 import { AppState, Platform } from "react-native";
@@ -24,6 +25,7 @@ type BackgroundFix = LatLngPoint & { timestamp: number };
 let trackingDay: string | null = null;
 let lastFix: BackgroundFix | null = null;
 let pendingChange: Promise<void> = Promise.resolve();
+let askedForNotifications = false;
 
 function todayKey(): string {
   return new Date().toDateString();
@@ -62,6 +64,15 @@ function processFix(loc: Location.LocationObject): void {
   checkInAtGoals(fix);
 }
 
+/** Android 13+ hides the tracking notification unless Lua may post notifications. */
+async function askForNotificationsOnce(): Promise<void> {
+  if (askedForNotifications) return;
+  askedForNotifications = true;
+  const current = await Notifications.getPermissionsAsync();
+  if (current.granted || !current.canAskAgain) return;
+  await Notifications.requestPermissionsAsync();
+}
+
 async function startTracking(): Promise<void> {
   trackingDay = todayKey();
   if (await Location.hasStartedLocationUpdatesAsync(BACKGROUND_TRACKING_TASK)) {
@@ -74,6 +85,8 @@ async function startTracking(): Promise<void> {
   if (Platform.OS === "ios") {
     const background = await Location.requestBackgroundPermissionsAsync();
     if (!background.granted) return;
+  } else {
+    await askForNotificationsOnce();
   }
 
   lastFix = null;
