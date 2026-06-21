@@ -2,6 +2,7 @@ import * as Location from "expo-location";
 import { useEffect, useRef, useState } from "react";
 
 import i18n from "@/lib/i18n";
+import { ensureForegroundLocationPermission } from "@/lib/locationPermission";
 
 import { useIsOnScreen } from "./useIsOnScreen";
 
@@ -149,12 +150,14 @@ export function useLocation(options: UseLocationOptions = {}): UseLocationResult
     let cancelled = false;
 
     (async () => {
-      const { status } = await Location.requestForegroundPermissionsAsync();
-      if (status !== "granted") {
+      const granted = await ensureForegroundLocationPermission();
+      if (cancelled) return;
+      if (!granted) {
         setErrorMsg(i18n.t("errors.permissionDenied"));
         return;
       }
-      if (cancelled) return;
+      // Access can be granted from Settings while Lua is in the background.
+      setErrorMsg(null);
 
       const processFix = (loc: Location.LocationObject) => {
           const accuracy = loc.coords.accuracy ?? null;

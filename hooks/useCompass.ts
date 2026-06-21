@@ -1,6 +1,8 @@
 import * as Location from "expo-location";
 import { useEffect, useState } from "react";
 
+import { ensureForegroundLocationPermission } from "@/lib/locationPermission";
+
 import { useIsOnScreen } from "./useIsOnScreen";
 
 export type CompassReading = {
@@ -60,8 +62,8 @@ export function useCompass(): CompassReading {
     let subscription: Location.LocationSubscription | null = null;
 
     (async () => {
-      const { status } = await Location.requestForegroundPermissionsAsync();
-      if (status !== "granted" || cancelled) return;
+      const granted = await ensureForegroundLocationPermission();
+      if (!granted || cancelled) return;
 
       subscription = await Location.watchHeadingAsync((reading) => {
         const next =
