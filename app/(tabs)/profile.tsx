@@ -1,13 +1,13 @@
 import { Ionicons } from "@expo/vector-icons";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import * as Device from "expo-device";
 import { Image } from "expo-image";
 import { LinearGradient } from "expo-linear-gradient";
+import * as Notifications from "expo-notifications";
 import { router } from "expo-router";
 import { useCallback, useEffect, useMemo, useState } from "react";
-import { Alert, Linking, Pressable, ScrollView, Switch, Text, View } from "react-native";
-import * as Device from "expo-device";
-import * as Notifications from "expo-notifications";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useTranslation } from "react-i18next";
+import { Alert, Linking, Pressable, ScrollView, Switch, Text, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 import { LanguagePickerModal } from "@/components/settings/LanguagePickerModal";
@@ -17,21 +17,10 @@ import { formatHours } from "@/lib/formatters";
 import { useGameStats } from "@/lib/gameStats";
 import { useLanguagePreference } from "@/lib/i18n/LanguageProvider";
 import { useProfile } from "@/lib/profileStore";
+import { xpForStats } from "@/lib/xp";
 
 const LEVEL_XP_REQUIRED = 1000;
 const NOTIFICATIONS_ENABLED_KEY = "notificationsEnabled";
-
-function xpForStats(stats: {
-  goalsDone: number;
-  distanceMiles: number;
-  hoursStudied: number;
-}) {
-  return (
-    stats.goalsDone * 50 +
-    Math.floor(stats.distanceMiles) * 30 +
-    stats.hoursStudied * 40
-  );
-}
 
 type SettingRowProps = {
   icon: keyof typeof Ionicons.glyphMap;
