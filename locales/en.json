@@ -3,7 +3,8 @@
     "map": "Map",
     "schedule": "Schedule",
     "profile": "Profile",
-    "stats": "Stats"
+    "stats": "Stats",
+    "achievements": "Achievements"
   },
   "common": {
     "appName": "Lua",
@@ -300,6 +301,55 @@
       "yourTagline": "Adventurer",
       "streak": "🔥 {{count}}-day streak",
       "rank": "#{{rank}}"
+    }
+  },
+  "achievements": {
+    "title": "Milestones",
+    "xpAmount": "{{xp}} XP",
+    "xpBarLabel": "{{xp}} of {{next}} XP",
+    "headline": {
+      "none": "Lua is just getting started",
+      "some": "Lua is looking sharp",
+      "all": "Lua has every item!"
+    },
+    "nextUnlock": "Earn {{xp}} more XP to unlock <bold>{{item}}</bold>.",
+    "allUnlocked": "Every reward on the path is unlocked.",
+    "toast": {
+      "unlocked": "Unlocked {{item}}!",
+      "earnToUnlock": "Earn {{xp}} XP to unlock"
+    },
+    "wardrobe": {
+      "title": "Wardrobe",
+      "hint": "Tap an item to wear it",
+      "wearing": "Wearing",
+      "tapToWear": "Tap to wear",
+      "locked": "Locked · {{xp}} XP"
+    },
+    "path": {
+      "title": "Unlock path",
+      "count": "{{done}} / {{total}} items",
+      "start": "START",
+      "earn": "Earn {{xp}} XP",
+      "preview": "Preview",
+      "unlocked": "Unlocked"
+    },
+    "items": {
+      "sneakers": "Sneakers",
+      "jeans": "Denim Pants",
+      "shades": "Pixel Shades",
+      "beanie": "Cozy Beanie",
+      "scarf": "Striped Scarf",
+      "crown": "Gold Crown"
+    },
+    "a11y": {
+      "avatar": "Lua",
+      "avatarWearing": "Lua wearing {{items}}",
+      "avatarHint": "Tap to make Lua hop",
+      "itemLocked": "{{item}}, locked, unlocks at {{xp}} XP",
+      "itemOwned": "{{item}}, owned, tap to wear",
+      "itemWearing": "{{item}}, wearing, tap to take off",
+      "milestoneUnlocked": "{{item}}, unlocked at {{xp}} XP",
+      "milestoneLocked": "{{item}}, locked, unlocks at {{xp}} XP"
     }
   },
   "health": {
