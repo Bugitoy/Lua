@@ -2,7 +2,7 @@ import "@/global.css";
 import { Ionicons } from "@expo/vector-icons";
 import { Tabs } from "expo-router";
 import { useTranslation } from "react-i18next";
-import { Platform } from "react-native";
+import { Platform, Text } from "react-native";
 
 const LUA_GREEN = "#16a34a";
 const TAB_INACTIVE = "#6b7280";
@@ -53,6 +53,26 @@ export default function TabsLayout() {
           title: t("tabs.profile"),
           tabBarIcon: ({ color, size }) => (
             <Ionicons name="person-outline" size={size} color={color} />
+          ),
+        }}
+      />
+      <Tabs.Screen
+        name="achievements"
+        options={{
+          title: t("tabs.achievements"),
+          // "Achievements" is longer than a fifth of a phone's width allows at full size.
+          tabBarLabel: ({ color, children }) => (
+            <Text
+              numberOfLines={1}
+              adjustsFontSizeToFit
+              minimumFontScale={0.75}
+              style={[TAB_LABEL_STYLE, { color, textAlign: "center" }]}
+            >
+              {children}
+            </Text>
+          ),
+          tabBarIcon: ({ color, size }) => (
+            <Ionicons name="trophy-outline" size={size} color={color} />
           ),
         }}
       />
