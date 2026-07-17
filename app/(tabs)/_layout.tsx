@@ -6,6 +6,10 @@ import { Platform } from "react-native";
 
 const LUA_GREEN = "#16a34a";
 const TAB_INACTIVE = "#6b7280";
+const TAB_LABEL_STYLE = {
+  fontSize: 11,
+  fontFamily: "PixelifySans_600SemiBold",
+};
 
 export default function TabsLayout() {
   const { t } = useTranslation();
@@ -22,10 +26,7 @@ export default function TabsLayout() {
           paddingTop: 4,
           height: Platform.OS === "ios" ? 88 : 64,
         },
-        tabBarLabelStyle: {
-          fontSize: 11,
-          fontFamily: "PixelifySans_600SemiBold",
-        },
+        tabBarLabelStyle: TAB_LABEL_STYLE,
       }}
     >
       <Tabs.Screen
