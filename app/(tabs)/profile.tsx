@@ -392,7 +392,7 @@ export default function ProfileScreen() {
             icon="trophy-outline"
             label={t("profile.rows.achievements")}
             sublabel={t("profile.rows.achievementsSublabel", { level, xp })}
-            onPress={() => {}}
+            onPress={() => router.push("/achievements")}
           />
         </SectionCard>
 
