@@ -10,16 +10,19 @@ import { useTranslation } from "react-i18next";
 import { Alert, Linking, Pressable, ScrollView, Switch, Text, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
+import { formatXp } from "@/components/achievements/theme";
+import { xpBarProgress } from "@/components/achievements/unlockRoute";
 import { LanguagePickerModal } from "@/components/settings/LanguagePickerModal";
 import { Pixelify } from "@/constants/fonts";
 import { LUA_GREEN } from "@/constants/mapAssets";
+import { useAchievements } from "@/lib/achievementsStore";
 import { formatHours } from "@/lib/formatters";
 import { useGameStats } from "@/lib/gameStats";
+import { getAppLocale } from "@/lib/i18n/formatLocale";
 import { useLanguagePreference } from "@/lib/i18n/LanguageProvider";
 import { useProfile } from "@/lib/profileStore";
 import { xpForStats } from "@/lib/xp";
 
-const LEVEL_XP_REQUIRED = 1000;
 const NOTIFICATIONS_ENABLED_KEY = "notificationsEnabled";
 
 type SettingRowProps = {
@@ -98,6 +101,7 @@ export default function ProfileScreen() {
   const { t } = useTranslation();
   const { languageLabel } = useLanguagePreference();
   const { stats } = useGameStats();
+  const { devXpBonus } = useAchievements();
   const { profile, avatarUri } = useProfile();
   const [notificationsEnabled, setNotificationsEnabled] = useState(false);
   const [languageModalVisible, setLanguageModalVisible] = useState(false);
@@ -163,10 +167,9 @@ export default function ProfileScreen() {
     [t],
   );
 
-  const xp = xpForStats(stats);
-  const level = Math.floor(xp / LEVEL_XP_REQUIRED) + 1;
-  const xpInLevel = xp % LEVEL_XP_REQUIRED;
-  const xpProgress = xpInLevel / LEVEL_XP_REQUIRED;
+  const xp = Math.max(0, Math.floor(xpForStats(stats)) + devXpBonus);
+  const xpLabel = formatXp(xp, getAppLocale());
+  const xpProgress = xpBarProgress(xp);
 
   const statCards = useMemo(
     () => [
@@ -302,16 +305,13 @@ export default function ProfileScreen() {
                   className="text-xs text-neutral-600"
                   style={{ fontFamily: Pixelify.semibold }}
                 >
-                  {t("profile.level", { level })}
+                  {t("profile.experienceLevel")}
                 </Text>
                 <Text
                   className="text-xs text-neutral-400"
                   style={{ fontFamily: Pixelify.regular }}
                 >
-                  {t("profile.xpProgress", {
-                    current: xpInLevel,
-                    total: LEVEL_XP_REQUIRED,
-                  })}
+                  {t("achievements.xpAmount", { xp: xpLabel })}
                 </Text>
               </View>
               <View className="h-3 overflow-hidden rounded-full bg-neutral-200">
@@ -391,7 +391,7 @@ export default function ProfileScreen() {
           <SettingRow
             icon="trophy-outline"
             label={t("profile.rows.achievements")}
-            sublabel={t("profile.rows.achievementsSublabel", { level, xp })}
+            sublabel={t("profile.rows.achievementsSublabel", { xp: xpLabel })}
             onPress={() => router.push("/achievements")}
           />
         </SectionCard>

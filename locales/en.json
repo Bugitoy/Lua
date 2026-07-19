@@ -120,8 +120,7 @@
     "title": "Profile",
     "displayName": "Mason",
     "handle": "@masonmavinga",
-    "level": "Level {{level}}",
-    "xpProgress": "{{current}} / {{total}} XP",
+    "experienceLevel": "Experience Level",
     "stats": {
       "goalsToday": "Goals Today",
       "goalStreak": "Goal Completion Streak",
@@ -137,7 +136,7 @@
       "manageProfile": "Manage Profile",
       "manageProfileSublabel": "Name, photo, handle",
       "achievements": "Achievements",
-      "achievementsSublabel": "Level {{level}} · {{xp}} XP total",
+      "achievementsSublabel": "{{xp}} XP total",
       "notifications": "Notifications",
       "notificationsSublabel": "Daily reminders",
       "language": "Language",
