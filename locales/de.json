@@ -3,7 +3,8 @@
     "map": "Karte",
     "schedule": "Zeitplan",
     "profile": "Profil",
-    "stats": "Statistiken"
+    "stats": "Statistiken",
+    "achievements": "Erfolge"
   },
   "common": {
     "appName": "Lua",
@@ -111,8 +112,7 @@
     "title": "Profil",
     "displayName": "Mason",
     "handle": "@masonmavinga",
-    "level": "Level {{level}}",
-    "xpProgress": "{{current}} / {{total}} XP",
+    "experienceLevel": "Erfahrungsstufe",
     "stats": {
       "goalsToday": "Ziele heute",
       "goalStreak": "Ziel-Abschluss-Serie",
@@ -128,7 +128,7 @@
       "manageProfile": "Profil verwalten",
       "manageProfileSublabel": "Name, Foto, Handle",
       "achievements": "Erfolge",
-      "achievementsSublabel": "Level {{level}} · {{xp}} XP gesamt",
+      "achievementsSublabel": "{{xp}} XP gesamt",
       "notifications": "Benachrichtigungen",
       "notificationsSublabel": "Tägliche Erinnerungen",
       "language": "Sprache",
@@ -228,6 +228,55 @@
       "yourTagline": "Abenteurer",
       "streak": "🔥 {{count}}-Tage-Serie",
       "rank": "#{{rank}}"
+    }
+  },
+  "achievements": {
+    "title": "Meilensteine",
+    "xpAmount": "{{xp}} XP",
+    "xpBarLabel": "{{xp}} von {{next}} XP",
+    "headline": {
+      "none": "Lua fängt gerade erst an",
+      "some": "Lua sieht schick aus",
+      "all": "Lua hat alle Teile!"
+    },
+    "nextUnlock": "Verdiene noch {{xp}} XP, um <bold>{{item}}</bold> freizuschalten.",
+    "allUnlocked": "Alle Belohnungen auf dem Pfad sind freigeschaltet.",
+    "toast": {
+      "unlocked": "{{item}} freigeschaltet!",
+      "earnToUnlock": "Verdiene {{xp}} XP zum Freischalten"
+    },
+    "wardrobe": {
+      "title": "Kleiderschrank",
+      "hint": "Tippe auf ein Teil, um es anzuziehen",
+      "wearing": "Angezogen",
+      "tapToWear": "Zum Anziehen tippen",
+      "locked": "Gesperrt · {{xp}} XP"
+    },
+    "path": {
+      "title": "Freischaltpfad",
+      "count": "{{done}} / {{total}} Teile",
+      "start": "START",
+      "earn": "Verdiene {{xp}} XP",
+      "preview": "Vorschau",
+      "unlocked": "Freigeschaltet"
+    },
+    "items": {
+      "sneakers": "Sneaker",
+      "jeans": "Jeans",
+      "shades": "Pixel-Brille",
+      "beanie": "Kuschelmütze",
+      "scarf": "Ringelschal",
+      "crown": "Goldkrone"
+    },
+    "a11y": {
+      "avatar": "Lua",
+      "avatarWearing": "Lua trägt {{items}}",
+      "avatarHint": "Tippe, damit Lua hüpft",
+      "itemLocked": "{{item}}, gesperrt, wird bei {{xp}} XP freigeschaltet",
+      "itemOwned": "{{item}}, verfügbar, zum Anziehen tippen",
+      "itemWearing": "{{item}}, angezogen, zum Ausziehen tippen",
+      "milestoneUnlocked": "{{item}}, freigeschaltet bei {{xp}} XP",
+      "milestoneLocked": "{{item}}, gesperrt, wird bei {{xp}} XP freigeschaltet"
     }
   },
   "health": {
