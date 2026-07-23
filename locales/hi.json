@@ -3,7 +3,8 @@
     "map": "मानचित्र",
     "schedule": "कार्यक्रम",
     "profile": "प्रोफ़ाइल",
-    "stats": "आँकड़े"
+    "stats": "आँकड़े",
+    "achievements": "उपलब्धियाँ"
   },
   "common": {
     "appName": "Lua",
@@ -111,8 +112,7 @@
     "title": "प्रोफ़ाइल",
     "displayName": "Mason",
     "handle": "@masonmavinga",
-    "level": "स्तर {{level}}",
-    "xpProgress": "{{current}} / {{total}} XP",
+    "experienceLevel": "अनुभव स्तर",
     "stats": {
       "goalsToday": "आज के लक्ष्य",
       "goalStreak": "लक्ष्य पूर्णता श्रृंखला",
@@ -128,7 +128,7 @@
       "manageProfile": "प्रोफ़ाइल प्रबंधित करें",
       "manageProfileSublabel": "नाम, फ़ोटो, हैंडल",
       "achievements": "उपलब्धियाँ",
-      "achievementsSublabel": "स्तर {{level}} · कुल {{xp}} XP",
+      "achievementsSublabel": "कुल {{xp}} XP",
       "notifications": "सूचनाएँ",
       "notificationsSublabel": "दैनिक अनुस्मारक",
       "language": "भाषा",
@@ -228,6 +228,55 @@
       "yourTagline": "साहसी",
       "streak": "🔥 {{count}}-दिन की श्रृंखला",
       "rank": "#{{rank}}"
+    }
+  },
+  "achievements": {
+    "title": "पड़ाव",
+    "xpAmount": "{{xp}} XP",
+    "xpBarLabel": "{{next}} में से {{xp}} XP",
+    "headline": {
+      "none": "Lua ने अभी शुरुआत की है",
+      "some": "Lua शानदार दिख रही है",
+      "all": "Lua के पास हर आइटम है!"
+    },
+    "nextUnlock": "<bold>{{item}}</bold> अनलॉक करने के लिए {{xp}} XP और कमाएँ।",
+    "allUnlocked": "रास्ते के सभी इनाम अनलॉक हो गए हैं।",
+    "toast": {
+      "unlocked": "{{item}} अनलॉक हुआ!",
+      "earnToUnlock": "अनलॉक करने के लिए {{xp}} XP कमाएँ"
+    },
+    "wardrobe": {
+      "title": "अलमारी",
+      "hint": "पहनने के लिए किसी आइटम पर टैप करें",
+      "wearing": "पहना हुआ",
+      "tapToWear": "पहनने के लिए टैप करें",
+      "locked": "लॉक · {{xp}} XP"
+    },
+    "path": {
+      "title": "अनलॉक रास्ता",
+      "count": "{{done}} / {{total}} आइटम",
+      "start": "शुरू",
+      "earn": "{{xp}} XP कमाएँ",
+      "preview": "झलक",
+      "unlocked": "अनलॉक"
+    },
+    "items": {
+      "sneakers": "स्नीकर्स",
+      "jeans": "डेनिम पैंट",
+      "shades": "पिक्सेल चश्मा",
+      "beanie": "गरम टोपी",
+      "scarf": "धारीदार स्कार्फ़",
+      "crown": "सुनहरा मुकुट"
+    },
+    "a11y": {
+      "avatar": "Lua",
+      "avatarWearing": "Lua ने {{items}} पहना है",
+      "avatarHint": "टैप करें, Lua उछलेगी",
+      "itemLocked": "{{item}}, लॉक, {{xp}} XP पर अनलॉक होगा",
+      "itemOwned": "{{item}}, आपके पास है, पहनने के लिए टैप करें",
+      "itemWearing": "{{item}}, पहना हुआ, उतारने के लिए टैप करें",
+      "milestoneUnlocked": "{{item}}, {{xp}} XP पर अनलॉक हुआ",
+      "milestoneLocked": "{{item}}, लॉक, {{xp}} XP पर अनलॉक होगा"
     }
   },
   "health": {
