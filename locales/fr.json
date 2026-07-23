@@ -3,7 +3,8 @@
     "map": "Carte",
     "schedule": "Planning",
     "profile": "Profil",
-    "stats": "Statistiques"
+    "stats": "Statistiques",
+    "achievements": "Succès"
   },
   "common": {
     "appName": "Lua",
@@ -111,8 +112,7 @@
     "title": "Profil",
     "displayName": "Mason",
     "handle": "@masonmavinga",
-    "level": "Niveau {{level}}",
-    "xpProgress": "{{current}} / {{total}} XP",
+    "experienceLevel": "Niveau d'expérience",
     "stats": {
       "goalsToday": "Objectifs aujourd'hui",
       "goalStreak": "Série d'objectifs accomplis",
@@ -128,7 +128,7 @@
       "manageProfile": "Gérer le profil",
       "manageProfileSublabel": "Nom, photo, identifiant",
       "achievements": "Succès",
-      "achievementsSublabel": "Niveau {{level}} · {{xp}} XP au total",
+      "achievementsSublabel": "{{xp}} XP au total",
       "notifications": "Notifications",
       "notificationsSublabel": "Rappels quotidiens",
       "language": "Langue",
@@ -228,6 +228,55 @@
       "yourTagline": "Aventurier",
       "streak": "🔥 Série de {{count}} jours",
       "rank": "#{{rank}}"
+    }
+  },
+  "achievements": {
+    "title": "Jalons",
+    "xpAmount": "{{xp}} XP",
+    "xpBarLabel": "{{xp}} sur {{next}} XP",
+    "headline": {
+      "none": "Lua ne fait que commencer",
+      "some": "Lua a fière allure",
+      "all": "Lua a tous les objets !"
+    },
+    "nextUnlock": "Gagnez encore {{xp}} XP pour débloquer <bold>{{item}}</bold>.",
+    "allUnlocked": "Toutes les récompenses du parcours sont débloquées.",
+    "toast": {
+      "unlocked": "Débloqué : {{item}} !",
+      "earnToUnlock": "Gagnez {{xp}} XP pour débloquer"
+    },
+    "wardrobe": {
+      "title": "Garde-robe",
+      "hint": "Appuyez sur un objet pour le porter",
+      "wearing": "Porté",
+      "tapToWear": "Appuyez pour porter",
+      "locked": "Verrouillé · {{xp}} XP"
+    },
+    "path": {
+      "title": "Parcours de déblocage",
+      "count": "{{done}} / {{total}} objets",
+      "start": "DÉPART",
+      "earn": "Gagnez {{xp}} XP",
+      "preview": "Aperçu",
+      "unlocked": "Débloqué"
+    },
+    "items": {
+      "sneakers": "Baskets",
+      "jeans": "Jean",
+      "shades": "Lunettes pixel",
+      "beanie": "Bonnet douillet",
+      "scarf": "Écharpe rayée",
+      "crown": "Couronne dorée"
+    },
+    "a11y": {
+      "avatar": "Lua",
+      "avatarWearing": "Lua porte {{items}}",
+      "avatarHint": "Appuyez pour faire sauter Lua",
+      "itemLocked": "{{item}}, verrouillé, se débloque à {{xp}} XP",
+      "itemOwned": "{{item}}, possédé, appuyez pour le porter",
+      "itemWearing": "{{item}}, porté, appuyez pour l'enlever",
+      "milestoneUnlocked": "{{item}}, débloqué à {{xp}} XP",
+      "milestoneLocked": "{{item}}, verrouillé, se débloque à {{xp}} XP"
     }
   },
   "health": {
