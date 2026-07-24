@@ -3,7 +3,8 @@
     "map": "Mappa",
     "schedule": "Programma",
     "profile": "Profilo",
-    "stats": "Statistiche"
+    "stats": "Statistiche",
+    "achievements": "Traguardi"
   },
   "common": {
     "appName": "Lua",
@@ -111,8 +112,7 @@
     "title": "Profilo",
     "displayName": "Mason",
     "handle": "@masonmavinga",
-    "level": "Livello {{level}}",
-    "xpProgress": "{{current}} / {{total}} XP",
+    "experienceLevel": "Livello di esperienza",
     "stats": {
       "goalsToday": "Obiettivi oggi",
       "goalStreak": "Serie obiettivi completati",
@@ -128,7 +128,7 @@
       "manageProfile": "Gestisci profilo",
       "manageProfileSublabel": "Nome, foto, handle",
       "achievements": "Traguardi",
-      "achievementsSublabel": "Livello {{level}} · {{xp}} XP totali",
+      "achievementsSublabel": "{{xp}} XP totali",
       "notifications": "Notifiche",
       "notificationsSublabel": "Promemoria giornalieri",
       "language": "Lingua",
@@ -228,6 +228,55 @@
       "yourTagline": "Avventuriero",
       "streak": "🔥 Serie di {{count}} giorni",
       "rank": "#{{rank}}"
+    }
+  },
+  "achievements": {
+    "title": "Traguardi",
+    "xpAmount": "{{xp}} XP",
+    "xpBarLabel": "{{xp}} su {{next}} XP",
+    "headline": {
+      "none": "Lua ha appena iniziato",
+      "some": "Lua è proprio in forma",
+      "all": "Lua ha tutti gli oggetti!"
+    },
+    "nextUnlock": "Guadagna altri {{xp}} XP per sbloccare <bold>{{item}}</bold>.",
+    "allUnlocked": "Tutte le ricompense del percorso sono sbloccate.",
+    "toast": {
+      "unlocked": "{{item}} sbloccato!",
+      "earnToUnlock": "Guadagna {{xp}} XP per sbloccare"
+    },
+    "wardrobe": {
+      "title": "Guardaroba",
+      "hint": "Tocca un oggetto per indossarlo",
+      "wearing": "Indossato",
+      "tapToWear": "Tocca per indossare",
+      "locked": "Bloccato · {{xp}} XP"
+    },
+    "path": {
+      "title": "Percorso di sblocco",
+      "count": "{{done}} / {{total}} oggetti",
+      "start": "VIA",
+      "earn": "Guadagna {{xp}} XP",
+      "preview": "Anteprima",
+      "unlocked": "Sbloccato"
+    },
+    "items": {
+      "sneakers": "Sneaker",
+      "jeans": "Jeans",
+      "shades": "Occhiali pixel",
+      "beanie": "Berretto caldo",
+      "scarf": "Sciarpa a righe",
+      "crown": "Corona d'oro"
+    },
+    "a11y": {
+      "avatar": "Lua",
+      "avatarWearing": "Lua indossa {{items}}",
+      "avatarHint": "Tocca per far saltare Lua",
+      "itemLocked": "{{item}}, bloccato, si sblocca a {{xp}} XP",
+      "itemOwned": "{{item}}, disponibile, tocca per indossare",
+      "itemWearing": "{{item}}, indossato, tocca per toglierlo",
+      "milestoneUnlocked": "{{item}}, sbloccato a {{xp}} XP",
+      "milestoneLocked": "{{item}}, bloccato, si sblocca a {{xp}} XP"
     }
   },
   "health": {
