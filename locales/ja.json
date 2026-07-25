@@ -3,7 +3,8 @@
     "map": "マップ",
     "schedule": "スケジュール",
     "profile": "プロフィール",
-    "stats": "統計"
+    "stats": "統計",
+    "achievements": "実績"
   },
   "common": {
     "appName": "Lua",
@@ -111,8 +112,7 @@
     "title": "プロフィール",
     "displayName": "Mason",
     "handle": "@masonmavinga",
-    "level": "レベル {{level}}",
-    "xpProgress": "{{current}} / {{total}} XP",
+    "experienceLevel": "経験レベル",
     "stats": {
       "goalsToday": "今日の目標",
       "goalStreak": "目標達成連続日数",
@@ -128,7 +128,7 @@
       "manageProfile": "プロフィール管理",
       "manageProfileSublabel": "名前、写真、ハンドル",
       "achievements": "実績",
-      "achievementsSublabel": "レベル {{level}} · 合計 {{xp}} XP",
+      "achievementsSublabel": "合計 {{xp}} XP",
       "notifications": "通知",
       "notificationsSublabel": "毎日のリマインダー",
       "language": "言語",
@@ -228,6 +228,55 @@
       "yourTagline": "冒険者",
       "streak": "🔥 {{count}} 日連続",
       "rank": "#{{rank}}"
+    }
+  },
+  "achievements": {
+    "title": "マイルストーン",
+    "xpAmount": "{{xp}} XP",
+    "xpBarLabel": "{{xp}} / {{next}} XP",
+    "headline": {
+      "none": "Lua はまだ始めたばかり",
+      "some": "Lua、きまってるね",
+      "all": "Lua はアイテムをコンプリート！"
+    },
+    "nextUnlock": "あと {{xp}} XP で<bold>{{item}}</bold>をアンロック。",
+    "allUnlocked": "パスのごほうびはすべてアンロック済みです。",
+    "toast": {
+      "unlocked": "{{item}}をアンロック！",
+      "earnToUnlock": "{{xp}} XP でアンロック"
+    },
+    "wardrobe": {
+      "title": "クローゼット",
+      "hint": "アイテムをタップして着る",
+      "wearing": "着用中",
+      "tapToWear": "タップで着る",
+      "locked": "ロック中 · {{xp}} XP"
+    },
+    "path": {
+      "title": "アンロックパス",
+      "count": "{{done}} / {{total}} アイテム",
+      "start": "スタート",
+      "earn": "{{xp}} XP で獲得",
+      "preview": "プレビュー",
+      "unlocked": "アンロック済み"
+    },
+    "items": {
+      "sneakers": "スニーカー",
+      "jeans": "デニムパンツ",
+      "shades": "ピクセルサングラス",
+      "beanie": "ふわふわニット帽",
+      "scarf": "しましまマフラー",
+      "crown": "金の王冠"
+    },
+    "a11y": {
+      "avatar": "Lua",
+      "avatarWearing": "{{items}}を身につけた Lua",
+      "avatarHint": "タップすると Lua がジャンプします",
+      "itemLocked": "{{item}}、ロック中、{{xp}} XP でアンロック",
+      "itemOwned": "{{item}}、所持中、タップで着る",
+      "itemWearing": "{{item}}、着用中、タップで外す",
+      "milestoneUnlocked": "{{item}}、{{xp}} XP でアンロック済み",
+      "milestoneLocked": "{{item}}、ロック中、{{xp}} XP でアンロック"
     }
   },
   "health": {
