@@ -3,7 +3,8 @@
     "map": "지도",
     "schedule": "일정",
     "profile": "프로필",
-    "stats": "통계"
+    "stats": "통계",
+    "achievements": "업적"
   },
   "common": {
     "appName": "Lua",
@@ -111,8 +112,7 @@
     "title": "프로필",
     "displayName": "Mason",
     "handle": "@masonmavinga",
-    "level": "레벨 {{level}}",
-    "xpProgress": "{{current}} / {{total}} XP",
+    "experienceLevel": "경험 레벨",
     "stats": {
       "goalsToday": "오늘의 목표",
       "goalStreak": "목표 완료 연속 일수",
@@ -128,7 +128,7 @@
       "manageProfile": "프로필 관리",
       "manageProfileSublabel": "이름, 사진, 핸들",
       "achievements": "업적",
-      "achievementsSublabel": "레벨 {{level}} · 총 {{xp}} XP",
+      "achievementsSublabel": "총 {{xp}} XP",
       "notifications": "알림",
       "notificationsSublabel": "매일 알림",
       "language": "언어",
@@ -228,6 +228,55 @@
       "yourTagline": "모험가",
       "streak": "🔥 {{count}}일 연속",
       "rank": "#{{rank}}"
+    }
+  },
+  "achievements": {
+    "title": "마일스톤",
+    "xpAmount": "{{xp}} XP",
+    "xpBarLabel": "{{xp}} / {{next}} XP",
+    "headline": {
+      "none": "Lua는 이제 막 시작했어요",
+      "some": "Lua 오늘 멋진데요",
+      "all": "Lua가 모든 아이템을 모았어요!"
+    },
+    "nextUnlock": "<bold>{{item}}</bold> 잠금 해제까지 {{xp}} XP 남았어요.",
+    "allUnlocked": "경로의 모든 보상을 잠금 해제했어요.",
+    "toast": {
+      "unlocked": "{{item}} 잠금 해제!",
+      "earnToUnlock": "{{xp}} XP를 모으면 잠금 해제"
+    },
+    "wardrobe": {
+      "title": "옷장",
+      "hint": "아이템을 탭해서 입어 보세요",
+      "wearing": "착용 중",
+      "tapToWear": "탭해서 착용",
+      "locked": "잠김 · {{xp}} XP"
+    },
+    "path": {
+      "title": "잠금 해제 경로",
+      "count": "{{done}} / {{total}} 아이템",
+      "start": "시작",
+      "earn": "{{xp}} XP 획득",
+      "preview": "미리보기",
+      "unlocked": "잠금 해제됨"
+    },
+    "items": {
+      "sneakers": "운동화",
+      "jeans": "청바지",
+      "shades": "픽셀 선글라스",
+      "beanie": "포근한 비니",
+      "scarf": "줄무늬 목도리",
+      "crown": "황금 왕관"
+    },
+    "a11y": {
+      "avatar": "Lua",
+      "avatarWearing": "{{items}} 착용한 Lua",
+      "avatarHint": "탭하면 Lua가 점프해요",
+      "itemLocked": "{{item}}, 잠김, {{xp}} XP에 잠금 해제",
+      "itemOwned": "{{item}}, 보유 중, 탭해서 착용",
+      "itemWearing": "{{item}}, 착용 중, 탭해서 벗기",
+      "milestoneUnlocked": "{{item}}, {{xp}} XP에 잠금 해제됨",
+      "milestoneLocked": "{{item}}, 잠김, {{xp}} XP에 잠금 해제"
     }
   },
   "health": {
