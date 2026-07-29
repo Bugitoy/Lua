@@ -3,7 +3,8 @@
     "map": "地图",
     "schedule": "日程",
     "profile": "个人资料",
-    "stats": "统计"
+    "stats": "统计",
+    "achievements": "成就"
   },
   "common": {
     "appName": "Lua",
@@ -111,8 +112,7 @@
     "title": "个人资料",
     "displayName": "Mason",
     "handle": "@masonmavinga",
-    "level": "等级 {{level}}",
-    "xpProgress": "{{current}} / {{total}} XP",
+    "experienceLevel": "经验等级",
     "stats": {
       "goalsToday": "今日目标",
       "goalStreak": "目标完成连续天数",
@@ -128,7 +128,7 @@
       "manageProfile": "管理个人资料",
       "manageProfileSublabel": "姓名、头像、用户名",
       "achievements": "成就",
-      "achievementsSublabel": "等级 {{level}} · 共 {{xp}} XP",
+      "achievementsSublabel": "共 {{xp}} XP",
       "notifications": "通知",
       "notificationsSublabel": "每日提醒",
       "language": "语言",
@@ -228,6 +228,55 @@
       "yourTagline": "冒险者",
       "streak": "🔥 连续 {{count}} 天",
       "rank": "#{{rank}}"
+    }
+  },
+  "achievements": {
+    "title": "里程碑",
+    "xpAmount": "{{xp}} XP",
+    "xpBarLabel": "{{xp}} / {{next}} XP",
+    "headline": {
+      "none": "Lua 才刚刚起步",
+      "some": "Lua 看起来真精神",
+      "all": "Lua 集齐了所有物品！"
+    },
+    "nextUnlock": "再获得 {{xp}} XP 即可解锁<bold>{{item}}</bold>。",
+    "allUnlocked": "路线上的所有奖励都已解锁。",
+    "toast": {
+      "unlocked": "已解锁{{item}}！",
+      "earnToUnlock": "获得 {{xp}} XP 即可解锁"
+    },
+    "wardrobe": {
+      "title": "衣橱",
+      "hint": "点击物品即可穿戴",
+      "wearing": "穿戴中",
+      "tapToWear": "点击穿戴",
+      "locked": "未解锁 · {{xp}} XP"
+    },
+    "path": {
+      "title": "解锁路线",
+      "count": "{{done}} / {{total}} 件物品",
+      "start": "起点",
+      "earn": "获得 {{xp}} XP",
+      "preview": "预览",
+      "unlocked": "已解锁"
+    },
+    "items": {
+      "sneakers": "运动鞋",
+      "jeans": "牛仔裤",
+      "shades": "像素墨镜",
+      "beanie": "暖暖毛线帽",
+      "scarf": "条纹围巾",
+      "crown": "金色王冠"
+    },
+    "a11y": {
+      "avatar": "Lua",
+      "avatarWearing": "穿戴着{{items}}的 Lua",
+      "avatarHint": "点击让 Lua 跳一跳",
+      "itemLocked": "{{item}}，未解锁，{{xp}} XP 时解锁",
+      "itemOwned": "{{item}}，已拥有，点击穿戴",
+      "itemWearing": "{{item}}，穿戴中，点击脱下",
+      "milestoneUnlocked": "{{item}}，已在 {{xp}} XP 时解锁",
+      "milestoneLocked": "{{item}}，未解锁，{{xp}} XP 时解锁"
     }
   },
   "health": {
