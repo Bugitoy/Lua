@@ -92,14 +92,14 @@
       "title": "New item",
       "type": "Type",
       "types": {
-        "academic": "Academic",
+        "academic": "Work",
         "meal": "Meal",
         "social": "Social"
       },
       "time": "Time",
       "timePlaceholder": "Tap to choose a time",
       "category": "Category",
-      "categoryPlaceholder": "e.g. Study, Club",
+      "categoryPlaceholder": "e.g. Work, Club",
       "titleLabel": "Title",
       "titlePlaceholder": "Add a title",
       "location": "Location",
