@@ -125,7 +125,7 @@
       "goalsToday": "Goals Today",
       "goalStreak": "Goal Completion Streak",
       "milesWalked": "Miles Walked",
-      "hoursStudied": "Hours Studied"
+      "hoursStudied": "Hours Worked"
     },
     "sections": {
       "account": "Account",
@@ -264,7 +264,7 @@
     "metrics": {
       "distance": "Distance",
       "goals": "Goals",
-      "study": "Study"
+      "study": "Work"
     },
     "periods": {
       "today": "Today",
@@ -283,7 +283,7 @@
     "summary": {
       "distance": "Distance",
       "goals": "Goals",
-      "study": "Study",
+      "study": "Work",
       "distanceValue": "{{distance}} mi",
       "goalsValue": "{{done}}/{{total}}"
     },
@@ -291,7 +291,7 @@
       "sectionTitle": "7-Day Averages",
       "avgDistance": "Avg Distance",
       "avgGoalsDone": "Avg Goals Done",
-      "avgStudyTime": "Avg Study Time",
+      "avgStudyTime": "Avg Work Time",
       "avgDistanceValue": "{{value}} mi"
     },
     "leaderboard": {
@@ -375,7 +375,7 @@
       "goalStreakValue_other": "{{count}} days",
       "distanceWalked": "Distance Walked",
       "distanceWalkedValue": "{{distance}} miles",
-      "hoursStudied": "Hours Studied"
+      "hoursStudied": "Hours Worked"
     },
     "actions": {
       "back": "Back",
