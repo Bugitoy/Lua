@@ -30,7 +30,7 @@ export const SCHEDULE_THEME_PRESETS: Record<
   }
 > = {
   academic: {
-    icon: "school-outline",
+    icon: "briefcase-outline",
     gradientColors: ["#bbf7d0", "#4ade80"],
     glowColor: "#22c55e",
   },
