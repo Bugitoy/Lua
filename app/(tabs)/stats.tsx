@@ -280,7 +280,7 @@ export default function StatsScreen() {
       {
         key: "study",
         label: t("stats.metrics.study"),
-        icon: "book-outline",
+        icon: "briefcase-outline",
         accent: "#8b5cf6",
         unit: "hrs",
         getValue: (d) => d.hoursStudied,
@@ -368,7 +368,7 @@ export default function StatsScreen() {
       {
         label: t("stats.summary.study"),
         value: formatHours(selected.hoursStudied),
-        icon: "book-outline" as const,
+        icon: "briefcase-outline" as const,
         accent: "#8b5cf6",
       },
     ],
@@ -564,7 +564,7 @@ export default function StatsScreen() {
               value: `${(data.reduce((s, d) => s + d.goalsDone, 0) / data.length).toFixed(1)}`,
             },
             {
-              icon: "book-outline" as const,
+              icon: "briefcase-outline" as const,
               label: t("stats.averages.avgStudyTime"),
               accent: "#8b5cf6",
               value: formatHours(
@@ -693,7 +693,7 @@ export default function StatsScreen() {
               {
                 key: "study" as const,
                 label: t("stats.metrics.study"),
-                icon: "book-outline" as const,
+                icon: "briefcase-outline" as const,
                 accent: "#8b5cf6",
               },
             ] as const
