@@ -172,7 +172,7 @@ export default function HealthStatusScreen() {
               })}
             />
             <StatRow
-              icon="book-outline"
+              icon="briefcase-outline"
               label={t("health.stats.hoursStudied")}
               value={formatHours(hoursStudied)}
             />

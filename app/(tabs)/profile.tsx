@@ -202,7 +202,7 @@ export default function ProfileScreen() {
         label: t("profile.stats.hoursStudied"),
         value: formatHours(stats.hoursStudied),
         sub: "",
-        icon: "book-outline" as const,
+        icon: "briefcase-outline" as const,
         accent: "#8b5cf6",
       },
     ],
