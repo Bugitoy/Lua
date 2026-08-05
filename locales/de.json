@@ -84,14 +84,14 @@
       "title": "Neuer Eintrag",
       "type": "Typ",
       "types": {
-        "academic": "Akademisch",
+        "academic": "Arbeit",
         "meal": "Mahlzeit",
         "social": "Sozial"
       },
       "time": "Uhrzeit",
       "timePlaceholder": "Tippen, um eine Uhrzeit zu wählen",
       "category": "Kategorie",
-      "categoryPlaceholder": "z. B. Lernen, Club",
+      "categoryPlaceholder": "z. B. Arbeit, Club",
       "titleLabel": "Titel",
       "titlePlaceholder": "Titel hinzufügen",
       "location": "Ort",
@@ -117,7 +117,7 @@
       "goalsToday": "Ziele heute",
       "goalStreak": "Ziel-Abschluss-Serie",
       "milesWalked": "Gelaufene Meilen",
-      "hoursStudied": "Lernstunden"
+      "hoursStudied": "Arbeitsstunden"
     },
     "sections": {
       "account": "Konto",
@@ -192,7 +192,7 @@
     "metrics": {
       "distance": "Strecke",
       "goals": "Ziele",
-      "study": "Lernen"
+      "study": "Arbeit"
     },
     "periods": {
       "today": "Heute",
@@ -211,7 +211,7 @@
     "summary": {
       "distance": "Strecke",
       "goals": "Ziele",
-      "study": "Lernen",
+      "study": "Arbeit",
       "distanceValue": "{{distance}} mi",
       "goalsValue": "{{done}}/{{total}}"
     },
@@ -219,7 +219,7 @@
       "sectionTitle": "7-Tage-Durchschnitte",
       "avgDistance": "Ø Strecke",
       "avgGoalsDone": "Ø erreichte Ziele",
-      "avgStudyTime": "Ø Lernzeit",
+      "avgStudyTime": "Ø Arbeitszeit",
       "avgDistanceValue": "{{value}} mi"
     },
     "leaderboard": {
@@ -303,7 +303,7 @@
       "goalStreakValue_other": "{{count}} Tage",
       "distanceWalked": "Zurückgelegte Strecke",
       "distanceWalkedValue": "{{distance}} Meilen",
-      "hoursStudied": "Lernstunden"
+      "hoursStudied": "Arbeitsstunden"
     },
     "actions": {
       "back": "Zurück",
