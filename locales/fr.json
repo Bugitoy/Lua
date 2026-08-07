@@ -84,14 +84,14 @@
       "title": "Nouvel élément",
       "type": "Type",
       "types": {
-        "academic": "Académique",
+        "academic": "Travail",
         "meal": "Repas",
         "social": "Social"
       },
       "time": "Heure",
       "timePlaceholder": "Appuyez pour choisir une heure",
       "category": "Catégorie",
-      "categoryPlaceholder": "ex. Étude, Club",
+      "categoryPlaceholder": "ex. Travail, Club",
       "titleLabel": "Titre",
       "titlePlaceholder": "Ajouter un titre",
       "location": "Lieu",
@@ -117,7 +117,7 @@
       "goalsToday": "Objectifs aujourd'hui",
       "goalStreak": "Série d'objectifs accomplis",
       "milesWalked": "Miles parcourus",
-      "hoursStudied": "Heures d'étude"
+      "hoursStudied": "Heures de travail"
     },
     "sections": {
       "account": "Compte",
@@ -192,7 +192,7 @@
     "metrics": {
       "distance": "Distance",
       "goals": "Objectifs",
-      "study": "Étude"
+      "study": "Travail"
     },
     "periods": {
       "today": "Aujourd'hui",
@@ -211,7 +211,7 @@
     "summary": {
       "distance": "Distance",
       "goals": "Objectifs",
-      "study": "Étude",
+      "study": "Travail",
       "distanceValue": "{{distance}} mi",
       "goalsValue": "{{done}}/{{total}}"
     },
@@ -219,7 +219,7 @@
       "sectionTitle": "Moyennes sur 7 jours",
       "avgDistance": "Distance moy.",
       "avgGoalsDone": "Objectifs moy. accomplis",
-      "avgStudyTime": "Temps d'étude moy.",
+      "avgStudyTime": "Temps de travail moy.",
       "avgDistanceValue": "{{value}} mi"
     },
     "leaderboard": {
@@ -303,7 +303,7 @@
       "goalStreakValue_other": "{{count}} jours",
       "distanceWalked": "Distance parcourue",
       "distanceWalkedValue": "{{distance}} miles",
-      "hoursStudied": "Heures d'étude"
+      "hoursStudied": "Heures de travail"
     },
     "actions": {
       "back": "Retour",
