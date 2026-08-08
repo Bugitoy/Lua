@@ -84,14 +84,14 @@
       "title": "नया आइटम",
       "type": "प्रकार",
       "types": {
-        "academic": "शैक्षणिक",
+        "academic": "काम",
         "meal": "भोजन",
         "social": "सामाजिक"
       },
       "time": "समय",
       "timePlaceholder": "समय चुनने के लिए टैप करें",
       "category": "श्रेणी",
-      "categoryPlaceholder": "जैसे: अध्ययन, क्लब",
+      "categoryPlaceholder": "जैसे: काम, क्लब",
       "titleLabel": "शीर्षक",
       "titlePlaceholder": "शीर्षक जोड़ें",
       "location": "स्थान",
@@ -117,7 +117,7 @@
       "goalsToday": "आज के लक्ष्य",
       "goalStreak": "लक्ष्य पूर्णता श्रृंखला",
       "milesWalked": "चले गए मील",
-      "hoursStudied": "अध्ययन के घंटे"
+      "hoursStudied": "काम के घंटे"
     },
     "sections": {
       "account": "खाता",
@@ -192,7 +192,7 @@
     "metrics": {
       "distance": "दूरी",
       "goals": "लक्ष्य",
-      "study": "अध्ययन"
+      "study": "काम"
     },
     "periods": {
       "today": "आज",
@@ -211,7 +211,7 @@
     "summary": {
       "distance": "दूरी",
       "goals": "लक्ष्य",
-      "study": "अध्ययन",
+      "study": "काम",
       "distanceValue": "{{distance}} mi",
       "goalsValue": "{{done}}/{{total}}"
     },
@@ -219,7 +219,7 @@
       "sectionTitle": "7-दिन के औसत",
       "avgDistance": "औसत दूरी",
       "avgGoalsDone": "औसत पूर्ण लक्ष्य",
-      "avgStudyTime": "औसत अध्ययन समय",
+      "avgStudyTime": "औसत काम का समय",
       "avgDistanceValue": "{{value}} mi"
     },
     "leaderboard": {
@@ -303,7 +303,7 @@
       "goalStreakValue_other": "{{count}} दिन",
       "distanceWalked": "चली गई दूरी",
       "distanceWalkedValue": "{{distance}} मील",
-      "hoursStudied": "अध्ययन के घंटे"
+      "hoursStudied": "काम के घंटे"
     },
     "actions": {
       "back": "वापस",
