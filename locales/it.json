@@ -84,14 +84,14 @@
       "title": "Nuovo elemento",
       "type": "Tipo",
       "types": {
-        "academic": "Accademico",
+        "academic": "Lavoro",
         "meal": "Pasto",
         "social": "Sociale"
       },
       "time": "Orario",
       "timePlaceholder": "Tocca per scegliere un orario",
       "category": "Categoria",
-      "categoryPlaceholder": "es. Studio, Club",
+      "categoryPlaceholder": "es. Lavoro, Club",
       "titleLabel": "Titolo",
       "titlePlaceholder": "Aggiungi un titolo",
       "location": "Posizione",
@@ -117,7 +117,7 @@
       "goalsToday": "Obiettivi oggi",
       "goalStreak": "Serie obiettivi completati",
       "milesWalked": "Miglia percorse",
-      "hoursStudied": "Ore di studio"
+      "hoursStudied": "Ore di lavoro"
     },
     "sections": {
       "account": "Account",
@@ -192,7 +192,7 @@
     "metrics": {
       "distance": "Distanza",
       "goals": "Obiettivi",
-      "study": "Studio"
+      "study": "Lavoro"
     },
     "periods": {
       "today": "Oggi",
@@ -211,7 +211,7 @@
     "summary": {
       "distance": "Distanza",
       "goals": "Obiettivi",
-      "study": "Studio",
+      "study": "Lavoro",
       "distanceValue": "{{distance}} mi",
       "goalsValue": "{{done}}/{{total}}"
     },
@@ -219,7 +219,7 @@
       "sectionTitle": "Medie su 7 giorni",
       "avgDistance": "Distanza media",
       "avgGoalsDone": "Obiettivi medi completati",
-      "avgStudyTime": "Tempo medio di studio",
+      "avgStudyTime": "Tempo medio di lavoro",
       "avgDistanceValue": "{{value}} mi"
     },
     "leaderboard": {
@@ -303,7 +303,7 @@
       "goalStreakValue_other": "{{count}} giorni",
       "distanceWalked": "Distanza percorsa",
       "distanceWalkedValue": "{{distance}} miglia",
-      "hoursStudied": "Ore di studio"
+      "hoursStudied": "Ore di lavoro"
     },
     "actions": {
       "back": "Indietro",
