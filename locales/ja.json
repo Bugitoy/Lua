@@ -84,14 +84,14 @@
       "title": "新しい項目",
       "type": "種類",
       "types": {
-        "academic": "学習",
+        "academic": "仕事",
         "meal": "食事",
         "social": "社交"
       },
       "time": "時間",
       "timePlaceholder": "タップして時間を選択",
       "category": "カテゴリ",
-      "categoryPlaceholder": "例：勉強、クラブ",
+      "categoryPlaceholder": "例：仕事、クラブ",
       "titleLabel": "タイトル",
       "titlePlaceholder": "タイトルを追加",
       "location": "場所",
@@ -117,7 +117,7 @@
       "goalsToday": "今日の目標",
       "goalStreak": "目標達成連続日数",
       "milesWalked": "歩いたマイル",
-      "hoursStudied": "学習時間"
+      "hoursStudied": "作業時間"
     },
     "sections": {
       "account": "アカウント",
@@ -192,7 +192,7 @@
     "metrics": {
       "distance": "距離",
       "goals": "目標",
-      "study": "学習"
+      "study": "作業"
     },
     "periods": {
       "today": "今日",
@@ -211,7 +211,7 @@
     "summary": {
       "distance": "距離",
       "goals": "目標",
-      "study": "学習",
+      "study": "作業",
       "distanceValue": "{{distance}} mi",
       "goalsValue": "{{done}}/{{total}}"
     },
@@ -219,7 +219,7 @@
       "sectionTitle": "7 日間平均",
       "avgDistance": "平均距離",
       "avgGoalsDone": "平均達成目標",
-      "avgStudyTime": "平均学習時間",
+      "avgStudyTime": "平均作業時間",
       "avgDistanceValue": "{{value}} mi"
     },
     "leaderboard": {
@@ -303,7 +303,7 @@
       "goalStreakValue_other": "{{count}} 日",
       "distanceWalked": "歩いた距離",
       "distanceWalkedValue": "{{distance}} マイル",
-      "hoursStudied": "学習時間"
+      "hoursStudied": "作業時間"
     },
     "actions": {
       "back": "戻る",
