@@ -84,14 +84,14 @@
       "title": "Novo item",
       "type": "Tipo",
       "types": {
-        "academic": "Acadêmico",
+        "academic": "Trabalho",
         "meal": "Refeição",
         "social": "Social"
       },
       "time": "Horário",
       "timePlaceholder": "Toque para escolher um horário",
       "category": "Categoria",
-      "categoryPlaceholder": "ex.: Estudo, Clube",
+      "categoryPlaceholder": "ex.: Trabalho, Clube",
       "titleLabel": "Título",
       "titlePlaceholder": "Adicionar um título",
       "location": "Local",
@@ -117,7 +117,7 @@
       "goalsToday": "Metas hoje",
       "goalStreak": "Sequência de metas concluídas",
       "milesWalked": "Milhas percorridas",
-      "hoursStudied": "Horas de estudo"
+      "hoursStudied": "Horas de trabalho"
     },
     "sections": {
       "account": "Conta",
@@ -192,7 +192,7 @@
     "metrics": {
       "distance": "Distância",
       "goals": "Metas",
-      "study": "Estudo"
+      "study": "Trabalho"
     },
     "periods": {
       "today": "Hoje",
@@ -211,7 +211,7 @@
     "summary": {
       "distance": "Distância",
       "goals": "Metas",
-      "study": "Estudo",
+      "study": "Trabalho",
       "distanceValue": "{{distance}} mi",
       "goalsValue": "{{done}}/{{total}}"
     },
@@ -219,7 +219,7 @@
       "sectionTitle": "Médias de 7 dias",
       "avgDistance": "Distância média",
       "avgGoalsDone": "Metas médias concluídas",
-      "avgStudyTime": "Tempo médio de estudo",
+      "avgStudyTime": "Tempo médio de trabalho",
       "avgDistanceValue": "{{value}} mi"
     },
     "leaderboard": {
@@ -303,7 +303,7 @@
       "goalStreakValue_other": "{{count}} dias",
       "distanceWalked": "Distância percorrida",
       "distanceWalkedValue": "{{distance}} milhas",
-      "hoursStudied": "Horas de estudo"
+      "hoursStudied": "Horas de trabalho"
     },
     "actions": {
       "back": "Voltar",
