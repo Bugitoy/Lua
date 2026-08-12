@@ -84,14 +84,14 @@
       "title": "새 항목",
       "type": "유형",
       "types": {
-        "academic": "학습",
+        "academic": "업무",
         "meal": "식사",
         "social": "사교"
       },
       "time": "시간",
       "timePlaceholder": "탭하여 시간 선택",
       "category": "카테고리",
-      "categoryPlaceholder": "예: 공부, 동아리",
+      "categoryPlaceholder": "예: 업무, 동아리",
       "titleLabel": "제목",
       "titlePlaceholder": "제목 추가",
       "location": "위치",
@@ -117,7 +117,7 @@
       "goalsToday": "오늘의 목표",
       "goalStreak": "목표 완료 연속 일수",
       "milesWalked": "걸은 마일",
-      "hoursStudied": "학습 시간"
+      "hoursStudied": "작업 시간"
     },
     "sections": {
       "account": "계정",
@@ -192,7 +192,7 @@
     "metrics": {
       "distance": "거리",
       "goals": "목표",
-      "study": "학습"
+      "study": "작업"
     },
     "periods": {
       "today": "오늘",
@@ -211,7 +211,7 @@
     "summary": {
       "distance": "거리",
       "goals": "목표",
-      "study": "학습",
+      "study": "작업",
       "distanceValue": "{{distance}} mi",
       "goalsValue": "{{done}}/{{total}}"
     },
@@ -219,7 +219,7 @@
       "sectionTitle": "7일 평균",
       "avgDistance": "평균 거리",
       "avgGoalsDone": "평균 완료 목표",
-      "avgStudyTime": "평균 학습 시간",
+      "avgStudyTime": "평균 작업 시간",
       "avgDistanceValue": "{{value}} mi"
     },
     "leaderboard": {
@@ -303,7 +303,7 @@
       "goalStreakValue_other": "{{count}}일",
       "distanceWalked": "걸은 거리",
       "distanceWalkedValue": "{{distance}}마일",
-      "hoursStudied": "학습 시간"
+      "hoursStudied": "작업 시간"
     },
     "actions": {
       "back": "뒤로",
