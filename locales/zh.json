@@ -84,14 +84,14 @@
       "title": "新建项目",
       "type": "类型",
       "types": {
-        "academic": "学习",
+        "academic": "工作",
         "meal": "用餐",
         "social": "社交"
       },
       "time": "时间",
       "timePlaceholder": "点击选择时间",
       "category": "类别",
-      "categoryPlaceholder": "例如：学习、社团",
+      "categoryPlaceholder": "例如：工作、社团",
       "titleLabel": "标题",
       "titlePlaceholder": "添加标题",
       "location": "位置",
@@ -117,7 +117,7 @@
       "goalsToday": "今日目标",
       "goalStreak": "目标完成连续天数",
       "milesWalked": "步行英里数",
-      "hoursStudied": "学习时长"
+      "hoursStudied": "工作时长"
     },
     "sections": {
       "account": "账户",
@@ -192,7 +192,7 @@
     "metrics": {
       "distance": "距离",
       "goals": "目标",
-      "study": "学习"
+      "study": "工作"
     },
     "periods": {
       "today": "今天",
@@ -211,7 +211,7 @@
     "summary": {
       "distance": "距离",
       "goals": "目标",
-      "study": "学习",
+      "study": "工作",
       "distanceValue": "{{distance}} 英里",
       "goalsValue": "{{done}}/{{total}}"
     },
@@ -219,7 +219,7 @@
       "sectionTitle": "7 日平均",
       "avgDistance": "平均距离",
       "avgGoalsDone": "平均完成目标",
-      "avgStudyTime": "平均学习时长",
+      "avgStudyTime": "平均工作时长",
       "avgDistanceValue": "{{value}} 英里"
     },
     "leaderboard": {
@@ -303,7 +303,7 @@
       "goalStreakValue_other": "{{count}} 天",
       "distanceWalked": "步行距离",
       "distanceWalkedValue": "{{distance}} 英里",
-      "hoursStudied": "学习时长"
+      "hoursStudied": "工作时长"
     },
     "actions": {
       "back": "返回",
