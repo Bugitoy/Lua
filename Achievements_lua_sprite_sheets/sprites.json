@@ -1,0 +1,188 @@
+{
+  "sheetSize": 2048,
+  "cell": 512,
+  "columns": 4,
+  "rows": 4,
+  "artPixel": 16,
+  "artGrid": 32,
+  "baselineY": 464,
+  "notes": [
+    "Every cell is a 32x32 art-pixel grid at 16 bitmap px per art pixel.",
+    "The avatar feet sit on y=464 in every cell of every sheet.",
+    "Stack paper-doll layers in this order: avatar_body, item_jeans, item_sneakers, item_scarf, item_shades, then item_beanie or item_crown (one head item at a time).",
+    "All layer sheets share the body sheet's rows and frames: animate them with one transform.",
+    "Sneakers soles reach 2 art px (32 bitmap px) below the baseline; lift the stack by 32 cell px while they are worn if you want the feet back on the ground line."
+  ],
+  "sheets": {
+    "avatar_body": {
+      "file": "avatar_body.png",
+      "rows": [
+        "idle",
+        "blink_glance",
+        "hop",
+        "happy"
+      ]
+    },
+    "item_sneakers": {
+      "file": "item_sneakers.png",
+      "rows": [
+        "idle",
+        "blink_glance",
+        "hop",
+        "happy"
+      ],
+      "layerOf": "avatar_body",
+      "slot": "feet",
+      "unlockXp": 500,
+      "name": "Sneakers"
+    },
+    "item_jeans": {
+      "file": "item_jeans.png",
+      "rows": [
+        "idle",
+        "blink_glance",
+        "hop",
+        "happy"
+      ],
+      "layerOf": "avatar_body",
+      "slot": "legs",
+      "unlockXp": 1000,
+      "name": "Denim Pants"
+    },
+    "item_shades": {
+      "file": "item_shades.png",
+      "rows": [
+        "idle",
+        "blink_glance",
+        "hop",
+        "happy"
+      ],
+      "layerOf": "avatar_body",
+      "slot": "face",
+      "unlockXp": 2000,
+      "name": "Pixel Shades"
+    },
+    "item_beanie": {
+      "file": "item_beanie.png",
+      "rows": [
+        "idle",
+        "blink_glance",
+        "hop",
+        "happy"
+      ],
+      "layerOf": "avatar_body",
+      "slot": "head",
+      "unlockXp": 3000,
+      "name": "Cozy Beanie"
+    },
+    "item_scarf": {
+      "file": "item_scarf.png",
+      "rows": [
+        "idle",
+        "blink_glance",
+        "hop",
+        "happy"
+      ],
+      "layerOf": "avatar_body",
+      "slot": "neck",
+      "unlockXp": 4000,
+      "name": "Striped Scarf"
+    },
+    "item_crown": {
+      "file": "item_crown.png",
+      "rows": [
+        "idle",
+        "blink_glance",
+        "hop",
+        "happy"
+      ],
+      "layerOf": "avatar_body",
+      "slot": "head",
+      "unlockXp": 5000,
+      "name": "Gold Crown"
+    },
+    "preview_poses_1": {
+      "file": "preview_poses_1.png",
+      "rows": [
+        "sneakers",
+        "jeans",
+        "shades",
+        "beanie"
+      ]
+    },
+    "preview_poses_2": {
+      "file": "preview_poses_2.png",
+      "rows": [
+        "scarf",
+        "crown",
+        "unlock_burst",
+        null
+      ]
+    },
+    "item_icons": {
+      "file": "item_icons.png",
+      "cells": {
+        "sneakers": {
+          "unlocked": [
+            0,
+            0
+          ],
+          "locked": [
+            2,
+            0
+          ]
+        },
+        "jeans": {
+          "unlocked": [
+            0,
+            1
+          ],
+          "locked": [
+            2,
+            1
+          ]
+        },
+        "shades": {
+          "unlocked": [
+            0,
+            2
+          ],
+          "locked": [
+            2,
+            2
+          ]
+        },
+        "beanie": {
+          "unlocked": [
+            0,
+            3
+          ],
+          "locked": [
+            2,
+            3
+          ]
+        },
+        "scarf": {
+          "unlocked": [
+            1,
+            0
+          ],
+          "locked": [
+            3,
+            0
+          ]
+        },
+        "crown": {
+          "unlocked": [
+            1,
+            1
+          ],
+          "locked": [
+            3,
+            1
+          ]
+        }
+      }
+    }
+  }
+}
