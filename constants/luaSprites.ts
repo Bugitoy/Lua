@@ -1,17 +1,19 @@
 /**
- * Lua XP Rewards sprite sheets.
+ * Lua XP Rewards sprite sheets (v3).
  *
  * Every sheet is 2048×2048: 4 columns × 4 rows of 512×512 cells, one animation per row.
  * Each cell is a 32×32 art-pixel grid at exactly 16 bitmap px per art pixel, and the avatar's
  * feet sit on y = 464 in every cell of every sheet, so layers stack with no offsets.
  *
  * Paper-doll stacking order (bottom → top):
- *   AVATAR_BODY, jeans, sneakers, scarf, shades, then beanie OR crown.
+ *   BODY_SHEETS[skin], back, legs, top, feet, neck, face, head.
  * All layer sheets use the body sheet's rows and frames, so put every layer inside the same
- * Animated.View and move them with one translateX / translateY.
+ * view and move them with one translateX / translateY. Item sheets work on every colour skin.
  *
- * Sneakers soles reach 2 art px (32 cell px) below the baseline. While they are worn, lift the
- * whole stack by 32 cell px (scaled to your on-screen size) to keep the soles on the ground line.
+ * A costume sheet is the whole avatar: draw it instead of the body and every item.
+ *
+ * Sneakers and Rain Boots soles reach 2 art px (32 cell px) below the baseline. While either is
+ * worn (and no costume is on), lift the whole stack by 32 cell px, scaled to the on-screen size.
  */
 
 export const SHEET = {
