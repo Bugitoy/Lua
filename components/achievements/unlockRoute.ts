@@ -1,13 +1,13 @@
 import { Skia, type SkPath, type SkRect } from "@shopify/react-native-skia";
 
-import { ITEMS } from "@/constants/luaSprites";
+import { REWARDS } from "@/constants/luaSprites";
 
 /** Tile grid from the spec: 80 columns, milestones alternate between columns 30 and 50. */
 export const PATH_COLS = 80;
 export const START_COL = 40;
 const MILESTONE_COLS = [30, 50] as const;
 /** One detour column per stretch, START → first milestone included. */
-const DETOUR_COLS = [48, 40, 54, 38, 44, 26] as const;
+const DETOUR_COLS = [48, 40, 54, 38, 44, 26, 56, 36, 46, 24, 52, 40, 58, 34, 44, 26, 50] as const;
 /** Each stretch: down 8, across to the detour, down 10, across to the milestone, down 10. */
 const FIRST_DROP = 8;
 const SECOND_DROP = 10;
@@ -18,8 +18,8 @@ export const ROAD_HALF = 3;
 export const START_ROW = 8;
 
 /** XP at START and at each milestone. */
-export const XP_STOPS = [0, ...ITEMS.map((item) => item.unlockXp)];
-/** Fill distance once every item is unlocked: covers the end cap too. */
+export const XP_STOPS = [0, ...REWARDS.map((reward) => reward.xp)];
+/** Fill distance once every reward is unlocked: covers the end cap too. */
 const FULL_FILL = 1e9;
 
 export type RouteSegment = {
