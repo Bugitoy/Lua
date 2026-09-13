@@ -166,3 +166,9 @@ export function unlockedCountForXp(xp: number): number {
   }
   return count;
 }
+
+/** Highest reward XP whose unlock has already played. */
+export function lastUnlockedXp(unlockedCount: number): number {
+  const i = Math.max(0, Math.min(unlockedCount, XP_STOPS.length - 1));
+  return XP_STOPS[i];
+}
