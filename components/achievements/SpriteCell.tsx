@@ -10,14 +10,17 @@ import {
   NEAREST,
   snapToDevicePixels,
 } from "@/components/achievements/theme";
+import type { ArtBounds } from "@/constants/luaSprites";
 
 /** Window inside one sheet cell, as fractions of the cell. */
 type CellCrop = { x: number; y: number; w: number; h: number };
 
-/** Fits every icon (widest is 12 of 16 art px, tallest 8) with a little air. */
-const ICON_CROP: CellCrop = { x: 0.1, y: 0.22, w: 0.8, h: 0.56 };
-/** Avatar from crown twinkles down to sneaker soles, mid-hop included. */
-const PREVIEW_CROP: CellCrop = { x: 3.5 / 32, y: 6.5 / 32, w: 25 / 32, h: 25 / 32 };
+/** Fits the clothing icons, including the taller hats and wide headphones. */
+const ICON_CROP: CellCrop = { x: 0.04, y: 0.1, w: 0.92, h: 0.8 };
+/** Bare Lua in a skin-icon cell (12×16 art at 24 px, centred). */
+export const SKIN_ICON_CROP: CellCrop = { x: 0.18, y: 0.08, w: 0.64, h: 0.84 };
+/** Avatar from wizard-hat twinkles down to sneaker soles, mid-hop included. */
+const PREVIEW_CROP: CellCrop = { x: 3.5 / 32, y: 3.5 / 32, w: 25 / 32, h: 27 / 32 };
 
 type CellLayout = {
   width: number;
@@ -54,10 +57,17 @@ type SpriteIconProps = {
   cell: [row: number, col: number];
   width: number;
   opacity?: number;
+  crop?: CellCrop;
 };
 
-export function SpriteIcon({ image, cell: [row, col], width, opacity = 1 }: SpriteIconProps) {
-  const l = layoutCell(width, ICON_CROP, ICON_GRID);
+export function SpriteIcon({
+  image,
+  cell: [row, col],
+  width,
+  opacity = 1,
+  crop = ICON_CROP,
+}: SpriteIconProps) {
+  const l = layoutCell(width, crop, ICON_GRID);
   return (
     <Canvas style={{ width: l.width, height: l.height }} pointerEvents="none">
       <Group clip={{ x: l.x, y: l.y, width: l.cell, height: l.cell }} opacity={opacity}>
