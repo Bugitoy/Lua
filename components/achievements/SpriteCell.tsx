@@ -85,6 +85,50 @@ export function SpriteIcon({
   );
 }
 
+type FittedIconProps = {
+  image: SkImage | null;
+  cell: [row: number, col: number];
+  bounds: ArtBounds;
+  boxWidth: number;
+  boxHeight: number;
+  /** Cap on dp per art pixel, so small items don't balloon past the big ones. */
+  maxUnit: number;
+  opacity?: number;
+};
+
+/** Scales one icon's opaque art to fit a fixed box, centred, like the prototype's wardrobe tiles. */
+export function FittedIcon({
+  image,
+  cell: [row, col],
+  bounds,
+  boxWidth,
+  boxHeight,
+  maxUnit,
+  opacity = 1,
+}: FittedIconProps) {
+  const unit = snapToDevicePixels(Math.min(maxUnit, boxWidth / bounds.w, boxHeight / bounds.h));
+  const cell = unit * ICON_GRID;
+  const artX = PixelRatio.roundToNearestPixel((boxWidth - bounds.w * unit) / 2);
+  const artY = PixelRatio.roundToNearestPixel((boxHeight - bounds.h * unit) / 2);
+  const cellX = artX - bounds.x * unit;
+  const cellY = artY - bounds.y * unit;
+  return (
+    <Canvas style={{ width: boxWidth, height: boxHeight }} pointerEvents="none">
+      <Group clip={{ x: artX, y: artY, width: bounds.w * unit, height: bounds.h * unit }} opacity={opacity}>
+        <Image
+          image={image}
+          x={cellX - col * cell}
+          y={cellY - row * cell}
+          width={4 * cell}
+          height={4 * cell}
+          fit="fill"
+          sampling={NEAREST}
+        />
+      </Group>
+    </Canvas>
+  );
+}
+
 type SpritePreviewProps = {
   image: SkImage | null;
   row: number;
