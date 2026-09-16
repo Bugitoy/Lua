@@ -41,9 +41,16 @@ const DRAW_ORDER: ItemId[] = LAYER_ORDER.flatMap((slot) =>
 const ITEM_CENTER_Y: Record<ItemId, number> = {
   sneakers: 29,
   jeans: 26.5,
-  shades: 19,
+  cap: 14,
+  shades: 18.5,
   beanie: 13,
+  shorts: 26.5,
   scarf: 25,
+  headphones: 15,
+  boots: 29,
+  hoodie: 18,
+  cape: 26,
+  wizard: 11.5,
   crown: 10.5,
 };
 const BURST_CENTER_Y = BASELINE_ART_Y - 9;
