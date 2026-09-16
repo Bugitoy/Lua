@@ -165,3 +165,38 @@ export function SpritePreview({ image, row, frame, size }: SpritePreviewProps) {
     </Canvas>
   );
 }
+
+type SpriteStillProps = {
+  image: SkImage | null;
+  cell: [row: number, col: number];
+  size: number;
+};
+
+/** One still cell from an avatar-sized sheet (costume shop tiles). */
+export function SpriteStill({ image, cell: [row, col], size }: SpriteStillProps) {
+  const { x: cellX, y: cellY, cell, unit, height } = layoutCell(size, PREVIEW_CROP, AVATAR_GRID);
+  const baselineY = cellY + BASELINE_ART_Y * unit;
+
+  return (
+    <Canvas style={{ width: size, height }} pointerEvents="none">
+      <Oval
+        x={size / 2 - 5.5 * unit}
+        y={baselineY - 0.8 * unit}
+        width={11 * unit}
+        height={1.6 * unit}
+        color={ACH.shadow}
+      />
+      <Group clip={{ x: cellX, y: cellY, width: cell, height: cell }}>
+        <Image
+          image={image}
+          x={cellX - col * cell}
+          y={cellY - row * cell}
+          width={4 * cell}
+          height={4 * cell}
+          fit="fill"
+          sampling={NEAREST}
+        />
+      </Group>
+    </Canvas>
+  );
+}
