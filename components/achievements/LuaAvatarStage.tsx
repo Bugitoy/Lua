@@ -12,7 +12,7 @@ import Animated, {
   type SharedValue,
 } from "react-native-reanimated";
 
-import { SpriteIcon } from "@/components/achievements/SpriteCell";
+import { SKIN_ICON_CROP, SpriteIcon, SpriteStill } from "@/components/achievements/SpriteCell";
 import type { AchievementSheets } from "@/components/achievements/spriteSheets";
 import {
   ACH,
@@ -24,15 +24,20 @@ import {
 import { Pixelify } from "@/constants/fonts";
 import {
   AVATAR_ROWS,
+  COSTUME_CELLS,
   ICON_CELLS,
   ITEMS,
   LAYER_ORDER,
+  SHOE_ITEMS,
+  SKIN_ICON_CELLS,
   UNLOCK_BURST,
+  type CostumeId,
   type ItemId,
+  type PaletteSkinId,
 } from "@/constants/luaSprites";
 import { ITEM_BY_ID, type Equipped } from "@/lib/achievementsStore";
 
-/** Item sheets bottom → top; beanie and crown share the head slot, crown drawn above. */
+/** Item sheets bottom → top; several items share a slot, only the worn one is visible. */
 const DRAW_ORDER: ItemId[] = LAYER_ORDER.flatMap((slot) =>
   ITEMS.filter((item) => item.slot === slot).map((item) => item.id),
 );
@@ -88,7 +93,7 @@ function randomBetween([min, max]: readonly [number, number]): number {
   return min + Math.random() * (max - min);
 }
 
-type ItemLayerHandle = { dropIn: () => void };
+type ItemLayerHandle = { prepareDrop: () => void };
 
 type ItemLayerProps = {
   ref: Ref<ItemLayerHandle>;
@@ -119,24 +124,34 @@ function ItemLayer({
   const scale = useSharedValue(1);
   /** What the layer currently shows, which can run ahead of `worn` during an unlock drop. */
   const shown = useRef(worn);
+  const pendingDrop = useRef(false);
+
+  const playDrop = () => {
+    shown.current = true;
+    scale.value = 1;
+    if (reduceMotion) {
+      offsetY.value = 0;
+      opacity.value = withTiming(1, { duration: ITEM_ANIM_MS });
+      return;
+    }
+    opacity.value = 1;
+    offsetY.value = -DROP_FROM_ART_PX;
+    offsetY.value = withTiming(0, { duration: DROP_MS, easing: Easing.bounce });
+  };
 
   useImperativeHandle(ref, () => ({
-    dropIn() {
-      shown.current = true;
-      scale.value = 1;
-      if (reduceMotion) {
-        offsetY.value = 0;
-        opacity.value = withTiming(1, { duration: ITEM_ANIM_MS });
-        return;
-      }
-      opacity.value = 1;
-      offsetY.value = -DROP_FROM_ART_PX;
-      offsetY.value = withTiming(0, { duration: DROP_MS, easing: Easing.bounce });
+    prepareDrop() {
+      pendingDrop.current = true;
     },
   }));
 
   useEffect(() => {
     if (worn === shown.current) return;
+    if (worn && pendingDrop.current) {
+      pendingDrop.current = false;
+      playDrop();
+      return;
+    }
     shown.current = worn;
     if (worn) {
       offsetY.value = 0;
@@ -149,6 +164,7 @@ function ItemLayer({
       scale.value = 1.35;
       scale.value = withTiming(1, { duration: ITEM_ANIM_MS, easing: Easing.out(Easing.cubic) });
     } else {
+      pendingDrop.current = false;
       scale.value = 1;
       opacity.value = withTiming(0, { duration: ITEM_ANIM_MS });
       if (!reduceMotion) {
@@ -179,13 +195,20 @@ function ItemLayer({
   );
 }
 
+export type ToastIcon =
+  | { type: "item"; id: ItemId; locked?: boolean }
+  | { type: "skin"; id: PaletteSkinId; locked?: boolean }
+  | { type: "costume"; id: CostumeId };
+
 export type LuaAvatarHandle = {
   /** Hop, drop the item on from above with a sparkle burst, and toast. Call before equipping it. */
-  celebrate: (itemId: ItemId, toastText: string) => void;
-  showToast: (itemId: ItemId, text: string, locked: boolean) => void;
+  celebrateItem: (itemId: ItemId, toastText: string) => void;
+  /** Hop, sparkles, pop the new look in, and toast. Call after applying the skin or costume. */
+  celebrateLook: (icon: ToastIcon, toastText: string) => void;
+  showToast: (icon: ToastIcon, text: string) => void;
 };
 
-type ToastState = { itemId: ItemId; text: string; locked: boolean };
+type ToastState = { icon: ToastIcon; text: string };
 
 type LuaAvatarStageProps = {
   ref: Ref<LuaAvatarHandle>;
@@ -193,7 +216,7 @@ type LuaAvatarStageProps = {
   sheets: AchievementSheets;
   /** Only items the player owns. */
   equipped: Equipped;
-  /** False while the screen is hidden; pauses the idle loop. */
+  costume: CostumeId | null;
   active: boolean;
   reduceMotion: boolean;
   accessibilityLabel: string;
@@ -205,6 +228,7 @@ export function LuaAvatarStage({
   width,
   sheets,
   equipped,
+  costume,
   active,
   reduceMotion,
   accessibilityLabel,
@@ -216,6 +240,7 @@ export function LuaAvatarStage({
   const cellX = PixelRatio.roundToNearestPixel((width - cell) / 2);
   const baselineY = PixelRatio.roundToNearestPixel(height * 0.88);
   const cellY = baselineY - BASELINE_ART_Y * unit;
+  const costumeOn = costume !== null && sheets.costume !== null;
 
   const frame = useSharedValue(0);
   const hopT = useSharedValue(-1);
@@ -228,6 +253,7 @@ export function LuaAvatarStage({
   const burstT = useSharedValue(-1);
   const burstFrame = useSharedValue(-1);
   const burstY = useSharedValue(0);
+  const lookPop = useSharedValue(1);
   const reduceMotionSV = useSharedValue(reduceMotion);
 
   useEffect(() => {
@@ -298,14 +324,14 @@ export function LuaAvatarStage({
     frameCallback.setActive(active);
   }, [active, frameCallback]);
 
-  const sneakersWorn = equipped.feet === "sneakers";
-  const stackLift = useSharedValue(sneakersWorn ? 1 : 0);
+  const shoesWorn = !costumeOn && SHOE_ITEMS.some((id) => equipped.feet === id);
+  const stackLift = useSharedValue(shoesWorn ? 1 : 0);
   useEffect(() => {
-    const target = sneakersWorn ? 1 : 0;
+    const target = shoesWorn ? 1 : 0;
     stackLift.value = reduceMotion
       ? target
       : withTiming(target, { duration: 300, easing: Easing.inOut(Easing.quad) });
-  }, [sneakersWorn, reduceMotion, stackLift]);
+  }, [shoesWorn, reduceMotion, stackLift]);
 
   const sheetX = useDerivedValue(() => -(frame.value % 4) * cell);
   const sheetY = useDerivedValue(() => -Math.floor(frame.value / 4) * cell);
@@ -313,6 +339,7 @@ export function LuaAvatarStage({
     { translateX: cellX },
     { translateY: cellY - stackLift.value * 2 * unit },
   ]);
+  const lookTransform = useDerivedValue(() => [{ scale: lookPop.value }]);
   const shadowTransform = useDerivedValue(() => {
     const f = frame.value;
     return [{ scaleX: f === FRAME_HOP_APEX ? 0.78 : f === FRAME_HOP_RISE ? 0.86 : 1 }];
@@ -320,6 +347,8 @@ export function LuaAvatarStage({
   const burstX = useDerivedValue(() => -Math.max(0, burstFrame.value) * cell);
   const burstOpacity = useDerivedValue(() => (burstFrame.value < 0 ? 0 : 1));
   const burstTransform = useDerivedValue(() => [{ translateY: burstY.value }]);
+  const clothesOpacity = costumeOn ? 0 : 1;
+  const costumeOpacity = costumeOn ? 1 : 0;
 
   const layers = useRef<Partial<Record<ItemId, ItemLayerHandle | null>>>({});
 
@@ -334,8 +363,8 @@ export function LuaAvatarStage({
     [],
   );
 
-  const showToast = (itemId: ItemId, text: string, locked: boolean) => {
-    setToast({ itemId, text, locked });
+  const showToast = (icon: ToastIcon, text: string) => {
+    setToast({ icon, text });
     toastProgress.value = withTiming(1, { duration: 220, easing: Easing.out(Easing.cubic) });
     if (toastTimer.current) clearTimeout(toastTimer.current);
     toastTimer.current = setTimeout(() => {
@@ -343,18 +372,36 @@ export function LuaAvatarStage({
     }, TOAST_MS);
   };
 
+  const hopAndBurst = (offsetArtY: number) => {
+    if (reduceMotion) return;
+    const offset = (offsetArtY - BURST_CENTER_Y) * unit;
+    runOnUI(() => {
+      "worklet";
+      hopT.value = 0;
+      burstT.value = 0;
+      burstY.value = offset;
+    })();
+  };
+
+  const popLook = () => {
+    if (reduceMotion) {
+      lookPop.value = 1;
+      return;
+    }
+    lookPop.value = 1.35;
+    lookPop.value = withTiming(1, { duration: ITEM_ANIM_MS, easing: Easing.out(Easing.cubic) });
+  };
+
   useImperativeHandle(ref, () => ({
-    celebrate(itemId, toastText) {
-      layers.current[itemId]?.dropIn();
-      showToast(itemId, toastText, false);
-      if (reduceMotion) return;
-      const offset = (ITEM_CENTER_Y[itemId] - BURST_CENTER_Y) * unit;
-      runOnUI(() => {
-        "worklet";
-        hopT.value = 0;
-        burstT.value = 0;
-        burstY.value = offset;
-      })();
+    celebrateItem(itemId, toastText) {
+      layers.current[itemId]?.prepareDrop();
+      showToast({ type: "item", id: itemId }, toastText);
+      hopAndBurst(ITEM_CENTER_Y[itemId]);
+    },
+    celebrateLook(icon, toastText) {
+      showToast(icon, toastText);
+      hopAndBurst(BURST_CENTER_Y);
+      popLook();
     },
     showToast,
   }));
@@ -374,6 +421,7 @@ export function LuaAvatarStage({
 
   const shadowW = 13 * unit;
   const shadowH = 1.8 * unit;
+  const burstSheet = sheets.previews[UNLOCK_BURST.sheet] ?? null;
 
   return (
     <View style={{ width, height }}>
@@ -394,37 +442,56 @@ export function LuaAvatarStage({
             />
           </Group>
           <Group transform={stackTransform}>
-            <Group clip={{ x: 0, y: 0, width: cell, height: cell }}>
-              <Image
-                image={sheets.body}
-                x={sheetX}
-                y={sheetY}
-                width={4 * cell}
-                height={4 * cell}
-                fit="fill"
-                sampling={NEAREST}
-              />
+            <Group
+              transform={lookTransform}
+              origin={{ x: cell / 2, y: BASELINE_ART_Y * unit }}
+            >
+            <Group opacity={clothesOpacity}>
+              <Group clip={{ x: 0, y: 0, width: cell, height: cell }}>
+                <Image
+                  image={sheets.body}
+                  x={sheetX}
+                  y={sheetY}
+                  width={4 * cell}
+                  height={4 * cell}
+                  fit="fill"
+                  sampling={NEAREST}
+                />
+              </Group>
+              {DRAW_ORDER.map((id) => (
+                <ItemLayer
+                  key={id}
+                  ref={(handle) => {
+                    layers.current[id] = handle;
+                  }}
+                  image={sheets.items[id]}
+                  worn={equipped[ITEM_BY_ID[id].slot] === id}
+                  centerY={ITEM_CENTER_Y[id] * unit}
+                  cell={cell}
+                  unit={unit}
+                  sheetX={sheetX}
+                  sheetY={sheetY}
+                  reduceMotion={reduceMotion}
+                />
+              ))}
             </Group>
-            {DRAW_ORDER.map((id) => (
-              <ItemLayer
-                key={id}
-                ref={(handle) => {
-                  layers.current[id] = handle;
-                }}
-                image={sheets.items[id]}
-                worn={equipped[ITEM_BY_ID[id].slot] === id}
-                centerY={ITEM_CENTER_Y[id] * unit}
-                cell={cell}
-                unit={unit}
-                sheetX={sheetX}
-                sheetY={sheetY}
-                reduceMotion={reduceMotion}
-              />
-            ))}
+            <Group opacity={costumeOpacity}>
+              <Group clip={{ x: 0, y: 0, width: cell, height: cell }}>
+                <Image
+                  image={sheets.costume}
+                  x={sheetX}
+                  y={sheetY}
+                  width={4 * cell}
+                  height={4 * cell}
+                  fit="fill"
+                  sampling={NEAREST}
+                />
+              </Group>
+            </Group>
             <Group transform={burstTransform} opacity={burstOpacity}>
               <Group clip={{ x: 0, y: 0, width: cell, height: cell }}>
                 <Image
-                  image={sheets.poses2}
+                  image={burstSheet}
                   x={burstX}
                   y={-UNLOCK_BURST.row * cell}
                   width={4 * cell}
@@ -433,6 +500,7 @@ export function LuaAvatarStage({
                   sampling={NEAREST}
                 />
               </Group>
+            </Group>
             </Group>
           </Group>
         </Canvas>
@@ -453,13 +521,7 @@ export function LuaAvatarStage({
               className="h-6 w-8 items-center justify-center rounded-md"
               style={{ backgroundColor: "#ffffff" }}
             >
-              <SpriteIcon
-                image={sheets.icons}
-                cell={
-                  toast.locked ? ICON_CELLS[toast.itemId].locked : ICON_CELLS[toast.itemId].unlocked
-                }
-                width={24}
-              />
+              <ToastGlyph sheets={sheets} icon={toast.icon} />
             </View>
             <Text className="text-sm text-white" style={{ fontFamily: Pixelify.semibold }}>
               {toast.text}
@@ -469,4 +531,28 @@ export function LuaAvatarStage({
       </Animated.View>
     </View>
   );
+}
+
+function ToastGlyph({ sheets, icon }: { sheets: AchievementSheets; icon: ToastIcon }) {
+  if (icon.type === "item") {
+    return (
+      <SpriteIcon
+        image={icon.locked ? sheets.iconsLocked : sheets.icons}
+        cell={ICON_CELLS[icon.id]}
+        width={24}
+      />
+    );
+  }
+  if (icon.type === "skin") {
+    const cells = SKIN_ICON_CELLS[icon.id];
+    return (
+      <SpriteIcon
+        image={sheets.skinIcons}
+        cell={icon.locked ? cells.locked : cells.unlocked}
+        width={22}
+        crop={SKIN_ICON_CROP}
+      />
+    );
+  }
+  return <SpriteStill image={sheets.costumeStills} cell={COSTUME_CELLS[icon.id]} size={28} />;
 }
