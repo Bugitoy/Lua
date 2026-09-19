@@ -14,7 +14,7 @@ import Animated, {
   type SharedValue,
 } from "react-native-reanimated";
 
-import { SpriteIcon, SpritePreview } from "@/components/achievements/SpriteCell";
+import { SKIN_ICON_CROP, SpriteIcon, SpritePreview } from "@/components/achievements/SpriteCell";
 import type { AchievementSheets } from "@/components/achievements/spriteSheets";
 import {
   ACH,
@@ -34,7 +34,14 @@ import {
   UNLOCK_ROUTE,
 } from "@/components/achievements/unlockRoute";
 import { Pixelify } from "@/constants/fonts";
-import { ICON_CELLS, ITEMS, PREVIEW_CELLS } from "@/constants/luaSprites";
+import {
+  ICON_CELLS,
+  PREVIEW_CELLS,
+  REWARDS,
+  SKIN_ICON_CELLS,
+  rewardI18nKey,
+  rewardKey,
+} from "@/constants/luaSprites";
 import { getAppLocale } from "@/lib/i18n/formatLocale";
 
 const CHECKER = Skia.RuntimeEffect.Make(`
@@ -146,7 +153,7 @@ export function UnlockPath({
           {t("achievements.path.title")}
         </Text>
         <Text className="text-xs" style={{ fontFamily: Pixelify.medium, color: ACH.textSecondary }}>
-          {t("achievements.path.count", { done: unlockedCount, total: ITEMS.length })}
+          {t("achievements.path.count", { done: unlockedCount, total: REWARDS.length })}
         </Text>
       </View>
 
@@ -185,19 +192,19 @@ export function UnlockPath({
         </View>
 
         {UNLOCK_ROUTE.milestones.map((m, i) => {
-          const item = ITEMS[i];
-          const name = t(`achievements.items.${item.id}`);
-          const xpText = formatXp(item.unlockXp, locale);
+          const reward = REWARDS[i];
+          const name = t(rewardI18nKey(reward));
+          const xpText = formatXp(reward.xp, locale);
           const state: MilestoneState =
             i < unlockedCount ? "done" : i === unlockedCount ? "next" : "locked";
           const x = m.col * tile;
           const y = m.row * tile;
           const onLeft = m.col < START_COL;
-          const preview = PREVIEW_CELLS[item.id];
+          const preview = PREVIEW_CELLS[rewardKey(reward)];
           const labelGap = BADGE / 2 + 8;
 
           return (
-            <Fragment key={item.id}>
+            <Fragment key={rewardKey(reward)}>
               <View
                 className="absolute"
                 style={[{ top: y - previewSize / 2 }, onLeft ? { left: 0 } : { right: 0 }]}
@@ -215,7 +222,7 @@ export function UnlockPath({
                   }}
                 >
                   <SpritePreview
-                    image={preview.sheet === "poses1" ? sheets.poses1 : sheets.poses2}
+                    image={sheets.previews[preview.sheet] ?? null}
                     row={preview.row}
                     frame={previewFrame}
                     size={previewSize - 3}
@@ -298,12 +305,26 @@ export function UnlockPath({
                     backgroundColor: state === "locked" ? ACH.lockedBadge : "#ffffff",
                   }}
                 >
-                  <SpriteIcon
-                    image={sheets.icons}
-                    cell={state === "done" ? ICON_CELLS[item.id].unlocked : ICON_CELLS[item.id].locked}
-                    width={34}
-                    opacity={state === "locked" ? 0.45 : 1}
-                  />
+                  {reward.kind === "item" ? (
+                    <SpriteIcon
+                      image={state === "done" ? sheets.icons : sheets.iconsLocked}
+                      cell={ICON_CELLS[reward.id]}
+                      width={34}
+                      opacity={state === "locked" ? 0.45 : 1}
+                    />
+                  ) : (
+                    <SpriteIcon
+                      image={sheets.skinIcons}
+                      cell={
+                        state === "done"
+                          ? SKIN_ICON_CELLS[reward.id].unlocked
+                          : SKIN_ICON_CELLS[reward.id].locked
+                      }
+                      width={34}
+                      opacity={state === "locked" ? 0.45 : 1}
+                      crop={SKIN_ICON_CROP}
+                    />
+                  )}
                 </View>
                 <View
                   className="absolute -bottom-0.5 -right-0.5 size-[18px] items-center justify-center rounded-full"
