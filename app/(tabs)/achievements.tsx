@@ -15,22 +15,37 @@ import {
 } from "react-native-reanimated";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
+import { CostumeShopSheet } from "@/components/achievements/CostumeShopSheet";
 import { DevXpControls } from "@/components/achievements/DevXpControls";
 import { LuaAvatarStage, type LuaAvatarHandle } from "@/components/achievements/LuaAvatarStage";
+import { ShopButton } from "@/components/achievements/ShopButton";
 import { useAchievementSheets } from "@/components/achievements/spriteSheets";
 import { ACH, formatXp, thousandsSeparator } from "@/components/achievements/theme";
-import { nextStopXp, unlockedCountForXp } from "@/components/achievements/unlockRoute";
+import { lastUnlockedXp, nextStopXp, unlockedCountForXp } from "@/components/achievements/unlockRoute";
 import { UnlockPath } from "@/components/achievements/UnlockPath";
 import { Wardrobe } from "@/components/achievements/Wardrobe";
 import { XpBar } from "@/components/achievements/XpBar";
 import { Pixelify } from "@/constants/fonts";
-import { ITEMS, type ItemId } from "@/constants/luaSprites";
+import {
+  ITEMS,
+  PALETTE_SKINS,
+  REWARDS,
+  rewardI18nKey,
+  type CostumeId,
+  type ItemId,
+  type PaletteSkinId,
+} from "@/constants/luaSprites";
 import { useIsOnScreen } from "@/hooks/useIsOnScreen";
 import {
+  acquireCostume,
   getSeenXp,
+  markShopOpened,
   setSeenXp,
+  takeOffCostume,
   takeOffItem,
   useAchievements,
+  useSkin,
+  wearCostume,
   wearItems,
   type Equipped,
 } from "@/lib/achievementsStore";
@@ -45,11 +60,13 @@ const COUNT_UP = { duration: 1100, easing: Easing.out(Easing.cubic) };
 const FLASH_WHITE_MS = 140;
 const FLASH_GREEN_MS = 420;
 const UNLOCK_GAP_MS = 1000;
+const SHOW_DEV_XP_CONTROLS = __DEV__ || process.env.EXPO_PUBLIC_DEV_XP_CONTROLS === "1";
 
 function ownedOnly(equipped: Equipped, unlockedCount: number): Equipped {
+  const cap = lastUnlockedXp(unlockedCount);
   const owned: Equipped = {};
-  ITEMS.forEach((item, i) => {
-    if (i < unlockedCount && equipped[item.slot] === item.id) owned[item.slot] = item.id;
+  ITEMS.forEach((item) => {
+    if (item.unlockXp <= cap && equipped[item.slot] === item.id) owned[item.slot] = item.id;
   });
   return owned;
 }
@@ -65,17 +82,19 @@ export default function AchievementsScreen() {
   const onScreen = useIsOnScreen();
   const active = isFocused && onScreen;
 
-  const sheets = useAchievementSheets();
   const { stats } = useGameStats();
-  const { equipped, hydrated, devXpBonus } = useAchievements();
+  const { equipped, hydrated, devXpBonus, skin, costume, ownedCostumes, shopOpened } =
+    useAchievements();
+  const sheets = useAchievementSheets(skin, costume);
   const statsXp = Math.floor(xpForStats(stats));
   const xp = Math.max(0, statsXp + devXpBonus);
   const targetCount = unlockedCountForXp(xp);
 
-  /** Items whose unlock has played; trails `targetCount` while unlocks are queued. */
+  /** Rewards whose unlock has played; trails `targetCount` while unlocks are queued. */
   const [unlockedCount, setUnlockedCount] = useState(targetCount);
   /** False until saved outfit is loaded, so the avatar mounts already dressed. */
   const [ready, setReady] = useState(false);
+  const [shopOpen, setShopOpen] = useState(false);
 
   const xpCounter = useSharedValue(xp);
   const xpFlashWhite = useSharedValue(xp);
@@ -88,11 +107,12 @@ export default function AchievementsScreen() {
 
   useEffect(() => {
     if (!hydrated || ready) return;
-    // Items earned since the screen last showed XP go straight on, without the unlock show.
+    // Rewards earned since the screen last showed XP go straight on, without the unlock show.
     const seen = getSeenXp();
-    wearItems(
-      ITEMS.filter((item) => item.unlockXp > seen && item.unlockXp <= xp).map((item) => item.id),
-    );
+    const newly = REWARDS.filter((reward) => reward.xp > seen && reward.xp <= xp);
+    wearItems(newly.flatMap((reward) => (reward.kind === "item" ? [reward.id] : [])));
+    const lastSkin = [...newly].reverse().find((reward) => reward.kind === "skin");
+    if (lastSkin && lastSkin.kind === "skin") useSkin(lastSkin.id);
     setSeenXp(xp);
     setReady(true);
   }, [hydrated, ready, xp]);
@@ -108,13 +128,19 @@ export default function AchievementsScreen() {
     if (unlockTimer.current) return;
     const index = unlockQueue.current.shift();
     if (index === undefined) return;
-    const item = ITEMS[index];
+    const reward = REWARDS[index];
     setUnlockedCount((count) => Math.max(count, index + 1));
-    avatar.current?.celebrate(
-      item.id,
-      t("achievements.toast.unlocked", { item: t(`achievements.items.${item.id}`) }),
-    );
-    wearItems([item.id]);
+    const name = t(rewardI18nKey(reward));
+    if (reward.kind === "item") {
+      avatar.current?.celebrateItem(reward.id, t("achievements.toast.unlocked", { item: name }));
+      wearItems([reward.id]);
+    } else {
+      useSkin(reward.id);
+      avatar.current?.celebrateLook(
+        { type: "skin", id: reward.id },
+        t("achievements.toast.unlocked", { item: name }),
+      );
+    }
     unlockTimer.current = setTimeout(() => {
       unlockTimer.current = null;
       playNextUnlock();
@@ -127,7 +153,7 @@ export default function AchievementsScreen() {
     playNextUnlock();
   };
 
-  // An item unlocks the moment the counting XP passes its threshold.
+  // A reward unlocks the moment the counting XP passes its threshold.
   useAnimatedReaction(
     () => unlockedCountForXp(xpCounter.value),
     (count, previous) => {
@@ -166,20 +192,72 @@ export default function AchievementsScreen() {
   }, [xp, ready, active, reduceMotion, xpCounter, xpFlashWhite, xpFlashGreen]);
 
   const worn = ownedOnly(equipped, unlockedCount);
+  const unlockedXp = lastUnlockedXp(unlockedCount);
 
   const onPressItem = (id: ItemId) => {
-    const index = ITEMS.findIndex((item) => item.id === id);
-    const item = ITEMS[index];
-    if (index >= unlockedCount) {
+    const item = ITEMS.find((entry) => entry.id === id)!;
+    if (item.unlockXp > unlockedXp) {
       avatar.current?.showToast(
-        id,
+        { type: "item", id, locked: true },
         t("achievements.toast.earnToUnlock", { xp: formatXp(item.unlockXp, locale) }),
-        true,
       );
       return;
     }
-    if (worn[item.slot] === id) takeOffItem(id);
-    else wearItems([id]);
+    if (worn[item.slot] === id) {
+      if (costume) takeOffCostume();
+      else takeOffItem(id);
+      return;
+    }
+    wearItems([id]);
+  };
+
+  const onPressSkin = (id: PaletteSkinId) => {
+    const palette = PALETTE_SKINS.find((entry) => entry.id === id)!;
+    if (palette.unlockXp > unlockedXp) {
+      avatar.current?.showToast(
+        { type: "skin", id, locked: true },
+        t("achievements.toast.earnToUnlock", { xp: formatXp(palette.unlockXp, locale) }),
+      );
+      return;
+    }
+    if (!costume && skin === id) return;
+    useSkin(id);
+    avatar.current?.celebrateLook(
+      { type: "skin", id },
+      t("achievements.toast.skinOn", { name: t(`achievements.skins.${id}`) }),
+    );
+  };
+
+  const onPressCostume = (id: CostumeId) => {
+    if (costume === id) return;
+    wearCostume(id);
+    avatar.current?.celebrateLook(
+      { type: "costume", id },
+      t("achievements.toast.skinOn", { name: t(`achievements.costumes.${id}`) }),
+    );
+  };
+
+  const openShop = () => {
+    markShopOpened();
+    setShopOpen(true);
+  };
+
+  const onBuyCostume = (id: CostumeId) => {
+    acquireCostume(id);
+    setShopOpen(false);
+    avatar.current?.celebrateLook(
+      { type: "costume", id },
+      t("achievements.toast.skinOn", { name: t(`achievements.costumes.${id}`) }),
+    );
+  };
+
+  const onUseCostume = (id: CostumeId) => {
+    wearCostume(id);
+    setShopOpen(false);
+    avatar.current?.celebrateLook(
+      { type: "costume", id },
+      t("achievements.toast.skinOn", { name: t(`achievements.costumes.${id}`) }),
+    );
   };
 
   const wornNames = ITEMS.filter((item) => worn[item.slot] === item.id).map((item) =>
@@ -188,13 +266,19 @@ export default function AchievementsScreen() {
   const headline =
     unlockedCount === 0
       ? t("achievements.headline.none")
-      : unlockedCount === ITEMS.length
+      : unlockedCount === REWARDS.length
         ? t("achievements.headline.all")
         : t("achievements.headline.some");
-  const nextItem = ITEMS[targetCount];
+  const nextReward = REWARDS[targetCount];
   const [amountPrefix = "", amountSuffix = ""] = t("achievements.xpAmount", {
     xp: "\u0001",
   }).split("\u0001");
+
+  const avatarLabel = costume
+    ? t("achievements.a11y.avatarCostume", { name: t(`achievements.costumes.${costume}`) })
+    : wornNames.length > 0
+      ? t("achievements.a11y.avatarWearing", { items: wornNames.join(", ") })
+      : t("achievements.a11y.avatar");
 
   return (
     <View className="flex-1 bg-white">
@@ -210,12 +294,25 @@ export default function AchievementsScreen() {
         showsVerticalScrollIndicator={false}
       >
         <View style={{ width: columnWidth }}>
-          <Text
-            className="mb-4 text-center text-lg"
-            style={{ fontFamily: Pixelify.semibold, color: ACH.text }}
-          >
-            {t("achievements.title")}
-          </Text>
+          <View className="mb-4 h-[38px] justify-center">
+            <Text
+              className="text-center text-lg"
+              style={{ fontFamily: Pixelify.semibold, color: ACH.text }}
+            >
+              {t("achievements.title")}
+            </Text>
+            <View className="absolute right-0 top-0">
+              <ShopButton
+                showNew={!shopOpened}
+                reduceMotion={reduceMotion}
+                onPress={openShop}
+                label={t("achievements.shop.button")}
+                newLabel={t("achievements.shop.new")}
+                accessibilityLabel={t("achievements.a11y.shop")}
+                accessibilityHint={t("achievements.a11y.shopHint")}
+              />
+            </View>
+          </View>
 
           <XpBar
             width={columnWidth}
@@ -235,13 +332,10 @@ export default function AchievementsScreen() {
               width={columnWidth}
               sheets={sheets}
               equipped={worn}
+              costume={costume}
               active={active}
               reduceMotion={reduceMotion}
-              accessibilityLabel={
-                wornNames.length > 0
-                  ? t("achievements.a11y.avatarWearing", { items: wornNames.join(", ") })
-                  : t("achievements.a11y.avatar")
-              }
+              accessibilityLabel={avatarLabel}
               accessibilityHint={t("achievements.a11y.avatarHint")}
             />
           ) : (
@@ -258,12 +352,12 @@ export default function AchievementsScreen() {
             className="mb-5 text-center text-sm leading-relaxed"
             style={{ fontFamily: Pixelify.regular, color: ACH.textSecondary }}
           >
-            {nextItem ? (
+            {nextReward ? (
               <Trans
                 i18nKey="achievements.nextUnlock"
                 values={{
-                  xp: formatXp(nextItem.unlockXp - xp, locale),
-                  item: t(`achievements.items.${nextItem.id}`),
+                  xp: formatXp(nextReward.xp - xp, locale),
+                  item: t(rewardI18nKey(nextReward)),
                 }}
                 components={{
                   bold: <Text style={{ fontFamily: Pixelify.bold, color: ACH.text }} />,
@@ -277,9 +371,17 @@ export default function AchievementsScreen() {
           <Wardrobe
             width={columnWidth}
             icons={sheets.icons}
+            iconsLocked={sheets.iconsLocked}
+            skinIcons={sheets.skinIcons}
+            costumeStills={sheets.costumeStills}
             unlockedCount={unlockedCount}
             equipped={worn}
+            skin={skin}
+            costume={costume}
+            ownedCostumes={ownedCostumes}
             onPressItem={onPressItem}
+            onPressSkin={onPressSkin}
+            onPressCostume={onPressCostume}
           />
 
           <UnlockPath
@@ -293,9 +395,19 @@ export default function AchievementsScreen() {
             reduceMotion={reduceMotion}
           />
 
-          {__DEV__ ? <DevXpControls statsXp={statsXp} devXpBonus={devXpBonus} /> : null}
+          {SHOW_DEV_XP_CONTROLS ? <DevXpControls statsXp={statsXp} devXpBonus={devXpBonus} /> : null}
         </View>
       </ScrollView>
+
+      <CostumeShopSheet
+        visible={shopOpen}
+        costumeStills={sheets.costumeStills}
+        ownedCostumes={ownedCostumes}
+        using={costume}
+        onClose={() => setShopOpen(false)}
+        onBuy={onBuyCostume}
+        onUse={onUseCostume}
+      />
     </View>
   );
 }
