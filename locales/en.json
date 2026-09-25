@@ -4,7 +4,7 @@
     "schedule": "Schedule",
     "profile": "Profile",
     "stats": "Stats",
-    "achievements": "Achievements"
+    "achievements": "Customize"
   },
   "common": {
     "appName": "Lua",
@@ -303,50 +303,116 @@
     }
   },
   "achievements": {
-    "title": "Milestones",
+    "title": "Customize",
     "xpAmount": "{{xp}} XP",
     "xpBarLabel": "{{xp}} of {{next}} XP",
     "headline": {
       "none": "Lua is just getting started",
       "some": "Lua is looking sharp",
-      "all": "Lua has every item!"
+      "all": "Lua has every reward!"
     },
     "nextUnlock": "Earn {{xp}} more XP to unlock <bold>{{item}}</bold>.",
     "allUnlocked": "Every reward on the path is unlocked.",
     "toast": {
       "unlocked": "Unlocked {{item}}!",
-      "earnToUnlock": "Earn {{xp}} XP to unlock"
+      "earnToUnlock": "Earn {{xp}} XP to unlock",
+      "skinOn": "{{name}} skin on!"
     },
     "wardrobe": {
       "title": "Wardrobe",
       "hint": "Tap an item to wear it",
+      "skinsTitle": "Skins",
+      "skinsHint": "Tap a skin to use it",
       "wearing": "Wearing",
       "tapToWear": "Tap to wear",
+      "tapToUse": "Tap to use",
+      "using": "Using",
+      "underCostume": "Under costume",
       "locked": "Locked · {{xp}} XP"
     },
     "path": {
       "title": "Unlock path",
-      "count": "{{done}} / {{total}} items",
+      "count": "{{done}} / {{total}} rewards",
       "start": "START",
       "earn": "Earn {{xp}} XP",
       "preview": "Preview",
       "unlocked": "Unlocked"
     },
+    "shop": {
+      "button": "SHOP",
+      "title": "Shop",
+      "new": "NEW",
+      "section": "Costume skins",
+      "hint": "Full outfits for Lua",
+      "use": "Use",
+      "using": "Using",
+      "buyTitle": "Buy {{name}} skin?",
+      "cancel": "Cancel",
+      "buy": "Buy {{price}}"
+    },
     "items": {
       "sneakers": "Sneakers",
       "jeans": "Denim Pants",
+      "cap": "Ball Cap",
       "shades": "Pixel Shades",
       "beanie": "Cozy Beanie",
+      "shorts": "Track Shorts",
       "scarf": "Striped Scarf",
+      "headphones": "Headphones",
+      "boots": "Rain Boots",
+      "hoodie": "Hoodie",
+      "cape": "Hero Cape",
+      "wizard": "Wizard Hat",
       "crown": "Gold Crown"
+    },
+    "skins": {
+      "classic": "Classic",
+      "mint": "Mint",
+      "strawberry": "Strawberry",
+      "midnight": "Midnight",
+      "gold": "Gold"
+    },
+    "skinRewards": {
+      "mint": "Mint Skin",
+      "strawberry": "Strawberry Skin",
+      "midnight": "Midnight Skin",
+      "gold": "Gold Skin"
+    },
+    "costumes": {
+      "soldier": "Soldier",
+      "samurai": "Samurai",
+      "office": "Office Man",
+      "ninja": "Ninja",
+      "spy": "Spy",
+      "student": "Student",
+      "astronaut": "Astronaut",
+      "knight": "Knight",
+      "pirate": "Pirate",
+      "chef": "Chef",
+      "firefighter": "Firefighter",
+      "doctor": "Doctor",
+      "cowboy": "Cowboy",
+      "robot": "Robot",
+      "viking": "Viking",
+      "hero": "Superhero"
     },
     "a11y": {
       "avatar": "Lua",
       "avatarWearing": "Lua wearing {{items}}",
+      "avatarCostume": "Lua wearing the {{name}} costume",
       "avatarHint": "Tap to make Lua hop",
       "itemLocked": "{{item}}, locked, unlocks at {{xp}} XP",
       "itemOwned": "{{item}}, owned, tap to wear",
       "itemWearing": "{{item}}, wearing, tap to take off",
+      "itemUnderCostume": "{{item}}, equipped under costume, tap to take the costume off",
+      "skinLocked": "{{skin}}, locked, unlocks at {{xp}} XP",
+      "skinOwned": "{{skin}}, owned, tap to use",
+      "skinUsing": "{{skin}}, in use",
+      "costumeOwned": "{{name}}, owned, tap to use",
+      "costumeUsing": "{{name}}, in use",
+      "shop": "Shop",
+      "shopHint": "Costume skins for Lua",
+      "closeShop": "Close shop",
       "milestoneUnlocked": "{{item}}, unlocked at {{xp}} XP",
       "milestoneLocked": "{{item}}, locked, unlocks at {{xp}} XP"
     }
