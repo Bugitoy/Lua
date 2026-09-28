@@ -1,7 +1,6 @@
 import { Ionicons } from "@expo/vector-icons";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import * as Device from "expo-device";
-import { Image } from "expo-image";
 import { LinearGradient } from "expo-linear-gradient";
 import * as Notifications from "expo-notifications";
 import { router } from "expo-router";
@@ -12,6 +11,7 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 import { formatXp } from "@/components/achievements/theme";
 import { xpBarProgress } from "@/components/achievements/unlockRoute";
+import { MySpriteAvatar } from "@/components/profile/SpriteAvatar";
 import { LanguagePickerModal } from "@/components/settings/LanguagePickerModal";
 import { Pixelify } from "@/constants/fonts";
 import { LUA_GREEN } from "@/constants/mapAssets";
@@ -102,7 +102,7 @@ export default function ProfileScreen() {
   const { languageLabel } = useLanguagePreference();
   const { stats } = useGameStats();
   const { devXpBonus } = useAchievements();
-  const { profile, avatarUri } = useProfile();
+  const { profile } = useProfile();
   const [notificationsEnabled, setNotificationsEnabled] = useState(false);
   const [languageModalVisible, setLanguageModalVisible] = useState(false);
 
@@ -213,6 +213,10 @@ export default function ProfileScreen() {
     router.push("/manage-profile");
   }, []);
 
+  const onOpenWardrobe = useCallback(() => {
+    router.push("/achievements");
+  }, []);
+
   const onOpenAppSettings = useCallback(() => {
     Linking.openSettings();
   }, []);
@@ -266,23 +270,19 @@ export default function ProfileScreen() {
             end={{ x: 0, y: 1 }}
             style={{ padding: 20, alignItems: "center" }}
           >
-            <Pressable onPress={onManageProfile} className="active:opacity-80">
-              <Image
-                source={{ uri: avatarUri }}
-                style={{
-                  width: 88,
-                  height: 88,
-                  borderRadius: 44,
-                  borderWidth: 3,
-                  borderColor: LUA_GREEN,
-                }}
-                accessibilityLabel={t("a11y.profileAvatar")}
-              />
+            <Pressable
+              onPress={onOpenWardrobe}
+              className="active:opacity-80"
+              accessibilityRole="button"
+              accessibilityLabel={t("a11y.profileAvatar")}
+              accessibilityHint={t("a11y.customizeAvatarHint")}
+            >
+              <MySpriteAvatar size={88} ringWidth={3} ringColor={LUA_GREEN} />
               <View
                 className="absolute bottom-0 right-0 size-7 items-center justify-center rounded-full border-2 border-white"
                 style={{ backgroundColor: LUA_GREEN }}
               >
-                <Ionicons name="pencil" size={13} color="#fff" />
+                <Ionicons name="shirt" size={13} color="#fff" />
               </View>
             </Pressable>
 
