@@ -3,18 +3,14 @@ import { useSyncExternalStore } from "react";
 
 export const PROFILE_STORAGE_KEY = "userProfile";
 
-export const DEFAULT_AVATAR_URI = "https://i.pravatar.cc/240?img=12";
-
 export type UserProfile = {
   displayName: string;
   handle: string;
-  avatarUri: string | null;
 };
 
 const DEFAULT_PROFILE: UserProfile = {
   displayName: "Mason",
   handle: "@masonmavinga",
-  avatarUri: null,
 };
 
 let state: UserProfile = { ...DEFAULT_PROFILE };
@@ -53,10 +49,6 @@ export function isValidHandle(handle: string): boolean {
   return /^@[a-zA-Z0-9_]{2,30}$/.test(handle);
 }
 
-export function getAvatarUri(profile: UserProfile): string {
-  return profile.avatarUri ?? DEFAULT_AVATAR_URI;
-}
-
 export async function loadProfile(): Promise<void> {
   if (hydrated) return;
   if (loadPromise) return loadPromise;
@@ -75,10 +67,6 @@ export async function loadProfile(): Promise<void> {
             typeof parsed.handle === "string"
               ? normalizeHandle(parsed.handle) || DEFAULT_PROFILE.handle
               : DEFAULT_PROFILE.handle,
-          avatarUri:
-            typeof parsed.avatarUri === "string" && parsed.avatarUri.length > 0
-              ? parsed.avatarUri
-              : null,
         };
       }
     } catch {
@@ -110,8 +98,6 @@ export async function updateProfile(
       partial.handle !== undefined
         ? normalizeHandle(partial.handle) || state.handle
         : state.handle,
-    avatarUri:
-      partial.avatarUri !== undefined ? partial.avatarUri : state.avatarUri,
   };
 
   state = next;
@@ -124,7 +110,6 @@ export function useProfile() {
   const profile = useSyncExternalStore(subscribe, getSnapshot);
   return {
     profile,
-    avatarUri: getAvatarUri(profile),
     updateProfile,
     isReady: hydrated,
   };
