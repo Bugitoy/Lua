@@ -1,6 +1,4 @@
 import { Ionicons } from "@expo/vector-icons";
-import { Image } from "expo-image";
-import * as ImagePicker from "expo-image-picker";
 import { router } from "expo-router";
 import { useCallback, useEffect, useRef, useState } from "react";
 import {
@@ -12,10 +10,10 @@ import {
 } from "react-native";
 import { useTranslation } from "react-i18next";
 
+import { MySpriteAvatar } from "@/components/profile/SpriteAvatar";
 import { Pixelify } from "@/constants/fonts";
 import { LUA_GREEN } from "@/constants/mapAssets";
 import {
-  getAvatarUri,
   isValidHandle,
   normalizeHandle,
   updateProfile,
@@ -29,7 +27,6 @@ export function ManageProfileForm() {
 
   const [displayName, setDisplayName] = useState(profile.displayName);
   const [handle, setHandle] = useState(profile.handle);
-  const [avatarUri, setAvatarUri] = useState<string | null>(profile.avatarUri);
   const [saving, setSaving] = useState(false);
 
   useEffect(() => {
@@ -37,32 +34,11 @@ export function ManageProfileForm() {
     hydratedForm.current = true;
     setDisplayName(profile.displayName);
     setHandle(profile.handle);
-    setAvatarUri(profile.avatarUri);
   }, [isReady, profile]);
 
-  const previewAvatar = avatarUri ?? getAvatarUri(profile);
-
-  const onPickAvatar = useCallback(async () => {
-    const permission = await ImagePicker.requestMediaLibraryPermissionsAsync();
-    if (!permission.granted) {
-      Alert.alert(
-        t("manageProfile.permissionDeniedTitle"),
-        t("manageProfile.permissionDeniedMessage"),
-      );
-      return;
-    }
-
-    const result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ["images"],
-      allowsEditing: true,
-      aspect: [1, 1],
-      quality: 0.85,
-    });
-
-    if (!result.canceled && result.assets[0]?.uri) {
-      setAvatarUri(result.assets[0].uri);
-    }
-  }, [t]);
+  const onCustomizeLook = useCallback(() => {
+    router.push("/achievements");
+  }, []);
 
   const onSave = useCallback(async () => {
     const trimmedName = displayName.trim();
@@ -88,7 +64,6 @@ export function ManageProfileForm() {
       await updateProfile({
         displayName: trimmedName,
         handle: normalizedHandle,
-        avatarUri,
       });
       router.back();
     } catch {
@@ -96,7 +71,7 @@ export function ManageProfileForm() {
     } finally {
       setSaving(false);
     }
-  }, [avatarUri, displayName, handle, t]);
+  }, [displayName, handle, t]);
 
   return (
     <View
@@ -110,31 +85,27 @@ export function ManageProfileForm() {
       }}
     >
       <View className="mb-6 items-center">
-        <Pressable onPress={onPickAvatar} className="active:opacity-80">
-          <Image
-            source={{ uri: previewAvatar }}
-            style={{
-              width: 96,
-              height: 96,
-              borderRadius: 48,
-              borderWidth: 3,
-              borderColor: LUA_GREEN,
-            }}
-            accessibilityLabel={t("a11y.profileAvatar")}
-          />
+        <Pressable
+          onPress={onCustomizeLook}
+          className="active:opacity-80"
+          accessibilityRole="button"
+          accessibilityLabel={t("a11y.profileAvatar")}
+          accessibilityHint={t("a11y.customizeAvatarHint")}
+        >
+          <MySpriteAvatar size={96} ringWidth={3} ringColor={LUA_GREEN} />
           <View
             className="absolute bottom-0 right-0 size-8 items-center justify-center rounded-full border-2 border-white"
             style={{ backgroundColor: LUA_GREEN }}
           >
-            <Ionicons name="camera" size={14} color="#fff" />
+            <Ionicons name="shirt" size={14} color="#fff" />
           </View>
         </Pressable>
-        <Pressable onPress={onPickAvatar} className="mt-3 active:opacity-70">
+        <Pressable onPress={onCustomizeLook} className="mt-3 active:opacity-70">
           <Text
             className="text-sm text-neutral-600"
             style={{ fontFamily: Pixelify.semibold }}
           >
-            {t("manageProfile.changePhoto")}
+            {t("manageProfile.customizeLook")}
           </Text>
         </Pressable>
       </View>
