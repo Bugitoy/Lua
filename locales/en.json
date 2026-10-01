@@ -246,7 +246,7 @@
   },
   "manageProfile": {
     "title": "Manage Profile",
-    "changePhoto": "Change photo",
+    "customizeLook": "Customize your Lua",
     "displayNameLabel": "Display name",
     "displayNamePlaceholder": "Your name",
     "handleLabel": "Handle",
@@ -255,9 +255,7 @@
     "errorTitle": "Could not save",
     "errorEmptyName": "Please enter a display name.",
     "errorInvalidHandle": "Handle must be 2–30 characters (letters, numbers, underscore) and start with @.",
-    "errorSave": "Something went wrong. Please try again.",
-    "permissionDeniedTitle": "Permission needed",
-    "permissionDeniedMessage": "Allow photo access to choose a profile picture."
+    "errorSave": "Something went wrong. Please try again."
   },
   "stats": {
     "title": "Stats",
@@ -621,6 +619,7 @@
     "luaLogo": "Lua logo",
     "profile": "Profile",
     "profileAvatar": "Profile avatar",
+    "customizeAvatarHint": "Opens the wardrobe to dress up your Lua",
     "openProfile": "Open profile",
     "openLiveMap": "Open live map",
     "addScheduleItem": "Add schedule item",
