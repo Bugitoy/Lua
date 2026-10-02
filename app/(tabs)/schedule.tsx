@@ -1,5 +1,4 @@
 import { Ionicons } from "@expo/vector-icons";
-import { Image } from "expo-image";
 import { Link } from "expo-router";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import {
@@ -14,6 +13,7 @@ import { useTranslation } from "react-i18next";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 import { GeoMapView } from "@/components/map/GeoMapView";
+import { MySpriteAvatar } from "@/components/profile/SpriteAvatar";
 import { AddScheduleModal } from "@/components/schedule/AddScheduleModal";
 import { ScheduleItemCard } from "@/components/schedule/ScheduleItemCard";
 import type { ScheduleItemData } from "@/components/schedule/scheduleTypes";
@@ -120,16 +120,7 @@ export default function ScheduleScreen() {
           </Text>
           <Link href="/(tabs)/profile" asChild>
             <Pressable accessibilityLabel={t("a11y.openProfile")}>
-              <Image
-                source={{ uri: "https://i.pravatar.cc/120?img=12" }}
-                style={{
-                  width: 44,
-                  height: 44,
-                  borderRadius: 22,
-                  borderWidth: 1,
-                  borderColor: "rgba(0,0,0,0.08)",
-                }}
-              />
+              <MySpriteAvatar size={44} ringWidth={1} ringColor="rgba(0,0,0,0.08)" />
             </Pressable>
           </Link>
         </View>
