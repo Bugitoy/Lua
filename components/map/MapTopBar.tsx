@@ -1,10 +1,9 @@
-import { Image } from "expo-image";
 import { Link } from "expo-router";
 import { Pressable, Text, View } from "react-native";
 import { useTranslation } from "react-i18next";
 
+import { MySpriteAvatar } from "@/components/profile/SpriteAvatar";
 import { Pixelify } from "@/constants/fonts";
-import { LUA_LOGO } from "@/constants/mapAssets";
 
 type MapTopBarProps = {
   topInset: number;
@@ -15,34 +14,17 @@ export function MapTopBar({ topInset }: MapTopBarProps) {
   return (
     <View className="bg-white" style={{ paddingTop: topInset }} pointerEvents="auto">
       <View className="flex-row items-center justify-between px-6 pb-1 pt-2">
-        <View className="flex-row items-center">
-          <Image
-            source={LUA_LOGO}
-            style={{ width: 48, height: 48 }}
-            contentFit="contain"
-            accessibilityLabel={t("a11y.luaLogo")}
-          />
-          <Text
-            className="text-xl text-neutral-900"
-            style={{ fontFamily: Pixelify.bold }}
-          >
-            {t("common.appName")}
-          </Text>
-        </View>
-        <View className="flex-row items-center gap-3">
+        <Text
+          className="pl-5"
+          style={{ fontFamily: Pixelify.bold, fontSize: 24, lineHeight: 28, color: "#14532d" }}
+          accessibilityRole="header"
+        >
+          {t("common.appName")}
+        </Text>
+        <View className="flex-row items-center gap-3 pr-5">
           <Link href="/(tabs)/profile" asChild>
-            <Pressable>
-              <Image
-                source={{ uri: "https://i.pravatar.cc/120?img=12" }}
-                style={{
-                  width: 40,
-                  height: 40,
-                  borderRadius: 20,
-                  borderWidth: 1,
-                  borderColor: "rgba(0,0,0,0.08)",
-                }}
-                accessibilityLabel={t("a11y.profile")}
-              />
+            <Pressable accessibilityLabel={t("a11y.profile")}>
+              <MySpriteAvatar size={40} ringWidth={1} ringColor="rgba(0,0,0,0.08)" />
             </Pressable>
           </Link>
         </View>
