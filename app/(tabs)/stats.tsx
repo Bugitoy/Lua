@@ -1,5 +1,4 @@
 import { Ionicons } from "@expo/vector-icons";
-import { Image } from "expo-image";
 import { LinearGradient } from "expo-linear-gradient";
 import { useMemo, useState } from "react";
 import {
@@ -12,8 +11,10 @@ import {
 import { useTranslation } from "react-i18next";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
+import { MySpriteAvatar, SpriteAvatar } from "@/components/profile/SpriteAvatar";
 import { Pixelify } from "@/constants/fonts";
 import { LUA_GREEN } from "@/constants/mapAssets";
+import { randomAvatars } from "@/lib/avatarLook";
 import { formatHours } from "@/lib/formatters";
 import { useGameStats } from "@/lib/gameStats";
 import { formatAppDate } from "@/lib/i18n/formatLocale";
@@ -51,7 +52,7 @@ type LeaderEntry = {
   id: string;
   name: string;
   tagline: string;
-  avatarImg: number;
+  seed: number;
   goalsDone: number;
   goalsTotal: number;
   distanceMiles: number;
@@ -60,14 +61,21 @@ type LeaderEntry = {
 };
 
 const LEADERBOARD: LeaderEntry[] = [
-  { id: "1", name: "Jordan Park",    tagline: "Trail walker",     avatarImg: 3,  goalsDone: 11, goalsTotal: 12, distanceMiles: 8.4, hoursStudied: 5.5, streak: 14 },
-  { id: "2", name: "Maya Chen",      tagline: "Streak chaser",     avatarImg: 5,  goalsDone: 10, goalsTotal: 12, distanceMiles: 7.1, hoursStudied: 6.0, streak: 21 },
-  { id: "3", name: "Liam Torres",    tagline: "Goal grinder",      avatarImg: 8,  goalsDone: 9,  goalsTotal: 10, distanceMiles: 5.8, hoursStudied: 3.5, streak: 9  },
-  { id: "4", name: "Ava Johnson",    tagline: "Daily mover",       avatarImg: 9,  goalsDone: 8,  goalsTotal: 10, distanceMiles: 9.2, hoursStudied: 4.0, streak: 6  },
-  { id: "5", name: "Noah Williams",  tagline: "Long-walk fan",     avatarImg: 11, goalsDone: 8,  goalsTotal: 12, distanceMiles: 6.3, hoursStudied: 4.5, streak: 11 },
-  { id: "6", name: "Sofia Nguyen",   tagline: "Consistency > hype",avatarImg: 15, goalsDone: 7,  goalsTotal: 10, distanceMiles: 4.5, hoursStudied: 5.0, streak: 4  },
-  { id: "7", name: "Ethan Brown",    tagline: "Weekend explorer",  avatarImg: 17, goalsDone: 7,  goalsTotal: 12, distanceMiles: 3.9, hoursStudied: 3.0, streak: 7  },
+  { id: "1", name: "Jordan Park",    tagline: "Trail walker",     seed: 3,  goalsDone: 11, goalsTotal: 12, distanceMiles: 8.4, hoursStudied: 5.5, streak: 14 },
+  { id: "2", name: "Maya Chen",      tagline: "Streak chaser",     seed: 5,  goalsDone: 10, goalsTotal: 12, distanceMiles: 7.1, hoursStudied: 6.0, streak: 21 },
+  { id: "3", name: "Liam Torres",    tagline: "Goal grinder",      seed: 8,  goalsDone: 9,  goalsTotal: 10, distanceMiles: 5.8, hoursStudied: 3.5, streak: 9  },
+  { id: "4", name: "Ava Johnson",    tagline: "Daily mover",       seed: 9,  goalsDone: 8,  goalsTotal: 10, distanceMiles: 9.2, hoursStudied: 4.0, streak: 6  },
+  { id: "5", name: "Noah Williams",  tagline: "Long-walk fan",     seed: 11, goalsDone: 8,  goalsTotal: 12, distanceMiles: 6.3, hoursStudied: 4.5, streak: 11 },
+  { id: "6", name: "Sofia Nguyen",   tagline: "Consistency > hype",seed: 15, goalsDone: 7,  goalsTotal: 10, distanceMiles: 4.5, hoursStudied: 5.0, streak: 4  },
+  { id: "7", name: "Ethan Brown",    tagline: "Weekend explorer",  seed: 17, goalsDone: 7,  goalsTotal: 12, distanceMiles: 3.9, hoursStudied: 3.0, streak: 7  },
 ];
+
+const LEADER_AVATARS = Object.fromEntries(
+  randomAvatars(LEADERBOARD.map((e) => `${e.id}:${e.name}`)).map((avatar, i) => [
+    LEADERBOARD[i].id,
+    avatar,
+  ]),
+);
 
 const RANK_COLORS = ["#f59e0b", "#9ca3af", "#92400e"];
 const RANK_ICONS: Array<keyof typeof Ionicons.glyphMap> = ["trophy", "medal", "ribbon"];
@@ -742,9 +750,9 @@ export default function StatsScreen() {
             const scale = leaderPeriod === "today" ? 1 : leaderPeriod === "week" ? 7 : 30;
             const periodBoard: LeaderEntry[] = LEADERBOARD.map((e) => ({
               ...e,
-              goalsDone: Math.min(Math.round(e.goalsDone * scale * (0.8 + Math.sin(e.avatarImg) * 0.2)), e.goalsTotal * scale),
+              goalsDone: Math.min(Math.round(e.goalsDone * scale * (0.8 + Math.sin(e.seed) * 0.2)), e.goalsTotal * scale),
               goalsTotal: e.goalsTotal * scale,
-              distanceMiles: parseFloat((e.distanceMiles * scale * (0.85 + Math.cos(e.avatarImg) * 0.15)).toFixed(1)),
+              distanceMiles: parseFloat((e.distanceMiles * scale * (0.85 + Math.cos(e.seed) * 0.15)).toFixed(1)),
               hoursStudied: parseFloat((e.hoursStudied * scale * (0.9 + Math.sin(e.id.charCodeAt(0)) * 0.1)).toFixed(1)),
             }));
 
@@ -752,7 +760,7 @@ export default function StatsScreen() {
               id: "me",
               name: t("common.you"),
               tagline: t("stats.leaderboard.yourTagline"),
-              avatarImg: 12,
+              seed: 12,
               goalsDone: stats.goalsDone * scale,
               goalsTotal: stats.goalsTotal * scale,
               distanceMiles: parseFloat((stats.distanceMiles * scale).toFixed(1)),
@@ -789,10 +797,7 @@ export default function StatsScreen() {
                         </Text>
                       )}
                     </View>
-                    <Image
-                      source={{ uri: "https://i.pravatar.cc/80?img=12" }}
-                      style={{ width: 40, height: 40, borderRadius: 20, borderWidth: 2, borderColor: sortAccent }}
-                    />
+                    <MySpriteAvatar size={40} ringWidth={2} ringColor={sortAccent} />
                     <View className="flex-1 min-w-0">
                       <View className="flex-row items-center gap-1.5">
                         <Text style={{ fontFamily: Pixelify.bold, fontSize: 14, color: "#171717" }}>
@@ -835,9 +840,10 @@ export default function StatsScreen() {
                             </Text>
                           )}
                         </View>
-                        <Image
-                          source={{ uri: `https://i.pravatar.cc/80?img=${entry.avatarImg}` }}
-                          style={{ width: 40, height: 40, borderRadius: 20 }}
+                        <SpriteAvatar
+                          look={LEADER_AVATARS[entry.id].look}
+                          backdrop={LEADER_AVATARS[entry.id].backdrop}
+                          size={40}
                         />
                         <View className="flex-1 min-w-0">
                           <Text
