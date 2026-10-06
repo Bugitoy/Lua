@@ -4,7 +4,7 @@
     "schedule": "Zeitplan",
     "profile": "Profil",
     "stats": "Statistiken",
-    "achievements": "Erfolge"
+    "achievements": "Anpassen"
   },
   "common": {
     "appName": "Lua",
@@ -231,50 +231,116 @@
     }
   },
   "achievements": {
-    "title": "Meilensteine",
+    "title": "Anpassen",
     "xpAmount": "{{xp}} XP",
     "xpBarLabel": "{{xp}} von {{next}} XP",
     "headline": {
       "none": "Lua fängt gerade erst an",
       "some": "Lua sieht schick aus",
-      "all": "Lua hat alle Teile!"
+      "all": "Lua hat alle Belohnungen!"
     },
     "nextUnlock": "Verdiene noch {{xp}} XP, um <bold>{{item}}</bold> freizuschalten.",
     "allUnlocked": "Alle Belohnungen auf dem Pfad sind freigeschaltet.",
     "toast": {
       "unlocked": "{{item}} freigeschaltet!",
-      "earnToUnlock": "Verdiene {{xp}} XP zum Freischalten"
+      "earnToUnlock": "Verdiene {{xp}} XP zum Freischalten",
+      "skinOn": "{{name}}-Skin an!"
     },
     "wardrobe": {
       "title": "Kleiderschrank",
       "hint": "Tippe auf ein Teil, um es anzuziehen",
+      "skinsTitle": "Skins",
+      "skinsHint": "Tippe auf einen Skin, um ihn zu nutzen",
       "wearing": "Angezogen",
       "tapToWear": "Zum Anziehen tippen",
+      "tapToUse": "Zum Nutzen tippen",
+      "using": "Aktiv",
+      "underCostume": "Unter dem Kostüm",
       "locked": "Gesperrt · {{xp}} XP"
     },
     "path": {
       "title": "Freischaltpfad",
-      "count": "{{done}} / {{total}} Teile",
+      "count": "{{done}} / {{total}} Belohnungen",
       "start": "START",
       "earn": "Verdiene {{xp}} XP",
       "preview": "Vorschau",
       "unlocked": "Freigeschaltet"
     },
+    "shop": {
+      "button": "SHOP",
+      "title": "Shop",
+      "new": "NEU",
+      "section": "Kostüm-Skins",
+      "hint": "Komplette Outfits für Lua",
+      "use": "Nutzen",
+      "using": "Aktiv",
+      "buyTitle": "{{name}}-Skin kaufen?",
+      "cancel": "Abbrechen",
+      "buy": "{{price}} kaufen"
+    },
     "items": {
       "sneakers": "Sneaker",
       "jeans": "Jeans",
+      "cap": "Baseballmütze",
       "shades": "Pixel-Brille",
       "beanie": "Kuschelmütze",
+      "shorts": "Sporthose",
       "scarf": "Ringelschal",
+      "headphones": "Kopfhörer",
+      "boots": "Gummistiefel",
+      "hoodie": "Kapuzenpulli",
+      "cape": "Heldenumhang",
+      "wizard": "Zauberhut",
       "crown": "Goldkrone"
+    },
+    "skins": {
+      "classic": "Klassisch",
+      "mint": "Minze",
+      "strawberry": "Erdbeere",
+      "midnight": "Mitternacht",
+      "gold": "Gold"
+    },
+    "skinRewards": {
+      "mint": "Minz-Skin",
+      "strawberry": "Erdbeer-Skin",
+      "midnight": "Mitternachts-Skin",
+      "gold": "Gold-Skin"
+    },
+    "costumes": {
+      "soldier": "Soldat",
+      "samurai": "Samurai",
+      "office": "Büromensch",
+      "ninja": "Ninja",
+      "spy": "Spion",
+      "student": "Student",
+      "astronaut": "Astronaut",
+      "knight": "Ritter",
+      "pirate": "Pirat",
+      "chef": "Koch",
+      "firefighter": "Feuerwehrmann",
+      "doctor": "Arzt",
+      "cowboy": "Cowboy",
+      "robot": "Roboter",
+      "viking": "Wikinger",
+      "hero": "Superheld"
     },
     "a11y": {
       "avatar": "Lua",
       "avatarWearing": "Lua trägt {{items}}",
+      "avatarCostume": "Lua trägt das Kostüm {{name}}",
       "avatarHint": "Tippe, damit Lua hüpft",
       "itemLocked": "{{item}}, gesperrt, wird bei {{xp}} XP freigeschaltet",
       "itemOwned": "{{item}}, verfügbar, zum Anziehen tippen",
       "itemWearing": "{{item}}, angezogen, zum Ausziehen tippen",
+      "itemUnderCostume": "{{item}}, unter dem Kostüm angezogen, tippe, um das Kostüm abzulegen",
+      "skinLocked": "{{skin}}, gesperrt, wird bei {{xp}} XP freigeschaltet",
+      "skinOwned": "{{skin}}, verfügbar, zum Nutzen tippen",
+      "skinUsing": "{{skin}}, aktiv",
+      "costumeOwned": "{{name}}, verfügbar, zum Nutzen tippen",
+      "costumeUsing": "{{name}}, aktiv",
+      "shop": "Shop",
+      "shopHint": "Kostüm-Skins für Lua",
+      "closeShop": "Shop schließen",
       "milestoneUnlocked": "{{item}}, freigeschaltet bei {{xp}} XP",
       "milestoneLocked": "{{item}}, gesperrt, wird bei {{xp}} XP freigeschaltet"
     }
