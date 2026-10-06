@@ -174,7 +174,7 @@
   },
   "manageProfile": {
     "title": "Profil verwalten",
-    "changePhoto": "Foto ändern",
+    "customizeLook": "Deinen Lua anpassen",
     "displayNameLabel": "Anzeigename",
     "displayNamePlaceholder": "Dein Name",
     "handleLabel": "Handle",
@@ -183,9 +183,7 @@
     "errorTitle": "Speichern fehlgeschlagen",
     "errorEmptyName": "Bitte gib einen Anzeigenamen ein.",
     "errorInvalidHandle": "Handle muss 2–30 Zeichen haben (Buchstaben, Zahlen, Unterstrich) und mit @ beginnen.",
-    "errorSave": "Etwas ist schiefgelaufen. Bitte versuche es erneut.",
-    "permissionDeniedTitle": "Berechtigung erforderlich",
-    "permissionDeniedMessage": "Erlaube Fotozugriff, um ein Profilbild auszuwählen."
+    "errorSave": "Etwas ist schiefgelaufen. Bitte versuche es erneut."
   },
   "stats": {
     "title": "Statistiken",
@@ -425,6 +423,7 @@
     "luaLogo": "Lua-Logo",
     "profile": "Profil",
     "profileAvatar": "Profil-Avatar",
+    "customizeAvatarHint": "Öffnet die Garderobe, um deinen Lua einzukleiden",
     "openProfile": "Profil öffnen",
     "openLiveMap": "Live-Karte öffnen",
     "addScheduleItem": "Zeitplaneintrag hinzufügen",
