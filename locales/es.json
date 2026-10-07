@@ -4,7 +4,7 @@
     "schedule": "Horario",
     "profile": "Perfil",
     "stats": "Estadísticas",
-    "achievements": "Logros"
+    "achievements": "Personalizar"
   },
   "common": {
     "appName": "Lua",
@@ -231,50 +231,116 @@
     }
   },
   "achievements": {
-    "title": "Hitos",
+    "title": "Personalizar",
     "xpAmount": "{{xp}} XP",
     "xpBarLabel": "{{xp}} de {{next}} XP",
     "headline": {
       "none": "Lua acaba de empezar",
       "some": "Lua se ve genial",
-      "all": "¡Lua tiene todos los objetos!"
+      "all": "¡Lua tiene todas las recompensas!"
     },
     "nextUnlock": "Gana {{xp}} XP más para desbloquear <bold>{{item}}</bold>.",
     "allUnlocked": "Todas las recompensas del camino están desbloqueadas.",
     "toast": {
       "unlocked": "¡Desbloqueaste {{item}}!",
-      "earnToUnlock": "Gana {{xp}} XP para desbloquear"
+      "earnToUnlock": "Gana {{xp}} XP para desbloquear",
+      "skinOn": "¡Skin {{name}} puesta!"
     },
     "wardrobe": {
       "title": "Armario",
       "hint": "Toca un objeto para ponértelo",
+      "skinsTitle": "Skins",
+      "skinsHint": "Toca una skin para usarla",
       "wearing": "Puesto",
       "tapToWear": "Toca para ponértelo",
+      "tapToUse": "Toca para usar",
+      "using": "En uso",
+      "underCostume": "Bajo el traje",
       "locked": "Bloqueado · {{xp}} XP"
     },
     "path": {
       "title": "Camino de desbloqueo",
-      "count": "{{done}} / {{total}} objetos",
+      "count": "{{done}} / {{total}} recompensas",
       "start": "INICIO",
       "earn": "Gana {{xp}} XP",
       "preview": "Vista previa",
       "unlocked": "Desbloqueado"
     },
+    "shop": {
+      "button": "TIENDA",
+      "title": "Tienda",
+      "new": "NUEVO",
+      "section": "Trajes",
+      "hint": "Atuendos completos para Lua",
+      "use": "Usar",
+      "using": "En uso",
+      "buyTitle": "¿Comprar skin {{name}}?",
+      "cancel": "Cancelar",
+      "buy": "Comprar {{price}}"
+    },
     "items": {
       "sneakers": "Zapatillas",
       "jeans": "Vaqueros",
+      "cap": "Gorra",
       "shades": "Gafas pixel",
       "beanie": "Gorro acogedor",
+      "shorts": "Shorts de deporte",
       "scarf": "Bufanda a rayas",
+      "headphones": "Auriculares",
+      "boots": "Botas de lluvia",
+      "hoodie": "Sudadera",
+      "cape": "Capa de héroe",
+      "wizard": "Sombrero de mago",
       "crown": "Corona dorada"
+    },
+    "skins": {
+      "classic": "Clásico",
+      "mint": "Menta",
+      "strawberry": "Fresa",
+      "midnight": "Medianoche",
+      "gold": "Oro"
+    },
+    "skinRewards": {
+      "mint": "Skin menta",
+      "strawberry": "Skin fresa",
+      "midnight": "Skin medianoche",
+      "gold": "Skin oro"
+    },
+    "costumes": {
+      "soldier": "Soldado",
+      "samurai": "Samurái",
+      "office": "Oficinista",
+      "ninja": "Ninja",
+      "spy": "Espía",
+      "student": "Estudiante",
+      "astronaut": "Astronauta",
+      "knight": "Caballero",
+      "pirate": "Pirata",
+      "chef": "Chef",
+      "firefighter": "Bombero",
+      "doctor": "Doctor",
+      "cowboy": "Vaquero",
+      "robot": "Robot",
+      "viking": "Vikingo",
+      "hero": "Superhéroe"
     },
     "a11y": {
       "avatar": "Lua",
       "avatarWearing": "Lua lleva {{items}}",
+      "avatarCostume": "Lua lleva el traje {{name}}",
       "avatarHint": "Toca para que Lua salte",
       "itemLocked": "{{item}}, bloqueado, se desbloquea con {{xp}} XP",
       "itemOwned": "{{item}}, disponible, toca para ponértelo",
       "itemWearing": "{{item}}, puesto, toca para quitártelo",
+      "itemUnderCostume": "{{item}}, puesto bajo el traje, toca para quitar el traje",
+      "skinLocked": "{{skin}}, bloqueada, se desbloquea con {{xp}} XP",
+      "skinOwned": "{{skin}}, disponible, toca para usarla",
+      "skinUsing": "{{skin}}, en uso",
+      "costumeOwned": "{{name}}, disponible, toca para usar",
+      "costumeUsing": "{{name}}, en uso",
+      "shop": "Tienda",
+      "shopHint": "Trajes para Lua",
+      "closeShop": "Cerrar tienda",
       "milestoneUnlocked": "{{item}}, desbloqueado con {{xp}} XP",
       "milestoneLocked": "{{item}}, bloqueado, se desbloquea con {{xp}} XP"
     }
