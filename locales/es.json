@@ -174,7 +174,7 @@
   },
   "manageProfile": {
     "title": "Administrar perfil",
-    "changePhoto": "Cambiar foto",
+    "customizeLook": "Personaliza tu Lua",
     "displayNameLabel": "Nombre visible",
     "displayNamePlaceholder": "Tu nombre",
     "handleLabel": "Usuario",
@@ -183,9 +183,7 @@
     "errorTitle": "No se pudo guardar",
     "errorEmptyName": "Introduce un nombre visible.",
     "errorInvalidHandle": "El usuario debe tener 2–30 caracteres (letras, números, guion bajo) y empezar con @.",
-    "errorSave": "Algo salió mal. Inténtalo de nuevo.",
-    "permissionDeniedTitle": "Permiso necesario",
-    "permissionDeniedMessage": "Permite acceso a fotos para elegir una imagen de perfil."
+    "errorSave": "Algo salió mal. Inténtalo de nuevo."
   },
   "stats": {
     "title": "Estadísticas",
@@ -425,6 +423,7 @@
     "luaLogo": "Logo de Lua",
     "profile": "Perfil",
     "profileAvatar": "Avatar del perfil",
+    "customizeAvatarHint": "Abre el armario para vestir a tu Lua",
     "openProfile": "Abrir perfil",
     "openLiveMap": "Abrir mapa en vivo",
     "addScheduleItem": "Añadir elemento al horario",
