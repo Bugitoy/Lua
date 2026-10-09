@@ -4,7 +4,7 @@
     "schedule": "Planning",
     "profile": "Profil",
     "stats": "Statistiques",
-    "achievements": "Succès"
+    "achievements": "Personnaliser"
   },
   "common": {
     "appName": "Lua",
@@ -231,50 +231,116 @@
     }
   },
   "achievements": {
-    "title": "Jalons",
+    "title": "Personnaliser",
     "xpAmount": "{{xp}} XP",
     "xpBarLabel": "{{xp}} sur {{next}} XP",
     "headline": {
       "none": "Lua ne fait que commencer",
       "some": "Lua a fière allure",
-      "all": "Lua a tous les objets !"
+      "all": "Lua a toutes les récompenses !"
     },
     "nextUnlock": "Gagnez encore {{xp}} XP pour débloquer <bold>{{item}}</bold>.",
     "allUnlocked": "Toutes les récompenses du parcours sont débloquées.",
     "toast": {
       "unlocked": "Débloqué : {{item}} !",
-      "earnToUnlock": "Gagnez {{xp}} XP pour débloquer"
+      "earnToUnlock": "Gagnez {{xp}} XP pour débloquer",
+      "skinOn": "Skin {{name}} équipée !"
     },
     "wardrobe": {
       "title": "Garde-robe",
       "hint": "Appuyez sur un objet pour le porter",
+      "skinsTitle": "Skins",
+      "skinsHint": "Appuyez sur une skin pour l'utiliser",
       "wearing": "Porté",
       "tapToWear": "Appuyez pour porter",
+      "tapToUse": "Appuyez pour utiliser",
+      "using": "En cours",
+      "underCostume": "Sous le costume",
       "locked": "Verrouillé · {{xp}} XP"
     },
     "path": {
       "title": "Parcours de déblocage",
-      "count": "{{done}} / {{total}} objets",
+      "count": "{{done}} / {{total}} récompenses",
       "start": "DÉPART",
       "earn": "Gagnez {{xp}} XP",
       "preview": "Aperçu",
       "unlocked": "Débloqué"
     },
+    "shop": {
+      "button": "BOUTIQUE",
+      "title": "Boutique",
+      "new": "NOUVEAU",
+      "section": "Costumes",
+      "hint": "Tenues complètes pour Lua",
+      "use": "Utiliser",
+      "using": "En cours",
+      "buyTitle": "Acheter la skin {{name}} ?",
+      "cancel": "Annuler",
+      "buy": "Acheter {{price}}"
+    },
     "items": {
       "sneakers": "Baskets",
       "jeans": "Jean",
+      "cap": "Casquette",
       "shades": "Lunettes pixel",
       "beanie": "Bonnet douillet",
+      "shorts": "Short de sport",
       "scarf": "Écharpe rayée",
+      "headphones": "Casque",
+      "boots": "Bottes de pluie",
+      "hoodie": "Sweat à capuche",
+      "cape": "Cape de héros",
+      "wizard": "Chapeau de mage",
       "crown": "Couronne dorée"
+    },
+    "skins": {
+      "classic": "Classique",
+      "mint": "Menthe",
+      "strawberry": "Fraise",
+      "midnight": "Minuit",
+      "gold": "Or"
+    },
+    "skinRewards": {
+      "mint": "Skin menthe",
+      "strawberry": "Skin fraise",
+      "midnight": "Skin minuit",
+      "gold": "Skin or"
+    },
+    "costumes": {
+      "soldier": "Soldat",
+      "samurai": "Samouraï",
+      "office": "Employé",
+      "ninja": "Ninja",
+      "spy": "Espion",
+      "student": "Étudiant",
+      "astronaut": "Astronaute",
+      "knight": "Chevalier",
+      "pirate": "Pirate",
+      "chef": "Chef",
+      "firefighter": "Pompier",
+      "doctor": "Docteur",
+      "cowboy": "Cow-boy",
+      "robot": "Robot",
+      "viking": "Viking",
+      "hero": "Super-héros"
     },
     "a11y": {
       "avatar": "Lua",
       "avatarWearing": "Lua porte {{items}}",
+      "avatarCostume": "Lua porte le costume {{name}}",
       "avatarHint": "Appuyez pour faire sauter Lua",
       "itemLocked": "{{item}}, verrouillé, se débloque à {{xp}} XP",
       "itemOwned": "{{item}}, possédé, appuyez pour le porter",
       "itemWearing": "{{item}}, porté, appuyez pour l'enlever",
+      "itemUnderCostume": "{{item}}, porté sous le costume, appuyez pour retirer le costume",
+      "skinLocked": "{{skin}}, verrouillée, se débloque à {{xp}} XP",
+      "skinOwned": "{{skin}}, possédée, appuyez pour l'utiliser",
+      "skinUsing": "{{skin}}, en cours",
+      "costumeOwned": "{{name}}, possédé, appuyez pour l'utiliser",
+      "costumeUsing": "{{name}}, en cours",
+      "shop": "Boutique",
+      "shopHint": "Costumes pour Lua",
+      "closeShop": "Fermer la boutique",
       "milestoneUnlocked": "{{item}}, débloqué à {{xp}} XP",
       "milestoneLocked": "{{item}}, verrouillé, se débloque à {{xp}} XP"
     }
