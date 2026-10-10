@@ -174,7 +174,7 @@
   },
   "manageProfile": {
     "title": "Gérer le profil",
-    "changePhoto": "Changer la photo",
+    "customizeLook": "Personnaliser ton Lua",
     "displayNameLabel": "Nom affiché",
     "displayNamePlaceholder": "Votre nom",
     "handleLabel": "Identifiant",
@@ -183,9 +183,7 @@
     "errorTitle": "Échec de l'enregistrement",
     "errorEmptyName": "Veuillez saisir un nom affiché.",
     "errorInvalidHandle": "L'identifiant doit faire 2–30 caractères (lettres, chiffres, tiret bas) et commencer par @.",
-    "errorSave": "Une erreur s'est produite. Réessayez.",
-    "permissionDeniedTitle": "Autorisation requise",
-    "permissionDeniedMessage": "Autorisez l'accès aux photos pour choisir une photo de profil."
+    "errorSave": "Une erreur s'est produite. Réessayez."
   },
   "stats": {
     "title": "Statistiques",
@@ -425,6 +423,7 @@
     "luaLogo": "Logo Lua",
     "profile": "Profil",
     "profileAvatar": "Avatar du profil",
+    "customizeAvatarHint": "Ouvre la garde-robe pour habiller ton Lua",
     "openProfile": "Ouvrir le profil",
     "openLiveMap": "Ouvrir la carte en direct",
     "addScheduleItem": "Ajouter un élément au planning",
