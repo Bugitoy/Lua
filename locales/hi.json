@@ -174,7 +174,7 @@
   },
   "manageProfile": {
     "title": "प्रोफ़ाइल प्रबंधित करें",
-    "changePhoto": "फ़ोटो बदलें",
+    "customizeLook": "अपना Lua सजाएँ",
     "displayNameLabel": "प्रदर्शन नाम",
     "displayNamePlaceholder": "आपका नाम",
     "handleLabel": "हैंडल",
@@ -183,9 +183,7 @@
     "errorTitle": "सहेजा नहीं जा सका",
     "errorEmptyName": "कृपया प्रदर्शन नाम दर्ज करें।",
     "errorInvalidHandle": "हैंडल 2–30 अक्षरों का होना चाहिए (अक्षर, संख्या, अंडरस्कोर) और @ से शुरू होना चाहिए।",
-    "errorSave": "कुछ गलत हो गया। कृपया पुनः प्रयास करें।",
-    "permissionDeniedTitle": "अनुमति आवश्यक",
-    "permissionDeniedMessage": "प्रोफ़ाइल फ़ोटो चुनने के लिए फ़ोटो एक्सेस की अनुमति दें।"
+    "errorSave": "कुछ गलत हो गया। कृपया पुनः प्रयास करें।"
   },
   "stats": {
     "title": "आँकड़े",
@@ -425,6 +423,7 @@
     "luaLogo": "Lua लोगो",
     "profile": "प्रोफ़ाइल",
     "profileAvatar": "प्रोफ़ाइल अवतार",
+    "customizeAvatarHint": "अपने Lua को तैयार करने के लिए वॉर्डरोब खोलता है",
     "openProfile": "प्रोफ़ाइल खोलें",
     "openLiveMap": "लाइव मानचित्र खोलें",
     "addScheduleItem": "कार्यक्रम आइटम जोड़ें",
