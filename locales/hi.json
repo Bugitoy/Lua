@@ -4,7 +4,7 @@
     "schedule": "कार्यक्रम",
     "profile": "प्रोफ़ाइल",
     "stats": "आँकड़े",
-    "achievements": "उपलब्धियाँ"
+    "achievements": "कस्टमाइज़"
   },
   "common": {
     "appName": "Lua",
@@ -231,50 +231,116 @@
     }
   },
   "achievements": {
-    "title": "पड़ाव",
+    "title": "कस्टमाइज़",
     "xpAmount": "{{xp}} XP",
     "xpBarLabel": "{{next}} में से {{xp}} XP",
     "headline": {
       "none": "Lua ने अभी शुरुआत की है",
       "some": "Lua शानदार दिख रही है",
-      "all": "Lua के पास हर आइटम है!"
+      "all": "Lua के पास हर इनाम है!"
     },
     "nextUnlock": "<bold>{{item}}</bold> अनलॉक करने के लिए {{xp}} XP और कमाएँ।",
     "allUnlocked": "रास्ते के सभी इनाम अनलॉक हो गए हैं।",
     "toast": {
       "unlocked": "{{item}} अनलॉक हुआ!",
-      "earnToUnlock": "अनलॉक करने के लिए {{xp}} XP कमाएँ"
+      "earnToUnlock": "अनलॉक करने के लिए {{xp}} XP कमाएँ",
+      "skinOn": "{{name}} स्किन लग गई!"
     },
     "wardrobe": {
       "title": "अलमारी",
       "hint": "पहनने के लिए किसी आइटम पर टैप करें",
+      "skinsTitle": "स्किन",
+      "skinsHint": "स्किन इस्तेमाल करने के लिए टैप करें",
       "wearing": "पहना हुआ",
       "tapToWear": "पहनने के लिए टैप करें",
+      "tapToUse": "इस्तेमाल के लिए टैप करें",
+      "using": "चल रहा है",
+      "underCostume": "पोशाक के नीचे",
       "locked": "लॉक · {{xp}} XP"
     },
     "path": {
       "title": "अनलॉक रास्ता",
-      "count": "{{done}} / {{total}} आइटम",
+      "count": "{{done}} / {{total}} इनाम",
       "start": "शुरू",
       "earn": "{{xp}} XP कमाएँ",
       "preview": "झलक",
       "unlocked": "अनलॉक"
     },
+    "shop": {
+      "button": "दुकान",
+      "title": "दुकान",
+      "new": "नया",
+      "section": "पोशाक स्किन",
+      "hint": "Lua की पूरी पोशाकें",
+      "use": "इस्तेमाल",
+      "using": "चल रहा है",
+      "buyTitle": "{{name}} स्किन खरीदें?",
+      "cancel": "रद्द करें",
+      "buy": "{{price}} में खरीदें"
+    },
     "items": {
       "sneakers": "स्नीकर्स",
       "jeans": "डेनिम पैंट",
+      "cap": "बॉल कैप",
       "shades": "पिक्सेल चश्मा",
       "beanie": "गरम टोपी",
+      "shorts": "ट्रैक शॉर्ट्स",
       "scarf": "धारीदार स्कार्फ़",
+      "headphones": "हेडफ़ोन",
+      "boots": "बारिश के जूते",
+      "hoodie": "हूडी",
+      "cape": "हीरो काप",
+      "wizard": "जादूगर की टोपी",
       "crown": "सुनहरा मुकुट"
+    },
+    "skins": {
+      "classic": "क्लासिक",
+      "mint": "पुदीना",
+      "strawberry": "स्ट्रॉबेरी",
+      "midnight": "मध्यरात्रि",
+      "gold": "सोना"
+    },
+    "skinRewards": {
+      "mint": "पुदीना स्किन",
+      "strawberry": "स्ट्रॉबेरी स्किन",
+      "midnight": "मध्यरात्रि स्किन",
+      "gold": "सोने की स्किन"
+    },
+    "costumes": {
+      "soldier": "सैनिक",
+      "samurai": "सामुराई",
+      "office": "ऑफिस मैन",
+      "ninja": "निंजा",
+      "spy": "जासूस",
+      "student": "विद्यार्थी",
+      "astronaut": "अंतरिक्ष यात्री",
+      "knight": "शूरवीर",
+      "pirate": "समुद्री डाकू",
+      "chef": "शेफ",
+      "firefighter": "अग्निशामक",
+      "doctor": "डॉक्टर",
+      "cowboy": "काउबॉय",
+      "robot": "रोबोट",
+      "viking": "वाइकिंग",
+      "hero": "सुपरहीरो"
     },
     "a11y": {
       "avatar": "Lua",
       "avatarWearing": "Lua ने {{items}} पहना है",
+      "avatarCostume": "Lua ने {{name}} पोशाक पहनी है",
       "avatarHint": "टैप करें, Lua उछलेगी",
       "itemLocked": "{{item}}, लॉक, {{xp}} XP पर अनलॉक होगा",
       "itemOwned": "{{item}}, आपके पास है, पहनने के लिए टैप करें",
       "itemWearing": "{{item}}, पहना हुआ, उतारने के लिए टैप करें",
+      "itemUnderCostume": "{{item}}, पोशाक के नीचे पहना है, पोशाक उतारने के लिए टैप करें",
+      "skinLocked": "{{skin}}, लॉक, {{xp}} XP पर अनलॉक होगी",
+      "skinOwned": "{{skin}}, आपके पास है, इस्तेमाल के लिए टैप करें",
+      "skinUsing": "{{skin}}, चल रहा है",
+      "costumeOwned": "{{name}}, आपके पास है, इस्तेमाल के लिए टैप करें",
+      "costumeUsing": "{{name}}, चल रहा है",
+      "shop": "दुकान",
+      "shopHint": "Lua की पोशाक स्किन",
+      "closeShop": "दुकान बंद करें",
       "milestoneUnlocked": "{{item}}, {{xp}} XP पर अनलॉक हुआ",
       "milestoneLocked": "{{item}}, लॉक, {{xp}} XP पर अनलॉक होगा"
     }
