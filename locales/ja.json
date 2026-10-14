@@ -4,7 +4,7 @@
     "schedule": "スケジュール",
     "profile": "プロフィール",
     "stats": "統計",
-    "achievements": "実績"
+    "achievements": "カスタム"
   },
   "common": {
     "appName": "Lua",
@@ -231,50 +231,116 @@
     }
   },
   "achievements": {
-    "title": "マイルストーン",
+    "title": "カスタム",
     "xpAmount": "{{xp}} XP",
     "xpBarLabel": "{{xp}} / {{next}} XP",
     "headline": {
       "none": "Lua はまだ始めたばかり",
       "some": "Lua、きまってるね",
-      "all": "Lua はアイテムをコンプリート！"
+      "all": "Lua はごほうびをコンプリート！"
     },
     "nextUnlock": "あと {{xp}} XP で<bold>{{item}}</bold>をアンロック。",
     "allUnlocked": "パスのごほうびはすべてアンロック済みです。",
     "toast": {
       "unlocked": "{{item}}をアンロック！",
-      "earnToUnlock": "{{xp}} XP でアンロック"
+      "earnToUnlock": "{{xp}} XP でアンロック",
+      "skinOn": "{{name}}スキンを装備！"
     },
     "wardrobe": {
       "title": "クローゼット",
       "hint": "アイテムをタップして着る",
+      "skinsTitle": "スキン",
+      "skinsHint": "スキンをタップして使う",
       "wearing": "着用中",
       "tapToWear": "タップで着る",
+      "tapToUse": "タップで使う",
+      "using": "使用中",
+      "underCostume": "コスチュームの下",
       "locked": "ロック中 · {{xp}} XP"
     },
     "path": {
       "title": "アンロックパス",
-      "count": "{{done}} / {{total}} アイテム",
+      "count": "{{done}} / {{total}} ごほうび",
       "start": "スタート",
       "earn": "{{xp}} XP で獲得",
       "preview": "プレビュー",
       "unlocked": "アンロック済み"
     },
+    "shop": {
+      "button": "ショップ",
+      "title": "ショップ",
+      "new": "NEW",
+      "section": "コスチュームスキン",
+      "hint": "Lua の全身コーデ",
+      "use": "使う",
+      "using": "使用中",
+      "buyTitle": "{{name}}スキンを買いますか？",
+      "cancel": "キャンセル",
+      "buy": "{{price}} で買う"
+    },
     "items": {
       "sneakers": "スニーカー",
       "jeans": "デニムパンツ",
+      "cap": "ボールキャップ",
       "shades": "ピクセルサングラス",
       "beanie": "ふわふわニット帽",
+      "shorts": "トラックパンツ",
       "scarf": "しましまマフラー",
+      "headphones": "ヘッドホン",
+      "boots": "レインブーツ",
+      "hoodie": "フーディー",
+      "cape": "ヒーローマント",
+      "wizard": "魔法使いの帽子",
       "crown": "金の王冠"
+    },
+    "skins": {
+      "classic": "クラシック",
+      "mint": "ミント",
+      "strawberry": "ストロベリー",
+      "midnight": "ミッドナイト",
+      "gold": "ゴールド"
+    },
+    "skinRewards": {
+      "mint": "ミントスキン",
+      "strawberry": "ストロベリースキン",
+      "midnight": "ミッドナイトスキン",
+      "gold": "ゴールドスキン"
+    },
+    "costumes": {
+      "soldier": "ソルジャー",
+      "samurai": "サムライ",
+      "office": "サラリーマン",
+      "ninja": "忍者",
+      "spy": "スパイ",
+      "student": "学生",
+      "astronaut": "宇宙飛行士",
+      "knight": "ナイト",
+      "pirate": "海賊",
+      "chef": "シェフ",
+      "firefighter": "消防士",
+      "doctor": "ドクター",
+      "cowboy": "カウボーイ",
+      "robot": "ロボット",
+      "viking": "バイキング",
+      "hero": "スーパーヒーロー"
     },
     "a11y": {
       "avatar": "Lua",
       "avatarWearing": "{{items}}を身につけた Lua",
+      "avatarCostume": "{{name}}のコスチュームを着た Lua",
       "avatarHint": "タップすると Lua がジャンプします",
       "itemLocked": "{{item}}、ロック中、{{xp}} XP でアンロック",
       "itemOwned": "{{item}}、所持中、タップで着る",
       "itemWearing": "{{item}}、着用中、タップで外す",
+      "itemUnderCostume": "{{item}}、コスチュームの下に装備中。タップでコスチュームを外す",
+      "skinLocked": "{{skin}}、ロック中、{{xp}} XP でアンロック",
+      "skinOwned": "{{skin}}、所持中、タップで使う",
+      "skinUsing": "{{skin}}、使用中",
+      "costumeOwned": "{{name}}、所持中、タップで使う",
+      "costumeUsing": "{{name}}、使用中",
+      "shop": "ショップ",
+      "shopHint": "Lua のコスチュームスキン",
+      "closeShop": "ショップを閉じる",
       "milestoneUnlocked": "{{item}}、{{xp}} XP でアンロック済み",
       "milestoneLocked": "{{item}}、ロック中、{{xp}} XP でアンロック"
     }
