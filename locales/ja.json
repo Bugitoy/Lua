@@ -174,7 +174,7 @@
   },
   "manageProfile": {
     "title": "プロフィール管理",
-    "changePhoto": "写真を変更",
+    "customizeLook": "Luaをカスタマイズ",
     "displayNameLabel": "表示名",
     "displayNamePlaceholder": "あなたの名前",
     "handleLabel": "ハンドル",
@@ -183,9 +183,7 @@
     "errorTitle": "保存できませんでした",
     "errorEmptyName": "表示名を入力してください。",
     "errorInvalidHandle": "ハンドルは@で始まり、2〜30文字（英数字とアンダースコア）である必要があります。",
-    "errorSave": "問題が発生しました。もう一度お試しください。",
-    "permissionDeniedTitle": "権限が必要です",
-    "permissionDeniedMessage": "プロフィール写真を選ぶには写真へのアクセスを許可してください。"
+    "errorSave": "問題が発生しました。もう一度お試しください。"
   },
   "stats": {
     "title": "統計",
@@ -425,6 +423,7 @@
     "luaLogo": "Lua ロゴ",
     "profile": "プロフィール",
     "profileAvatar": "プロフィールアバター",
+    "customizeAvatarHint": "クローゼットを開いてLuaを着せ替えます",
     "openProfile": "プロフィールを開く",
     "openLiveMap": "ライブマップを開く",
     "addScheduleItem": "スケジュール項目を追加",
