@@ -4,7 +4,7 @@
     "schedule": "일정",
     "profile": "프로필",
     "stats": "통계",
-    "achievements": "업적"
+    "achievements": "맞춤"
   },
   "common": {
     "appName": "Lua",
@@ -231,50 +231,116 @@
     }
   },
   "achievements": {
-    "title": "마일스톤",
+    "title": "맞춤",
     "xpAmount": "{{xp}} XP",
     "xpBarLabel": "{{xp}} / {{next}} XP",
     "headline": {
       "none": "Lua는 이제 막 시작했어요",
       "some": "Lua 오늘 멋진데요",
-      "all": "Lua가 모든 아이템을 모았어요!"
+      "all": "Lua가 모든 보상을 모았어요!"
     },
     "nextUnlock": "<bold>{{item}}</bold> 잠금 해제까지 {{xp}} XP 남았어요.",
     "allUnlocked": "경로의 모든 보상을 잠금 해제했어요.",
     "toast": {
       "unlocked": "{{item}} 잠금 해제!",
-      "earnToUnlock": "{{xp}} XP를 모으면 잠금 해제"
+      "earnToUnlock": "{{xp}} XP를 모으면 잠금 해제",
+      "skinOn": "{{name}} 스킨 착용!"
     },
     "wardrobe": {
       "title": "옷장",
       "hint": "아이템을 탭해서 입어 보세요",
+      "skinsTitle": "스킨",
+      "skinsHint": "스킨을 탭해서 사용해 보세요",
       "wearing": "착용 중",
       "tapToWear": "탭해서 착용",
+      "tapToUse": "탭해서 사용",
+      "using": "사용 중",
+      "underCostume": "코스튬 아래",
       "locked": "잠김 · {{xp}} XP"
     },
     "path": {
       "title": "잠금 해제 경로",
-      "count": "{{done}} / {{total}} 아이템",
+      "count": "{{done}} / {{total}} 보상",
       "start": "시작",
       "earn": "{{xp}} XP 획득",
       "preview": "미리보기",
       "unlocked": "잠금 해제됨"
     },
+    "shop": {
+      "button": "상점",
+      "title": "상점",
+      "new": "NEW",
+      "section": "코스튬 스킨",
+      "hint": "Lua의 풀 세트 의상",
+      "use": "사용",
+      "using": "사용 중",
+      "buyTitle": "{{name}} 스킨을 살까요?",
+      "cancel": "취소",
+      "buy": "{{price}}에 구매"
+    },
     "items": {
       "sneakers": "운동화",
       "jeans": "청바지",
+      "cap": "볼캡",
       "shades": "픽셀 선글라스",
       "beanie": "포근한 비니",
+      "shorts": "트랙 반바지",
       "scarf": "줄무늬 목도리",
+      "headphones": "헤드폰",
+      "boots": "장화",
+      "hoodie": "후드티",
+      "cape": "히어로 망토",
+      "wizard": "마법사 모자",
       "crown": "황금 왕관"
+    },
+    "skins": {
+      "classic": "클래식",
+      "mint": "민트",
+      "strawberry": "스트로베리",
+      "midnight": "미드나잇",
+      "gold": "골드"
+    },
+    "skinRewards": {
+      "mint": "민트 스킨",
+      "strawberry": "스트로베리 스킨",
+      "midnight": "미드나잇 스킨",
+      "gold": "골드 스킨"
+    },
+    "costumes": {
+      "soldier": "군인",
+      "samurai": "사무라이",
+      "office": "회사원",
+      "ninja": "닌자",
+      "spy": "스파이",
+      "student": "학생",
+      "astronaut": "우주비행사",
+      "knight": "기사",
+      "pirate": "해적",
+      "chef": "셰프",
+      "firefighter": "소방관",
+      "doctor": "의사",
+      "cowboy": "카우보이",
+      "robot": "로봇",
+      "viking": "바이킹",
+      "hero": "슈퍼히어로"
     },
     "a11y": {
       "avatar": "Lua",
       "avatarWearing": "{{items}} 착용한 Lua",
+      "avatarCostume": "{{name}} 코스튬을 입은 Lua",
       "avatarHint": "탭하면 Lua가 점프해요",
       "itemLocked": "{{item}}, 잠김, {{xp}} XP에 잠금 해제",
       "itemOwned": "{{item}}, 보유 중, 탭해서 착용",
       "itemWearing": "{{item}}, 착용 중, 탭해서 벗기",
+      "itemUnderCostume": "{{item}}, 코스튬 아래에 착용 중, 탭해서 코스튬 벗기",
+      "skinLocked": "{{skin}}, 잠김, {{xp}} XP에 잠금 해제",
+      "skinOwned": "{{skin}}, 보유 중, 탭해서 사용",
+      "skinUsing": "{{skin}}, 사용 중",
+      "costumeOwned": "{{name}}, 보유 중, 탭해서 사용",
+      "costumeUsing": "{{name}}, 사용 중",
+      "shop": "상점",
+      "shopHint": "Lua의 코스튬 스킨",
+      "closeShop": "상점 닫기",
       "milestoneUnlocked": "{{item}}, {{xp}} XP에 잠금 해제됨",
       "milestoneLocked": "{{item}}, 잠김, {{xp}} XP에 잠금 해제"
     }
