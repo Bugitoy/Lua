@@ -174,7 +174,7 @@
   },
   "manageProfile": {
     "title": "프로필 관리",
-    "changePhoto": "사진 변경",
+    "customizeLook": "내 Lua 꾸미기",
     "displayNameLabel": "표시 이름",
     "displayNamePlaceholder": "이름",
     "handleLabel": "핸들",
@@ -183,9 +183,7 @@
     "errorTitle": "저장할 수 없음",
     "errorEmptyName": "표시 이름을 입력하세요.",
     "errorInvalidHandle": "핸들은 @로 시작하고 2–30자(영문, 숫자, 밑줄)여야 합니다.",
-    "errorSave": "문제가 발생했습니다. 다시 시도하세요.",
-    "permissionDeniedTitle": "권한 필요",
-    "permissionDeniedMessage": "프로필 사진을 선택하려면 사진 접근을 허용하세요."
+    "errorSave": "문제가 발생했습니다. 다시 시도하세요."
   },
   "stats": {
     "title": "통계",
@@ -425,6 +423,7 @@
     "luaLogo": "Lua 로고",
     "profile": "프로필",
     "profileAvatar": "프로필 아바타",
+    "customizeAvatarHint": "옷장을 열어 Lua를 꾸밉니다",
     "openProfile": "프로필 열기",
     "openLiveMap": "실시간 지도 열기",
     "addScheduleItem": "일정 항목 추가",
