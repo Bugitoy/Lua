@@ -174,7 +174,7 @@
   },
   "manageProfile": {
     "title": "管理个人资料",
-    "changePhoto": "更换照片",
+    "customizeLook": "装扮你的 Lua",
     "displayNameLabel": "显示名称",
     "displayNamePlaceholder": "你的姓名",
     "handleLabel": "用户名",
@@ -183,9 +183,7 @@
     "errorTitle": "无法保存",
     "errorEmptyName": "请输入显示名称。",
     "errorInvalidHandle": "用户名须以 @ 开头，长度为 2–30 个字符（字母、数字、下划线）。",
-    "errorSave": "出错了，请重试。",
-    "permissionDeniedTitle": "需要权限",
-    "permissionDeniedMessage": "请允许访问照片以选择头像。"
+    "errorSave": "出错了，请重试。"
   },
   "stats": {
     "title": "统计",
@@ -425,6 +423,7 @@
     "luaLogo": "Lua 标志",
     "profile": "个人资料",
     "profileAvatar": "个人资料头像",
+    "customizeAvatarHint": "打开衣橱为你的 Lua 换装",
     "openProfile": "打开个人资料",
     "openLiveMap": "打开实时地图",
     "addScheduleItem": "添加日程项目",
