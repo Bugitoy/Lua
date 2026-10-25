@@ -96,6 +96,7 @@
       "titlePlaceholder": "Ajouter un titre",
       "location": "Lieu",
       "locationSearchHint": "Saisissez au moins 2 caractères pour rechercher partout (votre position aide à classer les noms similaires).",
+      "pickOnMap": "Choisir sur la carte",
       "addButton": "Ajouter au planning",
       "defaultCategory": "Événement"
     },
@@ -103,6 +104,13 @@
       "waitingForGps": "En attente du GPS…",
       "placeholder": "Rechercher un lieu dans le monde…",
       "noResults": "Aucun lieu correspondant. Essayez un autre nom."
+    },
+    "mapPicker": {
+      "title": "Choisir un lieu",
+      "hint": "Déplacez la carte ou touchez pour placer l'épingle",
+      "confirm": "Utiliser ce lieu",
+      "findingAddress": "Recherche de l'adresse…",
+      "droppedPin": "Épingle placée"
     },
     "card": {
       "goalComplete": "Objectif accompli"

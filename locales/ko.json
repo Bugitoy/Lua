@@ -96,6 +96,7 @@
       "titlePlaceholder": "제목 추가",
       "location": "위치",
       "locationSearchHint": "2자 이상 입력하면 전 세계를 검색할 수 있습니다(내 위치는 비슷한 이름 정렬에 도움이 됩니다).",
+      "pickOnMap": "지도에서 선택",
       "addButton": "일정에 추가",
       "defaultCategory": "이벤트"
     },
@@ -103,6 +104,13 @@
       "waitingForGps": "GPS 대기 중…",
       "placeholder": "전 세계 장소 검색…",
       "noResults": "일치하는 장소가 없습니다. 다른 이름을 시도해 보세요."
+    },
+    "mapPicker": {
+      "title": "위치 선택",
+      "hint": "지도를 움직이거나 탭해서 핀을 놓으세요",
+      "confirm": "이 위치 사용",
+      "findingAddress": "주소 찾는 중…",
+      "droppedPin": "놓은 핀"
     },
     "card": {
       "goalComplete": "목표 완료"

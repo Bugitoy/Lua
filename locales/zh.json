@@ -96,6 +96,7 @@
       "titlePlaceholder": "添加标题",
       "location": "位置",
       "locationSearchHint": "输入至少 2 个字符即可搜索全球地点（你的位置有助于排序相似名称）。",
+      "pickOnMap": "在地图上选择",
       "addButton": "添加到日程",
       "defaultCategory": "活动"
     },
@@ -103,6 +104,13 @@
       "waitingForGps": "正在等待 GPS…",
       "placeholder": "搜索全球任意地点…",
       "noResults": "没有匹配的地点。请尝试其他名称。"
+    },
+    "mapPicker": {
+      "title": "选择位置",
+      "hint": "移动地图或点按以放置图钉",
+      "confirm": "使用此位置",
+      "findingAddress": "正在查找地址…",
+      "droppedPin": "已放置的图钉"
     },
     "card": {
       "goalComplete": "目标已完成"

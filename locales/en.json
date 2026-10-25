@@ -104,6 +104,7 @@
       "titlePlaceholder": "Add a title",
       "location": "Location",
       "locationSearchHint": "Type at least 2 characters to search anywhere (your location helps rank similar names).",
+      "pickOnMap": "Pick on map",
       "addButton": "Add to schedule",
       "defaultCategory": "Event"
     },
@@ -111,6 +112,13 @@
       "waitingForGps": "Waiting for GPS…",
       "placeholder": "Search any place in the world…",
       "noResults": "No places match. Try a different name."
+    },
+    "mapPicker": {
+      "title": "Pick a location",
+      "hint": "Move the map or tap to place the pin",
+      "confirm": "Use this location",
+      "findingAddress": "Finding address…",
+      "droppedPin": "Dropped pin"
     },
     "card": {
       "goalComplete": "Goal complete"

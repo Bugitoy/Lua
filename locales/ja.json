@@ -96,6 +96,7 @@
       "titlePlaceholder": "タイトルを追加",
       "location": "場所",
       "locationSearchHint": "2 文字以上入力すると世界中を検索できます（現在地は類似名の並び替えに役立ちます）。",
+      "pickOnMap": "地図で選ぶ",
       "addButton": "スケジュールに追加",
       "defaultCategory": "イベント"
     },
@@ -103,6 +104,13 @@
       "waitingForGps": "GPS を待機中…",
       "placeholder": "世界中の場所を検索…",
       "noResults": "一致する場所がありません。別の名前を試してください。"
+    },
+    "mapPicker": {
+      "title": "場所を選択",
+      "hint": "地図を動かすかタップしてピンを置きます",
+      "confirm": "この場所を使う",
+      "findingAddress": "住所を検索中…",
+      "droppedPin": "ドロップしたピン"
     },
     "card": {
       "goalComplete": "目標達成"

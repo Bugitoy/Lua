@@ -96,6 +96,7 @@
       "titlePlaceholder": "Aggiungi un titolo",
       "location": "Posizione",
       "locationSearchHint": "Digita almeno 2 caratteri per cercare ovunque (la tua posizione aiuta a ordinare nomi simili).",
+      "pickOnMap": "Scegli sulla mappa",
       "addButton": "Aggiungi al programma",
       "defaultCategory": "Evento"
     },
@@ -103,6 +104,13 @@
       "waitingForGps": "In attesa del GPS…",
       "placeholder": "Cerca un luogo nel mondo…",
       "noResults": "Nessun luogo corrispondente. Prova un altro nome."
+    },
+    "mapPicker": {
+      "title": "Scegli un luogo",
+      "hint": "Sposta la mappa o tocca per posizionare il segnaposto",
+      "confirm": "Usa questo luogo",
+      "findingAddress": "Ricerca indirizzo…",
+      "droppedPin": "Segnaposto"
     },
     "card": {
       "goalComplete": "Obiettivo completato"
