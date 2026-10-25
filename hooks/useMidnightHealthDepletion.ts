@@ -1,6 +1,6 @@
 import { useEffect, useRef } from "react";
 
-import { updateGameStats, useGameStats } from "@/lib/gameStats";
+import { getGameStats, updateGameStats } from "@/lib/gameStats";
 
 /** Max health lost when the user completes 0 goals in a day (25% drop). */
 const MAX_DAILY_DEPLETION = 0.25;
@@ -27,14 +27,9 @@ function getTodayString(): string {
  *   No goals done   → 25 % depletion
  */
 export function useMidnightHealthDepletion(): void {
-  const { stats } = useGameStats();
-  const statsRef = useRef(stats);
-
-  // Keep ref current so the interval closure always reads the latest values
-  useEffect(() => {
-    statsRef.current = stats;
-  }, [stats]);
-
+  // Reads stats straight from the store when the day rolls over. Subscribing
+  // here would re-render the root layout (and the whole app) on every stats
+  // change, such as each second of a study session.
   const lastDateRef = useRef(getTodayString());
 
   useEffect(() => {
@@ -45,7 +40,7 @@ export function useMidnightHealthDepletion(): void {
       // ── Midnight has passed ──────────────────────────────────────────
       lastDateRef.current = today;
 
-      const { goalsDone, goalsTotal, healthRatio } = statsRef.current;
+      const { goalsDone, goalsTotal, healthRatio } = getGameStats();
 
       let newHealth = healthRatio;
       if (goalsTotal > 0) {
@@ -64,5 +59,5 @@ export function useMidnightHealthDepletion(): void {
     }, 30_000); // poll every 30 s
 
     return () => clearInterval(id);
-  }, []); // runs once; reads latest state via statsRef
+  }, []); // runs once; reads latest state via getGameStats
 }

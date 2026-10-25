@@ -51,6 +51,9 @@ export default function TabsLayout() {
         name="profile"
         options={{
           title: t("tabs.profile"),
+          // Display-only tabs subscribe to game stats; freezing them while hidden stops
+          // re-renders on every distance update and study-timer second.
+          freezeOnBlur: true,
           tabBarIcon: ({ color, size }) => (
             <Ionicons name="person-outline" size={size} color={color} />
           ),
@@ -80,6 +83,7 @@ export default function TabsLayout() {
         name="stats"
         options={{
           title: t("tabs.stats"),
+          freezeOnBlur: true,
           tabBarIcon: ({ color, size }) => (
             <Ionicons name="bar-chart-outline" size={size} color={color} />
           ),

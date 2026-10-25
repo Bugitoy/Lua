@@ -1,5 +1,5 @@
 import type { SkImage } from "@shopify/react-native-skia";
-import { type ReactNode } from "react";
+import { memo, type ReactNode } from "react";
 import { useTranslation } from "react-i18next";
 import { Pressable, Text, View } from "react-native";
 
@@ -43,7 +43,7 @@ type WardrobeProps = {
   onPressCostume: (id: CostumeId) => void;
 };
 
-export function Wardrobe({
+function WardrobeImpl({
   width,
   icons,
   iconsLocked,
@@ -275,3 +275,6 @@ function TileLabel({ name, status, active }: { name: string; status: string; act
     </>
   );
 }
+
+/** Skips re-rendering every tile canvas when the screen re-renders for unrelated state. */
+export const Wardrobe = memo(WardrobeImpl);

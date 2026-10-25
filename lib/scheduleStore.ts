@@ -1,4 +1,4 @@
-import { useSyncExternalStore } from "react";
+import { useMemo, useSyncExternalStore } from "react";
 
 import type { ScheduleThemeKey } from "@/components/schedule/scheduleTypes";
 
@@ -115,10 +115,13 @@ export function hasUnfinishedGoals(): boolean {
   return false;
 }
 
-/** Reactive list of scheduled goals in the order they were inserted. */
+/**
+ * Reactive list of scheduled goals in the order they were inserted. The array
+ * keeps its identity until the store changes, so it is safe as a memo/effect dep.
+ */
 export function useScheduledItems(): ScheduledItem[] {
   const snap = useSyncExternalStore(subscribe, getSnapshot);
-  return Array.from(snap.items.values());
+  return useMemo(() => Array.from(snap.items.values()), [snap]);
 }
 
 /** Re-renders only when the answer flips, not on every schedule change. */
