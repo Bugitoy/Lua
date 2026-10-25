@@ -357,14 +357,14 @@
       "dead": "LUA IST GESTORBEN",
       "critical": "Lua ist kritisch",
       "hurting": "Lua leidet",
-      "okay": "Lua geht es okay",
+      "cracking": "Lua bekommt Risse",
       "healthy": "Lua ist gesund"
     },
     "subtitle": {
       "dead": "Heute keine Ziele erreicht. Versuchen wir es morgen erneut.",
       "critical": "Lua hängt gerade so durch. Erreiche deine Ziele, um dich zu erholen!",
       "hurting": "Lua kämpft. Versuche heute mehr Ziele zu erreichen.",
-      "okay": "Lua geht es ganz gut, aber es gibt noch Luft nach oben.",
+      "cracking": "Lua bekommt erste Risse. Ein paar Ziele mehr flicken sie wieder.",
       "healthy": "{{done}} von {{total}} Zielen heute erreicht. Weiter so!"
     },
     "stats": {

@@ -1,36 +1,25 @@
-import { Image } from "expo-image";
-import { useEffect, useMemo } from "react";
+import { useMemo } from "react";
 import { PixelRatio, useWindowDimensions, View } from "react-native";
-import Animated, {
-  cancelAnimation,
-  Easing,
-  useAnimatedStyle,
-  useSharedValue,
-  withRepeat,
-  withTiming,
-} from "react-native-reanimated";
 
-import { SPRITE_HEALTH } from "@/constants/mapAssets";
+import { LuaDamage } from "@/components/health/luaDamage/LuaDamage";
+import type { LuaLook } from "@/components/health/luaDamage/luaDamageCore";
+import { ITEMS } from "@/constants/luaSprites";
+import { useIsOnScreen } from "@/hooks/useIsOnScreen";
+import { useMyLook } from "@/lib/avatarLook";
 
-/**
- * 2048×2048 sheet — 4 cols × 4 rows (512×512 px per cell in the bitmap).
- * Layout size uses `LAYOUT_REF_TILE_PX` so replacing the asset with higher-res
- * art does not change on-screen footprint (the sheet is scaled into the same dp box).
- *
- *   Row 0: full health  (ratio >= 0.75)
- *   Row 1: medium       (ratio >= 0.50)
- *   Row 2: low          (ratio >= 0.25)
- *   Row 3: dead         (ratio <  0.25)
- */
-const LAYOUT_REF_TILE_PX = 125;
-const COLS = 4;
+/** Same cut-off the health screen uses for its "dead" title; at or below it Lua is knocked out. */
+export const DEAD_RATIO = 0.001;
 
-function healthRow(ratio: number): number {
-  if (ratio >= 0.75) return 0;
-  if (ratio >= 0.5) return 1;
-  if (ratio >= 0.25) return 2;
-  return 3;
+/** Health 0..100 as LuaDamage takes it, with anything at or below DEAD_RATIO counting as 0. */
+export function healthPercentFor(ratio: number): number {
+  return ratio <= DEAD_RATIO ? 0 : Math.min(100, ratio * 100);
 }
+
+const LAYOUT_REF_TILE_PX = 125;
+/** On-screen size, as a multiple of 1% of the shorter screen side. */
+const SIZE_PER_VMIN = 0.7;
+/** LuaDamage fits Lua's whole reach (stars above, lying down sideways) into this box. */
+const HEIGHT_RATIO = 0.75;
 
 function frameWidthDp(pixelBase: number): number {
   const dpr = PixelRatio.get();
@@ -42,85 +31,39 @@ type HealthStatusSpriteProps = {
   healthRatio: number;
 };
 
+/**
+ * Lua drawn live with every damage effect blended by health (see luaDamage/LuaDamage.tsx):
+ * flashes and shakes on a drop, hops on a rise, tips over at 0 and gets back up after.
+ */
 export function HealthStatusSprite({ healthRatio }: HealthStatusSpriteProps) {
   const { width: vw, height: vh } = useWindowDimensions();
+  const { skin, costume, equipped } = useMyLook();
+  const onScreen = useIsOnScreen();
 
-  const pixelBase = useMemo(() => {
+  const width = useMemo(() => {
     const vmin = Math.min(vw, vh) / 100;
-    return Math.min(6, 1.15 * vmin);
+    return frameWidthDp(Math.min(6, SIZE_PER_VMIN * vmin));
   }, [vw, vh]);
+  const height = Math.round(width * HEIGHT_RATIO);
 
-  const frameW = useMemo(() => frameWidthDp(pixelBase), [pixelBase]);
-
-  const row = healthRow(healthRatio);
-  const isDead = row === 3;
-
-  // SharedValues so the animated worklet always reads the latest values.
-  const rowSV = useSharedValue(row);
-  const frameWSV = useSharedValue(frameW);
-
-  useEffect(() => {
-    rowSV.value = row;
-  }, [row, rowSV]);
-
-  useEffect(() => {
-    frameWSV.value = frameW;
-  }, [frameW, frameWSV]);
-
-  const progress = useSharedValue(0);
-
-  useEffect(() => {
-    if (isDead) {
-      cancelAnimation(progress);
-      progress.value = 0;
-      return;
-    }
-    progress.value = 0;
-    progress.value = withRepeat(
-      withTiming(COLS, { duration: 1000, easing: Easing.linear }),
-      -1,
-      false,
-    );
-  }, [isDead, progress]);
-
-  const sheetStyle = useAnimatedStyle(() => {
-    const fw = frameWSV.value;
-    const frame = Math.floor(progress.value % COLS);
-    return {
-      transform: [
-        { translateX: -frame * fw },
-        { translateY: -rowSV.value * fw },
-      ],
-    };
-  });
-
-  const sheetW = COLS * frameW;
-  const sheetH = COLS * frameW; // 4 rows × frameW
+  const look = useMemo<LuaLook>(
+    () => ({
+      skin,
+      costume,
+      items: ITEMS.filter((item) => equipped[item.slot] === item.id).map((item) => item.id),
+    }),
+    [skin, costume, equipped],
+  );
 
   return (
-    <View className="items-center justify-center" pointerEvents="none">
-      <View style={{ width: frameW, height: frameW, overflow: "hidden" }}>
-        <Animated.View
-          style={[
-            {
-              position: "absolute",
-              left: 0,
-              top: 0,
-              width: sheetW,
-              height: sheetH,
-            },
-            sheetStyle,
-          ]}
-        >
-          <Image
-            source={SPRITE_HEALTH}
-            style={{ width: sheetW, height: sheetH }}
-            contentFit="fill"
-            allowDownscaling={false}
-            transition={null}
-          />
-        </Animated.View>
-      </View>
+    <View pointerEvents="none">
+      <LuaDamage
+        health={healthPercentFor(healthRatio)}
+        look={look}
+        width={width}
+        height={height}
+        paused={!onScreen}
+      />
     </View>
   );
 }

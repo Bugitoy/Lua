@@ -357,14 +357,14 @@
       "dead": "LUA 已死亡",
       "critical": "Lua 处于危急状态",
       "hurting": "Lua 正在受伤",
-      "okay": "Lua 状态一般",
+      "cracking": "Lua 开始裂开了",
       "healthy": "Lua 很健康"
     },
     "subtitle": {
       "dead": "今天没有完成任何目标。明天再试试吧。",
       "critical": "Lua 快要撑不住了。完成目标来恢复吧！",
       "hurting": "Lua 正在挣扎。今天尽量完成更多目标。",
-      "okay": "Lua 状态还可以，但还有提升空间。",
+      "cracking": "Lua 开始出现裂痕。再完成几个目标就能修好她。",
       "healthy": "今天已完成 {{done}}/{{total}} 个目标。继续保持！"
     },
     "stats": {

@@ -6,7 +6,8 @@ import { useTranslation } from "react-i18next";
 import { Pressable, ScrollView, Text, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
-import { HealthStatusSprite } from "@/components/health/HealthStatusSprite";
+import { healthPercentFor, HealthStatusSprite } from "@/components/health/HealthStatusSprite";
+import { damageStage } from "@/components/health/luaDamage/luaDamageCore";
 import { Pixelify } from "@/constants/fonts";
 import { LUA_GREEN } from "@/constants/mapAssets";
 import { formatHours } from "@/lib/formatters";
@@ -51,27 +52,19 @@ export default function HealthStatusScreen() {
     stats;
 
   const healthPercent = Math.round(healthRatio * 100);
-  const isDead = healthRatio <= 0.001;
+  // Same bands as the sprite: hurting first, then the crack appears, then critical.
+  const stage = damageStage(healthPercentFor(healthRatio));
+  const isDead = stage === "knockedOut";
+  const copyKey = {
+    healthy: "healthy",
+    hurting: "hurting",
+    dazed: "cracking",
+    damaged: "critical",
+    knockedOut: "dead",
+  }[stage];
 
-  const healthTitle = isDead
-    ? t("health.status.dead")
-    : healthRatio < 0.25
-      ? t("health.status.critical")
-      : healthRatio < 0.5
-        ? t("health.status.hurting")
-        : healthRatio < 0.75
-          ? t("health.status.okay")
-          : t("health.status.healthy");
-
-  const healthSubtitle = isDead
-    ? t("health.subtitle.dead")
-    : healthRatio < 0.25
-      ? t("health.subtitle.critical")
-      : healthRatio < 0.5
-        ? t("health.subtitle.hurting")
-        : healthRatio < 0.75
-          ? t("health.subtitle.okay")
-          : t("health.subtitle.healthy", { done: goalsDone, total: goalsTotal });
+  const healthTitle = t(`health.status.${copyKey}`);
+  const healthSubtitle = t(`health.subtitle.${copyKey}`, { done: goalsDone, total: goalsTotal });
 
   return (
     <View className="flex-1 bg-white">
@@ -92,7 +85,7 @@ export default function HealthStatusScreen() {
           {t("health.title")}
         </Text>
 
-        <View className="mb-[-14rem] px-1">
+        <View className="px-1">
           <View className="h-8 overflow-hidden rounded-full bg-neutral-200">
             <View className="absolute bottom-2 left-3 top-2 z-10 justify-center">
               <Text

@@ -429,14 +429,14 @@
       "dead": "LUA HAS DIED",
       "critical": "Lua is critical",
       "hurting": "Lua is hurting",
-      "okay": "Lua is okay",
+      "cracking": "Lua is cracking",
       "healthy": "Lua is healthy"
     },
     "subtitle": {
       "dead": "Zero goals completed today. Let's try again tomorrow.",
       "critical": "Lua is barely hanging on. Complete your goals to recover!",
       "hurting": "Lua is struggling. Try to get more goals done today.",
-      "okay": "Lua is doing alright, but there's room to improve.",
+      "cracking": "Lua is starting to crack. A few more goals will patch her up.",
       "healthy": "{{done}} of {{total}} goals done today. Keep it up!"
     },
     "stats": {
