@@ -34,6 +34,8 @@ type NearbyLocationSearchFieldProps = {
   pickedTitle?: string | null;
   /** Clear the currently picked place. */
   onClearPick?: () => void;
+  /** Called when the search input gains focus. */
+  onFocus?: () => void;
 };
 
 export function NearbyLocationSearchField({
@@ -44,6 +46,7 @@ export function NearbyLocationSearchField({
   active,
   pickedTitle,
   onClearPick,
+  onFocus,
 }: NearbyLocationSearchFieldProps) {
   const { t } = useTranslation();
   const [results, setResults] = useState<NearbyPlace[]>([]);
@@ -164,7 +167,10 @@ export function NearbyLocationSearchField({
               onChangeQuery(t);
               setMenuOpen(true);
             }}
-            onFocus={() => setMenuOpen(true)}
+            onFocus={() => {
+              setMenuOpen(true);
+              onFocus?.();
+            }}
             placeholder={
               showWaiting
                 ? t("schedule.search.waitingForGps")

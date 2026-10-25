@@ -96,6 +96,7 @@
       "titlePlaceholder": "Titel hinzufügen",
       "location": "Ort",
       "locationSearchHint": "Gib mindestens 2 Zeichen ein, um überall zu suchen (dein Standort hilft bei ähnlichen Namen).",
+      "pickOnMap": "Auf Karte wählen",
       "addButton": "Zum Zeitplan hinzufügen",
       "defaultCategory": "Ereignis"
     },
@@ -103,6 +104,13 @@
       "waitingForGps": "Warte auf GPS…",
       "placeholder": "Suche einen Ort weltweit…",
       "noResults": "Keine passenden Orte. Probiere einen anderen Namen."
+    },
+    "mapPicker": {
+      "title": "Ort auswählen",
+      "hint": "Verschiebe die Karte oder tippe, um die Nadel zu setzen",
+      "confirm": "Diesen Ort verwenden",
+      "findingAddress": "Adresse wird gesucht…",
+      "droppedPin": "Gesetzte Nadel"
     },
     "card": {
       "goalComplete": "Ziel erreicht"

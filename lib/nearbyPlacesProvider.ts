@@ -364,3 +364,99 @@ export const schedulePlacesSearchProvider: NearbyPlacesProvider = {
     return nominatimPlacesProvider.getNearbyPlaces(args);
   },
 };
+
+// ─── Reverse geocoding ───────────────────────────────────────────────────────
+
+const PHOTON_REVERSE_URL = "https://photon.komoot.io/reverse";
+const NOMINATIM_REVERSE_URL = "https://nominatim.openstreetmap.org/reverse";
+
+async function photonReverse(
+  latitude: number,
+  longitude: number,
+  signal?: AbortSignal,
+): Promise<NearbyPlace | null> {
+  const params = new URLSearchParams({
+    lat: String(latitude),
+    lon: String(longitude),
+    limit: "1",
+  });
+  const response = await fetch(`${PHOTON_REVERSE_URL}?${params.toString()}`, {
+    signal,
+  });
+  if (!response.ok) {
+    throw new Error(`Photon reverse failed: ${response.status}`);
+  }
+  const body = (await response.json()) as PhotonResponse;
+  const props = body.features?.[0]?.properties;
+  if (!props) return null;
+  const title = photonTitle(props);
+  if (title === "Unnamed place") return null;
+  return {
+    id: photonStableId(props, latitude, longitude),
+    title,
+    latitude,
+    longitude,
+  };
+}
+
+async function nominatimReverse(
+  latitude: number,
+  longitude: number,
+  signal?: AbortSignal,
+): Promise<NearbyPlace | null> {
+  const params = new URLSearchParams({
+    lat: String(latitude),
+    lon: String(longitude),
+    format: "jsonv2",
+    zoom: "18",
+  });
+  await waitForRateLimit();
+  const response = await fetch(
+    `${NOMINATIM_REVERSE_URL}?${params.toString()}`,
+    {
+      headers: {
+        "User-Agent": NOMINATIM_USER_AGENT,
+        Accept: "application/json",
+      },
+      signal,
+    },
+  );
+  if (!response.ok) {
+    throw new Error(`Nominatim reverse failed: ${response.status}`);
+  }
+  const entry = (await response.json()) as Partial<NominatimRawResult>;
+  const title =
+    entry.name?.trim() || entry.display_name?.split(",")[0]?.trim() || "";
+  if (!title) return null;
+  return {
+    id: String(entry.osm_id ?? entry.place_id ?? `${latitude},${longitude}`),
+    title,
+    latitude,
+    longitude,
+  };
+}
+
+/**
+ * Name the place at a coordinate (used when the user drops a pin on the map).
+ * The returned place keeps the exact coordinate the user picked. Photon first,
+ * Nominatim as fallback; resolves to null when neither knows a name.
+ */
+export async function reverseGeocode(
+  latitude: number,
+  longitude: number,
+  signal?: AbortSignal,
+): Promise<NearbyPlace | null> {
+  try {
+    const fromPhoton = await photonReverse(latitude, longitude, signal);
+    if (fromPhoton) return fromPhoton;
+  } catch {
+    if (signal?.aborted) return null;
+    // fall through to Nominatim
+  }
+  try {
+    return await nominatimReverse(latitude, longitude, signal);
+  } catch (err) {
+    if (signal?.aborted) return null;
+    throw err;
+  }
+}
