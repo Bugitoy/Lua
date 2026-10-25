@@ -32,6 +32,8 @@ export type LocationCoords = {
 type UseLocationOptions = {
   /** When true, requests higher fidelity / faster updates (e.g. while routing to a destination). */
   highFidelity?: boolean;
+  /** When false the GPS subscription is dropped; the last fix is kept. Defaults to true. */
+  enabled?: boolean;
 };
 
 type UseLocationResult = {
@@ -112,7 +114,7 @@ function headingFromVelocityDeg(vxMps: number, vyMps: number): number | null {
 }
 
 export function useLocation(options: UseLocationOptions = {}): UseLocationResult {
-  const { highFidelity = false } = options;
+  const { highFidelity = false, enabled = true } = options;
 
   const [location, setLocation] = useState<LocationCoords | null>(null);
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
@@ -135,16 +137,17 @@ export function useLocation(options: UseLocationOptions = {}): UseLocationResult
   /** Counts consecutive break-eligible fixes so a single noisy reading can't unlock us. */
   const breakConfirmationsRef = useRef(0);
   const onScreen = useIsOnScreen();
+  const active = onScreen && enabled;
 
   useEffect(() => {
-    // No fixes arrive while off screen, so start fresh on return instead of
+    // No fixes arrive while paused, so start fresh on return instead of
     // easing out from wherever Lua last saw the user.
-    if (!onScreen) initializedRef.current = false;
-  }, [onScreen]);
+    if (!active) initializedRef.current = false;
+  }, [active]);
 
   useEffect(() => {
     // Screen-off distance and check-ins come from the low-power background task.
-    if (!onScreen) return;
+    if (!active) return;
 
     let subscription: Location.LocationSubscription | null = null;
     let cancelled = false;
@@ -430,7 +433,7 @@ export function useLocation(options: UseLocationOptions = {}): UseLocationResult
       cancelled = true;
       subscription?.remove();
     };
-  }, [highFidelity, onScreen]);
+  }, [highFidelity, active]);
 
   return { location, errorMsg };
 }

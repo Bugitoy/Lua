@@ -1,5 +1,5 @@
 import * as Location from "expo-location";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 import { ensureForegroundLocationPermission } from "@/lib/locationPermission";
 
@@ -8,7 +8,7 @@ import { useIsOnScreen } from "./useIsOnScreen";
 export type CompassReading = {
   /** Smoothed heading in degrees, [0, 360). `null` until first valid sample. */
   heading: number | null;
-  /** Native heading accuracy bucket if reported; lower is better. */
+  /** Native heading accuracy bucket if reported; lower is better. Taken with `heading`. */
   accuracy: number | null;
 };
 
@@ -26,6 +26,13 @@ const TURNING_DEG_THRESHOLD = 18;
 
 /** Below this accuracy bucket (iOS-style 0-3 / Android raw degrees) the heading is dropped. */
 const MAX_HEADING_ACCURACY = 30;
+
+/**
+ * Smallest change (degrees) in the smoothed heading that is published to React.
+ * The sensor fires many times a second and every publish re-renders the map
+ * screen, while the sprite only faces four ways.
+ */
+const MIN_PUBLISH_DELTA_DEG = 3;
 
 /** Shortest signed arc between two compass headings, in degrees. */
 function shortestArcDeg(prevDeg: number, nextDeg: number): number {
@@ -51,8 +58,13 @@ function smoothHeadingCircular(
 }
 
 export function useCompass(): CompassReading {
-  const [heading, setHeading] = useState<number | null>(null);
-  const [accuracy, setAccuracy] = useState<number | null>(null);
+  const [compass, setCompass] = useState<CompassReading>({
+    heading: null,
+    accuracy: null,
+  });
+  /** Smoothed every sample; only published once it drifts far enough from `compass`. */
+  const smoothedRef = useRef<number | null>(null);
+  const publishedRef = useRef<number | null>(null);
   const onScreen = useIsOnScreen();
 
   useEffect(() => {
@@ -76,17 +88,29 @@ export function useCompass(): CompassReading {
           return;
         }
 
-        setHeading((prev) => {
-          // First sample: adopt it verbatim, no smoothing possible.
-          if (prev == null) return ((next % 360) + 360) % 360;
-          const arc = shortestArcDeg(prev, next);
-          const alpha =
-            arc >= TURNING_DEG_THRESHOLD
-              ? HEADING_ALPHA_TURNING
-              : HEADING_ALPHA_STEADY;
-          return smoothHeadingCircular(prev, next, alpha);
-        });
-        setAccuracy(reading.accuracy ?? null);
+        const prev = smoothedRef.current;
+        // First sample: adopt it verbatim, no smoothing possible.
+        const smoothed =
+          prev == null
+            ? ((next % 360) + 360) % 360
+            : smoothHeadingCircular(
+                prev,
+                next,
+                shortestArcDeg(prev, next) >= TURNING_DEG_THRESHOLD
+                  ? HEADING_ALPHA_TURNING
+                  : HEADING_ALPHA_STEADY,
+              );
+        smoothedRef.current = smoothed;
+
+        const published = publishedRef.current;
+        if (
+          published != null &&
+          shortestArcDeg(published, smoothed) < MIN_PUBLISH_DELTA_DEG
+        ) {
+          return;
+        }
+        publishedRef.current = smoothed;
+        setCompass({ heading: smoothed, accuracy: reading.accuracy ?? null });
       });
     })();
 
@@ -96,5 +120,5 @@ export function useCompass(): CompassReading {
     };
   }, [onScreen]);
 
-  return { heading, accuracy };
+  return compass;
 }

@@ -67,7 +67,7 @@ export default function MapScreen() {
   // Two-pass initialization: first render boots the GPS subscription in High mode;
   // once the user drops a destination we switch the same subscription to BestForNavigation.
   const [hasDestination, setHasDestination] = useState(false);
-  const { location, errorMsg } = useFusedLocation({
+  const { location, gpsLocation, errorMsg } = useFusedLocation({
     highFidelity: hasDestination,
   });
 
@@ -79,13 +79,13 @@ export default function MapScreen() {
     hasArrived,
     setDestination,
     clearDestination,
-  } = useDestinationTracking(location);
+  } = useDestinationTracking(gpsLocation);
 
   useEffect(() => {
     setHasDestination(destination != null);
   }, [destination]);
 
-  useDistanceOdometer(location);
+  useDistanceOdometer(gpsLocation);
 
   const distanceMilesToDestination = useMemo(
     () =>
@@ -97,35 +97,39 @@ export default function MapScreen() {
 
   useEffect(() => {
     let active = true;
-    if (!location) return;
+    if (!gpsLocation) return;
 
     void noopNearbyPlacesProvider
       .getNearbyPlaces({
-        latitude: location.latitude,
-        longitude: location.longitude,
+        latitude: gpsLocation.latitude,
+        longitude: gpsLocation.longitude,
         radiusMeters: 1200,
       })
       .then((places) => {
-        if (active) setNearbyPlaces(places);
+        if (!active) return;
+        // A fresh empty array would re-render the whole map on every fix.
+        setNearbyPlaces((prev) =>
+          prev.length === 0 && places.length === 0 ? prev : places,
+        );
       });
 
     return () => {
       active = false;
     };
-  }, [location]);
+  }, [gpsLocation]);
 
   // Goal arrival detection + academic study prompt routing.
   useEffect(() => {
-    if (!location) return;
+    if (!gpsLocation) return;
 
-    checkInAtGoals(location);
+    checkInAtGoals(gpsLocation);
 
     let nearestAcademic: (typeof scheduledItems)[number] | null = null;
     let nearestAcademicDist = Number.POSITIVE_INFINITY;
 
     for (const item of scheduledItems) {
       const d = haversineMeters(
-        { latitude: location.latitude, longitude: location.longitude },
+        { latitude: gpsLocation.latitude, longitude: gpsLocation.longitude },
         { latitude: item.latitude, longitude: item.longitude },
       );
 
@@ -152,13 +156,13 @@ export default function MapScreen() {
     }
 
     const d = haversineMeters(
-      { latitude: location.latitude, longitude: location.longitude },
+      { latitude: gpsLocation.latitude, longitude: gpsLocation.longitude },
       { latitude: calloutGoal.latitude, longitude: calloutGoal.longitude },
     );
     if (d > STUDY_EXIT_RADIUS_METERS) {
       setStudyCalloutGoalId(null);
     }
-  }, [location, scheduledItems, studyCalloutGoalId, studySession.activeGoalId]);
+  }, [gpsLocation, scheduledItems, studyCalloutGoalId, studySession.activeGoalId]);
 
   const studyCalloutGoal = useMemo(
     () =>

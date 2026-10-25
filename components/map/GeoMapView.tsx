@@ -1,4 +1,5 @@
 import { Ionicons } from "@expo/vector-icons";
+import { useIsFocused } from "@react-navigation/native";
 import { memo, useEffect, useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Image, Pressable, StyleSheet, Text, View } from "react-native";
@@ -12,9 +13,13 @@ import MapView, {
   type Region,
 } from "react-native-maps";
 
-import { LUA_GREEN, SPRITE_CHARACTER } from "@/constants/mapAssets";
-import type { FusedLocation } from "@/hooks/useFusedLocation";
+import {
+  LUA_GREEN,
+  MAP_REGION_DELTA,
+  SPRITE_CHARACTER,
+} from "@/constants/mapAssets";
 import { useIsOnScreen } from "@/hooks/useIsOnScreen";
+import type { LocationCoords } from "@/hooks/useLocation";
 import type { LatLngPoint } from "@/lib/geo";
 import { spriteMapCoordinate } from "@/lib/mapMarker";
 import type { NearbyPlace } from "@/lib/nearbyPlacesProvider";
@@ -36,7 +41,6 @@ const MARKER_ANIM_MIN_DURATION_MS = 400;
 const MARKER_ANIM_MAX_DURATION_MS = 1200;
 const MARKER_ANIM_FIRST_FIX_DURATION_MS = 500;
 const EARTH_METERS_PER_DEG_LAT = 111_000;
-const INITIAL_REGION_DELTA = 0.0075;
 /** Hide GPS accuracy ring when zoomed out past this — fixed-meter circle shrinks on-screen and looks odd vs the sprite. */
 const ACCURACY_CIRCLE_HIDE_WHEN_LAT_DELTA_GT = 0.002;
 const GOAL_GLOW_RADIUS_METERS = 30;
@@ -47,7 +51,7 @@ const GOAL_COMPLETED_FILL = "rgba(22, 163, 74, 0.22)";
 const GOAL_COMPLETED_STROKE = "rgba(22, 163, 74, 0.9)";
 
 type GeoMapViewProps = {
-  currentLocation: FusedLocation | null;
+  currentLocation: LocationCoords | null;
   destination: LatLngPoint | null;
   nearbyPlaces: NearbyPlace[];
   scheduledItems?: ScheduledItem[];
@@ -60,8 +64,8 @@ function regionFor(latitude: number, longitude: number): Region {
   return {
     latitude,
     longitude,
-    latitudeDelta: INITIAL_REGION_DELTA,
-    longitudeDelta: INITIAL_REGION_DELTA,
+    latitudeDelta: MAP_REGION_DELTA,
+    longitudeDelta: MAP_REGION_DELTA,
   };
 }
 
@@ -72,6 +76,79 @@ function headingToSpriteRow(heading: number | null): number | null {
   if (heading >= 135 && heading < 225) return 0; // down
   return 3; // left
 }
+
+type UserSpriteMarkerProps = {
+  coordinate: AnimatedRegion;
+  heading: number | null;
+  isStationary: boolean;
+  /** False while the map can't be seen; the walk cycle and native snapshots stop. */
+  animating: boolean;
+  title: string;
+};
+
+/**
+ * Owns the walk-cycle timer so each frame re-renders only this marker rather
+ * than every goal pin and circle on the map.
+ */
+const UserSpriteMarker = memo(function UserSpriteMarker({
+  coordinate,
+  heading,
+  isStationary,
+  animating,
+  title,
+}: UserSpriteMarkerProps) {
+  const [spriteFrame, setSpriteFrame] = useState(0);
+  const [spriteRow, setSpriteRow] = useState(0);
+
+  // Sprite row: only adopt a new row when heading is actually known, otherwise hold last.
+  useEffect(() => {
+    const nextRow = headingToSpriteRow(heading);
+    if (nextRow != null) {
+      setSpriteRow(nextRow);
+    }
+  }, [heading]);
+
+  // Walk cycle when moving, gentle idle bob when stationary.
+  useEffect(() => {
+    if (!animating) return;
+    const cadenceMs = isStationary ? 520 : 170;
+    const idleFrames = [0, 2] as const;
+
+    const id = setInterval(() => {
+      setSpriteFrame((prev) => {
+        if (!isStationary) return (prev + 1) % SPRITE_COLS;
+        return prev === idleFrames[0] ? idleFrames[1] : idleFrames[0];
+      });
+    }, cadenceMs);
+
+    return () => clearInterval(id);
+  }, [isStationary, animating]);
+
+  return (
+    <MarkerAnimated
+      coordinate={coordinate as unknown as Region}
+      anchor={{ x: 0.5, y: 0.55 }}
+      tracksViewChanges={animating}
+      zIndex={999}
+      title={title}
+    >
+      <View style={styles.userSpriteFrame}>
+        <Image
+          source={SPRITE_CHARACTER}
+          style={[
+            styles.userSpriteSheet,
+            {
+              transform: [
+                { translateX: -spriteFrame * SPRITE_FRAME_SIZE },
+                { translateY: -spriteRow * SPRITE_FRAME_SIZE },
+              ],
+            },
+          ]}
+        />
+      </View>
+    </MarkerAnimated>
+  );
+});
 
 function GeoMapViewImpl({
   currentLocation,
@@ -97,12 +174,15 @@ function GeoMapViewImpl({
     });
   }
 
-  const [spriteFrame, setSpriteFrame] = useState(0);
-  const [spriteRow, setSpriteRow] = useState(0);
-  const [mapLatitudeDelta, setMapLatitudeDelta] = useState(INITIAL_REGION_DELTA);
+  /** Only the threshold crossing matters, so panning doesn't re-render the map. */
+  const [zoomedInForAccuracy, setZoomedInForAccuracy] = useState(
+    MAP_REGION_DELTA <= ACCURACY_CIRCLE_HIDE_WHEN_LAT_DELTA_GT,
+  );
 
   const isStationary = currentLocation?.isStationary ?? true;
   const onScreen = useIsOnScreen();
+  // Tabs stay mounted after a visit, so a map on a hidden tab would keep animating.
+  const isFocused = useIsFocused();
 
   const initialRegion = useMemo(
     () =>
@@ -182,34 +262,18 @@ function GeoMapViewImpl({
     );
   }, [currentLocation]);
 
-  // Sprite row: only adopt a new row when heading is actually known, otherwise hold last.
-  useEffect(() => {
-    const nextRow = headingToSpriteRow(currentLocation?.heading ?? null);
-    if (nextRow != null) {
-      setSpriteRow(nextRow);
-    }
-  }, [currentLocation?.heading]);
-
-  // Walk cycle when moving, gentle idle bob when stationary.
-  useEffect(() => {
-    if (!onScreen) return;
-    const cadenceMs = isStationary ? 520 : 170;
-    const idleFrames = [0, 2] as const;
-
-    const id = setInterval(() => {
-      setSpriteFrame((prev) => {
-        if (!isStationary) return (prev + 1) % SPRITE_COLS;
-        return prev === idleFrames[0] ? idleFrames[1] : idleFrames[0];
-      });
-    }, cadenceMs);
-
-    return () => clearInterval(id);
-  }, [isStationary, onScreen]);
-
   const pathCoordinates = useMemo(() => {
     if (!currentLocation || !destination) return [];
     return [spriteMapCoordinate(currentLocation), destination];
-  }, [currentLocation, destination]);
+    // Compass turns replace `currentLocation` without moving the line's start.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [
+    currentLocation?.latitude,
+    currentLocation?.longitude,
+    currentLocation?.vxMps,
+    currentLocation?.vyMps,
+    destination,
+  ]);
 
   const handleLongPress = (event: LongPressEvent) => {
     if (!interactive || !onSetDestination) return;
@@ -230,9 +294,7 @@ function GeoMapViewImpl({
       ? Math.min(currentLocation.accuracy, 60)
       : null;
 
-  const showAccuracyCircle =
-    accuracyRadius != null &&
-    mapLatitudeDelta <= ACCURACY_CIRCLE_HIDE_WHEN_LAT_DELTA_GT;
+  const showAccuracyCircle = accuracyRadius != null && zoomedInForAccuracy;
 
   return (
     <View style={styles.container}>
@@ -248,7 +310,9 @@ function GeoMapViewImpl({
         pitchEnabled={interactive}
         onLongPress={interactive ? handleLongPress : undefined}
         onRegionChangeComplete={(region) => {
-          setMapLatitudeDelta(region.latitudeDelta);
+          setZoomedInForAccuracy(
+            region.latitudeDelta <= ACCURACY_CIRCLE_HIDE_WHEN_LAT_DELTA_GT,
+          );
         }}
       >
         {currentLocation && showAccuracyCircle ? (
@@ -300,28 +364,13 @@ function GeoMapViewImpl({
         ))}
 
         {currentLocation && animatedCoordinateRef.current ? (
-          <MarkerAnimated
-            coordinate={animatedCoordinateRef.current as unknown as Region}
-            anchor={{ x: 0.5, y: 0.55 }}
-            tracksViewChanges
-            zIndex={999}
+          <UserSpriteMarker
+            coordinate={animatedCoordinateRef.current}
+            heading={currentLocation.heading}
+            isStationary={isStationary}
+            animating={onScreen && isFocused}
             title={t("map.markers.you")}
-          >
-            <View style={styles.userSpriteFrame}>
-              <Image
-                source={SPRITE_CHARACTER}
-                style={[
-                  styles.userSpriteSheet,
-                  {
-                    transform: [
-                      { translateX: -spriteFrame * SPRITE_FRAME_SIZE },
-                      { translateY: -spriteRow * SPRITE_FRAME_SIZE },
-                    ],
-                  },
-                ]}
-              />
-            </View>
-          </MarkerAnimated>
+          />
         ) : null}
 
         {destination ? (
