@@ -16,6 +16,12 @@ export const SPRITE_SHADOW = require("../assets/images/sprite-shadow.png");
 export const LUA_GREEN = "#16a34a";
 
 /**
+ * Lat/lng span (~830 m top to bottom) the live map and the location picker
+ * open at, so both show the same neighbourhood-level view.
+ */
+export const MAP_REGION_DELTA = 0.0075;
+
+/**
  * Real-world GPS bounding box of the campus map image.
  * topLeft  = NW corner (top-left pixel of the bitmap)
  * botRight = SE corner (bottom-right pixel of the bitmap)

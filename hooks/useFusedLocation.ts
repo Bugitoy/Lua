@@ -17,6 +17,11 @@ export type FusedLocation = LocationCoords & {
 
 type UseFusedLocationResult = {
   location: FusedLocation | null;
+  /**
+   * The GPS fix without the compass. Changes only when a new fix lands, so
+   * per-fix work (odometer, goal check-in) should key off this, not `location`.
+   */
+  gpsLocation: LocationCoords | null;
   errorMsg: string | null;
 };
 
@@ -64,5 +69,5 @@ export function useFusedLocation(
     };
   }, [location, compass.heading]);
 
-  return { location: fused, errorMsg };
+  return { location: fused, gpsLocation: location, errorMsg };
 }

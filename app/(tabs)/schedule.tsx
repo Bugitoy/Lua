@@ -1,4 +1,5 @@
 import { Ionicons } from "@expo/vector-icons";
+import { useIsFocused } from "@react-navigation/native";
 import { Link } from "expo-router";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import {
@@ -19,7 +20,7 @@ import { ScheduleItemCard } from "@/components/schedule/ScheduleItemCard";
 import type { ScheduleItemData } from "@/components/schedule/scheduleTypes";
 import { Pixelify } from "@/constants/fonts";
 import { LUA_GREEN } from "@/constants/mapAssets";
-import { useFusedLocation } from "@/hooks/useFusedLocation";
+import { useLocation } from "@/hooks/useLocation";
 import { updateGameStats } from "@/lib/gameStats";
 import { formatAppTime } from "@/lib/i18n/formatLocale";
 import { setScheduledItems, useScheduledItems } from "@/lib/scheduleStore";
@@ -29,7 +30,10 @@ export default function ScheduleScreen() {
   const insets = useSafeAreaInsets();
   const [items, setItems] = useState<ScheduleItemData[]>([]);
   const scheduledItems = useScheduledItems();
-  const { location } = useFusedLocation();
+  // The map tab already tracks the user; this one only needs a position while it
+  // is showing, and no compass for the small preview map.
+  const isFocused = useIsFocused();
+  const { location } = useLocation({ enabled: isFocused });
 
   /** Stable reference — inline `{ lat, lng }` changes every parent render and was resetting search debounce every second (live clock). */
   const userLocationForSearch = useMemo(
@@ -40,13 +44,21 @@ export default function ScheduleScreen() {
     [location?.latitude, location?.longitude],
   );
 
-  // Live clock — updates every second
+  // Live clock — shows hours and minutes, so it ticks on each minute boundary
+  // instead of re-rendering the whole screen every second.
   const [now, setNow] = useState(() => new Date());
-  const tickRef = useRef<ReturnType<typeof setInterval> | null>(null);
+  const tickRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   useEffect(() => {
-    tickRef.current = setInterval(() => setNow(new Date()), 1000);
+    const scheduleTick = () => {
+      const msToNextMinute = 60_000 - (Date.now() % 60_000);
+      tickRef.current = setTimeout(() => {
+        setNow(new Date());
+        scheduleTick();
+      }, msToNextMinute);
+    };
+    scheduleTick();
     return () => {
-      if (tickRef.current) clearInterval(tickRef.current);
+      if (tickRef.current) clearTimeout(tickRef.current);
     };
   }, []);
   const timeString = formatAppTime(now, {

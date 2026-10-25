@@ -1,13 +1,14 @@
 import { useEffect } from "react";
 
-import type { FusedLocation } from "@/hooks/useFusedLocation";
+import type { LocationCoords } from "@/hooks/useLocation";
 import { recordOdometerFix } from "@/lib/odometerRecorder";
 
 /**
- * Accumulates walked distance from fused GPS fixes with accuracy gating,
- * cold-start warmup, and frozen baseline while stationary.
+ * Accumulates walked distance from GPS fixes with accuracy gating,
+ * cold-start warmup, and frozen baseline while stationary. Pass the bare GPS
+ * fix: re-sending it on compass turns would count toward the warmup streak.
  */
-export function useDistanceOdometer(location: FusedLocation | null): void {
+export function useDistanceOdometer(location: LocationCoords | null): void {
   useEffect(() => {
     if (!location) return;
     recordOdometerFix(location, Date.now());
