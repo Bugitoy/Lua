@@ -1,21 +1,13 @@
 /**
- * Lua XP Rewards sprite sheets (v3).
+ * Lua XP Rewards: rewards, items, skins and costumes, plus the icon sheets.
  *
- * Every sheet is 2048×2048: 4 columns × 4 rows of 512×512 cells, one animation per row.
- * Each cell is a 32×32 art-pixel grid at exactly 16 bitmap px per art pixel, and the avatar's
- * feet sit on y = 464 in every cell of every sheet, so layers stack with no offsets.
- *
- * Paper-doll stacking order (bottom → top):
- *   BODY_SHEETS[skin], back, legs, top, feet, neck, face, head.
- * All layer sheets use the body sheet's rows and frames, so put every layer inside the same
- * view and move them with one translateX / translateY. Item sheets work on every colour skin.
- *
- * A costume sheet is the whole avatar: draw it instead of the body and every item.
- *
- * Sneakers and Rain Boots soles reach 2 art px (32 cell px) below the baseline. While either is
- * worn (and no costume is on), lift the whole stack by 32 cell px, scaled to the on-screen size.
+ * Lua itself (avatar, path previews, profile pictures, health states) is drawn live from the
+ * pixel art in components/achievements/luaArt.ts. Only icons and costume stills still come
+ * from sprite sheets: 4 columns × 4 rows, each cell a 32×32 art-pixel grid (16×16 for the
+ * clothing icons), the avatar's feet on art row 29 of every cell.
  */
 
+/** Grid of the original 2048×2048 sheets; on-screen layout still uses its art-pixel grid. */
 export const SHEET = {
   size: 2048,
   cell: 512,
@@ -24,14 +16,6 @@ export const SHEET = {
   artPixel: 16,
   artGrid: 32,
   baselineY: 464,
-} as const;
-
-/** Rows shared by every body, item and costume sheet. */
-export const AVATAR_ROWS = {
-  idle: 0,
-  blinkGlance: 1,
-  hop: 2,
-  happy: 3,
 } as const;
 
 export type ItemId =
@@ -138,110 +122,11 @@ export const COSTUMES: { id: CostumeId; price: string }[] = [
   { id: "hero", price: "$2.99" },
 ];
 
-/** Draw order for equipped items, bottom → top. */
-export const LAYER_ORDER: Slot[] = ["back", "legs", "top", "feet", "neck", "face", "head"];
-
-/** Items whose soles lift the avatar 2 art px while worn. */
-export const SHOE_ITEMS: readonly ItemId[] = ["sneakers", "boots"];
-
-export const BODY_SHEETS: Record<PaletteSkinId, number> = {
-  classic: require("../assets/images/achievements/avatar_body.png"),
-  mint: require("../assets/images/achievements/avatar_body_mint.png"),
-  strawberry: require("../assets/images/achievements/avatar_body_strawberry.png"),
-  midnight: require("../assets/images/achievements/avatar_body_midnight.png"),
-  gold: require("../assets/images/achievements/avatar_body_gold.png"),
-};
-
-export const ITEM_LAYERS: Record<ItemId, number> = {
-  sneakers: require("../assets/images/achievements/item_sneakers.png"),
-  jeans: require("../assets/images/achievements/item_jeans.png"),
-  cap: require("../assets/images/achievements/item_cap.png"),
-  shades: require("../assets/images/achievements/item_shades.png"),
-  beanie: require("../assets/images/achievements/item_beanie.png"),
-  shorts: require("../assets/images/achievements/item_shorts.png"),
-  scarf: require("../assets/images/achievements/item_scarf.png"),
-  headphones: require("../assets/images/achievements/item_headphones.png"),
-  boots: require("../assets/images/achievements/item_boots.png"),
-  hoodie: require("../assets/images/achievements/item_hoodie.png"),
-  cape: require("../assets/images/achievements/item_cape.png"),
-  wizard: require("../assets/images/achievements/item_wizard.png"),
-  crown: require("../assets/images/achievements/item_crown.png"),
-};
-
-export const COSTUME_SHEETS: Record<CostumeId, number> = {
-  soldier: require("../assets/images/achievements/costume_soldier.png"),
-  samurai: require("../assets/images/achievements/costume_samurai.png"),
-  office: require("../assets/images/achievements/costume_office.png"),
-  ninja: require("../assets/images/achievements/costume_ninja.png"),
-  spy: require("../assets/images/achievements/costume_spy.png"),
-  student: require("../assets/images/achievements/costume_student.png"),
-  astronaut: require("../assets/images/achievements/costume_astronaut.png"),
-  knight: require("../assets/images/achievements/costume_knight.png"),
-  pirate: require("../assets/images/achievements/costume_pirate.png"),
-  chef: require("../assets/images/achievements/costume_chef.png"),
-  firefighter: require("../assets/images/achievements/costume_firefighter.png"),
-  doctor: require("../assets/images/achievements/costume_doctor.png"),
-  cowboy: require("../assets/images/achievements/costume_cowboy.png"),
-  robot: require("../assets/images/achievements/costume_robot.png"),
-  viking: require("../assets/images/achievements/costume_viking.png"),
-  hero: require("../assets/images/achievements/costume_hero.png"),
-};
-
-/**
- * Milestone preview poses, one set of five sheets per colour skin, rewards in path order four
- * per sheet. Each shows Lua wearing only that item; a skin reward shows Lua in that skin.
- */
-export const PREVIEW_SHEETS: Record<PaletteSkinId, readonly number[]> = {
-  classic: [
-    require("../assets/images/achievements/preview_poses_1.png"),
-    require("../assets/images/achievements/preview_poses_2.png"),
-    require("../assets/images/achievements/preview_poses_3.png"),
-    require("../assets/images/achievements/preview_poses_4.png"),
-    require("../assets/images/achievements/preview_poses_5.png"),
-  ],
-  mint: [
-    require("../assets/images/achievements/preview_poses_1_mint.png"),
-    require("../assets/images/achievements/preview_poses_2_mint.png"),
-    require("../assets/images/achievements/preview_poses_3_mint.png"),
-    require("../assets/images/achievements/preview_poses_4_mint.png"),
-    require("../assets/images/achievements/preview_poses_5_mint.png"),
-  ],
-  strawberry: [
-    require("../assets/images/achievements/preview_poses_1_strawberry.png"),
-    require("../assets/images/achievements/preview_poses_2_strawberry.png"),
-    require("../assets/images/achievements/preview_poses_3_strawberry.png"),
-    require("../assets/images/achievements/preview_poses_4_strawberry.png"),
-    require("../assets/images/achievements/preview_poses_5_strawberry.png"),
-  ],
-  midnight: [
-    require("../assets/images/achievements/preview_poses_1_midnight.png"),
-    require("../assets/images/achievements/preview_poses_2_midnight.png"),
-    require("../assets/images/achievements/preview_poses_3_midnight.png"),
-    require("../assets/images/achievements/preview_poses_4_midnight.png"),
-    require("../assets/images/achievements/preview_poses_5_midnight.png"),
-  ],
-  gold: [
-    require("../assets/images/achievements/preview_poses_1_gold.png"),
-    require("../assets/images/achievements/preview_poses_2_gold.png"),
-    require("../assets/images/achievements/preview_poses_3_gold.png"),
-    require("../assets/images/achievements/preview_poses_4_gold.png"),
-    require("../assets/images/achievements/preview_poses_5_gold.png"),
-  ],
-};
-
-/** Index into a PREVIEW_SHEETS set, and row, for each reward. */
-export const PREVIEW_CELLS = Object.fromEntries(
-  REWARDS.map((r, i) => [rewardKey(r), { sheet: Math.floor(i / 4), row: i % 4 }]),
-) as Record<RewardKey, { sheet: number; row: number }>;
-
-/** Sparkle burst to overlay on the avatar when a reward unlocks (play once), in every preview set. */
-export const UNLOCK_BURST = { sheet: 4, row: 1 } as const;
-
 type Cell = [row: number, col: number];
 
 /** Clothing icons, one cell each; ITEM_ICONS_LOCKED has the greyed versions in the same cells. */
-export const ITEM_ICONS = require("../assets/images/achievements/item_icons.png");
-export const ITEM_ICONS_LOCKED = require("../assets/images/achievements/item_icons_locked.png");
+export const ITEM_ICONS = require("../assets/images/lua_sheets_v4/sheets_512/item_icons.png");
+export const ITEM_ICONS_LOCKED = require("../assets/images/lua_sheets_v4/sheets_512/item_icons_locked.png");
 export const ICON_CELLS: Record<ItemId, Cell> = {
   sneakers: [0, 0],
   jeans: [0, 1],
@@ -277,7 +162,7 @@ export const ICON_BOUNDS: Record<ItemId, ArtBounds> = {
 };
 
 /** Colour skin tiles; Classic is never locked. */
-export const SKIN_ICONS = require("../assets/images/achievements/skin_icons.png");
+export const SKIN_ICONS = require("../assets/images/lua_sheets_v4/sheets_512/skin_icons.png");
 export const SKIN_ICON_CELLS: Record<PaletteSkinId, { unlocked: Cell; locked: Cell }> = {
   classic: { unlocked: [0, 0], locked: [0, 0] },
   mint: { unlocked: [0, 1], locked: [1, 0] },
@@ -287,7 +172,7 @@ export const SKIN_ICON_CELLS: Record<PaletteSkinId, { unlocked: Cell; locked: Ce
 };
 
 /** A still front view of each costume, on the shared baseline, for shop and wardrobe tiles. */
-export const COSTUME_STILLS = require("../assets/images/achievements/skins_costumes.png");
+export const COSTUME_STILLS = require("../assets/images/lua_sheets_v4/sheets_1024/skins_costumes.png");
 export const COSTUME_CELLS = Object.fromEntries(
   COSTUMES.map((c, i) => [c.id, [Math.floor(i / 4), i % 4]]),
 ) as Record<CostumeId, Cell>;
