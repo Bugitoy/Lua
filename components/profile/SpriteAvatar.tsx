@@ -2,9 +2,8 @@ import { Canvas, Fill, Group, Image, Oval, Skia } from "@shopify/react-native-sk
 import { useMemo } from "react";
 import { PixelRatio, View } from "react-native";
 
-import { useLookLayers } from "@/components/achievements/spriteSheets";
-import { ACH, AVATAR_GRID, BASELINE_ART_Y, NEAREST } from "@/components/achievements/theme";
-import { SHOE_ITEMS } from "@/constants/luaSprites";
+import { lookLayers } from "@/components/achievements/luaArt";
+import { ACH, BASELINE_ART_Y, NEAREST } from "@/components/achievements/theme";
 import { useMyLook, type AvatarLook } from "@/lib/avatarLook";
 
 /** Art px across the circle: Lua from hat to soles, wide brims and capes included. */
@@ -14,6 +13,9 @@ const MIN_WINDOW_ART_PX = 23;
 /** Circle centre in cell art px, a little below the middle where the figure stands. */
 const CENTER_X = 16;
 const CENTER_Y = 18.5;
+/** Where the 12-wide figure's top-left sits in the 32×32 cell (as on the sprite sheets). */
+const FIGURE_X = 10;
+const FIGURE_Y = BASELINE_ART_Y - 16;
 
 const MY_BACKDROP = "#d1fae5";
 
@@ -45,15 +47,16 @@ export function SpriteAvatar({
   ringColor = "transparent",
   accessibilityLabel,
 }: SpriteAvatarProps) {
-  const layers = useLookLayers(look);
   const inner = size - 2 * ringWidth;
   const unit = artUnit(inner);
-  const cell = unit * AVATAR_GRID;
-  const shoesWorn = !look.costume && SHOE_ITEMS.some((id) => look.equipped.feet === id);
-  const lift = shoesWorn ? 2 * unit : 0;
+  // Drawn from the pixel art at exactly one bitmap pixel per device pixel, so it stays crisp.
+  const scale = Math.round(unit * PixelRatio.get());
+  const { layers, lift } = useMemo(() => lookLayers(look, scale), [look, scale]);
   const cellX = PixelRatio.roundToNearestPixel(inner / 2 - CENTER_X * unit);
   const cellY = PixelRatio.roundToNearestPixel(inner / 2 - CENTER_Y * unit);
   const baselineY = cellY + BASELINE_ART_Y * unit;
+  const figureX = cellX + FIGURE_X * unit;
+  const figureY = cellY + (FIGURE_Y - lift) * unit;
   const circle = useMemo(
     () => Skia.RRectXY(Skia.XYWHRect(0, 0, inner, inner), inner / 2, inner / 2),
     [inner],
@@ -82,20 +85,18 @@ export function SpriteAvatar({
             height={1.6 * unit}
             color="rgba(0,0,0,0.08)"
           />
-          <Group clip={{ x: cellX, y: cellY - lift, width: cell, height: cell }}>
-            {layers.map((image, i) => (
-              <Image
-                key={i}
-                image={image}
-                x={cellX}
-                y={cellY - lift}
-                width={4 * cell}
-                height={4 * cell}
-                fit="fill"
-                sampling={NEAREST}
-              />
-            ))}
-          </Group>
+          {layers.map((layer, i) => (
+            <Image
+              key={i}
+              image={layer.image}
+              x={figureX + layer.x * unit}
+              y={figureY + layer.y * unit}
+              width={layer.w * unit}
+              height={layer.h * unit}
+              fit="fill"
+              sampling={NEAREST}
+            />
+          ))}
         </Group>
       </Canvas>
     </View>

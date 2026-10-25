@@ -1,6 +1,6 @@
 import { useIsFocused } from "@react-navigation/native";
 import { StatusBar } from "expo-status-bar";
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Trans, useTranslation } from "react-i18next";
 import { ScrollView, Text, useWindowDimensions, View } from "react-native";
 import {
@@ -49,9 +49,8 @@ import {
   wearItems,
   type Equipped,
 } from "@/lib/achievementsStore";
-import { useGameStats } from "@/lib/gameStats";
 import { getAppLocale } from "@/lib/i18n/formatLocale";
-import { xpForStats } from "@/lib/xp";
+import { useStatsXp } from "@/lib/xp";
 
 const MAX_COLUMN_WIDTH = 430;
 const SIDE_MARGIN = 16;
@@ -82,11 +81,10 @@ export default function AchievementsScreen() {
   const onScreen = useIsOnScreen();
   const active = isFocused && onScreen;
 
-  const { stats } = useGameStats();
   const { equipped, hydrated, devXpBonus, skin, costume, ownedCostumes, shopOpened } =
     useAchievements();
-  const sheets = useAchievementSheets(skin, costume);
-  const statsXp = Math.floor(xpForStats(stats));
+  const sheets = useAchievementSheets();
+  const statsXp = useStatsXp();
   const xp = Math.max(0, statsXp + devXpBonus);
   const targetCount = unlockedCountForXp(xp);
 
@@ -191,10 +189,11 @@ export default function AchievementsScreen() {
       : withDelay(FLASH_GREEN_MS, withTiming(xp, COUNT_UP));
   }, [xp, ready, active, reduceMotion, xpCounter, xpFlashWhite, xpFlashGreen]);
 
-  const worn = ownedOnly(equipped, unlockedCount);
+  // Stable between renders so the memoized avatar stage and wardrobe can skip re-rendering.
+  const worn = useMemo(() => ownedOnly(equipped, unlockedCount), [equipped, unlockedCount]);
   const unlockedXp = lastUnlockedXp(unlockedCount);
 
-  const onPressItem = (id: ItemId) => {
+  const onPressItem = useCallback((id: ItemId) => {
     const item = ITEMS.find((entry) => entry.id === id)!;
     if (item.unlockXp > unlockedXp) {
       avatar.current?.showToast(
@@ -209,9 +208,9 @@ export default function AchievementsScreen() {
       return;
     }
     wearItems([id]);
-  };
+  }, [worn, unlockedXp, costume, locale, t]);
 
-  const onPressSkin = (id: PaletteSkinId) => {
+  const onPressSkin = useCallback((id: PaletteSkinId) => {
     const palette = PALETTE_SKINS.find((entry) => entry.id === id)!;
     if (palette.unlockXp > unlockedXp) {
       avatar.current?.showToast(
@@ -226,16 +225,16 @@ export default function AchievementsScreen() {
       { type: "skin", id },
       t("achievements.toast.skinOn", { name: t(`achievements.skins.${id}`) }),
     );
-  };
+  }, [unlockedXp, costume, skin, locale, t]);
 
-  const onPressCostume = (id: CostumeId) => {
+  const onPressCostume = useCallback((id: CostumeId) => {
     if (costume === id) return;
     wearCostume(id);
     avatar.current?.celebrateLook(
       { type: "costume", id },
       t("achievements.toast.skinOn", { name: t(`achievements.costumes.${id}`) }),
     );
-  };
+  }, [costume, t]);
 
   const openShop = () => {
     markShopOpened();
@@ -331,6 +330,7 @@ export default function AchievementsScreen() {
               ref={avatar}
               width={columnWidth}
               sheets={sheets}
+              skin={skin}
               equipped={worn}
               costume={costume}
               active={active}
@@ -387,6 +387,7 @@ export default function AchievementsScreen() {
           <UnlockPath
             width={columnWidth}
             sheets={sheets}
+            skin={skin}
             unlockedCount={unlockedCount}
             xp={xpCounter}
             xpFlashWhite={xpFlashWhite}

@@ -1,20 +1,22 @@
 import { Ionicons } from "@expo/vector-icons";
-import { Canvas, Path, Shader, Skia } from "@shopify/react-native-skia";
-import { Fragment, useEffect, useMemo } from "react";
+import { Canvas, createPicture, Path, Picture, Shader, Skia } from "@shopify/react-native-skia";
+import { Fragment, memo, useEffect, useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { Text, View } from "react-native";
+import { PixelRatio, Text, View } from "react-native";
 import Animated, {
   cancelAnimation,
   Easing,
   useAnimatedStyle,
   useDerivedValue,
+  useFrameCallback,
   useSharedValue,
   withRepeat,
   withTiming,
   type SharedValue,
 } from "react-native-reanimated";
 
-import { SKIN_ICON_CROP, SpriteIcon, SpritePreview } from "@/components/achievements/SpriteCell";
+import { drawPreviews, makePreviewModel, MAX_FRAME_STEP_S } from "@/components/achievements/previewArt";
+import { SKIN_ICON_CROP, SpriteIcon } from "@/components/achievements/SpriteCell";
 import type { AchievementSheets } from "@/components/achievements/spriteSheets";
 import {
   ACH,
@@ -36,11 +38,11 @@ import {
 import { Pixelify } from "@/constants/fonts";
 import {
   ICON_CELLS,
-  PREVIEW_CELLS,
   REWARDS,
   SKIN_ICON_CELLS,
   rewardI18nKey,
   rewardKey,
+  type PaletteSkinId,
 } from "@/constants/luaSprites";
 import { getAppLocale } from "@/lib/i18n/formatLocale";
 
@@ -63,7 +65,7 @@ const FRONT_TILES = 2;
 
 const BADGE = 56;
 const MAX_PREVIEW = 84;
-const PREVIEW_FPS = 7;
+const PREVIEW_BORDER = 1.5;
 const PULSE_MS = 1800;
 
 type MilestoneState = "done" | "next" | "locked";
@@ -71,6 +73,8 @@ type MilestoneState = "done" | "next" | "locked";
 type UnlockPathProps = {
   width: number;
   sheets: AchievementSheets;
+  /** Palette skin in use; item previews are drawn in it. */
+  skin: PaletteSkinId;
   unlockedCount: number;
   /** Counting-up XP, and the same count 140 ms and 420 ms behind it for the tile flash. */
   xp: SharedValue<number>;
@@ -80,9 +84,10 @@ type UnlockPathProps = {
   reduceMotion: boolean;
 };
 
-export function UnlockPath({
+function UnlockPathImpl({
   width,
   sheets,
+  skin,
   unlockedCount,
   xp,
   xpFlashWhite,
@@ -115,31 +120,51 @@ export function UnlockPath({
     filledRegion(segments, Math.min(fillGreen.value, fillNow.value - FRONT_TILES), tile),
   );
 
-  const previewClock = useSharedValue(0);
-  const previewFrame = useDerivedValue(() => Math.floor(previewClock.value % 4));
+  // Each preview is drawn live from its own pose function, all into one canvas, so the whole
+  // column costs one redraw per frame. Item previews share the skin in use.
+  const dpr = PixelRatio.get();
+  const previewModels = useMemo(() => {
+    const inner = previewSize - 2 * PREVIEW_BORDER;
+    return UNLOCK_ROUTE.milestones.map((m, i) => {
+      const left = (m.col < START_COL ? 0 : roadWidth - previewSize) + PREVIEW_BORDER;
+      const top = m.row * tile - previewSize / 2 + PREVIEW_BORDER;
+      return makePreviewModel(REWARDS[i], skin, left, top, inner, dpr);
+    });
+  }, [previewSize, roadWidth, tile, skin, dpr]);
+
+  /** Seconds of preview animation, advanced only while the screen is showing. */
+  const previewTime = useSharedValue(0);
+  const previewClock = useFrameCallback((info) => {
+    "worklet";
+    const dt = (info.timeSincePreviousFrame ?? 0) / 1000;
+    previewTime.value += Math.min(MAX_FRAME_STEP_S, dt);
+  }, false);
+  const previewPicture = useDerivedValue(() =>
+    createPicture(
+      (canvas) => drawPreviews(canvas, previewModels, previewTime.value, reduceMotion, dpr),
+      { width: roadWidth, height: roadHeight },
+    ),
+  );
+
   const pulse = useSharedValue(0);
 
   useEffect(() => {
+    previewClock.setActive(active && !reduceMotion);
+  }, [active, reduceMotion, previewClock]);
+
+  useEffect(() => {
     if (!active || reduceMotion) {
-      cancelAnimation(previewClock);
       cancelAnimation(pulse);
-      previewClock.value = 0;
       pulse.value = 0;
       return;
     }
-    previewClock.value = 0;
-    previewClock.value = withRepeat(
-      withTiming(4, { duration: (4 / PREVIEW_FPS) * 1000, easing: Easing.linear }),
-      -1,
-      false,
-    );
     pulse.value = 0;
     pulse.value = withRepeat(
       withTiming(1, { duration: PULSE_MS, easing: Easing.out(Easing.quad) }),
       -1,
       false,
     );
-  }, [active, reduceMotion, previewClock, pulse]);
+  }, [active, reduceMotion, pulse]);
 
   const pulseStyle = useAnimatedStyle(() => ({
     opacity: 0.6 * (1 - pulse.value),
@@ -191,6 +216,34 @@ export function UnlockPath({
           </Text>
         </View>
 
+        {UNLOCK_ROUTE.milestones.map((m, i) => (
+          <View
+            key={rewardKey(REWARDS[i])}
+            className="absolute"
+            style={[
+              {
+                top: m.row * tile - previewSize / 2,
+                width: previewSize,
+                height: previewSize,
+                borderRadius: 14,
+                borderWidth: PREVIEW_BORDER,
+                borderColor: ACH.border,
+                backgroundColor: "#ffffff",
+              },
+              m.col < START_COL ? { left: 0 } : { right: 0 },
+            ]}
+            accessibilityElementsHidden
+            importantForAccessibility="no-hide-descendants"
+          />
+        ))}
+
+        <Canvas
+          style={{ position: "absolute", left: 0, top: 0, width: roadWidth, height: roadHeight }}
+          pointerEvents="none"
+        >
+          <Picture picture={previewPicture} />
+        </Canvas>
+
         {UNLOCK_ROUTE.milestones.map((m, i) => {
           const reward = REWARDS[i];
           const name = t(rewardI18nKey(reward));
@@ -200,34 +253,20 @@ export function UnlockPath({
           const x = m.col * tile;
           const y = m.row * tile;
           const onLeft = m.col < START_COL;
-          const preview = PREVIEW_CELLS[rewardKey(reward)];
           const labelGap = BADGE / 2 + 8;
 
           return (
             <Fragment key={rewardKey(reward)}>
               <View
                 className="absolute"
-                style={[{ top: y - previewSize / 2 }, onLeft ? { left: 0 } : { right: 0 }]}
+                style={[
+                  { top: y - previewSize / 2, width: previewSize, height: previewSize },
+                  onLeft ? { left: 0 } : { right: 0 },
+                ]}
+                pointerEvents="none"
                 accessibilityElementsHidden
                 importantForAccessibility="no-hide-descendants"
               >
-                <View
-                  className="items-center justify-center overflow-hidden bg-white"
-                  style={{
-                    width: previewSize,
-                    height: previewSize,
-                    borderRadius: 14,
-                    borderWidth: 1.5,
-                    borderColor: ACH.border,
-                  }}
-                >
-                  <SpritePreview
-                    image={sheets.previews[preview.sheet] ?? null}
-                    row={preview.row}
-                    frame={previewFrame}
-                    size={previewSize - 3}
-                  />
-                </View>
                 <View
                   className="absolute -bottom-2 self-center rounded-full px-2 py-0.5"
                   style={
@@ -348,3 +387,6 @@ export function UnlockPath({
     </View>
   );
 }
+
+/** 34 canvases: skip re-rendering them when the screen re-renders for unrelated state. */
+export const UnlockPath = memo(UnlockPathImpl);

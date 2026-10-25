@@ -1,6 +1,5 @@
 import { Canvas, Group, Image, Oval, type SkImage } from "@shopify/react-native-skia";
 import { PixelRatio } from "react-native";
-import { useDerivedValue, type SharedValue } from "react-native-reanimated";
 
 import {
   ACH,
@@ -118,43 +117,6 @@ export function FittedIcon({
         <Image
           image={image}
           x={cellX - col * cell}
-          y={cellY - row * cell}
-          width={4 * cell}
-          height={4 * cell}
-          fit="fill"
-          sampling={NEAREST}
-        />
-      </Group>
-    </Canvas>
-  );
-}
-
-type SpritePreviewProps = {
-  image: SkImage | null;
-  row: number;
-  /** Column 0–3 of the row to show, stepped on the UI thread. */
-  frame: SharedValue<number>;
-  size: number;
-};
-
-export function SpritePreview({ image, row, frame, size }: SpritePreviewProps) {
-  const { x: cellX, y: cellY, cell, unit, height } = layoutCell(size, PREVIEW_CROP, AVATAR_GRID);
-  const sheetX = useDerivedValue(() => cellX - frame.value * cell);
-  const baselineY = cellY + BASELINE_ART_Y * unit;
-
-  return (
-    <Canvas style={{ width: size, height }} pointerEvents="none">
-      <Oval
-        x={size / 2 - 5.5 * unit}
-        y={baselineY - 0.8 * unit}
-        width={11 * unit}
-        height={1.6 * unit}
-        color={ACH.shadow}
-      />
-      <Group clip={{ x: cellX, y: cellY, width: cell, height: cell }}>
-        <Image
-          image={image}
-          x={sheetX}
           y={cellY - row * cell}
           width={4 * cell}
           height={4 * cell}

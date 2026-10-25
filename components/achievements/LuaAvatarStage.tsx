@@ -1,5 +1,5 @@
-import { Canvas, Group, Image, Oval, type SkImage } from "@shopify/react-native-skia";
-import { useEffect, useImperativeHandle, useRef, useState, type Ref } from "react";
+import { Canvas, createPicture, Picture } from "@shopify/react-native-skia";
+import { memo, useEffect, useImperativeHandle, useMemo, useRef, useState, type Ref } from "react";
 import { PixelRatio, Pressable, Text, View } from "react-native";
 import Animated, {
   Easing,
@@ -9,191 +9,41 @@ import Animated, {
   useFrameCallback,
   useSharedValue,
   withTiming,
-  type SharedValue,
 } from "react-native-reanimated";
 
 import { SKIN_ICON_CROP, SpriteIcon, SpriteStill } from "@/components/achievements/SpriteCell";
 import type { AchievementSheets } from "@/components/achievements/spriteSheets";
 import {
-  ACH,
-  AVATAR_GRID,
-  BASELINE_ART_Y,
-  NEAREST,
-  snapToDevicePixels,
-} from "@/components/achievements/theme";
+  drawStage,
+  makeStageModel,
+  makeStageSim,
+  stageBurst,
+  stageHop,
+  stagePopLook,
+  stageSetEquipped,
+  stepStage,
+  type StageSim,
+} from "@/components/achievements/stageArt";
+import { ACH } from "@/components/achievements/theme";
 import { Pixelify } from "@/constants/fonts";
 import {
-  AVATAR_ROWS,
   COSTUME_CELLS,
   ICON_CELLS,
-  ITEMS,
-  LAYER_ORDER,
-  SHOE_ITEMS,
   SKIN_ICON_CELLS,
-  UNLOCK_BURST,
   type CostumeId,
   type ItemId,
   type PaletteSkinId,
 } from "@/constants/luaSprites";
-import { ITEM_BY_ID, type Equipped } from "@/lib/achievementsStore";
+import type { Equipped } from "@/lib/achievementsStore";
 
-/** Item sheets bottom → top; several items share a slot, only the worn one is visible. */
-const DRAW_ORDER: ItemId[] = LAYER_ORDER.flatMap((slot) =>
-  ITEMS.filter((item) => item.slot === slot).map((item) => item.id),
-);
-
-/** Vertical centre of each item in its cell, in art px. Pops scale around it, sparkles burst from it. */
-const ITEM_CENTER_Y: Record<ItemId, number> = {
-  sneakers: 29,
-  jeans: 26.5,
-  cap: 14,
-  shades: 18.5,
-  beanie: 13,
-  shorts: 26.5,
-  scarf: 25,
-  headphones: 15,
-  boots: 29,
-  hoodie: 18,
-  cape: 26,
-  wizard: 11.5,
-  crown: 10.5,
-};
-const BURST_CENTER_Y = BASELINE_ART_Y - 9;
-
-/** Frames are encoded as row * 4 + col. */
-const FRAME_BLINK = AVATAR_ROWS.blinkGlance * 4 + 1;
-const FRAME_LOOK_LEFT = AVATAR_ROWS.blinkGlance * 4 + 2;
-const FRAME_LOOK_RIGHT = AVATAR_ROWS.blinkGlance * 4 + 3;
-const FRAME_HOP_RISE = AVATAR_ROWS.hop * 4 + 1;
-const FRAME_HOP_APEX = AVATAR_ROWS.hop * 4 + 2;
-
-const IDLE_CYCLE_MS = 2600;
-const BLINK_MS = 130;
-const BLINK_GAP_MS = [2200, 5400] as const;
-const GLANCE_MS = 700;
-const GLANCE_GAP_MS = [4000, 8000] as const;
-/** Squash, rise, apex with happy eyes, land squash, settle — [end ms, frame]. */
-const HOP_STEPS = [
-  [140, AVATAR_ROWS.hop * 4],
-  [320, FRAME_HOP_RISE],
-  [520, FRAME_HOP_APEX],
-  [680, AVATAR_ROWS.hop * 4 + 3],
-  [850, AVATAR_ROWS.happy * 4],
-] as const;
-const HOP_MS = HOP_STEPS[HOP_STEPS.length - 1][0];
-const BURST_FRAME_MS = 110;
-
-const ITEM_ANIM_MS = 350;
-const DROP_MS = 900;
-const DROP_FROM_ART_PX = 9;
 const TOAST_MS = 2600;
-
-function randomBetween([min, max]: readonly [number, number]): number {
-  "worklet";
-  return min + Math.random() * (max - min);
-}
-
-type ItemLayerHandle = { prepareDrop: () => void };
-
-type ItemLayerProps = {
-  ref: Ref<ItemLayerHandle>;
-  image: SkImage | null;
-  worn: boolean;
-  centerY: number;
-  cell: number;
-  unit: number;
-  sheetX: SharedValue<number>;
-  sheetY: SharedValue<number>;
-  reduceMotion: boolean;
-};
-
-function ItemLayer({
-  ref,
-  image,
-  worn,
-  centerY,
-  cell,
-  unit,
-  sheetX,
-  sheetY,
-  reduceMotion,
-}: ItemLayerProps) {
-  const opacity = useSharedValue(worn ? 1 : 0);
-  /** Art px; negative is up. */
-  const offsetY = useSharedValue(0);
-  const scale = useSharedValue(1);
-  /** What the layer currently shows, which can run ahead of `worn` during an unlock drop. */
-  const shown = useRef(worn);
-  const pendingDrop = useRef(false);
-
-  const playDrop = () => {
-    shown.current = true;
-    scale.value = 1;
-    if (reduceMotion) {
-      offsetY.value = 0;
-      opacity.value = withTiming(1, { duration: ITEM_ANIM_MS });
-      return;
-    }
-    opacity.value = 1;
-    offsetY.value = -DROP_FROM_ART_PX;
-    offsetY.value = withTiming(0, { duration: DROP_MS, easing: Easing.bounce });
-  };
-
-  useImperativeHandle(ref, () => ({
-    prepareDrop() {
-      pendingDrop.current = true;
-    },
-  }));
-
-  useEffect(() => {
-    if (worn === shown.current) return;
-    if (worn && pendingDrop.current) {
-      pendingDrop.current = false;
-      playDrop();
-      return;
-    }
-    shown.current = worn;
-    if (worn) {
-      offsetY.value = 0;
-      if (reduceMotion) {
-        scale.value = 1;
-        opacity.value = withTiming(1, { duration: ITEM_ANIM_MS });
-        return;
-      }
-      opacity.value = withTiming(1, { duration: 120 });
-      scale.value = 1.35;
-      scale.value = withTiming(1, { duration: ITEM_ANIM_MS, easing: Easing.out(Easing.cubic) });
-    } else {
-      pendingDrop.current = false;
-      scale.value = 1;
-      opacity.value = withTiming(0, { duration: ITEM_ANIM_MS });
-      if (!reduceMotion) {
-        offsetY.value = withTiming(-1.6, { duration: ITEM_ANIM_MS, easing: Easing.out(Easing.quad) });
-      }
-    }
-  }, [worn, reduceMotion, opacity, offsetY, scale]);
-
-  const transform = useDerivedValue(() => [
-    { translateY: offsetY.value * unit },
-    { scale: scale.value },
-  ]);
-
-  return (
-    <Group transform={transform} origin={{ x: cell / 2, y: centerY }} opacity={opacity}>
-      <Group clip={{ x: 0, y: 0, width: cell, height: cell }}>
-        <Image
-          image={image}
-          x={sheetX}
-          y={sheetY}
-          width={4 * cell}
-          height={4 * cell}
-          fit="fill"
-          sampling={NEAREST}
-        />
-      </Group>
-    </Group>
-  );
-}
+/** The prototype's frame-to-frame cap on elapsed time, in seconds. */
+const MAX_FRAME_STEP_S = 0.05;
+/** Confetti counts and hop heights (art px) from the prototype. */
+const UNLOCK_CONFETTI = 26;
+const LOOK_CONFETTI = 30;
+const UNLOCK_HOP_ART_PX = 3;
+const LOOK_HOP_ART_PX = 2.6;
 
 export type ToastIcon =
   | { type: "item"; id: ItemId; locked?: boolean }
@@ -201,9 +51,9 @@ export type ToastIcon =
   | { type: "costume"; id: CostumeId };
 
 export type LuaAvatarHandle = {
-  /** Hop, drop the item on from above with a sparkle burst, and toast. Call before equipping it. */
+  /** Hop, drop the item on from above with a confetti burst, and toast. Call before equipping it. */
   celebrateItem: (itemId: ItemId, toastText: string) => void;
-  /** Hop, sparkles, pop the new look in, and toast. Call after applying the skin or costume. */
+  /** Hop, confetti, pop the new look in, and toast. Call after applying the skin or costume. */
   celebrateLook: (icon: ToastIcon, toastText: string) => void;
   showToast: (icon: ToastIcon, text: string) => void;
 };
@@ -213,7 +63,9 @@ type ToastState = { icon: ToastIcon; text: string };
 type LuaAvatarStageProps = {
   ref: Ref<LuaAvatarHandle>;
   width: number;
+  /** Icon sheets for the toast. */
   sheets: AchievementSheets;
+  skin: PaletteSkinId;
   /** Only items the player owns. */
   equipped: Equipped;
   costume: CostumeId | null;
@@ -223,10 +75,12 @@ type LuaAvatarStageProps = {
   accessibilityHint: string;
 };
 
-export function LuaAvatarStage({
+/** Lua on the customize screen, drawn live each frame like the prototype (see stageArt.ts). */
+function LuaAvatarStageImpl({
   ref,
   width,
   sheets,
+  skin,
   equipped,
   costume,
   active,
@@ -235,122 +89,77 @@ export function LuaAvatarStage({
   accessibilityHint,
 }: LuaAvatarStageProps) {
   const height = Math.round(width * 0.92);
-  const unit = snapToDevicePixels(width / AVATAR_GRID);
-  const cell = unit * AVATAR_GRID;
-  const cellX = PixelRatio.roundToNearestPixel((width - cell) / 2);
-  const baselineY = PixelRatio.roundToNearestPixel(height * 0.88);
-  const cellY = baselineY - BASELINE_ART_Y * unit;
-  const costumeOn = costume !== null && sheets.costume !== null;
+  const dpr = PixelRatio.get();
+  const model = useMemo(
+    () => makeStageModel(width, height, skin, costume, dpr),
+    [width, height, skin, costume, dpr],
+  );
+  const { P } = model;
 
-  const frame = useSharedValue(0);
-  const hopT = useSharedValue(-1);
-  const blinkT = useSharedValue(-1);
-  const glanceT = useSharedValue(-1);
-  const glanceDir = useSharedValue(1);
-  const idleT = useSharedValue(0);
-  const untilBlink = useSharedValue(randomBetween(BLINK_GAP_MS));
-  const untilGlance = useSharedValue(randomBetween(GLANCE_GAP_MS));
-  const burstT = useSharedValue(-1);
-  const burstFrame = useSharedValue(-1);
-  const burstY = useSharedValue(0);
-  const lookPop = useSharedValue(1);
-  const reduceMotionSV = useSharedValue(reduceMotion);
-
-  useEffect(() => {
-    reduceMotionSV.value = reduceMotion;
-  }, [reduceMotion, reduceMotionSV]);
+  const [initialSim] = useState(() => makeStageSim(equipped, costume !== null, reduceMotion));
+  const sim = useSharedValue<StageSim>(initialSim);
 
   const frameCallback = useFrameCallback((info) => {
     "worklet";
-    const dt = Math.min(info.timeSincePreviousFrame ?? 16, 64);
-    const show = (next: number) => {
-      if (frame.value !== next) frame.value = next;
-    };
-
-    if (burstT.value >= 0) {
-      burstT.value += dt;
-      const col = Math.floor(burstT.value / BURST_FRAME_MS);
-      const next = col < 4 ? col : -1;
-      if (next < 0) burstT.value = -1;
-      if (burstFrame.value !== next) burstFrame.value = next;
-    }
-
-    if (hopT.value >= 0) {
-      hopT.value += dt;
-      if (hopT.value < HOP_MS) {
-        let step = 0;
-        while (hopT.value >= HOP_STEPS[step][0]) step++;
-        show(HOP_STEPS[step][1]);
-        return;
-      }
-      hopT.value = -1;
-    }
-
-    // Blinks and glances start on the idle loop's rest frame and pause it, so the head never jumps.
-    if (blinkT.value >= 0) {
-      blinkT.value += dt;
-      if (blinkT.value < BLINK_MS) return show(FRAME_BLINK);
-      blinkT.value = -1;
-      untilBlink.value = randomBetween(BLINK_GAP_MS);
-    }
-    if (glanceT.value >= 0) {
-      glanceT.value += dt;
-      if (glanceT.value < GLANCE_MS) {
-        return show(glanceDir.value < 0 ? FRAME_LOOK_LEFT : FRAME_LOOK_RIGHT);
-      }
-      glanceT.value = -1;
-      untilGlance.value = randomBetween(GLANCE_GAP_MS);
-    }
-
-    untilBlink.value -= dt;
-    untilGlance.value -= dt;
-    const idleCol = reduceMotionSV.value
-      ? 0
-      : Math.floor((idleT.value % IDLE_CYCLE_MS) / (IDLE_CYCLE_MS / 4));
-    if (idleCol === 0 && untilBlink.value <= 0) {
-      blinkT.value = 0;
-      return show(FRAME_BLINK);
-    }
-    if (idleCol === 0 && untilGlance.value <= 0) {
-      glanceT.value = 0;
-      glanceDir.value = Math.random() < 0.5 ? -1 : 1;
-      return show(glanceDir.value < 0 ? FRAME_LOOK_LEFT : FRAME_LOOK_RIGHT);
-    }
-    if (!reduceMotionSV.value) idleT.value += dt;
-    show(AVATAR_ROWS.idle * 4 + idleCol);
+    const dt = Math.min(MAX_FRAME_STEP_S, (info.timeSincePreviousFrame ?? 0) / 1000);
+    sim.modify((s) => {
+      "worklet";
+      stepStage(s, model, dt);
+      return s;
+    });
   }, false);
 
   useEffect(() => {
     frameCallback.setActive(active);
   }, [active, frameCallback]);
 
-  const shoesWorn = !costumeOn && SHOE_ITEMS.some((id) => equipped.feet === id);
-  const stackLift = useSharedValue(shoesWorn ? 1 : 0);
+  const picture = useDerivedValue(() =>
+    createPicture((canvas) => drawStage(canvas, model, sim.value), { width, height }),
+  );
+
   useEffect(() => {
-    const target = shoesWorn ? 1 : 0;
-    stackLift.value = reduceMotion
-      ? target
-      : withTiming(target, { duration: 300, easing: Easing.inOut(Easing.quad) });
-  }, [shoesWorn, reduceMotion, stackLift]);
+    runOnUI((reduced: boolean) => {
+      "worklet";
+      sim.modify((s) => {
+        "worklet";
+        s.reduced = reduced;
+        return s;
+      });
+    })(reduceMotion);
+  }, [reduceMotion, sim]);
 
-  const sheetX = useDerivedValue(() => -(frame.value % 4) * cell);
-  const sheetY = useDerivedValue(() => -Math.floor(frame.value / 4) * cell);
-  const stackTransform = useDerivedValue(() => [
-    { translateX: cellX },
-    { translateY: cellY - stackLift.value * 2 * unit },
-  ]);
-  const lookTransform = useDerivedValue(() => [{ scale: lookPop.value }]);
-  const shadowTransform = useDerivedValue(() => {
-    const f = frame.value;
-    return [{ scaleX: f === FRAME_HOP_APEX ? 0.78 : f === FRAME_HOP_RISE ? 0.86 : 1 }];
-  });
-  const burstX = useDerivedValue(() => -Math.max(0, burstFrame.value) * cell);
-  const burstOpacity = useDerivedValue(() => (burstFrame.value < 0 ? 0 : 1));
-  const burstTransform = useDerivedValue(() => [{ translateY: burstY.value }]);
-  const clothesOpacity = costumeOn ? 0 : 1;
-  const costumeOpacity = costumeOn ? 1 : 0;
+  /** The item `celebrateItem` announced; it bounces down instead of popping when it goes on. */
+  const pendingDrop = useRef<ItemId | null>(null);
+  const firstLook = useRef(true);
 
-  const layers = useRef<Partial<Record<ItemId, ItemLayerHandle | null>>>({});
+  useEffect(() => {
+    const dropId = pendingDrop.current;
+    pendingDrop.current = null;
+    runOnUI((next: Equipped, costumeOn: boolean, drop: ItemId | null) => {
+      "worklet";
+      sim.modify((s) => {
+        "worklet";
+        stageSetEquipped(s, next, costumeOn, drop);
+        return s;
+      });
+    })(equipped, costume !== null, dropId);
+  }, [equipped, costume, sim]);
+
+  // A new skin or costume pops in, as in the prototype.
+  useEffect(() => {
+    if (firstLook.current) {
+      firstLook.current = false;
+      return;
+    }
+    runOnUI(() => {
+      "worklet";
+      sim.modify((s) => {
+        "worklet";
+        stagePopLook(s);
+        return s;
+      });
+    })();
+  }, [skin, costume, sim]);
 
   const [toast, setToast] = useState<ToastState | null>(null);
   const toastProgress = useSharedValue(0);
@@ -372,45 +181,41 @@ export function LuaAvatarStage({
     }, TOAST_MS);
   };
 
-  const hopAndBurst = (offsetArtY: number) => {
-    if (reduceMotion) return;
-    const offset = (offsetArtY - BURST_CENTER_Y) * unit;
+  const celebrate = (hopArtPx: number, happyFor: number, burstFrom: ItemId | null, confetti: number) => {
+    const hopH = hopArtPx * P;
     runOnUI(() => {
       "worklet";
-      hopT.value = 0;
-      burstT.value = 0;
-      burstY.value = offset;
+      sim.modify((s) => {
+        "worklet";
+        stageHop(s, hopH, happyFor);
+        stageBurst(s, burstFrom, confetti);
+        return s;
+      });
     })();
-  };
-
-  const popLook = () => {
-    if (reduceMotion) {
-      lookPop.value = 1;
-      return;
-    }
-    lookPop.value = 1.35;
-    lookPop.value = withTiming(1, { duration: ITEM_ANIM_MS, easing: Easing.out(Easing.cubic) });
   };
 
   useImperativeHandle(ref, () => ({
     celebrateItem(itemId, toastText) {
-      layers.current[itemId]?.prepareDrop();
+      pendingDrop.current = itemId;
       showToast({ type: "item", id: itemId }, toastText);
-      hopAndBurst(ITEM_CENTER_Y[itemId]);
+      celebrate(UNLOCK_HOP_ART_PX, 1.6, itemId, UNLOCK_CONFETTI);
     },
     celebrateLook(icon, toastText) {
       showToast(icon, toastText);
-      hopAndBurst(BURST_CENTER_Y);
-      popLook();
+      celebrate(LOOK_HOP_ART_PX, 1.2, null, LOOK_CONFETTI);
     },
     showToast,
   }));
 
   const onPress = () => {
-    if (reduceMotion) return;
+    const hopH = LOOK_HOP_ART_PX * P;
     runOnUI(() => {
       "worklet";
-      if (hopT.value < 0) hopT.value = 0;
+      sim.modify((s) => {
+        "worklet";
+        if (s.hopDur <= 0) stageHop(s, hopH, 0.9);
+        return s;
+      });
     })();
   };
 
@@ -418,10 +223,6 @@ export function LuaAvatarStage({
     opacity: toastProgress.value,
     transform: [{ translateY: reduceMotion ? 0 : (1 - toastProgress.value) * -16 }],
   }));
-
-  const shadowW = 13 * unit;
-  const shadowH = 1.8 * unit;
-  const burstSheet = sheets.previews[UNLOCK_BURST.sheet] ?? null;
 
   return (
     <View style={{ width, height }}>
@@ -432,77 +233,7 @@ export function LuaAvatarStage({
         accessibilityHint={accessibilityHint}
       >
         <Canvas style={{ width, height }}>
-          <Group transform={shadowTransform} origin={{ x: width / 2, y: baselineY }}>
-            <Oval
-              x={width / 2 - shadowW / 2}
-              y={baselineY - shadowH / 2}
-              width={shadowW}
-              height={shadowH}
-              color={ACH.shadow}
-            />
-          </Group>
-          <Group transform={stackTransform}>
-            <Group
-              transform={lookTransform}
-              origin={{ x: cell / 2, y: BASELINE_ART_Y * unit }}
-            >
-            <Group opacity={clothesOpacity}>
-              <Group clip={{ x: 0, y: 0, width: cell, height: cell }}>
-                <Image
-                  image={sheets.body}
-                  x={sheetX}
-                  y={sheetY}
-                  width={4 * cell}
-                  height={4 * cell}
-                  fit="fill"
-                  sampling={NEAREST}
-                />
-              </Group>
-              {DRAW_ORDER.map((id) => (
-                <ItemLayer
-                  key={id}
-                  ref={(handle) => {
-                    layers.current[id] = handle;
-                  }}
-                  image={sheets.items[id]}
-                  worn={equipped[ITEM_BY_ID[id].slot] === id}
-                  centerY={ITEM_CENTER_Y[id] * unit}
-                  cell={cell}
-                  unit={unit}
-                  sheetX={sheetX}
-                  sheetY={sheetY}
-                  reduceMotion={reduceMotion}
-                />
-              ))}
-            </Group>
-            <Group opacity={costumeOpacity}>
-              <Group clip={{ x: 0, y: 0, width: cell, height: cell }}>
-                <Image
-                  image={sheets.costume}
-                  x={sheetX}
-                  y={sheetY}
-                  width={4 * cell}
-                  height={4 * cell}
-                  fit="fill"
-                  sampling={NEAREST}
-                />
-              </Group>
-            </Group>
-            <Group transform={burstTransform} opacity={burstOpacity}>
-              <Group clip={{ x: 0, y: 0, width: cell, height: cell }}>
-                <Image
-                  image={burstSheet}
-                  x={burstX}
-                  y={-UNLOCK_BURST.row * cell}
-                  width={4 * cell}
-                  height={4 * cell}
-                  fit="fill"
-                  sampling={NEAREST}
-                />
-              </Group>
-            </Group>
-            </Group>
-          </Group>
+          <Picture picture={picture} />
         </Canvas>
       </Pressable>
 
@@ -556,3 +287,6 @@ function ToastGlyph({ sheets, icon }: { sheets: AchievementSheets; icon: ToastIc
   }
   return <SpriteStill image={sheets.costumeStills} cell={COSTUME_CELLS[icon.id]} size={28} />;
 }
+
+/** Skips re-rendering the avatar when the screen re-renders for unrelated state. */
+export const LuaAvatarStage = memo(LuaAvatarStageImpl);
