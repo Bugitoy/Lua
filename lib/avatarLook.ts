@@ -9,8 +9,7 @@ import {
   type Slot,
 } from "@/constants/luaSprites";
 import { useAchievements, type Equipped } from "@/lib/achievementsStore";
-import { useGameStats } from "@/lib/gameStats";
-import { xpForStats } from "@/lib/xp";
+import { useStatsXp } from "@/lib/xp";
 
 /** What a Lua avatar wears. A costume replaces the body and every item. */
 export type AvatarLook = {
@@ -93,9 +92,9 @@ export function randomAvatars(seeds: string[]): { look: AvatarLook; backdrop: st
 
 /** The signed-in player's Lua, wearing only what their XP has unlocked. */
 export function useMyLook(): AvatarLook {
-  const { stats } = useGameStats();
+  const statsXp = useStatsXp();
   const { skin, costume, equipped, devXpBonus } = useAchievements();
-  const xp = Math.max(0, Math.floor(xpForStats(stats)) + devXpBonus);
+  const xp = Math.max(0, statsXp + devXpBonus);
 
   return useMemo(() => {
     const owned: Equipped = {};

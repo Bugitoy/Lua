@@ -56,3 +56,11 @@ export function useGameStats() {
   const stats = useSyncExternalStore(subscribe, getSnapshot);
   return { stats, updateStats: updateGameStats };
 }
+
+/**
+ * Subscribes to one value derived from the stats, re-rendering only when it changes.
+ * `select` must return a primitive (or a stable reference), or it re-renders every update.
+ */
+export function useGameStatsSelector<T>(select: (stats: GameStats) => T): T {
+  return useSyncExternalStore(subscribe, () => select(state));
+}
