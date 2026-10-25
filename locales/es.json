@@ -265,7 +265,7 @@
       "locked": "Bloqueado · {{xp}} XP"
     },
     "path": {
-      "title": "Camino de desbloqueo",
+      "title": "Hitos",
       "count": "{{done}} / {{total}} recompensas",
       "start": "INICIO",
       "earn": "Gana {{xp}} XP",

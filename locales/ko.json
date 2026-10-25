@@ -265,7 +265,7 @@
       "locked": "잠김 · {{xp}} XP"
     },
     "path": {
-      "title": "잠금 해제 경로",
+      "title": "마일스톤",
       "count": "{{done}} / {{total}} 보상",
       "start": "시작",
       "earn": "{{xp}} XP 획득",

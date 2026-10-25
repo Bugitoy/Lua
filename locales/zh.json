@@ -265,7 +265,7 @@
       "locked": "未解锁 · {{xp}} XP"
     },
     "path": {
-      "title": "解锁路线",
+      "title": "里程碑",
       "count": "{{done}} / {{total}} 项奖励",
       "start": "起点",
       "earn": "获得 {{xp}} XP",

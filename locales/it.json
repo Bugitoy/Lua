@@ -265,7 +265,7 @@
       "locked": "Bloccato · {{xp}} XP"
     },
     "path": {
-      "title": "Percorso di sblocco",
+      "title": "Traguardi",
       "count": "{{done}} / {{total}} ricompense",
       "start": "VIA",
       "earn": "Guadagna {{xp}} XP",

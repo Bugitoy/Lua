@@ -265,7 +265,7 @@
       "locked": "Verrouillé · {{xp}} XP"
     },
     "path": {
-      "title": "Parcours de déblocage",
+      "title": "Jalons",
       "count": "{{done}} / {{total}} récompenses",
       "start": "DÉPART",
       "earn": "Gagnez {{xp}} XP",

@@ -265,7 +265,7 @@
       "locked": "Gesperrt · {{xp}} XP"
     },
     "path": {
-      "title": "Freischaltpfad",
+      "title": "Meilensteine",
       "count": "{{done}} / {{total}} Belohnungen",
       "start": "START",
       "earn": "Verdiene {{xp}} XP",

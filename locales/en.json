@@ -337,7 +337,7 @@
       "locked": "Locked · {{xp}} XP"
     },
     "path": {
-      "title": "Unlock path",
+      "title": "Milestones",
       "count": "{{done}} / {{total}} rewards",
       "start": "START",
       "earn": "Earn {{xp}} XP",

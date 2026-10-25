@@ -265,7 +265,7 @@
       "locked": "ロック中 · {{xp}} XP"
     },
     "path": {
-      "title": "アンロックパス",
+      "title": "マイルストーン",
       "count": "{{done}} / {{total}} ごほうび",
       "start": "スタート",
       "earn": "{{xp}} XP で獲得",
