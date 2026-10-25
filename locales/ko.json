@@ -357,14 +357,14 @@
       "dead": "LUA가 죽었습니다",
       "critical": "Lua가 위험합니다",
       "hurting": "Lua가 아픕니다",
-      "okay": "Lua는 괜찮습니다",
+      "cracking": "Lua에 금이 가고 있어요",
       "healthy": "Lua가 건강합니다"
     },
     "subtitle": {
       "dead": "오늘 완료한 목표가 없습니다. 내일 다시 도전해 보세요.",
       "critical": "Lua가 간신히 버티고 있습니다. 목표를 완료해 회복하세요!",
       "hurting": "Lua가 힘들어하고 있습니다. 오늘 더 많은 목표를 완료해 보세요.",
-      "okay": "Lua는 괜찮지만, 더 개선할 여지가 있습니다.",
+      "cracking": "Lua에 금이 가기 시작했어요. 목표를 몇 개 더 달성하면 고칠 수 있어요.",
       "healthy": "오늘 {{done}}/{{total}}개 목표를 완료했습니다. 계속 유지하세요!"
     },
     "stats": {

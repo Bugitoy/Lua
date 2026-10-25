@@ -357,14 +357,14 @@
       "dead": "LUA MORREU",
       "critical": "Lua está crítico",
       "hurting": "Lua está sofrendo",
-      "okay": "Lua está bem",
+      "cracking": "Lua está rachando",
       "healthy": "Lua está saudável"
     },
     "subtitle": {
       "dead": "Nenhuma meta concluída hoje. Vamos tentar de novo amanhã.",
       "critical": "Lua está mal. Conclua suas metas para se recuperar!",
       "hurting": "Lua está com dificuldades. Tente concluir mais metas hoje.",
-      "okay": "Lua está indo bem, mas ainda há espaço para melhorar.",
+      "cracking": "Lua está começando a rachar. Mais algumas metas vão consertá-la.",
       "healthy": "{{done}} de {{total}} metas concluídas hoje. Continue assim!"
     },
     "stats": {

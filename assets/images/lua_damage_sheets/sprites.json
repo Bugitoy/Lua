@@ -1,0 +1,1443 @@
+{
+  "sheetSize": 2048,
+  "cell": 512,
+  "columns": 4,
+  "rows": 4,
+  "artPixel": 16,
+  "artGrid": 32,
+  "baselineY": 464,
+  "stackOrder": [
+    "avatar_body[_skin]",
+    "back (cape)",
+    "legs (jeans | shorts)",
+    "top (hoodie)",
+    "feet (sneakers | boots)",
+    "neck (scarf)",
+    "face (shades)",
+    "head (beanie | crown | cap | wizard | headphones)"
+  ],
+  "costumes": "a costume_<id> sheet is the whole avatar: draw it instead of the body and clothes",
+  "liftWhileWornCellPx": {
+    "sneakers": 32,
+    "boots": 32
+  },
+  "path": [
+    {
+      "item": "sneakers",
+      "xp": 500,
+      "id": "sneakers",
+      "name": "Sneakers"
+    },
+    {
+      "item": "jeans",
+      "xp": 1000,
+      "id": "jeans",
+      "name": "Denim Pants"
+    },
+    {
+      "item": "cap",
+      "xp": 1500,
+      "id": "cap",
+      "name": "Ball Cap"
+    },
+    {
+      "item": "shades",
+      "xp": 2000,
+      "id": "shades",
+      "name": "Pixel Shades"
+    },
+    {
+      "skin": "mint",
+      "xp": 2500,
+      "id": "skin_mint",
+      "name": "Mint Skin"
+    },
+    {
+      "item": "beanie",
+      "xp": 3000,
+      "id": "beanie",
+      "name": "Cozy Beanie"
+    },
+    {
+      "item": "shorts",
+      "xp": 4000,
+      "id": "shorts",
+      "name": "Track Shorts"
+    },
+    {
+      "item": "scarf",
+      "xp": 5000,
+      "id": "scarf",
+      "name": "Striped Scarf"
+    },
+    {
+      "item": "headphones",
+      "xp": 6000,
+      "id": "headphones",
+      "name": "Headphones"
+    },
+    {
+      "skin": "strawberry",
+      "xp": 7000,
+      "id": "skin_strawberry",
+      "name": "Strawberry Skin"
+    },
+    {
+      "item": "boots",
+      "xp": 8000,
+      "id": "boots",
+      "name": "Rain Boots"
+    },
+    {
+      "item": "hoodie",
+      "xp": 9000,
+      "id": "hoodie",
+      "name": "Hoodie"
+    },
+    {
+      "skin": "midnight",
+      "xp": 10000,
+      "id": "skin_midnight",
+      "name": "Midnight Skin"
+    },
+    {
+      "item": "cape",
+      "xp": 11500,
+      "id": "cape",
+      "name": "Hero Cape"
+    },
+    {
+      "item": "wizard",
+      "xp": 13000,
+      "id": "wizard",
+      "name": "Wizard Hat"
+    },
+    {
+      "skin": "gold",
+      "xp": 14000,
+      "id": "skin_gold",
+      "name": "Gold Skin"
+    },
+    {
+      "item": "crown",
+      "xp": 15000,
+      "id": "crown",
+      "name": "Gold Crown"
+    }
+  ],
+  "paletteSkins": [
+    {
+      "id": "classic",
+      "name": "Classic",
+      "recolour": {},
+      "unlockXp": null
+    },
+    {
+      "id": "mint",
+      "name": "Mint",
+      "recolour": {
+        "W": "#effcf5",
+        "L": "#c4ead6",
+        "P": "#7fcda6"
+      },
+      "unlockXp": 2500
+    },
+    {
+      "id": "strawberry",
+      "name": "Strawberry",
+      "recolour": {
+        "W": "#fff0f3",
+        "L": "#f7c6d2",
+        "P": "#e98aa3"
+      },
+      "unlockXp": 7000
+    },
+    {
+      "id": "midnight",
+      "name": "Midnight",
+      "recolour": {
+        "O": "#1f1b33",
+        "W": "#8f88b8",
+        "L": "#6a6394",
+        "P": "#433d6b"
+      },
+      "unlockXp": 10000
+    },
+    {
+      "id": "gold",
+      "name": "Gold",
+      "recolour": {
+        "O": "#5e4416",
+        "W": "#fff6d6",
+        "L": "#f3d98a",
+        "P": "#d9a93c"
+      },
+      "unlockXp": 14000
+    }
+  ],
+  "costumeSkins": [
+    {
+      "id": "soldier",
+      "name": "Soldier",
+      "price": "$1.99"
+    },
+    {
+      "id": "samurai",
+      "name": "Samurai",
+      "price": "$2.99"
+    },
+    {
+      "id": "office",
+      "name": "Office Man",
+      "price": "$0.99"
+    },
+    {
+      "id": "ninja",
+      "name": "Ninja",
+      "price": "$2.99"
+    },
+    {
+      "id": "spy",
+      "name": "Spy",
+      "price": "$2.49"
+    },
+    {
+      "id": "student",
+      "name": "Student",
+      "price": "$0.99"
+    },
+    {
+      "id": "astronaut",
+      "name": "Astronaut",
+      "price": "$2.99"
+    },
+    {
+      "id": "knight",
+      "name": "Knight",
+      "price": "$2.49"
+    },
+    {
+      "id": "pirate",
+      "name": "Pirate",
+      "price": "$1.99"
+    },
+    {
+      "id": "chef",
+      "name": "Chef",
+      "price": "$0.99"
+    },
+    {
+      "id": "firefighter",
+      "name": "Firefighter",
+      "price": "$1.99"
+    },
+    {
+      "id": "doctor",
+      "name": "Doctor",
+      "price": "$1.49"
+    },
+    {
+      "id": "cowboy",
+      "name": "Cowboy",
+      "price": "$1.99"
+    },
+    {
+      "id": "robot",
+      "name": "Robot",
+      "price": "$2.49"
+    },
+    {
+      "id": "viking",
+      "name": "Viking",
+      "price": "$2.49"
+    },
+    {
+      "id": "hero",
+      "name": "Superhero",
+      "price": "$2.99"
+    }
+  ],
+  "sheets": {
+    "avatar_body": {
+      "file": "avatar_body.png",
+      "rows": [
+        "idle",
+        "blink_glance",
+        "hop",
+        "happy"
+      ],
+      "skin": "classic"
+    },
+    "avatar_body_mint": {
+      "file": "avatar_body_mint.png",
+      "rows": [
+        "idle",
+        "blink_glance",
+        "hop",
+        "happy"
+      ],
+      "skin": "mint"
+    },
+    "avatar_body_strawberry": {
+      "file": "avatar_body_strawberry.png",
+      "rows": [
+        "idle",
+        "blink_glance",
+        "hop",
+        "happy"
+      ],
+      "skin": "strawberry"
+    },
+    "avatar_body_midnight": {
+      "file": "avatar_body_midnight.png",
+      "rows": [
+        "idle",
+        "blink_glance",
+        "hop",
+        "happy"
+      ],
+      "skin": "midnight"
+    },
+    "avatar_body_gold": {
+      "file": "avatar_body_gold.png",
+      "rows": [
+        "idle",
+        "blink_glance",
+        "hop",
+        "happy"
+      ],
+      "skin": "gold"
+    },
+    "item_sneakers": {
+      "file": "item_sneakers.png",
+      "rows": [
+        "idle",
+        "blink_glance",
+        "hop",
+        "happy"
+      ],
+      "layerOf": "avatar_body (any palette skin)",
+      "slot": "feet",
+      "name": "Sneakers",
+      "unlockXp": 500
+    },
+    "item_jeans": {
+      "file": "item_jeans.png",
+      "rows": [
+        "idle",
+        "blink_glance",
+        "hop",
+        "happy"
+      ],
+      "layerOf": "avatar_body (any palette skin)",
+      "slot": "legs",
+      "name": "Denim Pants",
+      "unlockXp": 1000
+    },
+    "item_shades": {
+      "file": "item_shades.png",
+      "rows": [
+        "idle",
+        "blink_glance",
+        "hop",
+        "happy"
+      ],
+      "layerOf": "avatar_body (any palette skin)",
+      "slot": "face",
+      "name": "Pixel Shades",
+      "unlockXp": 2000
+    },
+    "item_beanie": {
+      "file": "item_beanie.png",
+      "rows": [
+        "idle",
+        "blink_glance",
+        "hop",
+        "happy"
+      ],
+      "layerOf": "avatar_body (any palette skin)",
+      "slot": "head",
+      "name": "Cozy Beanie",
+      "unlockXp": 3000
+    },
+    "item_scarf": {
+      "file": "item_scarf.png",
+      "rows": [
+        "idle",
+        "blink_glance",
+        "hop",
+        "happy"
+      ],
+      "layerOf": "avatar_body (any palette skin)",
+      "slot": "neck",
+      "name": "Striped Scarf",
+      "unlockXp": 5000
+    },
+    "item_crown": {
+      "file": "item_crown.png",
+      "rows": [
+        "idle",
+        "blink_glance",
+        "hop",
+        "happy"
+      ],
+      "layerOf": "avatar_body (any palette skin)",
+      "slot": "head",
+      "name": "Gold Crown",
+      "unlockXp": 15000
+    },
+    "item_cap": {
+      "file": "item_cap.png",
+      "rows": [
+        "idle",
+        "blink_glance",
+        "hop",
+        "happy"
+      ],
+      "layerOf": "avatar_body (any palette skin)",
+      "slot": "head",
+      "name": "Ball Cap",
+      "unlockXp": 1500
+    },
+    "item_headphones": {
+      "file": "item_headphones.png",
+      "rows": [
+        "idle",
+        "blink_glance",
+        "hop",
+        "happy"
+      ],
+      "layerOf": "avatar_body (any palette skin)",
+      "slot": "head",
+      "name": "Headphones",
+      "unlockXp": 6000
+    },
+    "item_hoodie": {
+      "file": "item_hoodie.png",
+      "rows": [
+        "idle",
+        "blink_glance",
+        "hop",
+        "happy"
+      ],
+      "layerOf": "avatar_body (any palette skin)",
+      "slot": "top",
+      "name": "Hoodie",
+      "unlockXp": 9000
+    },
+    "item_cape": {
+      "file": "item_cape.png",
+      "rows": [
+        "idle",
+        "blink_glance",
+        "hop",
+        "happy"
+      ],
+      "layerOf": "avatar_body (any palette skin)",
+      "slot": "back",
+      "name": "Hero Cape",
+      "unlockXp": 11500
+    },
+    "item_boots": {
+      "file": "item_boots.png",
+      "rows": [
+        "idle",
+        "blink_glance",
+        "hop",
+        "happy"
+      ],
+      "layerOf": "avatar_body (any palette skin)",
+      "slot": "feet",
+      "name": "Rain Boots",
+      "unlockXp": 8000
+    },
+    "item_shorts": {
+      "file": "item_shorts.png",
+      "rows": [
+        "idle",
+        "blink_glance",
+        "hop",
+        "happy"
+      ],
+      "layerOf": "avatar_body (any palette skin)",
+      "slot": "legs",
+      "name": "Track Shorts",
+      "unlockXp": 4000
+    },
+    "item_wizard": {
+      "file": "item_wizard.png",
+      "rows": [
+        "idle",
+        "blink_glance",
+        "hop",
+        "happy"
+      ],
+      "layerOf": "avatar_body (any palette skin)",
+      "slot": "head",
+      "name": "Wizard Hat",
+      "unlockXp": 13000
+    },
+    "costume_soldier": {
+      "file": "costume_soldier.png",
+      "rows": [
+        "idle",
+        "blink_glance",
+        "hop",
+        "happy"
+      ],
+      "name": "Soldier",
+      "price": "$1.99",
+      "note": "replaces avatar_body and all clothes while worn"
+    },
+    "costume_samurai": {
+      "file": "costume_samurai.png",
+      "rows": [
+        "idle",
+        "blink_glance",
+        "hop",
+        "happy"
+      ],
+      "name": "Samurai",
+      "price": "$2.99",
+      "note": "replaces avatar_body and all clothes while worn"
+    },
+    "costume_office": {
+      "file": "costume_office.png",
+      "rows": [
+        "idle",
+        "blink_glance",
+        "hop",
+        "happy"
+      ],
+      "name": "Office Man",
+      "price": "$0.99",
+      "note": "replaces avatar_body and all clothes while worn"
+    },
+    "costume_ninja": {
+      "file": "costume_ninja.png",
+      "rows": [
+        "idle",
+        "blink_glance",
+        "hop",
+        "happy"
+      ],
+      "name": "Ninja",
+      "price": "$2.99",
+      "note": "replaces avatar_body and all clothes while worn"
+    },
+    "costume_spy": {
+      "file": "costume_spy.png",
+      "rows": [
+        "idle",
+        "blink_glance",
+        "hop",
+        "happy"
+      ],
+      "name": "Spy",
+      "price": "$2.49",
+      "note": "replaces avatar_body and all clothes while worn"
+    },
+    "costume_student": {
+      "file": "costume_student.png",
+      "rows": [
+        "idle",
+        "blink_glance",
+        "hop",
+        "happy"
+      ],
+      "name": "Student",
+      "price": "$0.99",
+      "note": "replaces avatar_body and all clothes while worn"
+    },
+    "costume_astronaut": {
+      "file": "costume_astronaut.png",
+      "rows": [
+        "idle",
+        "blink_glance",
+        "hop",
+        "happy"
+      ],
+      "name": "Astronaut",
+      "price": "$2.99",
+      "note": "replaces avatar_body and all clothes while worn"
+    },
+    "costume_knight": {
+      "file": "costume_knight.png",
+      "rows": [
+        "idle",
+        "blink_glance",
+        "hop",
+        "happy"
+      ],
+      "name": "Knight",
+      "price": "$2.49",
+      "note": "replaces avatar_body and all clothes while worn"
+    },
+    "costume_pirate": {
+      "file": "costume_pirate.png",
+      "rows": [
+        "idle",
+        "blink_glance",
+        "hop",
+        "happy"
+      ],
+      "name": "Pirate",
+      "price": "$1.99",
+      "note": "replaces avatar_body and all clothes while worn"
+    },
+    "costume_chef": {
+      "file": "costume_chef.png",
+      "rows": [
+        "idle",
+        "blink_glance",
+        "hop",
+        "happy"
+      ],
+      "name": "Chef",
+      "price": "$0.99",
+      "note": "replaces avatar_body and all clothes while worn"
+    },
+    "costume_firefighter": {
+      "file": "costume_firefighter.png",
+      "rows": [
+        "idle",
+        "blink_glance",
+        "hop",
+        "happy"
+      ],
+      "name": "Firefighter",
+      "price": "$1.99",
+      "note": "replaces avatar_body and all clothes while worn"
+    },
+    "costume_doctor": {
+      "file": "costume_doctor.png",
+      "rows": [
+        "idle",
+        "blink_glance",
+        "hop",
+        "happy"
+      ],
+      "name": "Doctor",
+      "price": "$1.49",
+      "note": "replaces avatar_body and all clothes while worn"
+    },
+    "costume_cowboy": {
+      "file": "costume_cowboy.png",
+      "rows": [
+        "idle",
+        "blink_glance",
+        "hop",
+        "happy"
+      ],
+      "name": "Cowboy",
+      "price": "$1.99",
+      "note": "replaces avatar_body and all clothes while worn"
+    },
+    "costume_robot": {
+      "file": "costume_robot.png",
+      "rows": [
+        "idle",
+        "blink_glance",
+        "hop",
+        "happy"
+      ],
+      "name": "Robot",
+      "price": "$2.49",
+      "note": "replaces avatar_body and all clothes while worn"
+    },
+    "costume_viking": {
+      "file": "costume_viking.png",
+      "rows": [
+        "idle",
+        "blink_glance",
+        "hop",
+        "happy"
+      ],
+      "name": "Viking",
+      "price": "$2.49",
+      "note": "replaces avatar_body and all clothes while worn"
+    },
+    "costume_hero": {
+      "file": "costume_hero.png",
+      "rows": [
+        "idle",
+        "blink_glance",
+        "hop",
+        "happy"
+      ],
+      "name": "Superhero",
+      "price": "$2.99",
+      "note": "replaces avatar_body and all clothes while worn"
+    },
+    "preview_poses_1": {
+      "file": "preview_poses_1.png",
+      "skin": "classic",
+      "rows": [
+        "sneakers",
+        "jeans",
+        "cap",
+        "shades"
+      ]
+    },
+    "preview_poses_2": {
+      "file": "preview_poses_2.png",
+      "skin": "classic",
+      "rows": [
+        "skin_mint",
+        "beanie",
+        "shorts",
+        "scarf"
+      ]
+    },
+    "preview_poses_3": {
+      "file": "preview_poses_3.png",
+      "skin": "classic",
+      "rows": [
+        "headphones",
+        "skin_strawberry",
+        "boots",
+        "hoodie"
+      ]
+    },
+    "preview_poses_4": {
+      "file": "preview_poses_4.png",
+      "skin": "classic",
+      "rows": [
+        "skin_midnight",
+        "cape",
+        "wizard",
+        "skin_gold"
+      ]
+    },
+    "preview_poses_5": {
+      "file": "preview_poses_5.png",
+      "skin": "classic",
+      "rows": [
+        "crown",
+        "unlock_burst",
+        null,
+        null
+      ]
+    },
+    "preview_poses_1_mint": {
+      "file": "preview_poses_1_mint.png",
+      "skin": "mint",
+      "rows": [
+        "sneakers",
+        "jeans",
+        "cap",
+        "shades"
+      ]
+    },
+    "preview_poses_2_mint": {
+      "file": "preview_poses_2_mint.png",
+      "skin": "mint",
+      "rows": [
+        "skin_mint",
+        "beanie",
+        "shorts",
+        "scarf"
+      ]
+    },
+    "preview_poses_3_mint": {
+      "file": "preview_poses_3_mint.png",
+      "skin": "mint",
+      "rows": [
+        "headphones",
+        "skin_strawberry",
+        "boots",
+        "hoodie"
+      ]
+    },
+    "preview_poses_4_mint": {
+      "file": "preview_poses_4_mint.png",
+      "skin": "mint",
+      "rows": [
+        "skin_midnight",
+        "cape",
+        "wizard",
+        "skin_gold"
+      ]
+    },
+    "preview_poses_5_mint": {
+      "file": "preview_poses_5_mint.png",
+      "skin": "mint",
+      "rows": [
+        "crown",
+        "unlock_burst",
+        null,
+        null
+      ]
+    },
+    "preview_poses_1_strawberry": {
+      "file": "preview_poses_1_strawberry.png",
+      "skin": "strawberry",
+      "rows": [
+        "sneakers",
+        "jeans",
+        "cap",
+        "shades"
+      ]
+    },
+    "preview_poses_2_strawberry": {
+      "file": "preview_poses_2_strawberry.png",
+      "skin": "strawberry",
+      "rows": [
+        "skin_mint",
+        "beanie",
+        "shorts",
+        "scarf"
+      ]
+    },
+    "preview_poses_3_strawberry": {
+      "file": "preview_poses_3_strawberry.png",
+      "skin": "strawberry",
+      "rows": [
+        "headphones",
+        "skin_strawberry",
+        "boots",
+        "hoodie"
+      ]
+    },
+    "preview_poses_4_strawberry": {
+      "file": "preview_poses_4_strawberry.png",
+      "skin": "strawberry",
+      "rows": [
+        "skin_midnight",
+        "cape",
+        "wizard",
+        "skin_gold"
+      ]
+    },
+    "preview_poses_5_strawberry": {
+      "file": "preview_poses_5_strawberry.png",
+      "skin": "strawberry",
+      "rows": [
+        "crown",
+        "unlock_burst",
+        null,
+        null
+      ]
+    },
+    "preview_poses_1_midnight": {
+      "file": "preview_poses_1_midnight.png",
+      "skin": "midnight",
+      "rows": [
+        "sneakers",
+        "jeans",
+        "cap",
+        "shades"
+      ]
+    },
+    "preview_poses_2_midnight": {
+      "file": "preview_poses_2_midnight.png",
+      "skin": "midnight",
+      "rows": [
+        "skin_mint",
+        "beanie",
+        "shorts",
+        "scarf"
+      ]
+    },
+    "preview_poses_3_midnight": {
+      "file": "preview_poses_3_midnight.png",
+      "skin": "midnight",
+      "rows": [
+        "headphones",
+        "skin_strawberry",
+        "boots",
+        "hoodie"
+      ]
+    },
+    "preview_poses_4_midnight": {
+      "file": "preview_poses_4_midnight.png",
+      "skin": "midnight",
+      "rows": [
+        "skin_midnight",
+        "cape",
+        "wizard",
+        "skin_gold"
+      ]
+    },
+    "preview_poses_5_midnight": {
+      "file": "preview_poses_5_midnight.png",
+      "skin": "midnight",
+      "rows": [
+        "crown",
+        "unlock_burst",
+        null,
+        null
+      ]
+    },
+    "preview_poses_1_gold": {
+      "file": "preview_poses_1_gold.png",
+      "skin": "gold",
+      "rows": [
+        "sneakers",
+        "jeans",
+        "cap",
+        "shades"
+      ]
+    },
+    "preview_poses_2_gold": {
+      "file": "preview_poses_2_gold.png",
+      "skin": "gold",
+      "rows": [
+        "skin_mint",
+        "beanie",
+        "shorts",
+        "scarf"
+      ]
+    },
+    "preview_poses_3_gold": {
+      "file": "preview_poses_3_gold.png",
+      "skin": "gold",
+      "rows": [
+        "headphones",
+        "skin_strawberry",
+        "boots",
+        "hoodie"
+      ]
+    },
+    "preview_poses_4_gold": {
+      "file": "preview_poses_4_gold.png",
+      "skin": "gold",
+      "rows": [
+        "skin_midnight",
+        "cape",
+        "wizard",
+        "skin_gold"
+      ]
+    },
+    "preview_poses_5_gold": {
+      "file": "preview_poses_5_gold.png",
+      "skin": "gold",
+      "rows": [
+        "crown",
+        "unlock_burst",
+        null,
+        null
+      ]
+    },
+    "item_icons": {
+      "file": "item_icons.png",
+      "cells": {
+        "sneakers": [
+          0,
+          0
+        ],
+        "jeans": [
+          0,
+          1
+        ],
+        "shades": [
+          0,
+          2
+        ],
+        "beanie": [
+          0,
+          3
+        ],
+        "scarf": [
+          1,
+          0
+        ],
+        "crown": [
+          1,
+          1
+        ],
+        "cap": [
+          1,
+          2
+        ],
+        "headphones": [
+          1,
+          3
+        ],
+        "hoodie": [
+          2,
+          0
+        ],
+        "cape": [
+          2,
+          1
+        ],
+        "boots": [
+          2,
+          2
+        ],
+        "shorts": [
+          2,
+          3
+        ],
+        "wizard": [
+          3,
+          0
+        ]
+      }
+    },
+    "item_icons_locked": {
+      "file": "item_icons_locked.png",
+      "cells": {
+        "sneakers": [
+          0,
+          0
+        ],
+        "jeans": [
+          0,
+          1
+        ],
+        "shades": [
+          0,
+          2
+        ],
+        "beanie": [
+          0,
+          3
+        ],
+        "scarf": [
+          1,
+          0
+        ],
+        "crown": [
+          1,
+          1
+        ],
+        "cap": [
+          1,
+          2
+        ],
+        "headphones": [
+          1,
+          3
+        ],
+        "hoodie": [
+          2,
+          0
+        ],
+        "cape": [
+          2,
+          1
+        ],
+        "boots": [
+          2,
+          2
+        ],
+        "shorts": [
+          2,
+          3
+        ],
+        "wizard": [
+          3,
+          0
+        ]
+      }
+    },
+    "skin_icons": {
+      "file": "skin_icons.png",
+      "cells": {
+        "classic": [
+          0,
+          0
+        ],
+        "mint": [
+          0,
+          1
+        ],
+        "strawberry": [
+          0,
+          2
+        ],
+        "midnight": [
+          0,
+          3
+        ],
+        "gold": [
+          2,
+          0
+        ],
+        "mint_locked": [
+          1,
+          0
+        ],
+        "strawberry_locked": [
+          1,
+          1
+        ],
+        "midnight_locked": [
+          1,
+          2
+        ],
+        "gold_locked": [
+          1,
+          3
+        ]
+      }
+    },
+    "skins_costumes": {
+      "file": "skins_costumes.png",
+      "cells": {
+        "soldier": {
+          "name": "Soldier",
+          "price": "$1.99",
+          "cell": [
+            0,
+            0
+          ]
+        },
+        "samurai": {
+          "name": "Samurai",
+          "price": "$2.99",
+          "cell": [
+            0,
+            1
+          ]
+        },
+        "office": {
+          "name": "Office Man",
+          "price": "$0.99",
+          "cell": [
+            0,
+            2
+          ]
+        },
+        "ninja": {
+          "name": "Ninja",
+          "price": "$2.99",
+          "cell": [
+            0,
+            3
+          ]
+        },
+        "spy": {
+          "name": "Spy",
+          "price": "$2.49",
+          "cell": [
+            1,
+            0
+          ]
+        },
+        "student": {
+          "name": "Student",
+          "price": "$0.99",
+          "cell": [
+            1,
+            1
+          ]
+        },
+        "astronaut": {
+          "name": "Astronaut",
+          "price": "$2.99",
+          "cell": [
+            1,
+            2
+          ]
+        },
+        "knight": {
+          "name": "Knight",
+          "price": "$2.49",
+          "cell": [
+            1,
+            3
+          ]
+        },
+        "pirate": {
+          "name": "Pirate",
+          "price": "$1.99",
+          "cell": [
+            2,
+            0
+          ]
+        },
+        "chef": {
+          "name": "Chef",
+          "price": "$0.99",
+          "cell": [
+            2,
+            1
+          ]
+        },
+        "firefighter": {
+          "name": "Firefighter",
+          "price": "$1.99",
+          "cell": [
+            2,
+            2
+          ]
+        },
+        "doctor": {
+          "name": "Doctor",
+          "price": "$1.49",
+          "cell": [
+            2,
+            3
+          ]
+        },
+        "cowboy": {
+          "name": "Cowboy",
+          "price": "$1.99",
+          "cell": [
+            3,
+            0
+          ]
+        },
+        "robot": {
+          "name": "Robot",
+          "price": "$2.49",
+          "cell": [
+            3,
+            1
+          ]
+        },
+        "viking": {
+          "name": "Viking",
+          "price": "$2.49",
+          "cell": [
+            3,
+            2
+          ]
+        },
+        "hero": {
+          "name": "Superhero",
+          "price": "$2.99",
+          "cell": [
+            3,
+            3
+          ]
+        }
+      },
+      "note": "still front view per cell, feet on baselineY like every other sheet"
+    },
+    "damage": {
+      "file": "damage.png",
+      "rows": [
+        "hit",
+        "cracked_dazed",
+        "badly_damaged",
+        "break_apart"
+      ],
+      "skin": "classic",
+      "note": "whole avatar; clothes are not drawn in the damage animation"
+    },
+    "damage_mint": {
+      "file": "damage_mint.png",
+      "rows": [
+        "hit",
+        "cracked_dazed",
+        "badly_damaged",
+        "break_apart"
+      ],
+      "skin": "mint",
+      "note": "whole avatar; clothes are not drawn in the damage animation"
+    },
+    "damage_strawberry": {
+      "file": "damage_strawberry.png",
+      "rows": [
+        "hit",
+        "cracked_dazed",
+        "badly_damaged",
+        "break_apart"
+      ],
+      "skin": "strawberry",
+      "note": "whole avatar; clothes are not drawn in the damage animation"
+    },
+    "damage_midnight": {
+      "file": "damage_midnight.png",
+      "rows": [
+        "hit",
+        "cracked_dazed",
+        "badly_damaged",
+        "break_apart"
+      ],
+      "skin": "midnight",
+      "note": "whole avatar; clothes are not drawn in the damage animation"
+    },
+    "damage_gold": {
+      "file": "damage_gold.png",
+      "rows": [
+        "hit",
+        "cracked_dazed",
+        "badly_damaged",
+        "break_apart"
+      ],
+      "skin": "gold",
+      "note": "whole avatar; clothes are not drawn in the damage animation"
+    },
+    "damage_costume_soldier": {
+      "file": "damage_costume_soldier.png",
+      "rows": [
+        "hit",
+        "cracked_dazed",
+        "badly_damaged",
+        "break_apart"
+      ],
+      "skin": "soldier",
+      "note": "whole avatar; clothes are not drawn in the damage animation"
+    },
+    "damage_costume_samurai": {
+      "file": "damage_costume_samurai.png",
+      "rows": [
+        "hit",
+        "cracked_dazed",
+        "badly_damaged",
+        "break_apart"
+      ],
+      "skin": "samurai",
+      "note": "whole avatar; clothes are not drawn in the damage animation"
+    },
+    "damage_costume_office": {
+      "file": "damage_costume_office.png",
+      "rows": [
+        "hit",
+        "cracked_dazed",
+        "badly_damaged",
+        "break_apart"
+      ],
+      "skin": "office",
+      "note": "whole avatar; clothes are not drawn in the damage animation"
+    },
+    "damage_costume_ninja": {
+      "file": "damage_costume_ninja.png",
+      "rows": [
+        "hit",
+        "cracked_dazed",
+        "badly_damaged",
+        "break_apart"
+      ],
+      "skin": "ninja",
+      "note": "whole avatar; clothes are not drawn in the damage animation"
+    },
+    "damage_costume_spy": {
+      "file": "damage_costume_spy.png",
+      "rows": [
+        "hit",
+        "cracked_dazed",
+        "badly_damaged",
+        "break_apart"
+      ],
+      "skin": "spy",
+      "note": "whole avatar; clothes are not drawn in the damage animation"
+    },
+    "damage_costume_student": {
+      "file": "damage_costume_student.png",
+      "rows": [
+        "hit",
+        "cracked_dazed",
+        "badly_damaged",
+        "break_apart"
+      ],
+      "skin": "student",
+      "note": "whole avatar; clothes are not drawn in the damage animation"
+    },
+    "damage_costume_astronaut": {
+      "file": "damage_costume_astronaut.png",
+      "rows": [
+        "hit",
+        "cracked_dazed",
+        "badly_damaged",
+        "break_apart"
+      ],
+      "skin": "astronaut",
+      "note": "whole avatar; clothes are not drawn in the damage animation"
+    },
+    "damage_costume_knight": {
+      "file": "damage_costume_knight.png",
+      "rows": [
+        "hit",
+        "cracked_dazed",
+        "badly_damaged",
+        "break_apart"
+      ],
+      "skin": "knight",
+      "note": "whole avatar; clothes are not drawn in the damage animation"
+    },
+    "damage_costume_pirate": {
+      "file": "damage_costume_pirate.png",
+      "rows": [
+        "hit",
+        "cracked_dazed",
+        "badly_damaged",
+        "break_apart"
+      ],
+      "skin": "pirate",
+      "note": "whole avatar; clothes are not drawn in the damage animation"
+    },
+    "damage_costume_chef": {
+      "file": "damage_costume_chef.png",
+      "rows": [
+        "hit",
+        "cracked_dazed",
+        "badly_damaged",
+        "break_apart"
+      ],
+      "skin": "chef",
+      "note": "whole avatar; clothes are not drawn in the damage animation"
+    },
+    "damage_costume_firefighter": {
+      "file": "damage_costume_firefighter.png",
+      "rows": [
+        "hit",
+        "cracked_dazed",
+        "badly_damaged",
+        "break_apart"
+      ],
+      "skin": "firefighter",
+      "note": "whole avatar; clothes are not drawn in the damage animation"
+    },
+    "damage_costume_doctor": {
+      "file": "damage_costume_doctor.png",
+      "rows": [
+        "hit",
+        "cracked_dazed",
+        "badly_damaged",
+        "break_apart"
+      ],
+      "skin": "doctor",
+      "note": "whole avatar; clothes are not drawn in the damage animation"
+    },
+    "damage_costume_cowboy": {
+      "file": "damage_costume_cowboy.png",
+      "rows": [
+        "hit",
+        "cracked_dazed",
+        "badly_damaged",
+        "break_apart"
+      ],
+      "skin": "cowboy",
+      "note": "whole avatar; clothes are not drawn in the damage animation"
+    },
+    "damage_costume_robot": {
+      "file": "damage_costume_robot.png",
+      "rows": [
+        "hit",
+        "cracked_dazed",
+        "badly_damaged",
+        "break_apart"
+      ],
+      "skin": "robot",
+      "note": "whole avatar; clothes are not drawn in the damage animation"
+    },
+    "damage_costume_viking": {
+      "file": "damage_costume_viking.png",
+      "rows": [
+        "hit",
+        "cracked_dazed",
+        "badly_damaged",
+        "break_apart"
+      ],
+      "skin": "viking",
+      "note": "whole avatar; clothes are not drawn in the damage animation"
+    },
+    "damage_costume_hero": {
+      "file": "damage_costume_hero.png",
+      "rows": [
+        "hit",
+        "cracked_dazed",
+        "badly_damaged",
+        "break_apart"
+      ],
+      "skin": "hero",
+      "note": "whole avatar; clothes are not drawn in the damage animation"
+    }
+  }
+}
