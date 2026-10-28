@@ -25,7 +25,8 @@
       "predictiveBackGestureEnabled": false,
       "permissions": [
         "ACCESS_COARSE_LOCATION",
-        "ACCESS_FINE_LOCATION"
+        "ACCESS_FINE_LOCATION",
+        "ACTIVITY_RECOGNITION"
       ]
     },
     "web": {
@@ -56,7 +57,13 @@
           "isAndroidForegroundServiceEnabled": true
         }
       ],
-      "expo-notifications"
+      "expo-notifications",
+      [
+        "expo-sensors",
+        {
+          "motionPermission": "Lua counts your steps so the walking you do earns XP and keeps Lua healthy."
+        }
+      ]
     ],
     "experiments": {
       "typedRoutes": true,
