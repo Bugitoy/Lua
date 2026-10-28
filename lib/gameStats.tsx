@@ -10,6 +10,8 @@ export type GameStats = {
   distanceMiles: number;
   hoursStudied: number;
   goalStreak: number;
+  /** Steps walked today, from the step counter or estimated from GPS. */
+  stepsToday: number;
 };
 
 /**
@@ -25,10 +27,16 @@ let state: GameStats = {
   distanceMiles: MAP_DEMO.distanceMiles,
   hoursStudied: MAP_DEMO.hoursStudied,
   goalStreak: MAP_DEMO.goalStreak,
+  stepsToday: MAP_DEMO.stepsToday,
 };
 
 type Listener = () => void;
 const listeners = new Set<Listener>();
+
+/** Runs `listener` after every stats update; for non-React callers. Returns an unsubscribe. */
+export function subscribeGameStats(listener: Listener): () => void {
+  return subscribe(listener);
+}
 
 function subscribe(listener: Listener): () => void {
   listeners.add(listener);

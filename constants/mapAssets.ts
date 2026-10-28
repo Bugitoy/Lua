@@ -49,4 +49,5 @@ export const MAP_DEMO = {
   distanceMiles: 0,
   hoursStudied: 0,
   goalStreak: 0,
+  stepsToday: 0,
 } as const;
