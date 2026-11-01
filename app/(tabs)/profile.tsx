@@ -21,7 +21,7 @@ import { useGameStats } from "@/lib/gameStats";
 import { getAppLocale } from "@/lib/i18n/formatLocale";
 import { useLanguagePreference } from "@/lib/i18n/LanguageProvider";
 import { useProfile } from "@/lib/profileStore";
-import { xpForStats } from "@/lib/xp";
+import { useStatsXp } from "@/lib/xp";
 
 const NOTIFICATIONS_ENABLED_KEY = "notificationsEnabled";
 
@@ -102,6 +102,7 @@ export default function ProfileScreen() {
   const { languageLabel } = useLanguagePreference();
   const { stats } = useGameStats();
   const { devXpBonus } = useAchievements();
+  const statsXp = useStatsXp();
   const { profile } = useProfile();
   const [notificationsEnabled, setNotificationsEnabled] = useState(false);
   const [languageModalVisible, setLanguageModalVisible] = useState(false);
@@ -167,7 +168,7 @@ export default function ProfileScreen() {
     [t],
   );
 
-  const xp = Math.max(0, Math.floor(xpForStats(stats)) + devXpBonus);
+  const xp = Math.max(0, statsXp + devXpBonus);
   const xpLabel = formatXp(xp, getAppLocale());
   const xpProgress = xpBarProgress(xp);
 

@@ -50,7 +50,7 @@ import {
   type Equipped,
 } from "@/lib/achievementsStore";
 import { getAppLocale } from "@/lib/i18n/formatLocale";
-import { useStatsXp } from "@/lib/xp";
+import { useStatsXp, useXpLoaded } from "@/lib/xp";
 
 const MAX_COLUMN_WIDTH = 430;
 const SIDE_MARGIN = 16;
@@ -85,6 +85,7 @@ export default function AchievementsScreen() {
     useAchievements();
   const sheets = useAchievementSheets();
   const statsXp = useStatsXp();
+  const xpLoaded = useXpLoaded();
   const xp = Math.max(0, statsXp + devXpBonus);
   const targetCount = unlockedCountForXp(xp);
 
@@ -104,7 +105,8 @@ export default function AchievementsScreen() {
   const avatar = useRef<LuaAvatarHandle>(null);
 
   useEffect(() => {
-    if (!hydrated || ready) return;
+    // Wait for saved XP too, or the starting 0 would be recorded as the XP last seen.
+    if (!hydrated || !xpLoaded || ready) return;
     // Rewards earned since the screen last showed XP go straight on, without the unlock show.
     const seen = getSeenXp();
     const newly = REWARDS.filter((reward) => reward.xp > seen && reward.xp <= xp);
@@ -113,7 +115,7 @@ export default function AchievementsScreen() {
     if (lastSkin && lastSkin.kind === "skin") useSkin(lastSkin.id);
     setSeenXp(xp);
     setReady(true);
-  }, [hydrated, ready, xp]);
+  }, [hydrated, xpLoaded, ready, xp]);
 
   useEffect(
     () => () => {
@@ -166,7 +168,7 @@ export default function AchievementsScreen() {
     setSeenXp(xp);
 
     if (xp < from) {
-      // XP went down (a new day, or the dev reset): jump to the new state, no count-down.
+      // XP went down (only the dev reset does this now): jump to the new state, no count-down.
       cancelAnimation(xpCounter);
       cancelAnimation(xpFlashWhite);
       cancelAnimation(xpFlashGreen);
