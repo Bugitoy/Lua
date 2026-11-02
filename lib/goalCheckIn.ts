@@ -1,6 +1,7 @@
 import { haversineMeters, type LatLngPoint } from "@/lib/geo";
 import { getScheduledItems, markGoalCompleted } from "@/lib/scheduleStore";
 import { getStudySession, stopStudySession } from "@/lib/studySession";
+import { awardGoalArrival } from "@/lib/xpLedger";
 
 export const GOAL_ARRIVAL_RADIUS_METERS = 25;
 export const STUDY_EXIT_RADIUS_METERS = 50;
@@ -9,6 +10,9 @@ export const STUDY_EXIT_RADIUS_METERS = 50;
  * Completes every unfinished goal within arrival range of `point` and ends the
  * study session once the user has walked away from its goal. Shared by the
  * map screen and background location tracking.
+ *
+ * Every goal reached counts as done, but it only pays XP if the user walked
+ * there (see `awardGoalArrival`).
  */
 export function checkInAtGoals(point: LatLngPoint): void {
   const items = getScheduledItems();
@@ -27,9 +31,10 @@ export function checkInAtGoals(point: LatLngPoint): void {
   for (const item of items) {
     if (
       !item.completed &&
-      haversineMeters(point, item) <= GOAL_ARRIVAL_RADIUS_METERS
+      haversineMeters(point, item) <= GOAL_ARRIVAL_RADIUS_METERS &&
+      markGoalCompleted(item.id)
     ) {
-      markGoalCompleted(item.id);
+      void awardGoalArrival(item);
     }
   }
 }
