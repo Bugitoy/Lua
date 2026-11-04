@@ -13,7 +13,7 @@ import { useEffect, useRef } from "react";
 import { View } from "react-native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 
-import { useMidnightHealthDepletion } from "@/hooks/useMidnightHealthDepletion";
+import { useDayRollover } from "@/hooks/useDayRollover";
 import { useBackgroundTracking } from "@/lib/backgroundTracking";
 import { LanguageProvider } from "@/lib/i18n/LanguageProvider";
 import { ProfileProvider } from "@/lib/ProfileProvider";
@@ -23,8 +23,8 @@ void SplashScreen.preventAutoHideAsync();
 export default function RootLayout() {
   const mountedRef = useRef(true);
 
-  // Depletes health at midnight based on unfinished goals from the prior day
-  useMidnightHealthDepletion();
+  // Counts steps, loads saved health/XP, and grades each day at midnight
+  useDayRollover();
   useBackgroundTracking();
 
   const [loaded, error] = useFonts({
