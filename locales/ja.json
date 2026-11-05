@@ -98,6 +98,7 @@
       "titlePlaceholder": "タイトルを追加",
       "location": "場所",
       "locationSearchHint": "2 文字以上入力すると世界中を検索できます（現在地は類似名の並び替えに役立ちます）。",
+      "tooCloseWarning": "この場所は今いる場所のすぐ近くなので、XPはもらえません。歩いて行ける別の場所を選びましょう。",
       "pickOnMap": "地図で選ぶ",
       "addButton": "スケジュールに追加",
       "defaultCategory": "イベント"

@@ -98,6 +98,7 @@
       "titlePlaceholder": "Añade un título",
       "location": "Ubicación",
       "locationSearchHint": "Escribe al menos 2 caracteres para buscar en cualquier lugar (tu ubicación ayuda a ordenar nombres similares).",
+      "tooCloseWarning": "Este lugar está justo donde estás, así que no dará XP. Elige un sitio al que vayas a caminar.",
       "pickOnMap": "Elegir en el mapa",
       "addButton": "Añadir al horario",
       "defaultCategory": "Evento"

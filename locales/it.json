@@ -98,6 +98,7 @@
       "titlePlaceholder": "Aggiungi un titolo",
       "location": "Posizione",
       "locationSearchHint": "Digita almeno 2 caratteri per cercare ovunque (la tua posizione aiuta a ordinare nomi simili).",
+      "tooCloseWarning": "Questo luogo è proprio dove ti trovi, quindi non darà XP. Scegli un posto che raggiungerai a piedi.",
       "pickOnMap": "Scegli sulla mappa",
       "addButton": "Aggiungi al programma",
       "defaultCategory": "Evento"

@@ -98,6 +98,7 @@
       "titlePlaceholder": "Ajouter un titre",
       "location": "Lieu",
       "locationSearchHint": "Saisissez au moins 2 caractères pour rechercher partout (votre position aide à classer les noms similaires).",
+      "tooCloseWarning": "Ce lieu est juste là où vous êtes, il ne rapportera donc pas d'XP. Choisissez un endroit où vous irez à pied.",
       "pickOnMap": "Choisir sur la carte",
       "addButton": "Ajouter au planning",
       "defaultCategory": "Événement"

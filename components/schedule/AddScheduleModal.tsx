@@ -19,8 +19,10 @@ import { NearbyLocationSearchField } from "@/components/schedule/NearbyLocationS
 import { TimeWheelPicker } from "@/components/schedule/TimeWheelPicker";
 import { Pixelify } from "@/constants/fonts";
 import { LUA_GREEN } from "@/constants/mapAssets";
+import { haversineMeters } from "@/lib/geo";
 import { formatAppTime } from "@/lib/i18n/formatLocale";
 import type { NearbyPlace } from "@/lib/nearbyPlacesProvider";
+import { TOO_CLOSE_GOAL_METERS } from "@/lib/walkingRules";
 
 import {
     SCHEDULE_THEME_PRESETS,
@@ -201,6 +203,11 @@ export function AddScheduleModal({
   }, [category, onClose, onSave, picked, reset, t, theme, time, title]);
 
   const canSave = !!title.trim() && picked != null;
+  /** A goal right where the user stands completes without walking, so it won't pay XP. */
+  const pickedTooClose =
+    picked != null &&
+    userLocation != null &&
+    haversineMeters(userLocation, picked) <= TOO_CLOSE_GOAL_METERS;
 
   return (
     <Modal
@@ -426,6 +433,20 @@ export function AddScheduleModal({
               >
                 {t("schedule.addModal.locationSearchHint")}
               </Text>
+              {pickedTooClose ? (
+                <View
+                  className="-mt-3 mb-6 flex-row items-start gap-2 rounded-xl px-3 py-2.5"
+                  style={{ backgroundColor: "rgba(245,158,11,0.12)" }}
+                >
+                  <Ionicons name="walk-outline" size={16} color="#b45309" />
+                  <Text
+                    className="flex-1 text-xs"
+                    style={{ fontFamily: Pixelify.medium, color: "#92400e" }}
+                  >
+                    {t("schedule.addModal.tooCloseWarning")}
+                  </Text>
+                </View>
+              ) : null}
 
               <Pressable
                 onPress={handleSave}
