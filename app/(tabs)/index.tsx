@@ -212,6 +212,7 @@ export default function MapScreen() {
           goalsTotal={stats.goalsTotal}
           goalDayPercent={stats.goalDayPercent}
           distanceMiles={stats.distanceMiles}
+          stepsToday={stats.stepsToday}
           bottomInset={insets.bottom}
         />
         <View

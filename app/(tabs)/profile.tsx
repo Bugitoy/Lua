@@ -21,6 +21,7 @@ import { useGameStats } from "@/lib/gameStats";
 import { getAppLocale } from "@/lib/i18n/formatLocale";
 import { useLanguagePreference } from "@/lib/i18n/LanguageProvider";
 import { useProfile } from "@/lib/profileStore";
+import { DAILY_STEP_GOAL } from "@/lib/walkingRules";
 import { useStatsXp } from "@/lib/xp";
 
 const NOTIFICATIONS_ENABLED_KEY = "notificationsEnabled";
@@ -174,6 +175,15 @@ export default function ProfileScreen() {
 
   const statCards = useMemo(
     () => [
+      {
+        key: "stepsToday",
+        label: t("profile.stats.stepsToday"),
+        value: formatXp(stats.stepsToday, getAppLocale()),
+        sub: `/ ${formatXp(DAILY_STEP_GOAL, getAppLocale())}`,
+        icon: "walk-outline" as const,
+        accent: "#14b8a6",
+        fullWidth: true,
+      },
       {
         key: "goalsToday",
         label: t("profile.stats.goalsToday"),
@@ -337,7 +347,7 @@ export default function ProfileScreen() {
               key={item.key}
               className="items-center rounded-2xl bg-white py-4"
               style={{
-                width: "47.5%",
+                width: "fullWidth" in item ? "100%" : "47.5%",
                 shadowColor: "#000",
                 shadowOffset: { width: 0, height: 2 },
                 shadowOpacity: 0.05,

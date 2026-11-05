@@ -47,6 +47,8 @@
       "goalsCompleted": "पूर्ण लक्ष्य",
       "dayPercent": "आज {{percent}}%",
       "goalsRatio": "{{done}}/{{total}}",
+      "stepsToday": "आज के कदम",
+      "stepsRatio": "{{steps}}/{{goal}}",
       "distanceWalked": "चली गई दूरी",
       "distanceMiles": "{{distance}} मील",
       "checkHealth": "स्वास्थ्य देखें"
@@ -123,6 +125,7 @@
     "experienceLevel": "अनुभव स्तर",
     "stats": {
       "goalsToday": "आज के लक्ष्य",
+      "stepsToday": "आज के कदम",
       "goalStreak": "लक्ष्य पूर्णता श्रृंखला",
       "milesWalked": "चले गए मील",
       "hoursStudied": "काम के घंटे"

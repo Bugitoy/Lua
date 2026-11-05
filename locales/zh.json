@@ -47,6 +47,8 @@
       "goalsCompleted": "已完成目标",
       "dayPercent": "今日 {{percent}}%",
       "goalsRatio": "{{done}}/{{total}}",
+      "stepsToday": "今日步数",
+      "stepsRatio": "{{steps}}/{{goal}}",
       "distanceWalked": "步行距离",
       "distanceMiles": "{{distance}} 英里",
       "checkHealth": "查看健康"
@@ -123,6 +125,7 @@
     "experienceLevel": "经验等级",
     "stats": {
       "goalsToday": "今日目标",
+      "stepsToday": "今日步数",
       "goalStreak": "目标完成连续天数",
       "milesWalked": "步行英里数",
       "hoursStudied": "工作时长"

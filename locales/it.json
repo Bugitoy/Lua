@@ -47,6 +47,8 @@
       "goalsCompleted": "Obiettivi completati",
       "dayPercent": "{{percent}}% giornata",
       "goalsRatio": "{{done}}/{{total}}",
+      "stepsToday": "Passi oggi",
+      "stepsRatio": "{{steps}}/{{goal}}",
       "distanceWalked": "Distanza percorsa",
       "distanceMiles": "{{distance}} miglia",
       "checkHealth": "Controlla salute"
@@ -123,6 +125,7 @@
     "experienceLevel": "Livello di esperienza",
     "stats": {
       "goalsToday": "Obiettivi oggi",
+      "stepsToday": "Passi oggi",
       "goalStreak": "Serie obiettivi completati",
       "milesWalked": "Miglia percorse",
       "hoursStudied": "Ore di lavoro"

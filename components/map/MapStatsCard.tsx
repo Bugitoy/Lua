@@ -5,14 +5,18 @@ import { useCallback } from "react";
 import { Platform, Pressable, Text, View } from "react-native";
 import { useTranslation } from "react-i18next";
 
+import { formatXp } from "@/components/achievements/theme";
 import { Pixelify } from "@/constants/fonts";
 import { LUA_GREEN } from "@/constants/mapAssets";
+import { getAppLocale } from "@/lib/i18n/formatLocale";
+import { DAILY_STEP_GOAL } from "@/lib/walkingRules";
 
 type MapStatsCardProps = {
   goalsDone: number;
   goalsTotal: number;
   goalDayPercent: number;
   distanceMiles: number;
+  stepsToday: number;
   bottomInset: number;
 };
 
@@ -21,6 +25,7 @@ export function MapStatsCard({
   goalsTotal,
   goalDayPercent,
   distanceMiles,
+  stepsToday,
   bottomInset,
 }: MapStatsCardProps) {
   const { t } = useTranslation();
@@ -90,6 +95,27 @@ export function MapStatsCard({
               />
             </View>
           </View>
+        </View>
+
+        <View className="mt-2.5 flex-row items-center justify-between gap-2">
+          <View className="min-w-0 flex-1 flex-row items-center gap-1.5">
+            <Ionicons name="walk-outline" size={18} color={LUA_GREEN} />
+            <Text
+              className="shrink text-xs text-neutral-800"
+              style={{ fontFamily: Pixelify.semibold }}
+            >
+              {t("map.statsCard.stepsToday")}
+            </Text>
+          </View>
+          <Text
+            className="text-base text-neutral-900"
+            style={{ fontFamily: Pixelify.bold }}
+          >
+            {t("map.statsCard.stepsRatio", {
+              steps: formatXp(stepsToday, getAppLocale()),
+              goal: formatXp(DAILY_STEP_GOAL, getAppLocale()),
+            })}
+          </Text>
         </View>
 
         <View className="mt-2.5 flex-row items-center justify-between gap-2">

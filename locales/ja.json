@@ -47,6 +47,8 @@
       "goalsCompleted": "完了した目標",
       "dayPercent": "今日 {{percent}}%",
       "goalsRatio": "{{done}}/{{total}}",
+      "stepsToday": "今日の歩数",
+      "stepsRatio": "{{steps}}/{{goal}}",
       "distanceWalked": "歩いた距離",
       "distanceMiles": "{{distance}} マイル",
       "checkHealth": "健康を確認"
@@ -123,6 +125,7 @@
     "experienceLevel": "経験レベル",
     "stats": {
       "goalsToday": "今日の目標",
+      "stepsToday": "今日の歩数",
       "goalStreak": "目標達成連続日数",
       "milesWalked": "歩いたマイル",
       "hoursStudied": "作業時間"

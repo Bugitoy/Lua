@@ -47,6 +47,8 @@
       "goalsCompleted": "완료한 목표",
       "dayPercent": "오늘 {{percent}}%",
       "goalsRatio": "{{done}}/{{total}}",
+      "stepsToday": "오늘 걸음 수",
+      "stepsRatio": "{{steps}}/{{goal}}",
       "distanceWalked": "걸은 거리",
       "distanceMiles": "{{distance}}마일",
       "checkHealth": "건강 확인"
@@ -123,6 +125,7 @@
     "experienceLevel": "경험 레벨",
     "stats": {
       "goalsToday": "오늘의 목표",
+      "stepsToday": "오늘 걸음 수",
       "goalStreak": "목표 완료 연속 일수",
       "milesWalked": "걸은 마일",
       "hoursStudied": "작업 시간"
