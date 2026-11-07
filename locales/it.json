@@ -502,6 +502,130 @@
   "settings": {
     "systemSettingsDescription": "Apri le impostazioni del dispositivo per gestire autorizzazioni come le notifiche."
   },
+  "legal": {
+    "lastUpdated": "Ultimo aggiornamento: 27 maggio 2026",
+    "terms": {
+      "title": "Termini e condizioni",
+      "effectiveDate": "Data di entrata in vigore: 27 maggio 2026",
+      "intro": [
+        "Leggi attentamente questi Termini e condizioni (\"Termini\", \"Termini e condizioni\") prima di usare l'applicazione mobile Lua (il \"Servizio\" o l'\"App\"), gestita e sviluppata dal Team di sviluppo di Lua (\"noi\" o \"nostro\").",
+        "Scaricando, installando, registrando un account, accedendo a Lua o usandola, accetti di essere vincolato da questi Termini. Se non sei d'accordo con una qualsiasi parte dei termini, devi smettere immediatamente di usare l'App ed eliminarla dal tuo dispositivo."
+      ],
+      "sections": [
+        {
+          "title": "1. Accettazione dei Termini",
+          "body": "Questi Termini costituiscono un accordo legalmente vincolante tra te, a titolo personale o per conto di un ente (\"tu\" o \"Utente\"), e gli sviluppatori di Lua. Accetti che, accedendo all'App, hai letto, compreso e accettato di essere vincolato da tutti questi Termini e condizioni. Ci riserviamo il diritto, a nostra esclusiva discrezione, di modificare questi Termini in qualsiasi momento e per qualsiasi motivo. Ti informeremo di eventuali modifiche aggiornando la \"Data di entrata in vigore\" di questi Termini, e rinunci a ricevere un avviso specifico per ciascuna modifica."
+        },
+        {
+          "title": "2. Requisiti di idoneità ed età",
+          "body": "Il Servizio non è destinato a utenti di età inferiore a 13 anni. Usando l'App, dichiari e garantisci di avere almeno 13 anni.\n\nUtenti minorenni: se hai tra i 13 e i 18 anni (o non hai raggiunto la maggiore età nella tua giurisdizione), per usare il Servizio devi avere il permesso e la supervisione diretta di un genitore o tutore legale.\n\nEliminazione dell'account: se veniamo a sapere o abbiamo motivo di sospettare di aver raccolto dati personali di un utente con meno di 13 anni, elimineremo tempestivamente quell'account e tutti i dati cloud associati."
+        },
+        {
+          "title": "3. Creazione e sicurezza dell'account",
+          "body": "Per accedere a tutte le funzioni di Lua, tra cui la sincronizzazione tra dispositivi, le classifiche e i dati del profilo salvati, devi registrare un Account.\n\nInformazioni accurate: accetti di fornire informazioni vere, accurate, aggiornate e complete durante la registrazione e di aggiornarle affinché restino accurate e complete.\n\nRiservatezza delle credenziali: sei l'unico responsabile della riservatezza delle credenziali del tuo account (incluse password e token di autenticazione) e di tutte le attività svolte con il tuo account.\n\nUso non autorizzato: accetti di avvisarci immediatamente di qualsiasi uso non autorizzato del tuo account o di qualsiasi altra violazione della sicurezza. Non saremo responsabili di perdite o danni derivanti dalla mancata protezione delle informazioni del tuo account.\n\nChiusura dell'account: ci riserviamo il diritto di sospendere, disattivare o eliminare il tuo account a nostra esclusiva discrezione, senza preavviso né responsabilità, se violi uno qualsiasi di questi Termini."
+        },
+        {
+          "title": "4. Natura del Servizio",
+          "body": "Lua è un'applicazione di benessere, monitoraggio delle abitudini e produttività basata sulla posizione. La meccanica principale consiste nel pianificare luoghi geografici reali (\"Destinazioni\") e raggiungerli fisicamente.\n\nSincronizzazione cloud: l'App si appoggia a un'infrastruttura server remota per salvare profilo, programma, statistiche e punti esperienza (XP). Riconosci che l'accesso continuo a queste funzioni richiede una connessione internet attiva.\n\nVerifica della posizione: quando entri in un raggio definito (circa 25 metri) da una Destinazione, l'App usa il sistema di posizionamento globale (GPS) del tuo dispositivo per verificare il tuo arrivo e sincronizzare il completamento con i nostri server remoti."
+        },
+        {
+          "title": "5. Assunzione del rischio e sicurezza fisica",
+          "body": "Questa è una disposizione fondamentale per la tua sicurezza. Lua richiede di spostarsi fisicamente nel mondo reale. Usando l'App, riconosci, comprendi e accetti espressamente quanto segue:\n\nAttenzione all'ambiente: accetti di prestare sempre un'attenzione rigorosa e costante all'ambiente fisico che ti circonda mentre usi l'App. Non permetterai all'App di distrarti dal muoverti in sicurezza.\n\nCodice della strada e regole per i pedoni: accetti di rispettare rigorosamente tutte le norme stradali, pedonali e di sicurezza locali applicabili. Ti è severamente vietato usare l'App mentre guidi un veicolo a motore, una bicicletta, un monopattino o qualsiasi altro mezzo di trasporto che richieda tutta la tua attenzione.\n\nNessuna violazione di proprietà: poter cercare e impostare una Destinazione nell'App tramite mappe di terzi non ti dà il diritto legale di accedere a quel luogo. Accetti di non entrare in proprietà private senza esplicito permesso e di non accedere ad aree riservate, pericolose o rischiose mentre cerchi di completare un obiettivo nell'App.\n\nSalute personale e infortuni: sei l'unico responsabile della tua salute e delle tue capacità fisiche. L'App è uno strumento motivazionale e non costituisce un consiglio medico, fisioterapico o sanitario. Ti assumi tutti i rischi fisici, compresi infortuni o morte, legati allo sforzo fisico necessario per raggiungere le Destinazioni in programma."
+        },
+        {
+          "title": "6. Condotta dell'utente e fair play",
+          "body": "Per preservare l'integrità dei sistemi di progressione, delle classifiche e della community dell'App, accetti di non svolgere nessuna delle seguenti attività vietate:\n\nFalsificazione della posizione: usare software di spoofing GPS, emulatori, client modificati o qualsiasi altro mezzo tecnico per falsificare la tua posizione fisica allo scopo di completare artificialmente obiettivi, guadagnare XP o manipolare le classifiche.\n\nInterferenze malevole: tentare di decompilare, decodificare, violare o disturbare l'infrastruttura server, la sicurezza del database o le API dell'App.\n\nMolestie e abusi: usare l'App per molestare, perseguitare, tracciare o minacciare altre persone.\n\nScopi illeciti: usare il Servizio per scopi illeciti, non autorizzati o non previsti."
+        },
+        {
+          "title": "7. Contenuti generati dagli utenti (UGC)",
+          "body": "L'App può consentirti di creare un profilo pubblico, con nome visualizzato, nome utente e avatar, che può essere visibile ad altri utenti nelle classifiche.\n\nStandard dei contenuti: accetti di non caricare né creare contenuti offensivi, diffamatori, osceni, minacciosi, lesivi dei diritti di proprietà intellettuale o comunque inappropriati.\n\nDiritto di moderazione: ci riserviamo il diritto, ma non l'obbligo, di esaminare, monitorare, modificare o rimuovere qualsiasi contenuto generato dagli utenti a nostra esclusiva discrezione e senza preavviso, se riteniamo che violi questi Termini."
+        },
+        {
+          "title": "8. Servizi di terze parti",
+          "body": "Lua integra servizi forniti da partner terzi affidabili per offrire le sue funzioni principali:\n\nInfrastruttura e hosting: il nostro database, l'autenticazione degli utenti e lo spazio di archiviazione cloud sono ospitati da fornitori di infrastruttura terzi e sicuri. Non garantiamo la disponibilità ininterrotta dei server.\n\nMappe e ricerca di luoghi: l'App usa servizi di mappe e geocodifica di terze parti per permetterti di cercare e visualizzare luoghi. Non garantiamo l'accuratezza, la completezza o la sicurezza di luoghi, percorsi o dati cartografici forniti da questi servizi esterni.\n\nIl tuo uso di Lua è inoltre soggetto ai termini di servizio e alle informative sulla privacy di questi fornitori terzi."
+        },
+        {
+          "title": "9. Diritti di proprietà intellettuale",
+          "body": "L'App e i suoi contenuti originali, le funzioni e le funzionalità, inclusi a titolo esemplificativo il codice sorgente, gli schemi del database, l'interfaccia utente, lo stile pixel art e il design e gli sprite del personaggio \"Lua\", sono e resteranno di proprietà esclusiva del Team di sviluppo di Lua. L'App è protetta dalle leggi sul diritto d'autore, sui marchi e da altre leggi sulla proprietà intellettuale. Ti viene concessa una licenza limitata, non esclusiva, non trasferibile e revocabile per usare l'App a scopi personali e non commerciali."
+        },
+        {
+          "title": "10. Esclusione di garanzie",
+          "body": "L'APP È FORNITA \"COSÌ COM'È\" E \"COME DISPONIBILE\". ESCLUDIAMO ESPRESSAMENTE QUALSIASI GARANZIA DI QUALSIASI TIPO, ESPLICITA O IMPLICITA, INCLUSE A TITOLO ESEMPLIFICATIVO LE GARANZIE IMPLICITE DI COMMERCIABILITÀ, IDONEITÀ A UNO SCOPO PARTICOLARE E NON VIOLAZIONE. Non garantiamo che:\n\nL'App o i server soddisfino i tuoi requisiti o le tue aspettative.\n\nIl tracciamento GPS, il rilevamento dell'arrivo o la ricerca di luoghi siano perfettamente accurati, ininterrotti, tempestivi o privi di errori.\n\nI tuoi dati siano perfettamente protetti da ogni possibile accesso non autorizzato o violazione dei dati."
+        },
+        {
+          "title": "11. Limitazione di responsabilità",
+          "body": "NELLA MISURA MASSIMA CONSENTITA DALLA LEGGE APPLICABILE, IN NESSUN CASO IL TEAM DI SVILUPPO DI LUA SARÀ RESPONSABILE DI DANNI INDIRETTI, INCIDENTALI, SPECIALI, CONSEQUENZIALI O PUNITIVI, INCLUSI A TITOLO ESEMPLIFICATIVO PERDITA DI PROFITTI, DATI, UTILIZZO, AVVIAMENTO O ALTRE PERDITE IMMATERIALI, DERIVANTI DA:\n\nIl tuo accesso all'App, il suo utilizzo o l'impossibilità di accedervi o di usarla.\n\nQualsiasi lesione fisica, morte o danno alla proprietà che si verifichi durante l'uso dell'App o lo spostamento verso una Destinazione.\n\nQualsiasi condotta o contenuto di terzi sul Servizio.\n\nQualsiasi accesso, uso o modifica non autorizzati del tuo account o dei tuoi dati cloud.\n\nQualsiasi errore, imprecisione o interruzione delle mappe, dei dati GPS o dei database del server."
+        },
+        {
+          "title": "12. Manleva",
+          "body": "Accetti di difendere, indennizzare e tenere indenni gli sviluppatori di Lua da qualsiasi pretesa, danno, obbligo, perdita, responsabilità, costo o debito e spesa (incluse a titolo esemplificativo le spese legali) derivanti da:\n\nIl tuo uso dell'App e il tuo accesso ad essa.\n\nLa tua violazione di qualsiasi disposizione di questi Termini e condizioni.\n\nLa tua violazione di qualsiasi diritto di terzi, incluso a titolo esemplificativo qualsiasi diritto d'autore, di proprietà o di riservatezza.\n\nQualsiasi pretesa secondo cui il tuo uso dell'App ha causato danni a terzi (incluse lesioni fisiche, danni alla proprietà o violazione di proprietà)."
+        },
+        {
+          "title": "13. Legge applicabile e risoluzione delle controversie",
+          "body": "Questi Termini sono regolati e interpretati secondo le leggi dello Stato dell'Ohio, Stati Uniti, senza riguardo alle sue norme sui conflitti di legge. Accetti di sottoporti alla giurisdizione personale ed esclusiva dei tribunali statali e federali situati in Ohio per risolvere qualsiasi controversia, pretesa o disputa derivante da o relativa a questi Termini o al tuo uso del Servizio."
+        },
+        {
+          "title": "14. Clausola di salvaguardia e rinuncia",
+          "body": "Se una disposizione di questi Termini viene dichiarata invalida o inapplicabile da un tribunale competente, le restanti disposizioni resteranno pienamente in vigore. Il mancato esercizio di un diritto o di una disposizione di questi Termini da parte nostra non costituirà una rinuncia a tali diritti."
+        },
+        {
+          "title": "15. Intero accordo",
+          "body": "Questi Termini costituiscono l'intero accordo tra te e noi relativo al nostro Servizio e sostituiscono qualsiasi accordo precedente, orale o scritto, che potremmo aver avuto in merito al Servizio."
+        },
+        {
+          "title": "16. Contatti",
+          "body": "Per domande, dubbi o richieste su questi Termini e condizioni, sul tuo account o sul Servizio stesso, contattaci a:\n\nEmail: moaloslt@mail.uc.edu"
+        }
+      ]
+    },
+    "privacy": {
+      "title": "Informativa sulla privacy",
+      "effectiveDate": "Data di entrata in vigore: 27 maggio 2026",
+      "intro": [
+        "Il Team di sviluppo di Lua (\"noi\" o \"nostro\") rispetta la tua privacy ed è fortemente impegnato a proteggere i tuoi dati personali. Questa Informativa sulla privacy descrive i tipi di informazioni che raccogliamo, come vengono trattate, conservate e condivise e i diritti che hai sui tuoi dati quando usi l'applicazione mobile Lua (l'\"App\" o il \"Servizio\").",
+        "Poiché Lua usa un'infrastruttura cloud per offrire funzioni come la sincronizzazione fluida tra dispositivi, l'autenticazione sicura degli utenti e le classifiche interattive, trattiamo e conserviamo alcuni dati su server esterni sicuri. Leggi attentamente questa Informativa sulla privacy. Creando un account o usando l'App, acconsenti alle pratiche sui dati descritte in questo documento.",
+        "Se non sei d'accordo con le nostre politiche e pratiche, puoi scegliere di non usare l'applicazione Lua."
+      ],
+      "sections": [
+        {
+          "title": "1. Informazioni che raccogliamo",
+          "body": "Per offrire le nostre funzioni principali di monitoraggio delle abitudini basate sulla posizione e garantire un'esperienza coinvolgente, raccogliamo diverse categorie di informazioni.\n\nA. Informazioni che ci fornisci\nQuando registri un account e usi l'App, ci fornisci volontariamente i seguenti dati personali:\n\nCredenziali dell'account: per creare un account devi fornire un indirizzo email valido e una password sicura. Questo processo di autenticazione è gestito in modo sicuro dai nostri fornitori server di terze parti.\n\nInformazioni del profilo: puoi scegliere un nome visualizzato pubblico, un nome utente unico e una foto profilo o un avatar.\n\nProgramma e obiettivi: fornisci dettagli sulle tue routine quotidiane, tra cui i titoli dei tuoi obiettivi, gli orari previsti, le categorie (ad es. Lavoro, Pasto, Sociale) e le coordinate geografiche specifiche (Destinazioni) che intendi visitare.\n\nB. Informazioni raccolte automaticamente\nPer poter verificare i tuoi spostamenti, Lua richiede alcuni permessi per raccogliere automaticamente i dati necessari del dispositivo:\n\nDati di posizione precisa (GPS): con il tuo permesso esplicito, raccogliamo dati di posizione geografica molto precisi (coordinate GPS) dal tuo dispositivo, sia in primo piano sia in background. Sono strettamente necessari per mostrare la tua posizione sulla mappa dell'App, calcolare la distanza percorsa e verificare che tu sia entrato nel raggio richiesto di una Destinazione in programma.\n\nDati di movimento e telemetria: raccogliamo dati su velocità e traiettoria per filtrare le anomalie del GPS (tremolio) e garantire l'integrità dell'economia di gioco (impedendo la falsificazione della posizione o gli spostamenti in veicolo quando è prevista la camminata).\n\nInformazioni sul dispositivo e sull'uso: la nostra infrastruttura registra automaticamente dati diagnostici standard, tra cui la versione del sistema operativo, il modello del dispositivo, identificatori univoci del dispositivo, l'indirizzo IP e i rapporti sugli arresti anomali. Questi dati servono esclusivamente a ottimizzare l'App, risolvere problemi e correggere bug."
+        },
+        {
+          "title": "2. Come usiamo le tue informazioni",
+          "body": "Trattiamo i tuoi dati personali per le seguenti finalità specifiche:\n\nFornire il Servizio principale: autenticare il tuo account, sincronizzare il tuo programma tra dispositivi, mostrare la mappa interattiva e gestire le meccaniche di gioco (incluso l'aggiornamento della salute del tuo avatar Lua, dei punti esperienza (XP) e delle serie giornaliere).\n\nVerifica della posizione: confrontare in modo continuo le tue coordinate GPS in tempo reale con le Destinazioni in programma per completare automaticamente gli obiettivi.\n\nFunzioni social e classifiche: alimentare gli elementi competitivi e social dell'App. Se partecipi alle classifiche, il tuo nome visualizzato, il nome utente, l'avatar e il totale di XP o il livello possono essere visibili ad altri utenti.\n\nSicurezza e anti-cheat: monitorare attività sospette, come lo spoofing GPS, script automatizzati o altre violazioni dei nostri Termini e condizioni, per garantire un'esperienza equa a tutti gli utenti.\n\nComunicazioni: inviarti email amministrative essenziali (ad es. reimpostazione della password, avvisi di sicurezza) e, con il tuo permesso, notifiche push locali che ti ricordano obiettivi imminenti o penalità giornaliere.\n\nMiglioramento del Servizio: analizzare tendenze d'uso anonimizzate, esaminare i rapporti sugli arresti anomali e migliorare la stabilità generale e l'interfaccia dell'App."
+        },
+        {
+          "title": "3. Come condividiamo e divulghiamo le tue informazioni",
+          "body": "Non vendiamo, affittiamo né scambiamo i tuoi dati personali o la cronologia continua delle tue posizioni con intermediari di dati o inserzionisti. Condividiamo i tuoi dati solo nelle seguenti circostanze molto specifiche:\n\nA. Fornitori di servizi terzi\nCi avvaliamo di aziende terze affidabili per offrire il nostro Servizio. Questi fornitori accedono ai tuoi dati solo per svolgere compiti specifici per nostro conto e sono legalmente tenuti a non divulgarli né usarli per altri scopi:\n\nInfrastruttura server e database: usiamo fornitori terzi e sicuri di infrastruttura cloud per ospitare i nostri servizi. Le credenziali del tuo account, i dati del profilo, le password crittografate e i dati del programma sono conservati in modo sicuro in questi ambienti cloud gestiti.\n\nAPI di mappe e geocodifica: per mostrare le mappe e cercare luoghi, l'App comunica con partner terzi che forniscono API di mappe e geocodifica. Quando cerchi una Destinazione, il testo della ricerca e il tuo indirizzo IP possono essere elaborati da questi servizi esterni per restituire le coordinate geografiche corrette.\n\nFramework di sviluppo: i nostri framework di sviluppo mobile possono raccogliere rapporti anonimizzati sugli arresti anomali per aiutarci a individuare e risolvere errori software critici.\n\nB. Altri utenti (dati pubblici del profilo)\nSe scegli di partecipare agli elementi pubblici dell'App, come la Classifica, alcuni dati non sensibili, ovvero il nome visualizzato, il nome utente, la foto profilo, il livello attuale e gli XP accumulati, saranno visibili agli altri utenti registrati. Le tue Destinazioni in programma e la tua posizione in tempo reale non vengono mai mostrate pubblicamente ad altri utenti.\n\nC. Obblighi di legge e forze dell'ordine\nPossiamo divulgare le tue informazioni se riteniamo in buona fede che sia legalmente necessario per:\n\nAdempiere a un obbligo di legge valido, a un ordine del tribunale o a una citazione.\n\nProteggere e difendere i diritti, i beni o la proprietà intellettuale del Team di sviluppo di Lua.\n\nIndagare o prevenire possibili frodi tecniche, spoofing GPS o violazioni dei nostri Termini e condizioni.\n\nProteggere la sicurezza personale degli Utenti del Servizio o del pubblico."
+        },
+        {
+          "title": "4. Archiviazione, sicurezza e conservazione dei dati",
+          "body": "A. Sicurezza del cloud\nI tuoi dati vengono trasmessi in modo sicuro tramite connessioni crittografate (HTTPS/TLS). Usiamo una crittografia conforme agli standard del settore e rigide regole di accesso a livello di database (come misure equivalenti alla Row Level Security) per garantire che solo tu possa accedere, modificare o eliminare il tuo programma personale e i tuoi dati privati.\n\nB. Conservazione dei dati\nConserviamo i tuoi dati personali solo per il tempo necessario alle finalità descritte in questa Informativa sulla privacy. Finché il tuo account resta attivo, conserveremo profilo, statistiche e cronologia dei programmi per offrirti statistiche accurate a lungo termine.\n\nC. Limiti della sicurezza\nAnche se ci impegniamo a usare pratiche di sicurezza moderne e commercialmente accettabili per proteggere le tue informazioni, nessun metodo di trasmissione su Internet o di archiviazione elettronica nel cloud è sicuro al 100%. Non possiamo garantirne la sicurezza assoluta contro attacchi informatici molto sofisticati."
+        },
+        {
+          "title": "5. I tuoi diritti sulla privacy",
+          "body": "Mantieni il pieno controllo sui tuoi dati personali e hai i seguenti diritti sul loro utilizzo:\n\nAccesso e rettifica: puoi consultare e aggiornare le informazioni del profilo, il nome utente e l'avatar direttamente nella scheda \"Profilo\" dell'App in qualsiasi momento.\n\nDiritto alla cancellazione: hai il diritto di chiedere la cancellazione completa del tuo account e di tutti i dati cloud associati. Puoi farlo direttamente dalle impostazioni dell'App o contattandoci via email. Tieni presente che disinstallare l'App dal dispositivo non elimina automaticamente i dati del tuo account salvati nel cloud.\n\nRevoca dei permessi di posizione: puoi revocare in qualsiasi momento l'accesso dell'App alla tua posizione GPS dalle impostazioni del sistema operativo del dispositivo. In questo modo, però, le funzioni principali dell'App verranno disattivate immediatamente e non potrai completare obiettivi né verificare gli arrivi."
+        },
+        {
+          "title": "6. Privacy dei minori (conformità COPPA)",
+          "body": "Lua non è assolutamente destinata a persone di età inferiore a 13 anni. Non richiediamo, raccogliamo né conserviamo consapevolmente informazioni di identificazione personale di bambini sotto i 13 anni.\n\nSe sei un genitore o tutore legale e sai che tuo figlio ha creato un account e ci ha fornito dati personali senza il tuo consenso, contattaci immediatamente. Se scopriamo di aver raccolto informazioni da una persona con meno di 13 anni, prenderemo subito provvedimenti per chiudere l'account e rimuovere definitivamente tali informazioni dai nostri server."
+        },
+        {
+          "title": "7. Link ad altri siti e servizi",
+          "body": "Il nostro Servizio può contenere link ad altri siti web o servizi non gestiti da noi (come i nostri Termini e condizioni ospitati esternamente o le risorse del Centro assistenza). Se fai clic su un link di terzi, verrai indirizzato al sito di quella terza parte. Ti consigliamo vivamente di leggere l'Informativa sulla privacy di ogni sito che visiti. Non abbiamo alcun controllo e non ci assumiamo alcuna responsabilità per i contenuti, le informative sulla privacy o le pratiche di siti o servizi di terzi."
+        },
+        {
+          "title": "8. Modifiche a questa Informativa sulla privacy",
+          "body": "Possiamo aggiornare periodicamente la nostra Informativa sulla privacy per riflettere cambiamenti della nostra tecnologia, degli obblighi di legge o delle pratiche aziendali. Ti informeremo di eventuali modifiche importanti aggiornando la \"Data di entrata in vigore\" in cima a questo documento. A seconda della natura delle modifiche, potremmo anche mostrare un avviso ben visibile nell'App o chiederti di accettare espressamente l'Informativa aggiornata al prossimo accesso.\n\nContinuando a usare l'App dopo la pubblicazione delle modifiche, confermi di accettare l'Informativa sulla privacy aggiornata."
+        },
+        {
+          "title": "9. Contatti",
+          "body": "Siamo felici di ricevere domande, commenti e dubbi sulla tua privacy e sul trattamento dei tuoi dati. Per richieste legali o relative ai dati, per chiedere l'eliminazione dell'account o per assistenza generale, contatta il Team di sviluppo di Lua a:\n\nEmail: moaloslt@mail.uc.edu"
+        }
+      ]
+    }
+  },
   "notifications": {
     "unsupportedTitle": "Non supportato",
     "unsupportedMessage": "Le notifiche push richiedono un dispositivo fisico.",
