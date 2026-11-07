@@ -67,6 +67,14 @@
       "goalComplete": "目標達成",
       "goalCompleteWithCategory": "{{category}} · 目標達成"
     },
+    "study": {
+      "promptTitle": "ここで作業を始めますか？",
+      "beginStudying": "作業を始める",
+      "stopStudying": "作業を終える",
+      "studying": "作業中",
+      "timer": "作業時間",
+      "eligibleHint": "近くに作業の目標があります"
+    },
     "eta": {
       "lessThanOneMin": "< 1 分",
       "seconds": "{{count}} 秒",

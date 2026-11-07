@@ -67,6 +67,14 @@
       "goalComplete": "Objectif accompli",
       "goalCompleteWithCategory": "{{category}} · Objectif accompli"
     },
+    "study": {
+      "promptTitle": "Commencer à travailler ici ?",
+      "beginStudying": "Commencer le travail",
+      "stopStudying": "Arrêter le travail",
+      "studying": "Travail en cours",
+      "timer": "Temps de travail",
+      "eligibleHint": "Objectif de travail à proximité"
+    },
     "eta": {
       "lessThanOneMin": "< 1 min",
       "seconds": "{{count}} s",

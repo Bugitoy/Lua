@@ -67,6 +67,14 @@
       "goalComplete": "目标已完成",
       "goalCompleteWithCategory": "{{category}} · 目标已完成"
     },
+    "study": {
+      "promptTitle": "在这里开始工作吗？",
+      "beginStudying": "开始工作",
+      "stopStudying": "结束工作",
+      "studying": "工作中",
+      "timer": "工作时长",
+      "eligibleHint": "附近有工作目标"
+    },
     "eta": {
       "lessThanOneMin": "< 1 分钟",
       "seconds": "{{count}} 秒",

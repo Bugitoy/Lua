@@ -67,6 +67,14 @@
       "goalComplete": "목표 완료",
       "goalCompleteWithCategory": "{{category}} · 목표 완료"
     },
+    "study": {
+      "promptTitle": "여기서 작업을 시작할까요?",
+      "beginStudying": "작업 시작",
+      "stopStudying": "작업 종료",
+      "studying": "작업 중",
+      "timer": "작업 시간",
+      "eligibleHint": "근처에 작업 목표가 있습니다"
+    },
     "eta": {
       "lessThanOneMin": "< 1분",
       "seconds": "{{count}}초",

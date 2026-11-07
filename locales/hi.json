@@ -67,6 +67,14 @@
       "goalComplete": "लक्ष्य पूर्ण",
       "goalCompleteWithCategory": "{{category}} · लक्ष्य पूर्ण"
     },
+    "study": {
+      "promptTitle": "यहाँ काम शुरू करें?",
+      "beginStudying": "काम शुरू करें",
+      "stopStudying": "काम रोकें",
+      "studying": "काम जारी है",
+      "timer": "काम का समय",
+      "eligibleHint": "पास में काम का लक्ष्य"
+    },
     "eta": {
       "lessThanOneMin": "< 1 मिनट",
       "seconds": "{{count}} सेकंड",

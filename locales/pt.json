@@ -67,6 +67,14 @@
       "goalComplete": "Meta concluída",
       "goalCompleteWithCategory": "{{category}} · Meta concluída"
     },
+    "study": {
+      "promptTitle": "Começar a trabalhar aqui?",
+      "beginStudying": "Começar a trabalhar",
+      "stopStudying": "Parar de trabalhar",
+      "studying": "Trabalho em andamento",
+      "timer": "Tempo de trabalho",
+      "eligibleHint": "Meta de trabalho por perto"
+    },
     "eta": {
       "lessThanOneMin": "< 1 min",
       "seconds": "{{count}} seg",

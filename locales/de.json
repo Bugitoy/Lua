@@ -67,6 +67,14 @@
       "goalComplete": "Ziel erreicht",
       "goalCompleteWithCategory": "{{category}} · Ziel erreicht"
     },
+    "study": {
+      "promptTitle": "Hier mit der Arbeit beginnen?",
+      "beginStudying": "Arbeit beginnen",
+      "stopStudying": "Arbeit beenden",
+      "studying": "Arbeit läuft",
+      "timer": "Arbeitszeit",
+      "eligibleHint": "Arbeitsziel in der Nähe"
+    },
     "eta": {
       "lessThanOneMin": "< 1 Min.",
       "seconds": "{{count}} Sek.",
