@@ -202,11 +202,11 @@
         "faqs": [
           {
             "q": "Why did my avatar's health drop?",
-            "a": "Lua's health is directly tied to your real-world follow-through. If you have pending goals on your schedule that you do not physically complete by midnight, Lua's health will deplete the following day (up to 25% depending on how many goals you missed). To heal Lua, simply get back on track and complete your scheduled goals!"
+            "a": "Lua's health follows how much you move. At midnight, Lua grades your day on your steps (6,000 is a full day) and your scheduled goals. A full day, with the step goal reached and every goal done, heals Lua by 10%. Anything less costs health, up to 25% for a day with no steps and no goals. Days you don't open Lua still count. To heal Lua, get your steps in and walk to your goals!"
           },
           {
             "q": "How do I earn XP and level up?",
-            "a": "You earn Experience Points (XP) by staying active and sticking to your schedule. You can earn XP in three ways:\n\nGoal Streak: +10 XP per goal streak achieved\n\nWalking Distance: +5 XP per mile\n\nWork Hours: +5 XP per hour"
+            "a": "You earn Experience Points (XP) by walking. Your XP total never goes down. You can earn XP in three ways:\n\nSteps: +1 XP for every 100 steps\n\nDaily Step Goal: +100 XP when you reach 6,000 steps in a day\n\nGoals: +50 XP for each goal you walk to. A goal only pays if you walked at least 200 steps (or 150 meters) since the last goal that paid, and goals at the same spot pay once.\n\nWork time is still tracked, but it doesn't earn XP."
           }
         ]
       },
@@ -224,6 +224,10 @@
           {
             "q": "How does the Navigation mode work?",
             "a": "If you need help finding your goal, long-press on the map to set a destination pin. Lua will switch to a high-accuracy GPS mode, providing you with your walking ETA, bearing, and distance to the target."
+          },
+          {
+            "q": "How are my steps counted?",
+            "a": "Lua uses your phone's step counter, so walking indoors counts too.\n\niPhone: Steps you take while Lua is closed still count.\n\nAndroid: Steps count while Lua is open or in the background, but not while it is fully closed.\n\nNo step counter: If your phone doesn't have one, or you turn off motion access, Lua estimates your steps from the distance you walk with GPS."
           }
         ]
       },
