@@ -416,23 +416,7 @@
     }
   },
   "settings": {
-    "title": "Paramètres",
-    "systemSettingsTitle": "Paramètres système",
-    "systemSettingsDescription": "Ouvrez les paramètres de l'appareil pour gérer les autorisations comme les notifications.",
-    "openSystemSettings": "Ouvrir les paramètres de l'appareil",
-    "comingSoon": "Cette section arrive bientôt.",
-    "manageProfile": {
-      "title": "Gérer le profil",
-      "description": "Mettez à jour votre nom, photo et identifiant ici bientôt."
-    },
-    "aboutUs": {
-      "title": "À propos de nous",
-      "description": "En savoir plus sur Lua et l'équipe derrière l'application."
-    },
-    "helpCenter": {
-      "title": "Centre d'aide",
-      "description": "Trouvez des réponses et de l'aide ici bientôt."
-    }
+    "systemSettingsDescription": "Ouvrez les paramètres de l'appareil pour gérer les autorisations comme les notifications."
   },
   "notifications": {
     "unsupportedTitle": "Non pris en charge",

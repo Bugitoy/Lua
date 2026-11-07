@@ -416,23 +416,7 @@
     }
   },
   "settings": {
-    "title": "设置",
-    "systemSettingsTitle": "系统设置",
-    "systemSettingsDescription": "打开设备设置以管理通知等权限。",
-    "openSystemSettings": "打开设备设置",
-    "comingSoon": "此部分即将推出。",
-    "manageProfile": {
-      "title": "管理个人资料",
-      "description": "即将在此更新你的姓名、头像和用户名。"
-    },
-    "aboutUs": {
-      "title": "关于我们",
-      "description": "了解更多关于 Lua 及开发团队的信息。"
-    },
-    "helpCenter": {
-      "title": "帮助中心",
-      "description": "即将在此查找答案并获取支持。"
-    }
+    "systemSettingsDescription": "打开设备设置以管理通知等权限。"
   },
   "notifications": {
     "unsupportedTitle": "不受支持",

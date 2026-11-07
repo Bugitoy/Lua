@@ -416,23 +416,7 @@
     }
   },
   "settings": {
-    "title": "Impostazioni",
-    "systemSettingsTitle": "Impostazioni di sistema",
-    "systemSettingsDescription": "Apri le impostazioni del dispositivo per gestire autorizzazioni come le notifiche.",
-    "openSystemSettings": "Apri impostazioni dispositivo",
-    "comingSoon": "Questa sezione arriverà presto.",
-    "manageProfile": {
-      "title": "Gestisci profilo",
-      "description": "Aggiorna presto qui nome, foto e handle."
-    },
-    "aboutUs": {
-      "title": "Chi siamo",
-      "description": "Scopri di più su Lua e il team dietro l'app."
-    },
-    "helpCenter": {
-      "title": "Centro assistenza",
-      "description": "Trova risposte e supporto qui a breve."
-    }
+    "systemSettingsDescription": "Apri le impostazioni del dispositivo per gestire autorizzazioni come le notifiche."
   },
   "notifications": {
     "unsupportedTitle": "Non supportato",

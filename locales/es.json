@@ -416,23 +416,7 @@
     }
   },
   "settings": {
-    "title": "Ajustes",
-    "systemSettingsTitle": "Ajustes del sistema",
-    "systemSettingsDescription": "Abre los ajustes del dispositivo para controlar permisos como notificaciones.",
-    "openSystemSettings": "Abrir ajustes del dispositivo",
-    "comingSoon": "Esta sección estará disponible pronto.",
-    "manageProfile": {
-      "title": "Administrar perfil",
-      "description": "Actualiza tu nombre, foto y usuario aquí pronto."
-    },
-    "aboutUs": {
-      "title": "Sobre nosotros",
-      "description": "Conoce más sobre Lua y el equipo detrás de la app."
-    },
-    "helpCenter": {
-      "title": "Centro de ayuda",
-      "description": "Encuentra respuestas y obtén ayuda aquí pronto."
-    }
+    "systemSettingsDescription": "Abre los ajustes del dispositivo para controlar permisos como notificaciones."
   },
   "notifications": {
     "unsupportedTitle": "No compatible",

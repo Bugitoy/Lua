@@ -500,23 +500,7 @@
     }
   },
   "settings": {
-    "title": "Settings",
-    "systemSettingsTitle": "System App Settings",
-    "systemSettingsDescription": "Open your device settings to control permissions like notifications.",
-    "openSystemSettings": "Open Device Settings",
-    "comingSoon": "This section is coming soon.",
-    "manageProfile": {
-      "title": "Manage Profile",
-      "description": "Update your name, photo, and handle here soon."
-    },
-    "aboutUs": {
-      "title": "About Us",
-      "description": "Learn more about Lua and the team behind the app."
-    },
-    "helpCenter": {
-      "title": "Help Center",
-      "description": "Find answers and get support here soon."
-    }
+    "systemSettingsDescription": "Open your device settings to control permissions like notifications."
   },
   "legal": {
     "lastUpdated": "Last updated: May 27, 2026",

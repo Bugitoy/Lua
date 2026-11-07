@@ -416,23 +416,7 @@
     }
   },
   "settings": {
-    "title": "설정",
-    "systemSettingsTitle": "시스템 설정",
-    "systemSettingsDescription": "알림과 같은 권한을 관리하려면 기기 설정을 여세요.",
-    "openSystemSettings": "기기 설정 열기",
-    "comingSoon": "이 섹션은 곧 제공됩니다.",
-    "manageProfile": {
-      "title": "프로필 관리",
-      "description": "곧 여기에서 이름, 사진, 핸들을 업데이트할 수 있습니다."
-    },
-    "aboutUs": {
-      "title": "회사 소개",
-      "description": "Lua와 앱 개발팀에 대해 자세히 알아보세요."
-    },
-    "helpCenter": {
-      "title": "고객센터",
-      "description": "곧 여기에서 답변과 지원을 받을 수 있습니다."
-    }
+    "systemSettingsDescription": "알림과 같은 권한을 관리하려면 기기 설정을 여세요."
   },
   "notifications": {
     "unsupportedTitle": "지원되지 않음",

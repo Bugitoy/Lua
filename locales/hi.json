@@ -416,23 +416,7 @@
     }
   },
   "settings": {
-    "title": "सेटिंग्स",
-    "systemSettingsTitle": "सिस्टम सेटिंग्स",
-    "systemSettingsDescription": "सूचनाओं जैसी अनुमतियों को नियंत्रित करने के लिए अपने डिवाइस की सेटिंग्स खोलें।",
-    "openSystemSettings": "डिवाइस सेटिंग्स खोलें",
-    "comingSoon": "यह अनुभाग जल्द आ रहा है।",
-    "manageProfile": {
-      "title": "प्रोफ़ाइल प्रबंधित करें",
-      "description": "जल्द ही यहाँ अपना नाम, फ़ोटो और हैंडल अपडेट करें।"
-    },
-    "aboutUs": {
-      "title": "हमारे बारे में",
-      "description": "Lua और ऐप के पीछे की टीम के बारे में और जानें।"
-    },
-    "helpCenter": {
-      "title": "सहायता केंद्र",
-      "description": "जल्द ही यहाँ उत्तर और सहायता पाएँ।"
-    }
+    "systemSettingsDescription": "सूचनाओं जैसी अनुमतियों को नियंत्रित करने के लिए अपने डिवाइस की सेटिंग्स खोलें।"
   },
   "notifications": {
     "unsupportedTitle": "समर्थित नहीं",

@@ -416,23 +416,7 @@
     }
   },
   "settings": {
-    "title": "Einstellungen",
-    "systemSettingsTitle": "Systemeinstellungen",
-    "systemSettingsDescription": "Öffne die Geräteeinstellungen, um Berechtigungen wie Benachrichtigungen zu steuern.",
-    "openSystemSettings": "Geräteeinstellungen öffnen",
-    "comingSoon": "Dieser Bereich kommt bald.",
-    "manageProfile": {
-      "title": "Profil verwalten",
-      "description": "Aktualisiere hier bald deinen Namen, dein Foto und dein Handle."
-    },
-    "aboutUs": {
-      "title": "Über uns",
-      "description": "Erfahre mehr über Lua und das Team hinter der App."
-    },
-    "helpCenter": {
-      "title": "Hilfe-Center",
-      "description": "Finde hier bald Antworten und Support."
-    }
+    "systemSettingsDescription": "Öffne die Geräteeinstellungen, um Berechtigungen wie Benachrichtigungen zu steuern."
   },
   "notifications": {
     "unsupportedTitle": "Nicht unterstützt",

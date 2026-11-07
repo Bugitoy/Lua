@@ -416,23 +416,7 @@
     }
   },
   "settings": {
-    "title": "設定",
-    "systemSettingsTitle": "システム設定",
-    "systemSettingsDescription": "通知などの権限を管理するために、端末の設定を開きます。",
-    "openSystemSettings": "端末設定を開く",
-    "comingSoon": "このセクションは近日公開予定です。",
-    "manageProfile": {
-      "title": "プロフィール管理",
-      "description": "近日、ここで名前、写真、ハンドルを更新できるようになります。"
-    },
-    "aboutUs": {
-      "title": "私たちについて",
-      "description": "Lua とアプリ開発チームについて詳しく知る。"
-    },
-    "helpCenter": {
-      "title": "ヘルプセンター",
-      "description": "近日、ここで回答とサポートを見つけられます。"
-    }
+    "systemSettingsDescription": "通知などの権限を管理するために、端末の設定を開きます。"
   },
   "notifications": {
     "unsupportedTitle": "未対応",
