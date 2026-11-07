@@ -36,13 +36,16 @@ type Ledger = {
   baselineMeters: number;
   /** Where the last paid goal was; goals right next to it pay nothing. */
   lastStop: LatLngPoint | null;
+  /** Total XP when the day began, so the day's earnings are `totalXp - dayStartXp`. */
+  dayStartXp: number;
 };
 
 type LedgerState = Ledger & { hydrated: boolean };
 
-function freshDay(day: string): Omit<Ledger, "totalXp"> {
+function freshDay(day: string, totalXp: number): Omit<Ledger, "totalXp"> {
   return {
     day,
+    dayStartXp: totalXp,
     stepXpPaid: 0,
     stepGoalPaid: false,
     baselineSteps: 0,
@@ -51,8 +54,10 @@ function freshDay(day: string): Omit<Ledger, "totalXp"> {
   };
 }
 
-let state: LedgerState = { totalXp: 0, ...freshDay(dayKey()), hydrated: false };
+let state: LedgerState = { totalXp: 0, ...freshDay(dayKey(), 0), hydrated: false };
 let loadPromise: Promise<void> | null = null;
+/** XP earned on the saved day that had already ended when Lua opened. */
+let closedDay: { day: string; xpEarned: number } | null = null;
 
 type Listener = () => void;
 const listeners = new Set<Listener>();
@@ -84,6 +89,8 @@ function sanitize(raw: unknown): Ledger | null {
     stepGoalPaid: r.stepGoalPaid === true,
     baselineSteps: finiteOr(r.baselineSteps, 0),
     baselineMeters: finiteOr(r.baselineMeters, 0),
+    // Ledgers saved before per-day XP was tracked count from their saved total.
+    dayStartXp: finiteOr(r.dayStartXp, finiteOr(r.totalXp, 0)),
     lastStop:
       stop && typeof stop.latitude === "number" && typeof stop.longitude === "number"
         ? { latitude: stop.latitude, longitude: stop.longitude }
@@ -128,11 +135,14 @@ export function startXpLedger(): Promise<void> {
       // Start from zero.
     }
     const today = dayKey();
+    if (saved && saved.day !== today && saved.day) {
+      closedDay = { day: saved.day, xpEarned: Math.max(0, saved.totalXp - saved.dayStartXp) };
+    }
     const ledger: Ledger = saved
       ? saved.day === today
         ? saved
-        : { totalXp: saved.totalXp, ...freshDay(today) }
-      : { totalXp: 0, ...freshDay(today) };
+        : { totalXp: saved.totalXp, ...freshDay(today, saved.totalXp) }
+      : { totalXp: 0, ...freshDay(today, 0) };
     state = { ...ledger, hydrated: true };
     notify();
     subscribeGameStats(syncStepXp);
@@ -174,11 +184,27 @@ export async function awardGoalArrival(goal: LatLngPoint): Promise<boolean> {
  */
 export function beginXpDay(day: string): void {
   if (!state.hydrated || state.day === day) return;
-  commit(freshDay(day));
+  commit(freshDay(day, state.totalXp));
+}
+
+/** XP earned on `day`: today's running figure, or the day that ended while Lua was closed. */
+export function xpEarnedOn(day: string): number {
+  if (state.day === day) return Math.max(0, state.totalXp - state.dayStartXp);
+  if (closedDay?.day === day) return closedDay.xpEarned;
+  return 0;
 }
 
 function getTotalXp(): number {
   return state.totalXp;
+}
+
+function getXpEarnedToday(): number {
+  return Math.max(0, state.totalXp - state.dayStartXp);
+}
+
+/** XP earned so far today. */
+export function useXpEarnedToday(): number {
+  return useSyncExternalStore(subscribe, getXpEarnedToday);
 }
 
 function getHydrated(): boolean {
