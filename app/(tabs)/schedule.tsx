@@ -40,12 +40,11 @@ export default function ScheduleScreen() {
   const { location } = useLocation({ enabled: isFocused });
 
   /** Stable reference — inline `{ lat, lng }` changes every parent render and was resetting search debounce every second (live clock). */
+  const lat = location?.latitude;
+  const lng = location?.longitude;
   const userLocationForSearch = useMemo(
-    () =>
-      location
-        ? { latitude: location.latitude, longitude: location.longitude }
-        : null,
-    [location?.latitude, location?.longitude],
+    () => (lat != null && lng != null ? { latitude: lat, longitude: lng } : null),
+    [lat, lng],
   );
 
   // Live clock — shows hours and minutes, so it ticks on each minute boundary

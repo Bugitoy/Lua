@@ -163,7 +163,7 @@ export function takeOffItem(id: ItemId) {
 }
 
 /** Switches to a colour skin, taking any costume off. */
-export function useSkin(skin: PaletteSkinId) {
+export function applySkin(skin: PaletteSkinId) {
   commit({ skin, costume: null });
 }
 

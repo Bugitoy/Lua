@@ -55,6 +55,9 @@ export function NearbyLocationSearchField({
   const [menuOpen, setMenuOpen] = useState(false);
 
   const abortRef = useRef<AbortController | null>(null);
+  // Plain numbers, so the search below doesn't restart when a new location object has the same spot.
+  const userLat = userLocation?.latitude;
+  const userLng = userLocation?.longitude;
 
   useEffect(() => {
     if (!active) setMenuOpen(false);
@@ -62,7 +65,7 @@ export function NearbyLocationSearchField({
 
   useEffect(() => {
     const trimmed = value.trim();
-    if (!active || !userLocation || trimmed.length < 2 || pickedTitle) {
+    if (!active || userLat == null || userLng == null || trimmed.length < 2 || pickedTitle) {
       setResults([]);
       setLoading(false);
       setError(null);
@@ -78,8 +81,8 @@ export function NearbyLocationSearchField({
       setError(null);
       try {
         const places = await schedulePlacesSearchProvider.getNearbyPlaces({
-          latitude: userLocation.latitude,
-          longitude: userLocation.longitude,
+          latitude: userLat,
+          longitude: userLng,
           radiusMeters: SEARCH_RADIUS_METERS,
           query: trimmed,
           signal: controller.signal,
@@ -104,7 +107,7 @@ export function NearbyLocationSearchField({
       clearTimeout(handle);
       controller.abort();
     };
-  }, [active, pickedTitle, t, userLocation?.latitude, userLocation?.longitude, value]);
+  }, [active, pickedTitle, t, userLat, userLng, value]);
 
   const pick = useCallback(
     (place: NearbyPlace) => {

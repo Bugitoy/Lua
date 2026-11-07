@@ -40,7 +40,6 @@ const SPRITE_FRAME_SIZE = 38;
 const MARKER_ANIM_MIN_DURATION_MS = 400;
 const MARKER_ANIM_MAX_DURATION_MS = 1200;
 const MARKER_ANIM_FIRST_FIX_DURATION_MS = 500;
-const EARTH_METERS_PER_DEG_LAT = 111_000;
 /** Hide GPS accuracy ring when zoomed out past this — fixed-meter circle shrinks on-screen and looks odd vs the sprite. */
 const ACCURACY_CIRCLE_HIDE_WHEN_LAT_DELTA_GT = 0.002;
 const GOAL_GLOW_RADIUS_METERS = 30;
@@ -243,12 +242,14 @@ function GeoMapViewImpl({
         toValue: 0,
       })
       .start();
+    // Runs only when the fix's numbers change, not on every new location object.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
     currentLocation?.latitude,
     currentLocation?.longitude,
     currentLocation?.vxMps,
     currentLocation?.vyMps,
-  ]); // eslint-disable-line react-hooks/exhaustive-deps
+  ]);
 
   // Auto-recenter map once on the very first fix; afterwards we leave control to the user
   // and the explicit recenter button below.

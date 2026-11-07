@@ -44,7 +44,7 @@ import {
   takeOffCostume,
   takeOffItem,
   useAchievements,
-  useSkin,
+  applySkin,
   wearCostume,
   wearItems,
   type Equipped,
@@ -112,7 +112,7 @@ export default function AchievementsScreen() {
     const newly = REWARDS.filter((reward) => reward.xp > seen && reward.xp <= xp);
     wearItems(newly.flatMap((reward) => (reward.kind === "item" ? [reward.id] : [])));
     const lastSkin = [...newly].reverse().find((reward) => reward.kind === "skin");
-    if (lastSkin && lastSkin.kind === "skin") useSkin(lastSkin.id);
+    if (lastSkin && lastSkin.kind === "skin") applySkin(lastSkin.id);
     setSeenXp(xp);
     setReady(true);
   }, [hydrated, xpLoaded, ready, xp]);
@@ -135,7 +135,7 @@ export default function AchievementsScreen() {
       avatar.current?.celebrateItem(reward.id, t("achievements.toast.unlocked", { item: name }));
       wearItems([reward.id]);
     } else {
-      useSkin(reward.id);
+      applySkin(reward.id);
       avatar.current?.celebrateLook(
         { type: "skin", id: reward.id },
         t("achievements.toast.unlocked", { item: name }),
@@ -222,7 +222,7 @@ export default function AchievementsScreen() {
       return;
     }
     if (!costume && skin === id) return;
-    useSkin(id);
+    applySkin(id);
     avatar.current?.celebrateLook(
       { type: "skin", id },
       t("achievements.toast.skinOn", { name: t(`achievements.skins.${id}`) }),

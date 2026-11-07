@@ -111,7 +111,8 @@ export function LuaDamage({ health, look, width, height, tweenMs = 650, paused =
     if (damageStage(next) !== damageStage(was)) eyeSwapT.value = now;
     target.value = next;
     hp.value = withTiming(next, { duration: tweenMs, easing: Easing.out(Easing.cubic) });
-  }, [health, tweenMs]);
+    // The shared values never change identity, so this still only re-runs on health or tweenMs.
+  }, [health, tweenMs, t, hp, target, hitT, hitAmt, healT, koT, riseT, eyeSwapT]);
 
   const picture = useDerivedValue(() => {
     const rec = Skia.PictureRecorder();

@@ -8,7 +8,6 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { Pixelify } from "@/constants/fonts";
 import { LUA_GREEN } from "@/constants/mapAssets";
 
-const SLATE = "#64748b";
 const BORDER = "#e5e7eb";
 const GREEN_50 = "#f0fdf4";
 
