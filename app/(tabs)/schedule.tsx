@@ -3,6 +3,7 @@ import { useIsFocused } from "@react-navigation/native";
 import { Link } from "expo-router";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import {
+  Alert,
   Platform,
   Pressable,
   ScrollView,
@@ -21,15 +22,18 @@ import type { ScheduleItemData } from "@/components/schedule/scheduleTypes";
 import { Pixelify } from "@/constants/fonts";
 import { LUA_GREEN } from "@/constants/mapAssets";
 import { useLocation } from "@/hooks/useLocation";
-import { updateGameStats } from "@/lib/gameStats";
 import { formatAppTime } from "@/lib/i18n/formatLocale";
-import { setScheduledItems, useScheduledItems } from "@/lib/scheduleStore";
+import {
+  addScheduleItem,
+  removeScheduleItem,
+  useScheduledItems,
+} from "@/lib/scheduleStore";
 
 export default function ScheduleScreen() {
   const { t } = useTranslation();
   const insets = useSafeAreaInsets();
-  const [items, setItems] = useState<ScheduleItemData[]>([]);
   const scheduledItems = useScheduledItems();
+  const items = scheduledItems;
   // The map tab already tracks the user; this one only needs a position while it
   // is showing, and no compass for the small preview map.
   const isFocused = useIsFocused();
@@ -66,47 +70,31 @@ export default function ScheduleScreen() {
     minute: "2-digit",
   });
 
-  // Push the schedule into the shared store so the map can render markers
-  // and run arrival detection against the same source of truth.
-  useEffect(() => {
-    setScheduledItems(
-      items.map((i) => ({
-        id: i.id,
-        label: i.location,
-        category: i.category,
-        themeKey: i.themeKey,
-        latitude: i.latitude,
-        longitude: i.longitude,
-      })),
-    );
-  }, [items]);
-
-  // Reactive completion lookup driven by the store (updated by arrival detection).
-  const completionById = useMemo(() => {
-    const map = new Map<string, boolean>();
-    for (const item of scheduledItems) map.set(item.id, item.completed);
-    return map;
-  }, [scheduledItems]);
-
-  // Mirror schedule progress into the global stats store.
-  useEffect(() => {
-    const total = items.length;
-    const done = scheduledItems.filter((i) => i.completed).length;
-    updateGameStats({
-      goalsTotal: total,
-      goalsDone: done,
-      goalDayPercent: total > 0 ? Math.round((done / total) * 100) : 0,
-    });
-  }, [items.length, scheduledItems]);
-
   const [addOpen, setAddOpen] = useState(false);
 
   const handleSaveNewItem = useCallback(
     (data: Omit<ScheduleItemData, "id">) => {
-      const id = `${Date.now()}-${Math.random().toString(36).slice(2, 9)}`;
-      setItems((prev) => [...prev, { ...data, id }]);
+      addScheduleItem(data);
     },
     [],
+  );
+
+  const confirmRemove = useCallback(
+    (id: string, title: string) => {
+      Alert.alert(
+        t("schedule.remove.title"),
+        t("schedule.remove.message", { title }),
+        [
+          { text: t("common.cancel"), style: "cancel" },
+          {
+            text: t("schedule.remove.confirm"),
+            style: "destructive",
+            onPress: () => removeScheduleItem(id),
+          },
+        ],
+      );
+    },
+    [t],
   );
 
   const tabBarClearance = Platform.OS === "ios" ? 88 : 72;
@@ -211,7 +199,8 @@ export default function ScheduleScreen() {
               icon={item.icon}
               gradientColors={item.gradientColors}
               glowColor={item.glowColor}
-              completed={completionById.get(item.id) ?? false}
+              completed={item.completed}
+              onLongPress={() => confirmRemove(item.id, item.title)}
             />
           ))
         )}

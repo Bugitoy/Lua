@@ -10,7 +10,11 @@ import { haversineMeters, type LatLngPoint } from "@/lib/geo";
 import { checkInAtGoals } from "@/lib/goalCheckIn";
 import i18n from "@/lib/i18n";
 import { recordOdometerFix } from "@/lib/odometerRecorder";
-import { hasUnfinishedGoals, useHasUnfinishedGoals } from "@/lib/scheduleStore";
+import {
+  hasUnfinishedGoals,
+  startSchedule,
+  useHasUnfinishedGoals,
+} from "@/lib/scheduleStore";
 
 const BACKGROUND_TRACKING_TASK = "lua-background-tracking";
 
@@ -132,6 +136,9 @@ TaskManager.defineTask<{ locations: Location.LocationObject[] }>(
       lastFix = null;
       return;
     }
+
+    // The phone may start Lua in the background just for this task, before anything has loaded.
+    await startSchedule();
 
     if (trackingDay !== todayKey() || !hasUnfinishedGoals()) {
       await enqueue(stopTracking);

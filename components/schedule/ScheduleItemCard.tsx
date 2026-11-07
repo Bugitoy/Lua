@@ -1,6 +1,6 @@
 import { Ionicons } from "@expo/vector-icons";
 import { LinearGradient } from "expo-linear-gradient";
-import { Text, View } from "react-native";
+import { Pressable, Text, View } from "react-native";
 import { useTranslation } from "react-i18next";
 
 import { Pixelify } from "@/constants/fonts";
@@ -15,6 +15,8 @@ export type ScheduleItemCardProps = {
   glowColor: string;
   /** True when the sprite arrived at this location via GPS. */
   completed?: boolean;
+  /** Long-press action, e.g. asking to remove the goal. */
+  onLongPress?: () => void;
 };
 
 export function ScheduleItemCard({
@@ -26,10 +28,14 @@ export function ScheduleItemCard({
   gradientColors,
   glowColor,
   completed = false,
+  onLongPress,
 }: ScheduleItemCardProps) {
   const { t } = useTranslation();
   return (
-    <View
+    <Pressable
+      onLongPress={onLongPress}
+      disabled={!onLongPress}
+      accessibilityHint={onLongPress ? t("schedule.remove.hint") : undefined}
       className="mb-5 overflow-hidden rounded-2xl bg-white"
       style={{
         opacity: completed ? 0.6 : 1,
@@ -99,6 +105,6 @@ export function ScheduleItemCard({
           {title}
         </Text>
       </View>
-    </View>
+    </Pressable>
   );
 }
