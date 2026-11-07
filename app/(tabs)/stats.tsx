@@ -1,387 +1,101 @@
 import { Ionicons } from "@expo/vector-icons";
-import { LinearGradient } from "expo-linear-gradient";
+import { router } from "expo-router";
 import { useMemo, useState } from "react";
-import {
-  Dimensions,
-  Pressable,
-  ScrollView,
-  Text,
-  View,
-} from "react-native";
+import { Pressable, ScrollView, Text, View } from "react-native";
 import { useTranslation } from "react-i18next";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
-import { MySpriteAvatar, SpriteAvatar } from "@/components/profile/SpriteAvatar";
+import { LeaderboardControls } from "@/components/leaderboard/LeaderboardControls";
+import { LeaderRow, MyLeaderRow } from "@/components/leaderboard/LeaderRow";
+import { formatXp } from "@/components/achievements/theme";
+import { DayDetailCard } from "@/components/stats/DayDetailCard";
+import { DevHistoryControls } from "@/components/stats/DevHistoryControls";
+import { StepCalendar } from "@/components/stats/StepCalendar";
 import { Pixelify } from "@/constants/fonts";
 import { LUA_GREEN } from "@/constants/mapAssets";
-import { randomAvatars } from "@/lib/avatarLook";
+import { weekDays } from "@/lib/calendarGrid";
+import { startOfDay } from "@/lib/dayKey";
+import { useDayHistory, type DayRecord } from "@/lib/dayHistory";
 import { formatHours } from "@/lib/formatters";
-import { useGameStats } from "@/lib/gameStats";
-import { formatAppDate } from "@/lib/i18n/formatLocale";
+import { formatAppDate, getAppLocale } from "@/lib/i18n/formatLocale";
+import {
+  rankLeaderboard,
+  useLeaderValue,
+  useMyLeaderEntry,
+  type LeaderboardPeriod,
+  type LeaderboardSortKey,
+} from "@/lib/leaderboard";
+import { useTodayRecord } from "@/lib/todayRecord";
 
-// ─── Types ────────────────────────────────────────────────────────────────────
+/** Players shown on the Stats page before "See full leaderboard". */
+const LEADER_PREVIEW = 3;
 
-type DayData = {
-  label: string;
-  fullDate: string;
-  isToday: boolean;
-  distanceMiles: number;
-  goalsDone: number;
-  goalsTotal: number;
-  hoursStudied: number;
-};
+/** Same switch as the dev XP buttons on the Customize tab. */
+const SHOW_DEV_HISTORY_CONTROLS = __DEV__ || process.env.EXPO_PUBLIC_DEV_XP_CONTROLS === "1";
 
-type MetricKey = "distance" | "goals" | "study";
+const CARD_SHADOW = {
+  shadowColor: "#000",
+  shadowOffset: { width: 0, height: 2 },
+  shadowOpacity: 0.06,
+  shadowRadius: 8,
+  elevation: 2,
+} as const;
 
-type MetricConfig = {
-  key: MetricKey;
-  label: string;
-  icon: keyof typeof Ionicons.glyphMap;
-  accent: string;
-  unit: string;
-  format: (d: DayData) => string;
-  getValue: (d: DayData) => number;
-  getMax: (d: DayData) => number;
-};
-
-// ─── Leaderboard ─────────────────────────────────────────────────────────────
-
-type LeaderboardSortKey = "goals" | "distance" | "study";
-
-type LeaderEntry = {
-  id: string;
-  name: string;
-  tagline: string;
-  seed: number;
-  goalsDone: number;
-  goalsTotal: number;
-  distanceMiles: number;
-  hoursStudied: number;
-  streak: number;
-};
-
-const LEADERBOARD: LeaderEntry[] = [
-  { id: "1", name: "Jordan Park",    tagline: "Trail walker",     seed: 3,  goalsDone: 11, goalsTotal: 12, distanceMiles: 8.4, hoursStudied: 5.5, streak: 14 },
-  { id: "2", name: "Maya Chen",      tagline: "Streak chaser",     seed: 5,  goalsDone: 10, goalsTotal: 12, distanceMiles: 7.1, hoursStudied: 6.0, streak: 21 },
-  { id: "3", name: "Liam Torres",    tagline: "Goal grinder",      seed: 8,  goalsDone: 9,  goalsTotal: 10, distanceMiles: 5.8, hoursStudied: 3.5, streak: 9  },
-  { id: "4", name: "Ava Johnson",    tagline: "Daily mover",       seed: 9,  goalsDone: 8,  goalsTotal: 10, distanceMiles: 9.2, hoursStudied: 4.0, streak: 6  },
-  { id: "5", name: "Noah Williams",  tagline: "Long-walk fan",     seed: 11, goalsDone: 8,  goalsTotal: 12, distanceMiles: 6.3, hoursStudied: 4.5, streak: 11 },
-  { id: "6", name: "Sofia Nguyen",   tagline: "Consistency > hype",seed: 15, goalsDone: 7,  goalsTotal: 10, distanceMiles: 4.5, hoursStudied: 5.0, streak: 4  },
-  { id: "7", name: "Ethan Brown",    tagline: "Weekend explorer",  seed: 17, goalsDone: 7,  goalsTotal: 12, distanceMiles: 3.9, hoursStudied: 3.0, streak: 7  },
-];
-
-const LEADER_AVATARS = Object.fromEntries(
-  randomAvatars(LEADERBOARD.map((e) => `${e.id}:${e.name}`)).map((avatar, i) => [
-    LEADERBOARD[i].id,
-    avatar,
-  ]),
-);
-
-const RANK_COLORS = ["#f59e0b", "#9ca3af", "#92400e"];
-const RANK_ICONS: Array<keyof typeof Ionicons.glyphMap> = ["trophy", "medal", "ribbon"];
-
-function sortLeaderboard(entries: LeaderEntry[], key: LeaderboardSortKey): LeaderEntry[] {
-  return [...entries].sort((a, b) => {
-    if (key === "goals") return b.goalsDone / b.goalsTotal - a.goalsDone / a.goalsTotal;
-    if (key === "distance") return b.distanceMiles - a.distanceMiles;
-    return b.hoursStudied - a.hoursStudied;
-  });
-}
-
-// ─── Mock history (past 6 days + today placeholder filled from live stats) ───
-
-
-const HISTORY: Omit<DayData, "label" | "fullDate" | "isToday">[] = [
-  { distanceMiles: 2.1, goalsDone: 4,  goalsTotal: 10, hoursStudied: 1.5 },
-  { distanceMiles: 4.8, goalsDone: 8,  goalsTotal: 10, hoursStudied: 3.0 },
-  { distanceMiles: 3.3, goalsDone: 5,  goalsTotal: 12, hoursStudied: 2.5 },
-  { distanceMiles: 6.0, goalsDone: 11, goalsTotal: 12, hoursStudied: 4.0 },
-  { distanceMiles: 1.7, goalsDone: 2,  goalsTotal: 8,  hoursStudied: 0.5 },
-  { distanceMiles: 5.2, goalsDone: 9,  goalsTotal: 12, hoursStudied: 3.5 },
-];
-
-// ─── Bar chart ────────────────────────────────────────────────────────────────
-
-const CHART_H = 160;
-
-type BarChartProps = {
-  data: DayData[];
-  metric: MetricConfig;
-  selectedIdx: number;
-  onSelect: (idx: number) => void;
-};
-
-function BarChart({ data, metric, selectedIdx, onSelect }: BarChartProps) {
-  const screenW = Dimensions.get("window").width;
-  const chartW = screenW - 48; // 24px horizontal padding each side
-  const barAreaW = chartW / data.length;
-  const barW = Math.min(barAreaW * 0.5, 32);
-
-  const absMax = Math.max(...data.map((d) => metric.getMax(d)), 1);
-
-  return (
-    <View style={{ height: CHART_H + 36 }}>
-      {/* Y-axis grid lines */}
-      <View
-        style={{ position: "absolute", left: 0, right: 0, top: 0, height: CHART_H }}
-        pointerEvents="none"
-      >
-        {[0, 0.25, 0.5, 0.75, 1].map((frac) => (
-          <View
-            key={frac}
-            style={{
-              position: "absolute",
-              top: CHART_H * (1 - frac),
-              left: 0,
-              right: 0,
-              height: 1,
-              backgroundColor: frac === 0 ? "#e5e7eb" : "#f3f4f6",
-            }}
-          />
-        ))}
-      </View>
-
-      {/* Bars */}
-      <View
-        style={{
-          flexDirection: "row",
-          alignItems: "flex-end",
-          height: CHART_H,
-          paddingHorizontal: 0,
-        }}
-      >
-        {data.map((day, i) => {
-          const val = metric.getValue(day);
-          const maxVal = metric.getMax(day);
-          const filledH = Math.max((val / absMax) * CHART_H, val > 0 ? 4 : 0);
-          const totalH = Math.max((maxVal / absMax) * CHART_H, maxVal > 0 ? 4 : 0);
-          const isSelected = i === selectedIdx;
-          const isGoals = metric.key === "goals";
-
-          return (
-            <Pressable
-              key={day.label}
-              onPress={() => onSelect(i)}
-              style={{
-                flex: 1,
-                alignItems: "center",
-                justifyContent: "flex-end",
-                height: CHART_H,
-              }}
-            >
-              <View
-                style={{
-                  width: barW,
-                  height: isGoals ? totalH : filledH,
-                  borderRadius: 6,
-                  overflow: "hidden",
-                  opacity: isSelected ? 1 : 0.55,
-                }}
-              >
-                {/* Background (total goals) bar */}
-                {isGoals && (
-                  <View
-                    style={{
-                      position: "absolute",
-                      bottom: 0,
-                      left: 0,
-                      right: 0,
-                      height: totalH,
-                      backgroundColor: `${metric.accent}30`,
-                      borderRadius: 6,
-                    }}
-                  />
-                )}
-                {/* Filled bar */}
-                <View
-                  style={{
-                    position: "absolute",
-                    bottom: 0,
-                    left: 0,
-                    right: 0,
-                    height: filledH,
-                    borderRadius: 6,
-                    overflow: "hidden",
-                  }}
-                >
-                  <LinearGradient
-                    colors={[metric.accent, `${metric.accent}99`]}
-                    start={{ x: 0.5, y: 0 }}
-                    end={{ x: 0.5, y: 1 }}
-                    style={{ flex: 1 }}
-                  />
-                </View>
-              </View>
-            </Pressable>
-          );
-        })}
-      </View>
-
-      {/* Day labels */}
-      <View style={{ flexDirection: "row", marginTop: 6 }}>
-        {data.map((day, i) => (
-          <View key={day.label} style={{ flex: 1, alignItems: "center" }}>
-            <Text
-              style={{
-                fontFamily: i === selectedIdx ? Pixelify.bold : Pixelify.regular,
-                fontSize: 11,
-                color: i === selectedIdx ? metric.accent : "#9ca3af",
-              }}
-            >
-              {day.label}
-            </Text>
-          </View>
-        ))}
-      </View>
-    </View>
-  );
-}
+const MILES_PER_METER = 0.000621371;
 
 // ─── Screen ───────────────────────────────────────────────────────────────────
 
 export default function StatsScreen() {
   const { t } = useTranslation();
   const insets = useSafeAreaInsets();
-  const { stats } = useGameStats();
-  const [activeMetric, setActiveMetric] = useState<MetricKey>("goals");
-  const [selectedIdx, setSelectedIdx] = useState(6); // today by default
+  const history = useDayHistory();
+  const todayRecord = useTodayRecord();
+  const [calendarDay, setCalendarDay] = useState(todayRecord.day);
   const [leaderSort, setLeaderSort] = useState<LeaderboardSortKey>("goals");
-  const [leaderPeriod, setLeaderPeriod] = useState<"today" | "week" | "month">("today");
-  const [periodDropdownOpen, setPeriodDropdownOpen] = useState(false);
+  const [leaderPeriod, setLeaderPeriod] = useState<LeaderboardPeriod>("today");
+  const leaderValue = useLeaderValue();
 
-  const periodLabels = useMemo(
-    () => ({
-      today: t("stats.periods.today"),
-      week: t("stats.periods.week"),
-      month: t("stats.periods.month"),
-    }),
-    [t],
-  );
+  // Averages for the Monday–Sunday week holding the day picked on the calendar,
+  // over the days of it so far. A day with nothing saved counts as zero.
+  const averageWeek = useMemo(() => {
+    const days = weekDays(calendarDay);
+    const counted = days.filter((d) => d <= todayRecord.day);
+    const records = counted.map((d) => (d === todayRecord.day ? todayRecord : history[d]));
+    const average = (pick: (r: DayRecord) => number) =>
+      counted.length > 0 ? records.reduce((s, r) => s + (r ? pick(r) : 0), 0) / counted.length : 0;
+    const fmt = { month: "short", day: "numeric" } as const;
+    return {
+      range: `${formatAppDate(startOfDay(days[0]), fmt)} – ${formatAppDate(startOfDay(days[6]), fmt)}`,
+      steps: average((r) => r.steps),
+      miles: average((r) => r.meters * MILES_PER_METER),
+      workHours: average((r) => r.workHours),
+    };
+  }, [calendarDay, history, todayRecord]);
 
-  const metrics = useMemo<MetricConfig[]>(
-    () => [
-      {
-        key: "distance",
-        label: t("stats.metrics.distance"),
-        icon: "footsteps",
-        accent: "#3b82f6",
-        unit: "mi",
-        getValue: (d) => d.distanceMiles,
-        getMax: (d) => d.distanceMiles,
-        format: (d) =>
-          t("stats.summary.distanceValue", { distance: d.distanceMiles }),
-      },
-      {
-        key: "goals",
-        label: t("stats.metrics.goals"),
-        icon: "flag-outline",
-        accent: LUA_GREEN,
-        unit: "goals",
-        getValue: (d) => d.goalsDone,
-        getMax: (d) => d.goalsTotal,
-        format: (d) =>
-          t("stats.summary.goalsValue", {
-            done: d.goalsDone,
-            total: d.goalsTotal,
-          }),
-      },
-      {
-        key: "study",
-        label: t("stats.metrics.study"),
-        icon: "briefcase-outline",
-        accent: "#8b5cf6",
-        unit: "hrs",
-        getValue: (d) => d.hoursStudied,
-        getMax: (d) => d.hoursStudied,
-        format: (d) => formatHours(d.hoursStudied),
-      },
-    ],
-    [t],
-  );
-
-  const leaderValue = useMemo(
-    () => (entry: LeaderEntry, key: LeaderboardSortKey) => {
-      if (key === "goals") {
-        return t("stats.summary.goalsValue", {
-          done: entry.goalsDone,
-          total: entry.goalsTotal,
-        });
-      }
-      if (key === "distance") {
-        return t("stats.summary.distanceValue", {
-          distance: entry.distanceMiles,
-        });
-      }
-      return formatHours(entry.hoursStudied);
+  const averages = [
+    {
+      icon: "walk-outline" as const,
+      label: t("stats.day.steps"),
+      accent: LUA_GREEN,
+      value: formatXp(Math.round(averageWeek.steps), getAppLocale()),
     },
-    [t],
-  );
+    {
+      icon: "footsteps" as const,
+      label: t("stats.summary.distance"),
+      accent: "#3b82f6",
+      value: t("stats.summary.distanceValue", { distance: averageWeek.miles.toFixed(1) }),
+    },
+    {
+      icon: "briefcase-outline" as const,
+      label: t("stats.averages.workTime"),
+      accent: "#8b5cf6",
+      value: formatHours(averageWeek.workHours),
+    },
+  ];
 
-  // Build dataset: 6 historical days + today from live stats
-  const today = new Date();
-  const data: DayData[] = useMemo(
-    () => [
-      ...HISTORY.map((h, i) => {
-        const d = new Date(today);
-        d.setDate(today.getDate() - (HISTORY.length - i));
-        return {
-          ...h,
-          label: formatAppDate(d, { weekday: "short" }),
-          fullDate: formatAppDate(d, { month: "short", day: "numeric" }),
-          isToday: false,
-        };
-      }),
-      {
-        label: t("common.today"),
-        fullDate: formatAppDate(today, { month: "short", day: "numeric" }),
-        isToday: true,
-        distanceMiles: stats.distanceMiles,
-        goalsDone: stats.goalsDone,
-        goalsTotal: stats.goalsTotal,
-        hoursStudied: stats.hoursStudied,
-      },
-    ],
-    [
-      stats.distanceMiles,
-      stats.goalsDone,
-      stats.goalsTotal,
-      stats.hoursStudied,
-      t,
-      today,
-    ],
-  );
-
-  const metric = metrics.find((m) => m.key === activeMetric)!;
-  const selected = data[selectedIdx];
-
-  const summaryCards = useMemo(
-    () => [
-      {
-        label: t("stats.summary.distance"),
-        value: t("stats.summary.distanceValue", {
-          distance: selected.distanceMiles,
-        }),
-        icon: "footsteps" as const,
-        accent: "#3b82f6",
-      },
-      {
-        label: t("stats.summary.goals"),
-        value: t("stats.summary.goalsValue", {
-          done: selected.goalsDone,
-          total: selected.goalsTotal,
-        }),
-        icon: "flag-outline" as const,
-        accent: LUA_GREEN,
-      },
-      {
-        label: t("stats.summary.study"),
-        value: formatHours(selected.hoursStudied),
-        icon: "briefcase-outline" as const,
-        accent: "#8b5cf6",
-      },
-    ],
-    [selected, t],
-  );
+  const me = useMyLeaderEntry(leaderPeriod);
+  const board = useMemo(() => rankLeaderboard(leaderPeriod, leaderSort, me), [leaderPeriod, leaderSort, me]);
+  const preview = board.players.slice(0, LEADER_PREVIEW);
 
   return (
     <View className="flex-1 bg-neutral-100">
@@ -394,487 +108,86 @@ export default function StatsScreen() {
         }}
         showsVerticalScrollIndicator={false}
       >
-        <Text
-          className="mb-5 text-3xl text-neutral-900"
-          style={{ fontFamily: Pixelify.bold }}
-        >
+        <Text className="mb-5 text-3xl text-neutral-900" style={{ fontFamily: Pixelify.bold }}>
           {t("stats.title")}
         </Text>
 
-        {/* Chart card */}
-        <View
-          className="mb-4 rounded-2xl bg-white px-4 pt-5 pb-4"
-          style={{
-            shadowColor: "#000",
-            shadowOffset: { width: 0, height: 2 },
-            shadowOpacity: 0.06,
-            shadowRadius: 8,
-            elevation: 2,
-          }}
-        >
-          {/* Metric selector */}
-          <View className="mb-5 flex-row gap-2">
-            {metrics.map((m) => {
-              const active = m.key === activeMetric;
-              return (
-                <Pressable
-                  key={m.key}
-                  onPress={() => setActiveMetric(m.key)}
-                  className="flex-row items-center gap-1.5 rounded-full px-3 py-1.5"
-                  style={{
-                    backgroundColor: active ? `${m.accent}18` : "#f5f5f5",
-                    borderWidth: 1.5,
-                    borderColor: active ? m.accent : "transparent",
-                  }}
-                >
-                  <Ionicons name={m.icon} size={14} color={active ? m.accent : "#9ca3af"} />
-                  <Text
-                    style={{
-                      fontFamily: active ? Pixelify.bold : Pixelify.regular,
-                      fontSize: 12,
-                      color: active ? m.accent : "#9ca3af",
-                    }}
-                  >
-                    {m.label}
-                  </Text>
-                </Pressable>
-              );
-            })}
-          </View>
-
-          {/* Selected day callout */}
-          <View className="mb-4 flex-row items-center justify-between">
-            <View>
-              <Text
-                className="text-xs text-neutral-400"
-                style={{ fontFamily: Pixelify.regular }}
-              >
-                {selected.fullDate}{" "}
-                {selected.isToday ? t("stats.selectedDay.todaySuffix") : ""}
-              </Text>
-              <Text
-                className="mt-0.5 text-2xl"
-                style={{ fontFamily: Pixelify.bold, color: metric.accent }}
-              >
-                {metric.format(selected)}
-              </Text>
-            </View>
-            <View
-              className="size-10 items-center justify-center rounded-full"
-              style={{ backgroundColor: `${metric.accent}15` }}
-            >
-              <Ionicons name={metric.icon} size={20} color={metric.accent} />
-            </View>
-          </View>
-
-          {/* Goals legend */}
-          {activeMetric === "goals" && (
-            <View className="mb-3 flex-row gap-4">
-              <View className="flex-row items-center gap-1.5">
-                <View className="size-2.5 rounded-sm" style={{ backgroundColor: LUA_GREEN }} />
-                <Text className="text-xs text-neutral-500" style={{ fontFamily: Pixelify.regular }}>
-                  {t("stats.goalsLegend.completed")}
-                </Text>
-              </View>
-              <View className="flex-row items-center gap-1.5">
-                <View className="size-2.5 rounded-sm" style={{ backgroundColor: `${LUA_GREEN}30` }} />
-                <Text className="text-xs text-neutral-500" style={{ fontFamily: Pixelify.regular }}>
-                  {t("stats.goalsLegend.total")}
-                </Text>
-              </View>
-            </View>
-          )}
-
-          <BarChart
-            data={data}
-            metric={metric}
-            selectedIdx={selectedIdx}
-            onSelect={setSelectedIdx}
-          />
-        </View>
-
-        {/* Selected day summary */}
-        <Text
-          className="mb-2 ml-1 text-xs uppercase tracking-widest text-neutral-400"
-          style={{ fontFamily: Pixelify.semibold }}
-        >
-          {selected.isToday
-            ? t("stats.selectedDay.allStatsToday")
-            : t("stats.selectedDay.allStats", { label: selected.fullDate })}
-        </Text>
-        <View className="flex-row gap-3">
-          {summaryCards.map((card) => (
-            <View
-              key={card.label}
-              className="flex-1 items-center rounded-2xl bg-white py-4"
-              style={{
-                shadowColor: "#000",
-                shadowOffset: { width: 0, height: 2 },
-                shadowOpacity: 0.05,
-                shadowRadius: 6,
-                elevation: 2,
-              }}
-            >
+        {/* Averages for the calendar's chosen week */}
+        <SectionLabel>{t("stats.averages.weekTitle", { range: averageWeek.range })}</SectionLabel>
+        <View className="mb-5 flex-row gap-2.5">
+          {averages.map((card) => (
+            <View key={card.label} className="min-w-0 flex-1 rounded-2xl bg-white p-3" style={CARD_SHADOW}>
               <View
-                className="mb-2 size-9 items-center justify-center rounded-full"
+                className="mb-3 size-9 items-center justify-center rounded-xl"
                 style={{ backgroundColor: `${card.accent}15` }}
               >
-                <Ionicons name={card.icon} size={18} color={card.accent} />
+                <Ionicons name={card.icon} size={17} color={card.accent} />
               </View>
               <Text
-                className="text-base text-neutral-900"
-                style={{ fontFamily: Pixelify.bold }}
+                numberOfLines={1}
+                adjustsFontSizeToFit
+                minimumFontScale={0.7}
+                className="text-neutral-900"
+                style={{ fontFamily: Pixelify.bold, fontSize: 18 }}
               >
                 {card.value}
               </Text>
-              <Text
-                className="mt-0.5 text-[11px] text-neutral-500"
-                style={{ fontFamily: Pixelify.regular }}
-              >
+              <Text numberOfLines={1} className="text-neutral-500" style={{ fontFamily: Pixelify.regular, fontSize: 11 }}>
                 {card.label}
               </Text>
             </View>
           ))}
         </View>
 
-        {/* 7-day averages */}
-        <Text
-          className="mb-2 ml-1 mt-5 text-xs uppercase tracking-widest text-neutral-400"
-          style={{ fontFamily: Pixelify.semibold }}
-        >
-          {t("stats.averages.sectionTitle")}
-        </Text>
-        <View
-          className="rounded-2xl bg-white px-4"
-          style={{
-            shadowColor: "#000",
-            shadowOffset: { width: 0, height: 2 },
-            shadowOpacity: 0.06,
-            shadowRadius: 8,
-            elevation: 2,
-          }}
-        >
-          {[
-            {
-              icon: "footsteps" as const,
-              label: t("stats.averages.avgDistance"),
-              accent: "#3b82f6",
-              value: t("stats.averages.avgDistanceValue", {
-                value: (
-                  data.reduce((s, d) => s + d.distanceMiles, 0) / data.length
-                ).toFixed(1),
-              }),
-            },
-            {
-              icon: "flag-outline" as const,
-              label: t("stats.averages.avgGoalsDone"),
-              accent: LUA_GREEN,
-              value: `${(data.reduce((s, d) => s + d.goalsDone, 0) / data.length).toFixed(1)}`,
-            },
-            {
-              icon: "briefcase-outline" as const,
-              label: t("stats.averages.avgStudyTime"),
-              accent: "#8b5cf6",
-              value: formatHours(
-                data.reduce((s, d) => s + d.hoursStudied, 0) / data.length,
-              ),
-            },
-          ].map((row, i, arr) => (
-            <View key={row.label}>
-              <View className="flex-row items-center justify-between py-3.5">
-                <View className="flex-row items-center gap-3">
-                  <View
-                    className="size-8 items-center justify-center rounded-lg"
-                    style={{ backgroundColor: `${row.accent}15` }}
-                  >
-                    <Ionicons name={row.icon} size={17} color={row.accent} />
-                  </View>
-                  <Text
-                    className="text-sm text-neutral-700"
-                    style={{ fontFamily: Pixelify.medium }}
-                  >
-                    {row.label}
-                  </Text>
-                </View>
-                <Text
-                  className="text-sm text-neutral-900"
-                  style={{ fontFamily: Pixelify.bold }}
-                >
-                  {row.value}
-                </Text>
-              </View>
-              {i < arr.length - 1 && (
-                <View className="h-px bg-neutral-100" />
-              )}
+        {/* Calendar + the tapped day */}
+        <StepCalendar history={history} today={todayRecord} selectedDay={calendarDay} onSelectDay={setCalendarDay} />
+        <DayDetailCard
+          day={calendarDay}
+          record={calendarDay === todayRecord.day ? todayRecord : history[calendarDay]}
+          isToday={calendarDay === todayRecord.day}
+        />
+        {SHOW_DEV_HISTORY_CONTROLS ? <DevHistoryControls /> : null}
+
+        {/* Leaderboard */}
+        <View className="mt-2">
+          <LeaderboardControls
+            period={leaderPeriod}
+            onPeriodChange={setLeaderPeriod}
+            sort={leaderSort}
+            onSortChange={setLeaderSort}
+          />
+        </View>
+        <View className="overflow-hidden rounded-2xl bg-white" style={CARD_SHADOW}>
+          {preview.map(({ entry, rank }) => (
+            <View key={entry.id}>
+              <LeaderRow entry={entry} rank={rank} value={leaderValue(entry, leaderSort)} />
+              <View className="mx-4 h-px bg-neutral-100" />
             </View>
           ))}
-        </View>
-        {/* Leaderboard */}
-        <View className="mt-5 mb-2 ml-1 flex-row items-center gap-2">
-          <Text
-            className="text-xs uppercase tracking-widest text-neutral-400"
-            style={{ fontFamily: Pixelify.semibold }}
+          <MyLeaderRow entry={me} rank={board.myRank} value={leaderValue(me, leaderSort)} />
+          <Pressable
+            onPress={() => router.push({ pathname: "/leaderboard", params: { period: leaderPeriod, sort: leaderSort } })}
+            accessibilityRole="button"
+            className="flex-row items-center justify-center gap-1 py-3.5 active:bg-neutral-50"
           >
-            {t("stats.leaderboard.title")}
-          </Text>
-          <View style={{ position: "relative" }}>
-            <Pressable
-              onPress={() => setPeriodDropdownOpen((v) => !v)}
-              className="flex-row items-center gap-1 rounded-md px-2 py-0.5"
-              style={{ backgroundColor: "#f5f5f5", borderWidth: 1, borderColor: "#e5e5e5" }}
-            >
-              <Text
-                className="text-xs uppercase tracking-widest"
-                style={{ fontFamily: Pixelify.bold, color: LUA_GREEN }}
-              >
-                {periodLabels[leaderPeriod]}
-              </Text>
-              <Ionicons
-                name={periodDropdownOpen ? "chevron-up" : "chevron-down"}
-                size={11}
-                color={LUA_GREEN}
-              />
-            </Pressable>
-
-            {periodDropdownOpen && (
-              <View
-                style={{
-                  position: "absolute",
-                  top: "100%",
-                  left: 0,
-                  marginTop: 4,
-                  backgroundColor: "#fff",
-                  borderRadius: 10,
-                  borderWidth: 1,
-                  borderColor: "#e5e5e5",
-                  zIndex: 50,
-                  shadowColor: "#000",
-                  shadowOffset: { width: 0, height: 4 },
-                  shadowOpacity: 0.1,
-                  shadowRadius: 8,
-                  elevation: 8,
-                  minWidth: 130,
-                  overflow: "hidden",
-                }}
-              >
-                {(["today", "week", "month"] as const).map((period, i, arr) => (
-                  <Pressable
-                    key={period}
-                    onPress={() => { setLeaderPeriod(period); setPeriodDropdownOpen(false); }}
-                    className="flex-row items-center justify-between px-3 py-2.5 active:bg-neutral-50"
-                  >
-                    <Text
-                      style={{
-                        fontFamily: leaderPeriod === period ? Pixelify.bold : Pixelify.regular,
-                        fontSize: 12,
-                        color: leaderPeriod === period ? LUA_GREEN : "#525252",
-                      }}
-                    >
-                      {periodLabels[period]}
-                    </Text>
-                    {leaderPeriod === period && (
-                      <Ionicons name="checkmark" size={14} color={LUA_GREEN} />
-                    )}
-                  </Pressable>
-                ))}
-              </View>
-            )}
-          </View>
+            <Text style={{ fontFamily: Pixelify.bold, fontSize: 13, color: LUA_GREEN }}>
+              {t("stats.leaderboard.seeFull")}
+            </Text>
+            <Ionicons name="chevron-forward" size={14} color={LUA_GREEN} />
+          </Pressable>
         </View>
-
-        {/* Sort pills */}
-        <View className="mb-3 flex-row gap-2">
-          {(
-            [
-              {
-                key: "goals" as const,
-                label: t("stats.metrics.goals"),
-                icon: "flag-outline" as const,
-                accent: LUA_GREEN,
-              },
-              {
-                key: "distance" as const,
-                label: t("stats.metrics.distance"),
-                icon: "footsteps" as const,
-                accent: "#3b82f6",
-              },
-              {
-                key: "study" as const,
-                label: t("stats.metrics.study"),
-                icon: "briefcase-outline" as const,
-                accent: "#8b5cf6",
-              },
-            ] as const
-          ).map((opt) => {
-            const active = leaderSort === opt.key;
-            return (
-              <Pressable
-                key={opt.key}
-                onPress={() => setLeaderSort(opt.key)}
-                className="flex-row items-center gap-1.5 rounded-full px-3 py-1.5"
-                style={{
-                  backgroundColor: active ? `${opt.accent}18` : "#f5f5f5",
-                  borderWidth: 1.5,
-                  borderColor: active ? opt.accent : "transparent",
-                }}
-              >
-                <Ionicons name={opt.icon} size={13} color={active ? opt.accent : "#9ca3af"} />
-                <Text
-                  style={{
-                    fontFamily: active ? Pixelify.bold : Pixelify.regular,
-                    fontSize: 12,
-                    color: active ? opt.accent : "#9ca3af",
-                  }}
-                >
-                  {opt.label}
-                </Text>
-              </Pressable>
-            );
-          })}
-        </View>
-
-        {/* Entries */}
-        <View
-          className="overflow-hidden rounded-2xl bg-white"
-          style={{
-            shadowColor: "#000",
-            shadowOffset: { width: 0, height: 2 },
-            shadowOpacity: 0.06,
-            shadowRadius: 8,
-            elevation: 2,
-          }}
-        >
-          {/* "You" row — always first if competitive */}
-          {(() => {
-            // Scale multipliers per period so rankings feel different
-            const scale = leaderPeriod === "today" ? 1 : leaderPeriod === "week" ? 7 : 30;
-            const periodBoard: LeaderEntry[] = LEADERBOARD.map((e) => ({
-              ...e,
-              goalsDone: Math.min(Math.round(e.goalsDone * scale * (0.8 + Math.sin(e.seed) * 0.2)), e.goalsTotal * scale),
-              goalsTotal: e.goalsTotal * scale,
-              distanceMiles: parseFloat((e.distanceMiles * scale * (0.85 + Math.cos(e.seed) * 0.15)).toFixed(1)),
-              hoursStudied: parseFloat((e.hoursStudied * scale * (0.9 + Math.sin(e.id.charCodeAt(0)) * 0.1)).toFixed(1)),
-            }));
-
-            const meEntry: LeaderEntry = {
-              id: "me",
-              name: t("common.you"),
-              tagline: t("stats.leaderboard.yourTagline"),
-              seed: 12,
-              goalsDone: stats.goalsDone * scale,
-              goalsTotal: stats.goalsTotal * scale,
-              distanceMiles: parseFloat((stats.distanceMiles * scale).toFixed(1)),
-              hoursStudied: parseFloat((stats.hoursStudied * scale).toFixed(1)),
-              streak: stats.goalStreak,
-            };
-            const combined = sortLeaderboard([...periodBoard, meEntry], leaderSort);
-            const meRank = combined.findIndex((e) => e.id === "me") + 1;
-            const sorted = sortLeaderboard(periodBoard, leaderSort);
-
-            const sortAccent =
-              leaderSort === "goals" ? LUA_GREEN :
-              leaderSort === "distance" ? "#3b82f6" : "#8b5cf6";
-
-            return (
-              <>
-                {/* You banner */}
-                <LinearGradient
-                  colors={[`${sortAccent}18`, `${sortAccent}08`]}
-                  start={{ x: 0, y: 0.5 }}
-                  end={{ x: 1, y: 0.5 }}
-                  style={{ paddingHorizontal: 16, paddingVertical: 12 }}
-                >
-                  <View className="flex-row items-center gap-3">
-                    {/* Rank badge */}
-                    <View
-                      className="w-7 items-center"
-                    >
-                      {meRank <= 3 ? (
-                        <Ionicons name={RANK_ICONS[meRank - 1]} size={20} color={RANK_COLORS[meRank - 1]} />
-                      ) : (
-                        <Text style={{ fontFamily: Pixelify.bold, fontSize: 14, color: sortAccent }}>
-                          {t("stats.leaderboard.rank", { rank: meRank })}
-                        </Text>
-                      )}
-                    </View>
-                    <MySpriteAvatar size={40} ringWidth={2} ringColor={sortAccent} />
-                    <View className="flex-1 min-w-0">
-                      <View className="flex-row items-center gap-1.5">
-                        <Text style={{ fontFamily: Pixelify.bold, fontSize: 14, color: "#171717" }}>
-                          {t("common.you")}
-                        </Text>
-                        <View
-                          className="rounded px-1.5 py-0.5"
-                          style={{ backgroundColor: `${sortAccent}20` }}
-                        >
-                          <Text style={{ fontFamily: Pixelify.bold, fontSize: 9, color: sortAccent }}>
-                            {t("stats.leaderboard.youBadge")}
-                          </Text>
-                        </View>
-                      </View>
-                      <Text style={{ fontFamily: Pixelify.regular, fontSize: 11, color: "#737373" }}>
-                        {t("stats.leaderboard.streak", { count: stats.goalStreak })}
-                      </Text>
-                    </View>
-                    <Text style={{ fontFamily: Pixelify.bold, fontSize: 15, color: sortAccent }}>
-                      {leaderValue(meEntry, leaderSort)}
-                    </Text>
-                  </View>
-                </LinearGradient>
-
-                <View className="h-px bg-neutral-100" />
-
-                {/* Other users */}
-                {sorted.map((entry, i) => {
-                  const rank = combined.findIndex((e) => e.id === entry.id) + 1;
-                  return (
-                    <View key={entry.id}>
-                      <View className="flex-row items-center gap-3 px-4 py-3">
-                        {/* Rank */}
-                        <View className="w-7 items-center">
-                          {rank <= 3 ? (
-                            <Ionicons name={RANK_ICONS[rank - 1]} size={20} color={RANK_COLORS[rank - 1]} />
-                          ) : (
-                            <Text style={{ fontFamily: Pixelify.semibold, fontSize: 13, color: "#a3a3a3" }}>
-                              {t("stats.leaderboard.rank", { rank })}
-                            </Text>
-                          )}
-                        </View>
-                        <SpriteAvatar
-                          look={LEADER_AVATARS[entry.id].look}
-                          backdrop={LEADER_AVATARS[entry.id].backdrop}
-                          size={40}
-                        />
-                        <View className="flex-1 min-w-0">
-                          <Text
-                            style={{ fontFamily: Pixelify.semibold, fontSize: 13, color: "#171717" }}
-                            numberOfLines={1}
-                          >
-                            {entry.name}
-                          </Text>
-                          <Text
-                            style={{ fontFamily: Pixelify.regular, fontSize: 11, color: "#737373" }}
-                            numberOfLines={1}
-                          >
-                            {entry.tagline}
-                          </Text>
-                        </View>
-                        <Text style={{ fontFamily: Pixelify.bold, fontSize: 14, color: "#171717" }}>
-                          {leaderValue(entry, leaderSort)}
-                        </Text>
-                      </View>
-                      {i < sorted.length - 1 && (
-                        <View className="ml-[72px] mr-4 h-px bg-neutral-100" />
-                      )}
-                    </View>
-                  );
-                })}
-              </>
-            );
-          })()}
-        </View>
-
       </ScrollView>
     </View>
+  );
+}
+
+function SectionLabel({ children }: { children: string }) {
+  return (
+    <Text
+      className="mb-2.5 ml-1 text-xs uppercase tracking-widest text-neutral-400"
+      style={{ fontFamily: Pixelify.semibold }}
+    >
+      {children}
+    </Text>
   );
 }
