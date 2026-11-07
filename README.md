@@ -1,50 +1,68 @@
-# Welcome to your Expo app 👋
+# Lua
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+Lua is a walking app with a pixel-art companion. You set goals at real places on the map, walk there, and Lua earns XP and stays healthy from your steps and the goals you reach.
 
-## Get started
+- **Map**: live GPS position, goal markers, check-in when you arrive, and work/study sessions at a goal.
+- **Schedule**: add goals for today by searching nearby places. Goals last one day.
+- **Lua's health and XP**: steps, the daily step goal and goals you walked to all earn XP. A full day heals Lua, and missed days hurt her.
+- **Achievements**: unlock items as XP grows, dress Lua up in the wardrobe, and buy costume skins in the shop.
+- **Stats**: weekly averages, a week/month/year calendar, a day-by-day breakdown and a leaderboard.
+- **10 languages**: English, German, Spanish, French, Hindi, Italian, Japanese, Korean, Portuguese and Chinese.
 
-1. Install dependencies
+Built with Expo (SDK 54), Expo Router, React Native, NativeWind, Skia and react-native-maps.
+
+## Current state
+
+The app runs fully on the phone. Everything is saved locally with AsyncStorage, and there is no backend or account system yet. The leaderboard uses sample players, and buying a costume doesn't charge anything yet.
+
+## Setup
+
+1. Install dependencies:
 
    ```bash
    npm install
    ```
 
-2. Start the app
+2. Copy `.env.example` to `.env` and fill it in:
 
-   ```bash
-   npx expo start
-   ```
+   | Variable | What it's for |
+   |---|---|
+   | `EXPO_PUBLIC_GOOGLE_MAPS_API_KEY` | Google Maps on Android (Maps SDK for Android enabled). Restrict it to the package `com.anonymous.Lua`. |
+   | `EXPO_PUBLIC_SUPABASE_URL`, `EXPO_PUBLIC_SUPABASE_ANON_KEY` | For the upcoming backend. Not used yet. |
+   | `EXPO_PUBLIC_DEV_XP_CONTROLS` | `1` shows the dev XP buttons on the Achievements tab outside dev mode. **Set it to `0` (or remove it) for release builds.** |
 
-In the output, you'll find options to open the app in a
+## Running
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
-
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
-
-## Get a fresh project
-
-When you're ready, run:
+Lua needs a development build. Maps, Skia, background location and the step counter use native code, so Expo Go isn't enough.
 
 ```bash
-npm run reset-project
+npx expo run:android   # build and run on an Android device or emulator
+npx expo run:ios       # build and run on iOS (macOS only)
+npm start              # start the dev server for an existing development build
 ```
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+Background location, step counting and goal check-ins need a real phone to test properly.
 
-## Learn more
+Changes to `app.json` (permissions, icons, splash) only apply after a fresh native build.
 
-To learn more about developing your project with Expo, look at the following resources:
+## Scripts
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+| Command | What it does |
+|---|---|
+| `npm start` | Start the Expo dev server |
+| `npm run android` / `npm run ios` | Build and run the native app |
+| `npm run web` | Start the web version (the map and native sensors are limited there) |
+| `npm run lint` | Run ESLint |
 
-## Join the community
+## Project layout
 
-Join our community of developers creating universal apps.
+| Folder | Contents |
+|---|---|
+| `app/` | Screens, using Expo Router file-based routing. `(tabs)/` holds the five tabs: Map, Schedule, Profile, Achievements and Stats. |
+| `components/` | UI split by feature (`map`, `schedule`, `achievements`, `stats`, `leaderboard`, `health`, …) |
+| `lib/` | App logic and saved state: XP ledger, daily progress and day history, schedule, step counter, background tracking, walking rules, i18n |
+| `hooks/` | Location, compass, distance and day-rollover hooks |
+| `constants/` | Fonts, map assets, sprite data and the app version |
+| `locales/` | Translation files, one JSON file per language. `en.json` is the reference. |
 
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+The app version comes from `version` in `app.json` and is shown on the Profile and About pages.
