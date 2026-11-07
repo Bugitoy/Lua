@@ -37,7 +37,7 @@ export type DayRecord = {
   /** Step goal reached and every goal done (the day that heals Lua). */
   fullDay: boolean;
   goals: GoalRecord[];
-  /** Made-up day from the dev sample-data button; removable without touching real days. */
+  /** Made-up test day (from the old sample-data tool); removable with `removeSampleDays` without touching real days. */
   sample?: boolean;
 };
 

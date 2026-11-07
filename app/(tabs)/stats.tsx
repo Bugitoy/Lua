@@ -9,7 +9,6 @@ import { LeaderboardControls } from "@/components/leaderboard/LeaderboardControl
 import { LeaderRow, MyLeaderRow } from "@/components/leaderboard/LeaderRow";
 import { formatXp } from "@/components/achievements/theme";
 import { DayDetailCard } from "@/components/stats/DayDetailCard";
-import { DevHistoryControls } from "@/components/stats/DevHistoryControls";
 import { StepCalendar } from "@/components/stats/StepCalendar";
 import { Pixelify } from "@/constants/fonts";
 import { LUA_GREEN } from "@/constants/mapAssets";
@@ -29,9 +28,6 @@ import { useTodayRecord } from "@/lib/todayRecord";
 
 /** Players shown on the Stats page before "See full leaderboard". */
 const LEADER_PREVIEW = 3;
-
-/** Same switch as the dev XP buttons on the Customize tab. */
-const SHOW_DEV_HISTORY_CONTROLS = __DEV__ || process.env.EXPO_PUBLIC_DEV_XP_CONTROLS === "1";
 
 const CARD_SHADOW = {
   shadowColor: "#000",
@@ -155,7 +151,6 @@ export default function StatsScreen() {
           record={calendarDay === todayRecord.day ? todayRecord : history[calendarDay]}
           isToday={calendarDay === todayRecord.day}
         />
-        {SHOW_DEV_HISTORY_CONTROLS ? <DevHistoryControls /> : null}
 
         {/* Leaderboard */}
         <View className="mt-2">
