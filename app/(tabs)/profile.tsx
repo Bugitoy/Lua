@@ -13,6 +13,7 @@ import { formatXp } from "@/components/achievements/theme";
 import { xpBarProgress } from "@/components/achievements/unlockRoute";
 import { MySpriteAvatar } from "@/components/profile/SpriteAvatar";
 import { LanguagePickerModal } from "@/components/settings/LanguagePickerModal";
+import { APP_VERSION } from "@/constants/appVersion";
 import { Pixelify } from "@/constants/fonts";
 import { LUA_GREEN } from "@/constants/mapAssets";
 import { useAchievements } from "@/lib/achievementsStore";
@@ -454,7 +455,7 @@ export default function ProfileScreen() {
           <SettingRow
             icon="information-circle-outline"
             label={t("profile.rows.appVersion")}
-            sublabel={t("profile.rows.appVersionValue")}
+            sublabel={t("profile.rows.appVersionValue", { version: APP_VERSION })}
             tintColor="#64748b"
           />
           <View className="mx-4 h-px bg-neutral-100" />

@@ -152,7 +152,7 @@
       "language": "Langue",
       "appSettings": "Paramètres de l'app",
       "appVersion": "Version de l'app",
-      "appVersionValue": "Lua v1.0.0",
+      "appVersionValue": "Lua v{{version}}",
       "aboutUs": "À propos de nous",
       "helpCenter": "Centre d'aide",
       "termsConditions": "Conditions générales",

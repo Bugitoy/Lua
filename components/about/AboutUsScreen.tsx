@@ -19,6 +19,7 @@ import Animated, {
 import { useTranslation } from "react-i18next";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
+import { APP_VERSION } from "@/constants/appVersion";
 import { Pixelify } from "@/constants/fonts";
 import { LUA_GREEN, LUA_LOGO } from "@/constants/mapAssets";
 
@@ -349,7 +350,7 @@ export function AboutUsScreen() {
             className="mt-2 text-center text-xs text-neutral-400"
             style={{ fontFamily: Pixelify.regular }}
           >
-            {t("profile.rows.appVersionValue")}
+            {t("profile.rows.appVersionValue", { version: APP_VERSION })}
           </Animated.Text>
         </View>
       </ScrollView>

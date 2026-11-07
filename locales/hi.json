@@ -152,7 +152,7 @@
       "language": "भाषा",
       "appSettings": "ऐप सेटिंग्स",
       "appVersion": "ऐप संस्करण",
-      "appVersionValue": "Lua v1.0.0",
+      "appVersionValue": "Lua v{{version}}",
       "aboutUs": "हमारे बारे में",
       "helpCenter": "सहायता केंद्र",
       "termsConditions": "नियम और शर्तें",

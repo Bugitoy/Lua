@@ -152,7 +152,7 @@
       "language": "언어",
       "appSettings": "앱 설정",
       "appVersion": "앱 버전",
-      "appVersionValue": "Lua v1.0.0",
+      "appVersionValue": "Lua v{{version}}",
       "aboutUs": "회사 소개",
       "helpCenter": "고객센터",
       "termsConditions": "이용약관",
