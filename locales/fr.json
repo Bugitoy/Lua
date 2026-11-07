@@ -175,11 +175,11 @@
         },
         "prove": {
           "title": "Prouvez que vous y étiez",
-          "body": "À moins de 25 mètres de la destination, l'app détecte automatiquement votre arrivée et marque l'objectif comme terminé."
+          "body": "À moins de 25 mètres de la destination, l'app détecte automatiquement votre arrivée et marque l'objectif comme terminé. Un objectif ne rapporte de l'XP que si vous y êtes vraiment allé à pied."
         },
         "consequences": {
           "title": "Les actions ont des conséquences",
-          "body": "Atteignez vos objectifs et Lua gagne en santé pendant que vous gagnez de l'XP. Ratez-les et la santé de Lua baisse à minuit. Un jeu où votre élan physique est la manette."
+          "body": "Atteignez votre objectif de pas quotidien et vos objectifs, et Lua guérit pendant que vous gagnez de l'XP. Sautez vos marches et la santé de Lua baisse à minuit. Un jeu où votre élan physique est la manette."
         }
       }
     }
@@ -366,9 +366,9 @@
     },
     "subtitle": {
       "dead": "Aucun objectif accompli aujourd'hui. Réessayons demain.",
-      "critical": "Lua tient à peine. Accomplissez vos objectifs pour vous rétablir !",
-      "hurting": "Lua a du mal. Essayez d'accomplir plus d'objectifs aujourd'hui.",
-      "cracking": "Lua commence à se fissurer. Quelques objectifs de plus la répareront.",
+      "critical": "Lua tient à peine. Marchez et accomplissez vos objectifs pour vous rétablir !",
+      "hurting": "Lua a du mal. Allez marcher et accomplissez plus d'objectifs aujourd'hui.",
+      "cracking": "Lua commence à se fissurer. Une bonne marche la réparera.",
       "healthy": "{{done}} objectifs sur {{total}} accomplis aujourd'hui. Continuez comme ça !"
     },
     "stats": {

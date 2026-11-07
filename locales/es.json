@@ -175,11 +175,11 @@
         },
         "prove": {
           "title": "Demuestra que estuviste allí",
-          "body": "Cuando caminas a menos de 25 metros del destino, la app detecta tu llegada automáticamente y marca la meta como completada."
+          "body": "Cuando caminas a menos de 25 metros del destino, la app detecta tu llegada automáticamente y marca la meta como completada. Una meta solo da XP si de verdad caminaste hasta ella."
         },
         "consequences": {
           "title": "Las acciones tienen consecuencias",
-          "body": "Completa tus metas y tu compañero Lua gana salud mientras tú ganas XP. Falla y la salud de Lua baja a medianoche. Es un juego donde tu impulso físico es el mando."
+          "body": "Alcanza tu meta diaria de pasos y completa tus metas, y Lua se cura mientras tú ganas XP. Sáltate tus caminatas y la salud de Lua baja a medianoche. Es un juego donde tu impulso físico es el mando."
         }
       }
     }
@@ -366,9 +366,9 @@
     },
     "subtitle": {
       "dead": "Cero metas completadas hoy. Intentémoslo de nuevo mañana.",
-      "critical": "Lua apenas se mantiene. ¡Completa tus metas para recuperarte!",
-      "hurting": "Lua está luchando. Intenta completar más metas hoy.",
-      "cracking": "Lua empieza a agrietarse. Unas cuantas metas más la repararán.",
+      "critical": "Lua apenas se mantiene. ¡Camina y completa tus metas para recuperarte!",
+      "hurting": "Lua está luchando. Sal a caminar y completa más metas hoy.",
+      "cracking": "Lua empieza a agrietarse. Una buena caminata la reparará.",
       "healthy": "{{done}} de {{total}} metas completadas hoy. ¡Sigue así!"
     },
     "stats": {

@@ -175,11 +175,11 @@
         },
         "prove": {
           "title": "Beweise, dass du da warst",
-          "body": "Kommst du innerhalb von 25 Metern an, erkennt die App deine Ankunft automatisch und hakt das Ziel ab."
+          "body": "Kommst du innerhalb von 25 Metern an, erkennt die App deine Ankunft automatisch und hakt das Ziel ab. XP gibt es nur, wenn du wirklich hingelaufen bist."
         },
         "consequences": {
           "title": "Handeln hat Folgen",
-          "body": "Schaffst du deine Ziele, gewinnt Lua Gesundheit und du XP. Verpasst du sie, sinkt Lunas Gesundheit um Mitternacht. Ein Spiel, bei dem deine physische Bewegung der Controller ist."
+          "body": "Erreichst du dein tägliches Schrittziel und deine Ziele, heilt Lua und du bekommst XP. Lässt du deine Spaziergänge ausfallen, sinkt Luas Gesundheit um Mitternacht. Ein Spiel, bei dem deine physische Bewegung der Controller ist."
         }
       }
     }
@@ -366,9 +366,9 @@
     },
     "subtitle": {
       "dead": "Heute keine Ziele erreicht. Versuchen wir es morgen erneut.",
-      "critical": "Lua hängt gerade so durch. Erreiche deine Ziele, um dich zu erholen!",
-      "hurting": "Lua kämpft. Versuche heute mehr Ziele zu erreichen.",
-      "cracking": "Lua bekommt erste Risse. Ein paar Ziele mehr flicken sie wieder.",
+      "critical": "Lua hängt gerade so durch. Sammle Schritte und erreiche deine Ziele, um dich zu erholen!",
+      "hurting": "Lua kämpft. Geh spazieren und erreiche heute mehr Ziele.",
+      "cracking": "Lua bekommt erste Risse. Ein guter Spaziergang flickt sie wieder.",
       "healthy": "{{done}} von {{total}} Zielen heute erreicht. Weiter so!"
     },
     "stats": {

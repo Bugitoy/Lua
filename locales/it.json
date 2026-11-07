@@ -175,11 +175,11 @@
         },
         "prove": {
           "title": "Dimostra che c'eri",
-          "body": "Entro 25 metri dalla destinazione, l'app rileva automaticamente il tuo arrivo e segna l'obiettivo come completato."
+          "body": "Entro 25 metri dalla destinazione, l'app rileva automaticamente il tuo arrivo e segna l'obiettivo come completato. Un obiettivo dà XP solo se ci sei davvero arrivato a piedi."
         },
         "consequences": {
           "title": "Le azioni hanno conseguenze",
-          "body": "Completa gli obiettivi e Lua guadagna salute mentre tu guadagni XP. Sbaglia e la salute di Lua cala a mezzanotte. Un gioco in cui il tuo slancio fisico è il controller."
+          "body": "Raggiungi il tuo obiettivo giornaliero di passi e completa gli obiettivi, e Lua guarisce mentre tu guadagni XP. Salta le passeggiate e la salute di Lua cala a mezzanotte. Un gioco in cui il tuo slancio fisico è il controller."
         }
       }
     }
@@ -366,9 +366,9 @@
     },
     "subtitle": {
       "dead": "Nessun obiettivo completato oggi. Riproviamo domani.",
-      "critical": "Lua sta a malapena in piedi. Completa i tuoi obiettivi per riprenderti!",
-      "hurting": "Lua sta lottando. Cerca di completare più obiettivi oggi.",
-      "cracking": "Lua inizia a creparsi. Qualche obiettivo in più la rimetterà in sesto.",
+      "critical": "Lua sta a malapena in piedi. Cammina e completa i tuoi obiettivi per riprenderti!",
+      "hurting": "Lua sta lottando. Fai una passeggiata e completa più obiettivi oggi.",
+      "cracking": "Lua inizia a creparsi. Una bella passeggiata la rimetterà in sesto.",
       "healthy": "{{done}} su {{total}} obiettivi completati oggi. Continua così!"
     },
     "stats": {

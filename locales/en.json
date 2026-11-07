@@ -183,11 +183,11 @@
         },
         "prove": {
           "title": "Prove You Were There",
-          "body": "When you walk within 25 meters of your destination, the app automatically detects your arrival and marks the goal complete."
+          "body": "When you walk within 25 meters of your destination, the app automatically detects your arrival and marks the goal complete. A goal only earns XP if you actually walked there."
         },
         "consequences": {
           "title": "Actions Have Consequences",
-          "body": "Complete your goals, and your companion sprite, Lua, gains health while you earn XP. Miss your marks, and Lua's health drops at midnight. It is a game where your physical momentum is the controller."
+          "body": "Hit your daily step goal and finish your goals, and Lua heals while you earn XP. Skip your walks, and Lua's health drops at midnight. It is a game where your physical momentum is the controller."
         }
       }
     }
@@ -438,9 +438,9 @@
     },
     "subtitle": {
       "dead": "Zero goals completed today. Let's try again tomorrow.",
-      "critical": "Lua is barely hanging on. Complete your goals to recover!",
-      "hurting": "Lua is struggling. Try to get more goals done today.",
-      "cracking": "Lua is starting to crack. A few more goals will patch her up.",
+      "critical": "Lua is barely hanging on. Get your steps in and complete your goals to recover!",
+      "hurting": "Lua is struggling. Go for a walk and get more goals done today.",
+      "cracking": "Lua is starting to crack. A good walk will patch her up.",
       "healthy": "{{done}} of {{total}} goals done today. Keep it up!"
     },
     "stats": {
