@@ -76,11 +76,17 @@
     }
   },
   "schedule": {
+    "remove": {
+      "title": "목표를 삭제할까요?",
+      "message": "\"{{title}}\"이(가) 오늘 일정에서 삭제됩니다.",
+      "confirm": "삭제",
+      "hint": "길게 눌러 삭제"
+    },
     "title": "오늘의 일정.",
     "liveMap": "실시간 지도",
     "empty": {
       "title": "아직 목표가 없습니다",
-      "description": "+ 버튼을 눌러 장소를 추가하세요. 실시간 지도에서 그곳까지 걸어가면 목표가 완료됩니다."
+      "description": "+ 버튼을 눌러 장소를 추가하세요. 실시간 지도에서 그곳까지 걸어가면 목표가 완료됩니다. 목표는 오늘 하루만 유지됩니다."
     },
     "addModal": {
       "title": "새 항목",
@@ -198,6 +204,40 @@
     "errorSave": "문제가 발생했습니다. 다시 시도하세요."
   },
   "stats": {
+    "calendar": {
+      "views": {
+        "week": "주",
+        "month": "월",
+        "year": "년",
+        "today": "오늘"
+      },
+      "previous": "이전",
+      "next": "다음",
+      "fewer": "적음",
+      "more": "많음",
+      "title": "캘린더 ·",
+      "bestStreak": "최고 연속 {{count}}일"
+    },
+    "day": {
+      "fullDay": "완벽한 날",
+      "noRecord": "이 날은 기록이 없습니다.",
+      "steps": "걸음 수",
+      "xpEarned": "획득 XP",
+      "health": "Lua의 체력",
+      "inProgress": "진행 중",
+      "goalsHeader": "목표 · {{done}}/{{total}} 완료",
+      "goalsHeaderEmpty": "목표",
+      "noGoals": "그날은 목표가 없었습니다.",
+      "doneAt": "{{time}} 완료",
+      "done": "완료",
+      "notYet": "아직",
+      "missed": "놓침",
+      "xpValue": "+{{xp}} XP",
+      "stepsCount": "{{steps}}걸음",
+      "ofGoal": "목표 {{goal}}걸음의 {{percent}}%",
+      "showAllGoals": "목표 {{count}}개 모두 보기",
+      "showFewerGoals": "접기"
+    },
     "title": "통계",
     "metrics": {
       "distance": "거리",
@@ -213,11 +253,6 @@
       "completed": "완료",
       "total": "전체"
     },
-    "selectedDay": {
-      "todaySuffix": "· 오늘",
-      "allStats": "{{label}} · 전체 통계",
-      "allStatsToday": "오늘 · 전체 통계"
-    },
     "summary": {
       "distance": "거리",
       "goals": "목표",
@@ -226,18 +261,15 @@
       "goalsValue": "{{done}}/{{total}}"
     },
     "averages": {
-      "sectionTitle": "7일 평균",
-      "avgDistance": "평균 거리",
-      "avgGoalsDone": "평균 완료 목표",
-      "avgStudyTime": "평균 작업 시간",
-      "avgDistanceValue": "{{value}} mi"
+      "workTime": "작업 시간",
+      "weekTitle": "주간 평균: ({{range}})"
     },
     "leaderboard": {
       "title": "리더보드 ·",
       "youBadge": "나",
-      "yourTagline": "모험가",
-      "streak": "🔥 {{count}}일 연속",
-      "rank": "#{{rank}}"
+      "rank": "#{{rank}}",
+      "seeFull": "전체 순위 보기",
+      "streakDays": "{{count}}일 연속"
     }
   },
   "achievements": {

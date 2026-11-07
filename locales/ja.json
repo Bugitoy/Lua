@@ -76,11 +76,17 @@
     }
   },
   "schedule": {
+    "remove": {
+      "title": "目標を削除しますか？",
+      "message": "「{{title}}」を今日の予定から削除します。",
+      "confirm": "削除",
+      "hint": "長押しで削除"
+    },
     "title": "今日のスケジュール。",
     "liveMap": "ライブマップ",
     "empty": {
       "title": "目標がまだありません",
-      "description": "+ ボタンをタップして場所を追加。ライブマップでそこまで歩くと目標が達成されます。"
+      "description": "+ ボタンをタップして場所を追加。ライブマップでそこまで歩くと目標が達成されます。目標はその日限りです。"
     },
     "addModal": {
       "title": "新しい項目",
@@ -198,6 +204,40 @@
     "errorSave": "問題が発生しました。もう一度お試しください。"
   },
   "stats": {
+    "calendar": {
+      "views": {
+        "week": "週",
+        "month": "月",
+        "year": "年",
+        "today": "今日"
+      },
+      "previous": "前へ",
+      "next": "次へ",
+      "fewer": "少ない",
+      "more": "多い",
+      "title": "カレンダー ·",
+      "bestStreak": "最長 {{count}} 日連続"
+    },
+    "day": {
+      "fullDay": "フルデー",
+      "noRecord": "この日の記録はありません。",
+      "steps": "歩数",
+      "xpEarned": "獲得XP",
+      "health": "Luaの体力",
+      "inProgress": "進行中",
+      "goalsHeader": "目標 · {{done}}/{{total}} 達成",
+      "goalsHeaderEmpty": "目標",
+      "noGoals": "この日は目標がありませんでした。",
+      "doneAt": "{{time}} 達成",
+      "done": "達成",
+      "notYet": "まだ",
+      "missed": "未達成",
+      "xpValue": "+{{xp}} XP",
+      "stepsCount": "{{steps}} 歩",
+      "ofGoal": "目標 {{goal}} 歩の {{percent}}%",
+      "showAllGoals": "{{count}} 件の目標をすべて表示",
+      "showFewerGoals": "折りたたむ"
+    },
     "title": "統計",
     "metrics": {
       "distance": "距離",
@@ -213,11 +253,6 @@
       "completed": "完了",
       "total": "合計"
     },
-    "selectedDay": {
-      "todaySuffix": "· 今日",
-      "allStats": "{{label}} · すべての統計",
-      "allStatsToday": "今日 · すべての統計"
-    },
     "summary": {
       "distance": "距離",
       "goals": "目標",
@@ -226,18 +261,15 @@
       "goalsValue": "{{done}}/{{total}}"
     },
     "averages": {
-      "sectionTitle": "7 日間平均",
-      "avgDistance": "平均距離",
-      "avgGoalsDone": "平均達成目標",
-      "avgStudyTime": "平均作業時間",
-      "avgDistanceValue": "{{value}} mi"
+      "workTime": "作業時間",
+      "weekTitle": "週の平均:({{range}})"
     },
     "leaderboard": {
       "title": "リーダーボード ·",
       "youBadge": "あなた",
-      "yourTagline": "冒険者",
-      "streak": "🔥 {{count}} 日連続",
-      "rank": "#{{rank}}"
+      "rank": "#{{rank}}",
+      "seeFull": "ランキングをすべて見る",
+      "streakDays": "{{count}} 日連続"
     }
   },
   "achievements": {

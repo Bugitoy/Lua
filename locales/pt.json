@@ -76,11 +76,17 @@
     }
   },
   "schedule": {
+    "remove": {
+      "title": "Remover meta?",
+      "message": "\"{{title}}\" será removida de hoje.",
+      "confirm": "Remover",
+      "hint": "Toque e segure para remover"
+    },
     "title": "Agenda de hoje.",
     "liveMap": "Mapa ao vivo",
     "empty": {
       "title": "Ainda não há metas",
-      "description": "Toque no botão + para adicionar um lugar. Caminhar até ele no mapa ao vivo conclui a meta."
+      "description": "Toque no botão + para adicionar um lugar. Caminhar até ele no mapa ao vivo conclui a meta. As metas valem só para hoje."
     },
     "addModal": {
       "title": "Novo item",
@@ -198,6 +204,40 @@
     "errorSave": "Algo deu errado. Tente novamente."
   },
   "stats": {
+    "calendar": {
+      "views": {
+        "week": "Semana",
+        "month": "Mês",
+        "year": "Ano",
+        "today": "Hoje"
+      },
+      "previous": "Anterior",
+      "next": "Próximo",
+      "fewer": "Menos",
+      "more": "Mais",
+      "title": "Calendário ·",
+      "bestStreak": "Melhor sequência {{count}} d"
+    },
+    "day": {
+      "fullDay": "Dia completo",
+      "noRecord": "Nada foi registrado neste dia.",
+      "steps": "Passos",
+      "xpEarned": "XP ganho",
+      "health": "Saúde da Lua",
+      "inProgress": "Em andamento",
+      "goalsHeader": "Metas · {{done}}/{{total}} feitas",
+      "goalsHeaderEmpty": "Metas",
+      "noGoals": "Não houve metas nesse dia.",
+      "doneAt": "Feita às {{time}}",
+      "done": "Feita",
+      "notYet": "Ainda não",
+      "missed": "Perdida",
+      "xpValue": "+{{xp}} XP",
+      "stepsCount": "{{steps}} passos",
+      "ofGoal": "{{percent}}% da sua meta de {{goal}}",
+      "showAllGoals": "Ver as {{count}} metas",
+      "showFewerGoals": "Ver menos"
+    },
     "title": "Estatísticas",
     "metrics": {
       "distance": "Distância",
@@ -213,11 +253,6 @@
       "completed": "Concluídas",
       "total": "Total"
     },
-    "selectedDay": {
-      "todaySuffix": "· Hoje",
-      "allStats": "{{label}} · Todas as estatísticas",
-      "allStatsToday": "Hoje · Todas as estatísticas"
-    },
     "summary": {
       "distance": "Distância",
       "goals": "Metas",
@@ -226,18 +261,15 @@
       "goalsValue": "{{done}}/{{total}}"
     },
     "averages": {
-      "sectionTitle": "Médias de 7 dias",
-      "avgDistance": "Distância média",
-      "avgGoalsDone": "Metas médias concluídas",
-      "avgStudyTime": "Tempo médio de trabalho",
-      "avgDistanceValue": "{{value}} mi"
+      "workTime": "Tempo de trabalho",
+      "weekTitle": "Média semanal: ({{range}})"
     },
     "leaderboard": {
       "title": "Ranking ·",
       "youBadge": "VOCÊ",
-      "yourTagline": "Aventureiro",
-      "streak": "🔥 Sequência de {{count}} dias",
-      "rank": "#{{rank}}"
+      "rank": "#{{rank}}",
+      "seeFull": "Ver classificação completa",
+      "streakDays": "Sequência de {{count}} dias"
     }
   },
   "achievements": {

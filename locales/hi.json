@@ -76,11 +76,17 @@
     }
   },
   "schedule": {
+    "remove": {
+      "title": "लक्ष्य हटाएँ?",
+      "message": "\"{{title}}\" आज से हटा दिया जाएगा।",
+      "confirm": "हटाएँ",
+      "hint": "हटाने के लिए देर तक दबाएँ"
+    },
     "title": "आज का कार्यक्रम।",
     "liveMap": "लाइव मानचित्र",
     "empty": {
       "title": "अभी कोई लक्ष्य नहीं",
-      "description": "स्थान जोड़ने के लिए + बटन दबाएँ। लाइव मानचित्र पर वहाँ तक पहुँचने पर लक्ष्य पूरा हो जाता है।"
+      "description": "स्थान जोड़ने के लिए + बटन दबाएँ। लाइव मानचित्र पर वहाँ तक पहुँचने पर लक्ष्य पूरा हो जाता है। लक्ष्य सिर्फ़ आज के लिए होते हैं।"
     },
     "addModal": {
       "title": "नया आइटम",
@@ -198,6 +204,40 @@
     "errorSave": "कुछ गलत हो गया। कृपया पुनः प्रयास करें।"
   },
   "stats": {
+    "calendar": {
+      "views": {
+        "week": "सप्ताह",
+        "month": "महीना",
+        "year": "साल",
+        "today": "आज"
+      },
+      "previous": "पिछला",
+      "next": "अगला",
+      "fewer": "कम",
+      "more": "ज़्यादा",
+      "title": "कैलेंडर ·",
+      "bestStreak": "सबसे लंबी लय {{count}} दिन"
+    },
+    "day": {
+      "fullDay": "पूरा दिन",
+      "noRecord": "इस दिन कुछ दर्ज नहीं हुआ।",
+      "steps": "कदम",
+      "xpEarned": "कमाया XP",
+      "health": "Lua की सेहत",
+      "inProgress": "जारी है",
+      "goalsHeader": "लक्ष्य · {{done}}/{{total}} पूरे",
+      "goalsHeaderEmpty": "लक्ष्य",
+      "noGoals": "उस दिन कोई लक्ष्य नहीं था।",
+      "doneAt": "{{time}} पर पूरा",
+      "done": "पूरा",
+      "notYet": "अभी नहीं",
+      "missed": "छूटा",
+      "xpValue": "+{{xp}} XP",
+      "stepsCount": "{{steps}} कदम",
+      "ofGoal": "आपके {{goal}} के लक्ष्य का {{percent}}%",
+      "showAllGoals": "सभी {{count}} लक्ष्य दिखाएँ",
+      "showFewerGoals": "कम दिखाएँ"
+    },
     "title": "आँकड़े",
     "metrics": {
       "distance": "दूरी",
@@ -213,11 +253,6 @@
       "completed": "पूर्ण",
       "total": "कुल"
     },
-    "selectedDay": {
-      "todaySuffix": "· आज",
-      "allStats": "{{label}} · सभी आँकड़े",
-      "allStatsToday": "आज · सभी आँकड़े"
-    },
     "summary": {
       "distance": "दूरी",
       "goals": "लक्ष्य",
@@ -226,18 +261,15 @@
       "goalsValue": "{{done}}/{{total}}"
     },
     "averages": {
-      "sectionTitle": "7-दिन के औसत",
-      "avgDistance": "औसत दूरी",
-      "avgGoalsDone": "औसत पूर्ण लक्ष्य",
-      "avgStudyTime": "औसत काम का समय",
-      "avgDistanceValue": "{{value}} mi"
+      "workTime": "काम का समय",
+      "weekTitle": "साप्ताहिक औसत: ({{range}})"
     },
     "leaderboard": {
       "title": "लीडरबोर्ड ·",
       "youBadge": "आप",
-      "yourTagline": "साहसी",
-      "streak": "🔥 {{count}}-दिन की श्रृंखला",
-      "rank": "#{{rank}}"
+      "rank": "#{{rank}}",
+      "seeFull": "पूरी लीडरबोर्ड देखें",
+      "streakDays": "{{count}} दिन की लय"
     }
   },
   "achievements": {

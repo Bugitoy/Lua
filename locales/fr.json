@@ -76,11 +76,17 @@
     }
   },
   "schedule": {
+    "remove": {
+      "title": "Retirer l'objectif ?",
+      "message": "« {{title}} » sera retiré d'aujourd'hui.",
+      "confirm": "Retirer",
+      "hint": "Appui long pour retirer"
+    },
     "title": "Planning du jour.",
     "liveMap": "Carte en direct",
     "empty": {
       "title": "Aucun objectif pour l'instant",
-      "description": "Appuyez sur le bouton + pour ajouter un lieu. Marcher jusqu'à celui-ci sur la carte en direct accomplit l'objectif."
+      "description": "Appuyez sur le bouton + pour ajouter un lieu. Marcher jusqu'à celui-ci sur la carte en direct accomplit l'objectif. Les objectifs ne durent qu'aujourd'hui."
     },
     "addModal": {
       "title": "Nouvel élément",
@@ -198,6 +204,40 @@
     "errorSave": "Une erreur s'est produite. Réessayez."
   },
   "stats": {
+    "calendar": {
+      "views": {
+        "week": "Semaine",
+        "month": "Mois",
+        "year": "Année",
+        "today": "Aujourd'hui"
+      },
+      "previous": "Précédent",
+      "next": "Suivant",
+      "fewer": "Moins",
+      "more": "Plus",
+      "title": "Calendrier ·",
+      "bestStreak": "Meilleure série {{count}} j"
+    },
+    "day": {
+      "fullDay": "Journée complète",
+      "noRecord": "Rien n'a été enregistré ce jour-là.",
+      "steps": "Pas",
+      "xpEarned": "XP gagnée",
+      "health": "Santé de Lua",
+      "inProgress": "En cours",
+      "goalsHeader": "Objectifs · {{done}}/{{total}} faits",
+      "goalsHeaderEmpty": "Objectifs",
+      "noGoals": "Aucun objectif ce jour-là.",
+      "doneAt": "Fait à {{time}}",
+      "done": "Fait",
+      "notYet": "Pas encore",
+      "missed": "Manqué",
+      "xpValue": "+{{xp}} XP",
+      "stepsCount": "{{steps}} pas",
+      "ofGoal": "{{percent}} % de ton objectif de {{goal}}",
+      "showAllGoals": "Voir les {{count}} objectifs",
+      "showFewerGoals": "Voir moins"
+    },
     "title": "Statistiques",
     "metrics": {
       "distance": "Distance",
@@ -213,11 +253,6 @@
       "completed": "Accomplis",
       "total": "Total"
     },
-    "selectedDay": {
-      "todaySuffix": "· Aujourd'hui",
-      "allStats": "{{label}} · Toutes les stats",
-      "allStatsToday": "Aujourd'hui · Toutes les stats"
-    },
     "summary": {
       "distance": "Distance",
       "goals": "Objectifs",
@@ -226,18 +261,15 @@
       "goalsValue": "{{done}}/{{total}}"
     },
     "averages": {
-      "sectionTitle": "Moyennes sur 7 jours",
-      "avgDistance": "Distance moy.",
-      "avgGoalsDone": "Objectifs moy. accomplis",
-      "avgStudyTime": "Temps de travail moy.",
-      "avgDistanceValue": "{{value}} mi"
+      "workTime": "Temps de travail",
+      "weekTitle": "Moyenne de la semaine : ({{range}})"
     },
     "leaderboard": {
       "title": "Classement ·",
       "youBadge": "VOUS",
-      "yourTagline": "Aventurier",
-      "streak": "🔥 Série de {{count}} jours",
-      "rank": "#{{rank}}"
+      "rank": "#{{rank}}",
+      "seeFull": "Voir tout le classement",
+      "streakDays": "Série de {{count}} jours"
     }
   },
   "achievements": {

@@ -84,11 +84,17 @@
     }
   },
   "schedule": {
+    "remove": {
+      "title": "Remove goal?",
+      "message": "\"{{title}}\" will be removed from today.",
+      "confirm": "Remove",
+      "hint": "Long-press to remove"
+    },
     "title": "Today's Schedule.",
     "liveMap": "Live map",
     "empty": {
       "title": "No goals yet",
-      "description": "Tap the + button to add a place. Walking up to it on the live map completes the goal."
+      "description": "Tap the + button to add a place. Walking up to it on the live map completes the goal. Goals last for today only."
     },
     "addModal": {
       "title": "New item",
@@ -195,7 +201,11 @@
   "helpCenter": {
     "title": "Help Center & FAQ",
     "welcome": "Welcome to the Help Center! If you are having trouble keeping your daily streak or navigating the map, you can find answers to our most common questions below.",
-    "sectionKeys": ["gameplay", "gps", "account"],
+    "sectionKeys": [
+      "gameplay",
+      "gps",
+      "account"
+    ],
     "sections": [
       {
         "title": "Gameplay & Mechanics",
@@ -207,6 +217,10 @@
           {
             "q": "How do I earn XP and level up?",
             "a": "You earn Experience Points (XP) by walking. Your XP total never goes down. You can earn XP in three ways:\n\nSteps: +1 XP for every 100 steps\n\nDaily Step Goal: +100 XP when you reach 6,000 steps in a day\n\nGoals: +50 XP for each goal you walk to. A goal only pays if you walked at least 200 steps (or 150 meters) since the last goal that paid, and goals at the same spot pay once.\n\nWork time is still tracked, but it doesn't earn XP."
+          },
+          {
+            "q": "What happens to my goals at midnight?",
+            "a": "Goals last one day. At midnight Lua grades your day, and any goal you didn't walk to counts as missed. Your goals are then cleared from the schedule and saved under that day on the Stats calendar, where you can tap any day to see what you completed and what you missed.\n\nAdded a goal by mistake? Long-press it on the Schedule page to remove it."
           }
         ]
       },
@@ -274,6 +288,40 @@
     "errorSave": "Something went wrong. Please try again."
   },
   "stats": {
+    "calendar": {
+      "views": {
+        "week": "Week",
+        "month": "Month",
+        "year": "Year",
+        "today": "Today"
+      },
+      "previous": "Previous",
+      "next": "Next",
+      "fewer": "Less",
+      "more": "More",
+      "title": "Calendar ·",
+      "bestStreak": "Best streak {{count}}d"
+    },
+    "day": {
+      "fullDay": "Full day",
+      "noRecord": "Nothing was recorded this day.",
+      "steps": "Steps",
+      "xpEarned": "XP earned",
+      "health": "Lua's health",
+      "inProgress": "In progress",
+      "goalsHeader": "Goals · {{done}}/{{total}} done",
+      "goalsHeaderEmpty": "Goals",
+      "noGoals": "No goals that day.",
+      "doneAt": "Done {{time}}",
+      "done": "Done",
+      "notYet": "Not yet",
+      "missed": "Missed",
+      "xpValue": "+{{xp}} XP",
+      "stepsCount": "{{steps}} steps",
+      "ofGoal": "{{percent}}% of your {{goal}} goal",
+      "showAllGoals": "Show all {{count}} goals",
+      "showFewerGoals": "Show fewer"
+    },
     "title": "Stats",
     "metrics": {
       "distance": "Distance",
@@ -289,11 +337,6 @@
       "completed": "Completed",
       "total": "Total"
     },
-    "selectedDay": {
-      "todaySuffix": "· Today",
-      "allStats": "{{label}} · All stats",
-      "allStatsToday": "Today · All stats"
-    },
     "summary": {
       "distance": "Distance",
       "goals": "Goals",
@@ -302,18 +345,15 @@
       "goalsValue": "{{done}}/{{total}}"
     },
     "averages": {
-      "sectionTitle": "7-Day Averages",
-      "avgDistance": "Avg Distance",
-      "avgGoalsDone": "Avg Goals Done",
-      "avgStudyTime": "Avg Work Time",
-      "avgDistanceValue": "{{value}} mi"
+      "workTime": "Work time",
+      "weekTitle": "Weekly average: ({{range}})"
     },
     "leaderboard": {
       "title": "Leaderboard ·",
       "youBadge": "YOU",
-      "yourTagline": "Adventurer",
-      "streak": "🔥 {{count}}-day streak",
-      "rank": "#{{rank}}"
+      "rank": "#{{rank}}",
+      "seeFull": "See full leaderboard",
+      "streakDays": "{{count}}-day streak"
     }
   },
   "achievements": {
