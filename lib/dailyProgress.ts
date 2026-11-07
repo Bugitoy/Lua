@@ -10,7 +10,6 @@ import {
   type GoalRecord,
 } from "@/lib/dayHistory";
 import { getGameStats, subscribeGameStats, updateGameStats } from "@/lib/gameStats";
-import { beginHourlyDay, startHourlyToday } from "@/lib/hourlyToday";
 import { restoreDistanceMiles } from "@/lib/odometerRecorder";
 import {
   clearSchedule,
@@ -281,7 +280,6 @@ export function startDailyProgress(): Promise<void> {
     subscribeGameStats(onStatsChange);
     syncStreak();
     saveDailyProgress();
-    void startHourlyToday(today, workHoursToday);
   })();
   return startPromise;
 }
@@ -315,7 +313,6 @@ export async function checkDayRollover(): Promise<void> {
     dayStartHealth = healthRatio;
     // Steps go back to 0 before the XP day resets, so yesterday's steps aren't paid twice.
     beginStepDay(today);
-    beginHourlyDay(today);
     beginXpDay(today);
     clearSchedule(today);
     updateGameStats({ healthRatio });
@@ -324,10 +321,6 @@ export async function checkDayRollover(): Promise<void> {
   } finally {
     rolling = false;
   }
-}
-
-function workHoursToday(): number {
-  return Math.max(0, getGameStats().hoursStudied - dayStartHours);
 }
 
 /** Lifetime work hours when today began; today's work time is the difference. */

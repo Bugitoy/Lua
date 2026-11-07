@@ -150,14 +150,3 @@ export async function stepsOnDay(pastDay: string): Promise<number | null> {
     return null;
   }
 }
-
-/** iOS: steps between two times from the phone's step history, or null without it. */
-export async function stepsBetween(from: Date, to: Date): Promise<number | null> {
-  if (Platform.OS !== "ios" || source !== "pedometer" || to <= from) return null;
-  try {
-    const { steps } = await Pedometer.getStepCountAsync(from, to);
-    return steps;
-  } catch {
-    return null;
-  }
-}

@@ -15,7 +15,7 @@ import { DAILY_STEP_GOAL, METERS_PER_STEP } from "@/lib/walkingRules";
  */
 
 export type MetricKey = "steps" | "distance" | "goals" | "work";
-export const METRIC_KEYS: MetricKey[] = ["steps", "distance", "goals", "work"];
+export const METRIC_KEYS: MetricKey[] = ["goals", "distance", "work", "steps"];
 
 type Shades = readonly [string, string, string, string, string];
 
@@ -28,7 +28,12 @@ type MetricStyle = {
 };
 
 export const METRICS: Record<MetricKey, MetricStyle> = {
-  steps: { icon: "walk-outline", accent: LUA_GREEN, shades: SHADE_COLORS, labelKey: "stats.day.steps" },
+  steps: {
+    icon: "walk-outline",
+    accent: "#f97316",
+    shades: ["#e5e7eb", "#ffedd5", "#fdba74", "#f97316", "#9a3412"],
+    labelKey: "stats.day.steps",
+  },
   distance: {
     icon: "footsteps",
     accent: "#3b82f6",
@@ -37,8 +42,8 @@ export const METRICS: Record<MetricKey, MetricStyle> = {
   },
   goals: {
     icon: "flag-outline",
-    accent: "#0d9488",
-    shades: ["#e5e7eb", "#ccfbf1", "#5eead4", "#0d9488", "#134e4a"],
+    accent: LUA_GREEN,
+    shades: SHADE_COLORS,
     labelKey: "stats.metrics.goals",
   },
   work: {

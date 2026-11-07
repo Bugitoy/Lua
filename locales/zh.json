@@ -208,8 +208,7 @@
       "views": {
         "week": "周",
         "month": "月",
-        "year": "年",
-        "today": "今天"
+        "year": "年"
       },
       "previous": "上一个",
       "next": "下一个",

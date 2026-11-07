@@ -51,14 +51,17 @@ export default function StatsScreen() {
   const history = useDayHistory();
   const todayRecord = useTodayRecord();
   const [calendarDay, setCalendarDay] = useState(todayRecord.day);
+  /** The week on screen in the calendar's Week view; null in Month and Year, where the picked day's week is used. */
+  const [shownWeekDay, setShownWeekDay] = useState<string | null>(todayRecord.day);
   const [leaderSort, setLeaderSort] = useState<LeaderboardSortKey>("goals");
   const [leaderPeriod, setLeaderPeriod] = useState<LeaderboardPeriod>("today");
   const leaderValue = useLeaderValue();
 
-  // Averages for the Monday–Sunday week holding the day picked on the calendar,
-  // over the days of it so far. A day with nothing saved counts as zero.
+  // Averages for the Monday–Sunday week on screen in the Week view (or, in Month
+  // and Year, the picked day's week), over its days so far. A day with nothing
+  // saved counts as zero.
   const averageWeek = useMemo(() => {
-    const days = weekDays(calendarDay);
+    const days = weekDays(shownWeekDay ?? calendarDay);
     const counted = days.filter((d) => d <= todayRecord.day);
     const records = counted.map((d) => (d === todayRecord.day ? todayRecord : history[d]));
     const average = (pick: (r: DayRecord) => number) =>
@@ -70,7 +73,7 @@ export default function StatsScreen() {
       miles: average((r) => r.meters * MILES_PER_METER),
       workHours: average((r) => r.workHours),
     };
-  }, [calendarDay, history, todayRecord]);
+  }, [shownWeekDay, calendarDay, history, todayRecord]);
 
   const averages = [
     {
@@ -140,7 +143,13 @@ export default function StatsScreen() {
         </View>
 
         {/* Calendar + the tapped day */}
-        <StepCalendar history={history} today={todayRecord} selectedDay={calendarDay} onSelectDay={setCalendarDay} />
+        <StepCalendar
+          history={history}
+          today={todayRecord}
+          selectedDay={calendarDay}
+          onSelectDay={setCalendarDay}
+          onShownWeekChange={setShownWeekDay}
+        />
         <DayDetailCard
           day={calendarDay}
           record={calendarDay === todayRecord.day ? todayRecord : history[calendarDay]}

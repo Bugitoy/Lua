@@ -79,5 +79,5 @@ export function shadeLevelForRatio(ratio: number): 0 | 1 | 2 | 3 | 4 {
   return 1;
 }
 
-/** Square colours for each step shade level, light grey then Lua greens. */
+/** Square colours in Lua greens (the Goals view): light grey for nothing, then light to dark. */
 export const SHADE_COLORS = ["#e5e7eb", "#bbf7d0", "#4ade80", "#16a34a", "#14532d"] as const;

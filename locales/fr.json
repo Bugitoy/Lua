@@ -208,8 +208,7 @@
       "views": {
         "week": "Semaine",
         "month": "Mois",
-        "year": "Année",
-        "today": "Aujourd'hui"
+        "year": "Année"
       },
       "previous": "Précédent",
       "next": "Suivant",

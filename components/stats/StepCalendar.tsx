@@ -1,9 +1,8 @@
 import { Ionicons } from "@expo/vector-icons";
-import { useMemo, useState, type ReactNode } from "react";
+import { useState, type ReactNode } from "react";
 import { Pressable, Text, View, type LayoutChangeEvent } from "react-native";
 import { useTranslation } from "react-i18next";
 
-import { formatXp } from "@/components/achievements/theme";
 import { BarChart, type ChartBar } from "@/components/stats/BarChart";
 import {
   METRICS,
@@ -17,14 +16,12 @@ import { DropdownMenu } from "@/components/stats/DropdownMenu";
 import { MetricButtons } from "@/components/stats/MetricButtons";
 import { Pixelify } from "@/constants/fonts";
 import { LUA_GREEN } from "@/constants/mapAssets";
-import { addDays, daysIn, monthWeeks, shiftPeriod, weekDays, type Week } from "@/lib/calendarGrid";
+import { addDays, daysIn, monthWeeks, shiftPeriod, weekDays, type CalendarView, type Week } from "@/lib/calendarGrid";
 import { startOfDay } from "@/lib/dayKey";
 import type { DayHistory, DayRecord } from "@/lib/dayHistory";
-import { useHourlyToday, type HourlyToday } from "@/lib/hourlyToday";
-import { formatAppDate, formatAppTime, getAppLocale } from "@/lib/i18n/formatLocale";
+import { formatAppDate, getAppLocale } from "@/lib/i18n/formatLocale";
 
-type View4 = "today" | "week" | "month" | "year";
-const VIEWS: View4[] = ["today", "week", "month", "year"];
+const VIEWS: CalendarView[] = ["week", "month", "year"];
 
 type StepCalendarProps = {
   history: DayHistory;
@@ -32,6 +29,8 @@ type StepCalendarProps = {
   today: DayRecord;
   selectedDay: string;
   onSelectDay: (day: string) => void;
+  /** Week view: a day in the week on screen, sent whenever it changes; null in the Month and Year views. */
+  onShownWeekChange?: (dayInWeek: string | null) => void;
 };
 
 const GAP = 6;
@@ -40,8 +39,6 @@ const YEAR_COL_GAP = 4;
 const YEAR_CELL_GAP = 1.25;
 const TODAY_RING = "#f59e0b";
 const SELECTED_RING = "#111827";
-/** The Today chart groups the day's hours in threes. */
-const SLOT_HOURS = 3;
 
 const CARD_SHADOW = {
   shadowColor: "#000",
@@ -52,26 +49,30 @@ const CARD_SHADOW = {
 } as const;
 
 /**
- * The Stats calendar: a Today / Week / Month / Year menu, the four metric
+ * The Stats calendar: a Week / Month / Year menu, the four metric
  * buttons, then the chart or grid for that period in the metric's colours.
  */
-export function StepCalendar({ history, today, selectedDay, onSelectDay }: StepCalendarProps) {
+export function StepCalendar({ history, today, selectedDay, onSelectDay, onShownWeekChange }: StepCalendarProps) {
   const { t } = useTranslation();
-  const [view, setView] = useState<View4>("month");
-  const [metric, setMetric] = useState<MetricKey>("steps");
+  const [view, setView] = useState<CalendarView>("week");
+  const [metric, setMetric] = useState<MetricKey>("goals");
   const [anchor, setAnchor] = useState(today.day);
   const [width, setWidth] = useState(0);
 
+  /** Moves the calendar, telling the Stats page which week is on screen. */
+  const show = (nextView: CalendarView, nextAnchor: string) => {
+    setView(nextView);
+    setAnchor(nextAnchor);
+    onShownWeekChange?.(nextView === "week" ? nextAnchor : null);
+  };
+
   const recordFor = (day: string): DayRecord | undefined => (day === today.day ? today : history[day]);
 
-  const hasArrows = view !== "today";
-  const periodView = view === "today" ? "week" : view;
-  const nextStart = shiftPeriod(anchor, periodView, 1);
-  const canGoForward = hasArrows && (view === "week" ? weekDays(nextStart)[0] : nextStart) <= today.day;
+  const nextStart = shiftPeriod(anchor, view, 1);
+  const canGoForward = (view === "week" ? weekDays(nextStart)[0] : nextStart) <= today.day;
 
   const periodLabel = (() => {
     const d = startOfDay(anchor);
-    if (view === "today") return formatAppDate(startOfDay(today.day), { weekday: "short", month: "short", day: "numeric" });
     if (view === "week") {
       const [mon, , , , , , sun] = weekDays(anchor);
       const fmt = { month: "short", day: "numeric" } as const;
@@ -81,16 +82,13 @@ export function StepCalendar({ history, today, selectedDay, onSelectDay }: StepC
     return String(d.getFullYear());
   })();
 
-  const changeView = (next: View4) => {
-    setView(next);
-    setAnchor(today.day);
-    if (next === "today") onSelectDay(today.day);
+  const changeView = (next: CalendarView) => {
+    show(next, today.day);
   };
 
   /** Year view: tapping a month opens it in the Month view, where each day can be tapped. */
   const openMonth = (firstOfMonth: string) => {
-    setView("month");
-    setAnchor(firstOfMonth);
+    show("month", firstOfMonth);
   };
 
   const onLayout = (e: LayoutChangeEvent) => setWidth(e.nativeEvent.layout.width);
@@ -131,8 +129,8 @@ export function StepCalendar({ history, today, selectedDay, onSelectDay }: StepC
           <ArrowButton
             icon="chevron-back"
             label={t("stats.calendar.previous")}
-            enabled={hasArrows}
-            onPress={() => setAnchor(shiftPeriod(anchor, periodView, -1))}
+            enabled
+            onPress={() => show(view, shiftPeriod(anchor, view, -1))}
           />
           <Text className="text-base text-neutral-900" style={{ fontFamily: Pixelify.bold }}>
             {periodLabel}
@@ -141,14 +139,12 @@ export function StepCalendar({ history, today, selectedDay, onSelectDay }: StepC
             icon="chevron-forward"
             label={t("stats.calendar.next")}
             enabled={canGoForward}
-            onPress={() => setAnchor(nextStart)}
+            onPress={() => show(view, nextStart)}
           />
         </View>
 
         <View onLayout={onLayout}>
-          {view === "today" ? (
-            <TodayChart today={today} metric={metric} />
-          ) : view === "week" ? (
+          {view === "week" ? (
             <WeekChart
               anchor={anchor}
               metric={metric}
@@ -261,65 +257,6 @@ function BestStreak({
       </Text>
     </View>
   );
-}
-
-// ─── Today: the day in three-hour bars ───────────────────────────────────────
-
-const AM_PM = /\s*([AaPp])\.?\s*[Mm]\.?$/;
-
-/** "12 AM" → "12a"; languages without AM/PM get the plain 24-hour number. */
-function shortHour(date: Date): string {
-  const text = formatAppTime(date, { hour: "numeric" });
-  return AM_PM.test(text) ? text.replace(AM_PM, (_, c: string) => c.toLowerCase()) : String(date.getHours());
-}
-
-function slotRecord(hourly: HourlyToday, today: DayRecord, slot: number): DayRecord {
-  const from = slot * SLOT_HOURS;
-  const to = from + SLOT_HOURS;
-  const add = (values: number[]) => values.slice(from, to).reduce((s, v) => s + v, 0);
-  const start = startOfDay(today.day);
-  const slotStart = new Date(start.getFullYear(), start.getMonth(), start.getDate(), from).getTime();
-  const slotEnd = new Date(start.getFullYear(), start.getMonth(), start.getDate(), to).getTime();
-  return {
-    ...today,
-    steps: add(hourly.steps),
-    meters: add(hourly.meters),
-    workHours: add(hourly.workHours),
-    // Goals done in these hours.
-    goals: today.goals.filter(
-      (g) => g.completed && g.completedAtMs != null && g.completedAtMs >= slotStart && g.completedAtMs < slotEnd,
-    ),
-  };
-}
-
-function TodayChart({ today, metric }: { today: DayRecord; metric: MetricKey }) {
-  const { t } = useTranslation();
-  const locale = getAppLocale();
-  const hourly = useHourlyToday();
-  const nowSlot = Math.floor(new Date().getHours() / SLOT_HOURS);
-  const [selected, setSelected] = useState(String(nowSlot));
-
-  const bars: ChartBar[] = useMemo(() => {
-    const start = startOfDay(today.day);
-    return Array.from({ length: 24 / SLOT_HOURS }, (_, slot) => {
-      const record = slotRecord(hourly, today, slot);
-      const label = shortHour(new Date(start.getFullYear(), start.getMonth(), start.getDate(), slot * SLOT_HOURS));
-      // A goal count on its own: the day's total doesn't belong to any three hours.
-      const text =
-        metric === "goals" ? formatXp(metricValue("goals", record), locale) : formatMetric(metric, record, t, locale);
-      return {
-        key: String(slot),
-        label,
-        value: metricValue(metric, record),
-        text,
-        accessibilityLabel: `${label}: ${text}`,
-        future: slot > nowSlot,
-        current: slot === nowSlot,
-      };
-    });
-  }, [hourly, today, metric, nowSlot, t, locale]);
-
-  return <BarChart bars={bars} accent={METRICS[metric].accent} selectedKey={selected} onSelect={setSelected} />;
 }
 
 // ─── Week: one bar per day ───────────────────────────────────────────────────
