@@ -196,6 +196,82 @@
       }
     }
   },
+  "helpCenter": {
+    "title": "Hilfe-Center & FAQ",
+    "welcome": "Willkommen im Hilfe-Center! Wenn du Probleme hast, deine tägliche Serie zu halten oder dich auf der Karte zurechtzufinden, findest du unten Antworten auf die häufigsten Fragen.",
+    "sectionKeys": [
+      "gameplay",
+      "gps",
+      "account"
+    ],
+    "sections": [
+      {
+        "title": "Spielablauf & Mechaniken",
+        "faqs": [
+          {
+            "q": "Warum ist die Gesundheit meines Avatars gesunken?",
+            "a": "Luas Gesundheit richtet sich danach, wie viel du dich bewegst. Um Mitternacht bewertet Lua deinen Tag anhand deiner Schritte (6.000 sind ein voller Tag) und deiner geplanten Ziele. Ein voller Tag, an dem du das Schrittziel erreichst und jedes Ziel erledigst, heilt Lua um 10 %. Alles darunter kostet Gesundheit, bis zu 25 % an einem Tag ohne Schritte und ohne Ziele. Tage, an denen du Lua nicht öffnest, zählen trotzdem. Um Lua zu heilen, sammle deine Schritte und geh zu deinen Zielen!"
+          },
+          {
+            "q": "Wie verdiene ich XP und steige im Level auf?",
+            "a": "Du verdienst Erfahrungspunkte (XP) durch Gehen. Deine XP-Summe sinkt nie. Es gibt drei Wege, XP zu verdienen:\n\nSchritte: +1 XP pro 100 Schritte\n\nTägliches Schrittziel: +100 XP, wenn du an einem Tag 6.000 Schritte erreichst\n\nZiele: +50 XP für jedes Ziel, zu dem du gehst. Ein Ziel zählt nur, wenn du seit dem letzten belohnten Ziel mindestens 200 Schritte (oder 150 Meter) gegangen bist, und Ziele am selben Ort werden nur einmal belohnt.\n\nArbeitszeit wird weiterhin erfasst, bringt aber keine XP."
+          },
+          {
+            "q": "Was passiert um Mitternacht mit meinen Zielen?",
+            "a": "Ziele gelten einen Tag. Um Mitternacht bewertet Lua deinen Tag, und jedes Ziel, zu dem du nicht gegangen bist, zählt als verpasst. Deine Ziele werden dann aus dem Zeitplan entfernt und unter diesem Tag im Statistik-Kalender gespeichert. Dort kannst du auf jeden Tag tippen, um zu sehen, was du erledigt und was du verpasst hast.\n\nEin Ziel aus Versehen hinzugefügt? Drücke auf der Zeitplan-Seite lange darauf, um es zu entfernen."
+          }
+        ]
+      },
+      {
+        "title": "GPS & Ortung",
+        "faqs": [
+          {
+            "q": "Ich bin am Ziel, aber das Ziel wird nicht als erledigt markiert. Warum?",
+            "a": "Lua muss bestätigen, dass du dich in einem Umkreis von 25 Metern um dein geplantes Ziel befindest. Wenn es sich nicht automatisch aktualisiert:\n\nBerechtigungen prüfen: Stelle sicher, dass die Standortberechtigungen deines Geräts aktiviert und auf „Genauer Standort“ eingestellt sind.\n\nSignalstörungen: GPS-Signale können durch dicke Wände oder große Gebäude blockiert werden. Geh für ein paar Sekunden nach draußen oder an ein Fenster, damit dein Standort aktualisiert wird.\n\nPin prüfen: Öffne die Live-Karte und vergewissere dich, dass dein Ziel-Pin an der richtigen Stelle sitzt."
+          },
+          {
+            "q": "Warum wird meine gelaufene Strecke auf der Statistik-Seite nicht gezählt?",
+            "a": "Lua nutzt eine eigene Standortverfolgung, die „GPS-Zittern“ (wenn dein Handy glaubt, du würdest dich bewegen, obwohl du stillsitzt) und Fahrten mit Fahrzeugen herausfiltert. Strecke wird nur gezählt, wenn deine Bewegung einem natürlichen, echten Gehtempo entspricht."
+          },
+          {
+            "q": "Wie funktioniert der Navigationsmodus?",
+            "a": "Wenn du Hilfe brauchst, dein Ziel zu finden, drücke lange auf die Karte, um einen Ziel-Pin zu setzen. Lua wechselt dann in einen hochgenauen GPS-Modus und zeigt dir deine voraussichtliche Gehzeit, die Richtung und die Entfernung zum Ziel."
+          },
+          {
+            "q": "Wie werden meine Schritte gezählt?",
+            "a": "Lua nutzt den Schrittzähler deines Handys, daher zählt auch Gehen in Innenräumen.\n\niPhone: Schritte, die du machst, während Lua geschlossen ist, zählen trotzdem.\n\nAndroid: Schritte zählen, während Lua geöffnet ist oder im Hintergrund läuft, aber nicht, wenn die App vollständig geschlossen ist.\n\nKein Schrittzähler: Wenn dein Handy keinen hat oder du den Bewegungszugriff deaktivierst, schätzt Lua deine Schritte anhand der per GPS gemessenen Strecke."
+          }
+        ]
+      },
+      {
+        "title": "Konto & Cloud-Synchronisierung",
+        "faqs": [
+          {
+            "q": "Verliere ich meinen Fortschritt, wenn ich die App lösche oder ein neues Handy bekomme?",
+            "a": "Nein! Dein Fortschritt wird sicher in der Cloud gesichert. Sobald du dich wieder in dein Konto einloggst, werden dein Profil, dein Zeitplan, deine XP und Luas Gesundheit automatisch wieder mit deinem Gerät synchronisiert."
+          },
+          {
+            "q": "Wie funktioniert die Bestenliste?",
+            "a": "Während du XP verdienst und durch das Erledigen deiner täglichen Ziele aufsteigst, wird dein Fortschritt live in der Community-Bestenliste aktualisiert. Erreiche weiter deine Ziele vor Ort, um in der Rangliste aufzusteigen!"
+          },
+          {
+            "q": "Kann ich die Sprache der App ändern?",
+            "a": "Auf jeden Fall. Lua unterstützt 10 verschiedene Sprachen. Du kannst deine bevorzugte Sprache jederzeit im Profil-Tab ändern."
+          },
+          {
+            "q": "Wie verwalte ich meine Benachrichtigungen?",
+            "a": "Du kannst Benachrichtigungen im Profil-Tab ein- oder ausschalten. Um tiefere Systemberechtigungen (wie Standort im Hintergrund oder Kamerazugriff) anzupassen, tippe in deinem Profil auf App-Einstellungen. Dadurch öffnet sich das Einstellungsmenü deines Handys."
+          }
+        ]
+      }
+    ],
+    "support": {
+      "title": "Brauchst du noch Hilfe?",
+      "body": "Wenn du auf einen Fehler gestoßen bist, dir eine Funktion wünschst oder weitere technische Hilfe brauchst, freuen wir uns, von dir zu hören.",
+      "contactLabel": "Support kontaktieren:",
+      "email": "moaloslt@mail.uc.edu"
+    }
+  },
   "manageProfile": {
     "title": "Profil verwalten",
     "customizeLook": "Deinen Lua anpassen",

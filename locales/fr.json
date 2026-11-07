@@ -196,6 +196,82 @@
       }
     }
   },
+  "helpCenter": {
+    "title": "Centre d'aide et FAQ",
+    "welcome": "Bienvenue dans le Centre d'aide ! Si vous avez du mal à garder votre série quotidienne ou à vous repérer sur la carte, vous trouverez ci-dessous les réponses aux questions les plus fréquentes.",
+    "sectionKeys": [
+      "gameplay",
+      "gps",
+      "account"
+    ],
+    "sections": [
+      {
+        "title": "Jeu et mécaniques",
+        "faqs": [
+          {
+            "q": "Pourquoi la santé de mon avatar a-t-elle baissé ?",
+            "a": "La santé de Lua dépend de votre activité. À minuit, Lua évalue votre journée selon vos pas (6 000 font une journée complète) et vos objectifs planifiés. Une journée complète, avec l'objectif de pas atteint et tous les objectifs remplis, soigne Lua de 10 %. Tout ce qui est en dessous lui coûte de la santé, jusqu'à 25 % pour une journée sans pas et sans objectifs. Les jours où vous n'ouvrez pas Lua comptent aussi. Pour soigner Lua, faites vos pas et rendez-vous à vos objectifs !"
+          },
+          {
+            "q": "Comment gagner de l'XP et monter de niveau ?",
+            "a": "Vous gagnez des points d'expérience (XP) en marchant. Votre total d'XP ne baisse jamais. Il y a trois façons de gagner de l'XP :\n\nPas : +1 XP tous les 100 pas\n\nObjectif de pas quotidien : +100 XP quand vous atteignez 6 000 pas dans la journée\n\nObjectifs : +50 XP pour chaque objectif rejoint à pied. Un objectif ne rapporte que si vous avez marché au moins 200 pas (ou 150 mètres) depuis le dernier objectif récompensé, et les objectifs au même endroit ne rapportent qu'une fois.\n\nLe temps de travail est toujours suivi, mais il ne rapporte pas d'XP."
+          },
+          {
+            "q": "Que deviennent mes objectifs à minuit ?",
+            "a": "Les objectifs durent une journée. À minuit, Lua évalue votre journée, et tout objectif que vous n'avez pas rejoint compte comme manqué. Vos objectifs sont alors retirés du planning et enregistrés à ce jour dans le calendrier des Statistiques, où vous pouvez toucher n'importe quel jour pour voir ce que vous avez accompli et ce que vous avez manqué.\n\nVous avez ajouté un objectif par erreur ? Appuyez longuement dessus sur la page Planning pour le supprimer."
+          }
+        ]
+      },
+      {
+        "title": "GPS et suivi",
+        "faqs": [
+          {
+            "q": "Je suis arrivé à destination, mais l'objectif ne se valide pas. Pourquoi ?",
+            "a": "Lua doit vérifier que vous vous trouvez dans un rayon de 25 mètres autour de votre destination planifiée. Si la validation ne se fait pas automatiquement :\n\nVérifiez les autorisations : assurez-vous que les autorisations de localisation de votre appareil sont activées et réglées sur « Position exacte ».\n\nInterférences : les murs épais ou les grands bâtiments peuvent bloquer le signal GPS. Sortez quelques secondes ou approchez-vous d'une fenêtre pour que votre position se mette à jour.\n\nVérifiez l'épingle : ouvrez la carte en direct pour vous assurer que l'épingle de votre destination est au bon endroit."
+          },
+          {
+            "q": "Pourquoi la distance parcourue ne s'ajoute-t-elle pas sur la page des statistiques ?",
+            "a": "Lua utilise un suivi de position conçu pour filtrer les « sauts GPS » (quand votre téléphone croit que vous bougez alors que vous êtes immobile) et les trajets en véhicule. La distance ne s'ajoute que lorsque votre mouvement correspond à un rythme de marche naturel et réel."
+          },
+          {
+            "q": "Comment fonctionne le mode navigation ?",
+            "a": "Si vous avez besoin d'aide pour trouver votre objectif, appuyez longuement sur la carte pour placer une épingle de destination. Lua passe alors en mode GPS haute précision et vous indique votre temps de marche estimé, la direction et la distance jusqu'à la cible."
+          },
+          {
+            "q": "Comment mes pas sont-ils comptés ?",
+            "a": "Lua utilise le podomètre de votre téléphone, donc marcher en intérieur compte aussi.\n\niPhone : les pas que vous faites pendant que Lua est fermée comptent quand même.\n\nAndroid : les pas comptent quand Lua est ouverte ou en arrière-plan, mais pas quand elle est complètement fermée.\n\nSans podomètre : si votre téléphone n'en a pas, ou si vous désactivez l'accès aux mouvements, Lua estime vos pas à partir de la distance parcourue mesurée par GPS."
+          }
+        ]
+      },
+      {
+        "title": "Compte et synchronisation cloud",
+        "faqs": [
+          {
+            "q": "Vais-je perdre ma progression si je supprime l'app ou change de téléphone ?",
+            "a": "Non ! Votre progression est sauvegardée en toute sécurité dans le cloud. Dès que vous vous reconnectez à votre compte, votre profil, votre planning, vos XP et la santé de Lua se synchronisent automatiquement sur votre appareil."
+          },
+          {
+            "q": "Comment fonctionne le classement ?",
+            "a": "À mesure que vous gagnez de l'XP et montez de niveau en accomplissant vos objectifs quotidiens, votre progression est mise à jour en direct dans le classement de la communauté. Continuez d'atteindre vos destinations pour grimper dans le classement !"
+          },
+          {
+            "q": "Puis-je changer la langue de l'app ?",
+            "a": "Bien sûr. Lua prend en charge 10 langues. Vous pouvez changer votre langue préférée à tout moment depuis l'onglet Profil."
+          },
+          {
+            "q": "Comment gérer mes notifications ?",
+            "a": "Vous pouvez activer ou désactiver les notifications dans l'onglet Profil. Pour régler des autorisations système plus poussées (comme la localisation en arrière-plan ou l'accès à l'appareil photo), touchez Paramètres de l'app dans votre profil : cela ouvre le menu des réglages de votre téléphone."
+          }
+        ]
+      }
+    ],
+    "support": {
+      "title": "Besoin d'aide supplémentaire ?",
+      "body": "Si vous avez rencontré un bug, si vous souhaitez proposer une fonctionnalité ou si vous avez besoin d'une aide technique supplémentaire, nous serions ravis d'avoir de vos nouvelles.",
+      "contactLabel": "Contacter le support :",
+      "email": "moaloslt@mail.uc.edu"
+    }
+  },
   "manageProfile": {
     "title": "Gérer le profil",
     "customizeLook": "Personnaliser ton Lua",

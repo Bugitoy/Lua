@@ -196,6 +196,82 @@
       }
     }
   },
+  "helpCenter": {
+    "title": "Central de ajuda e perguntas frequentes",
+    "welcome": "Boas-vindas à Central de ajuda! Se você está com dificuldade para manter sua sequência diária ou para se orientar no mapa, encontre abaixo as respostas para as perguntas mais comuns.",
+    "sectionKeys": [
+      "gameplay",
+      "gps",
+      "account"
+    ],
+    "sections": [
+      {
+        "title": "Jogo e mecânicas",
+        "faqs": [
+          {
+            "q": "Por que a saúde do meu avatar caiu?",
+            "a": "A saúde da Lua depende de quanto você se movimenta. À meia-noite, a Lua avalia seu dia pelos seus passos (6.000 é um dia completo) e pelas suas metas agendadas. Um dia completo, com a meta de passos atingida e todas as metas cumpridas, cura a Lua em 10%. Qualquer coisa abaixo disso tira saúde, até 25% em um dia sem passos e sem metas. Os dias em que você não abre a Lua também contam. Para curar a Lua, dê seus passos e vá até suas metas!"
+          },
+          {
+            "q": "Como ganho XP e subo de nível?",
+            "a": "Você ganha pontos de experiência (XP) caminhando. Seu total de XP nunca diminui. Há três formas de ganhar XP:\n\nPassos: +1 XP a cada 100 passos\n\nMeta diária de passos: +100 XP quando você chega a 6.000 passos no dia\n\nMetas: +50 XP para cada meta até a qual você caminha. Uma meta só vale se você caminhou pelo menos 200 passos (ou 150 metros) desde a última meta que deu XP, e metas no mesmo lugar só valem uma vez.\n\nO tempo de trabalho continua sendo registrado, mas não dá XP."
+          },
+          {
+            "q": "O que acontece com minhas metas à meia-noite?",
+            "a": "As metas duram um dia. À meia-noite, a Lua avalia seu dia, e qualquer meta até a qual você não caminhou conta como perdida. Suas metas são então retiradas da agenda e salvas naquele dia no calendário de Estatísticas, onde você pode tocar em qualquer dia para ver o que concluiu e o que perdeu.\n\nAdicionou uma meta por engano? Toque e segure nela na página Agenda para removê-la."
+          }
+        ]
+      },
+      {
+        "title": "GPS e rastreamento",
+        "faqs": [
+          {
+            "q": "Estou no destino, mas a meta não é marcada como concluída. Por quê?",
+            "a": "A Lua precisa confirmar que você está dentro de um raio de 25 metros do destino agendado. Se não atualizar automaticamente:\n\nVerifique as permissões: confira se as permissões de localização do seu aparelho estão ativadas e definidas como \"Localização precisa\".\n\nInterferência de sinal: paredes grossas ou prédios grandes podem bloquear o sinal de GPS. Vá para fora ou fique perto de uma janela por alguns segundos para sua localização atualizar.\n\nVerifique o alfinete: abra o mapa ao vivo para confirmar que o alfinete do destino está no lugar certo."
+          },
+          {
+            "q": "Por que a distância que caminho não aumenta na página de estatísticas?",
+            "a": "A Lua usa um rastreador de localização próprio que filtra o \"tremor do GPS\" (quando o celular acha que você está se movendo mesmo parado) e deslocamentos de veículo. A distância só aumenta quando seu movimento corresponde a um ritmo de caminhada natural e real."
+          },
+          {
+            "q": "Como funciona o modo de navegação?",
+            "a": "Se precisar de ajuda para encontrar sua meta, toque e segure no mapa para colocar um alfinete de destino. A Lua muda para um modo de GPS de alta precisão e mostra o tempo estimado de caminhada, a direção e a distância até o alvo."
+          },
+          {
+            "q": "Como meus passos são contados?",
+            "a": "A Lua usa o contador de passos do seu celular, então caminhar em ambientes fechados também conta.\n\niPhone: os passos que você dá enquanto a Lua está fechada também contam.\n\nAndroid: os passos contam enquanto a Lua está aberta ou em segundo plano, mas não quando está totalmente fechada.\n\nSem contador de passos: se o seu celular não tiver um, ou se você desativar o acesso aos movimentos, a Lua estima seus passos pela distância percorrida medida pelo GPS."
+          }
+        ]
+      },
+      {
+        "title": "Conta e sincronização na nuvem",
+        "faqs": [
+          {
+            "q": "Vou perder meu progresso se eu apagar o app ou trocar de celular?",
+            "a": "Não! Seu progresso fica salvo com segurança na nuvem. Quando você entrar de novo na sua conta, seu perfil, sua agenda, seu XP e a saúde da Lua serão sincronizados automaticamente com o seu aparelho."
+          },
+          {
+            "q": "Como funciona o ranking?",
+            "a": "Conforme você ganha XP e sobe de nível cumprindo suas metas diárias, seu progresso é atualizado ao vivo no ranking da comunidade. Continue chegando aos seus destinos para subir no ranking!"
+          },
+          {
+            "q": "Posso mudar o idioma do app?",
+            "a": "Claro. A Lua tem 10 idiomas. Você pode mudar o idioma de sua preferência a qualquer momento na aba Perfil."
+          },
+          {
+            "q": "Como gerencio minhas notificações?",
+            "a": "Você pode ativar ou desativar as notificações na aba Perfil. Para ajustar permissões mais avançadas do sistema (como localização em segundo plano ou acesso à câmera), toque em Configurações do app no seu perfil, que abre o menu de configurações do seu celular."
+          }
+        ]
+      }
+    ],
+    "support": {
+      "title": "Ainda precisa de ajuda?",
+      "body": "Se você encontrou um bug, quer sugerir um recurso ou precisa de mais ajuda técnica, adoraríamos ouvir você.",
+      "contactLabel": "Falar com o suporte:",
+      "email": "moaloslt@mail.uc.edu"
+    }
+  },
   "manageProfile": {
     "title": "Gerenciar perfil",
     "customizeLook": "Personalize seu Lua",
