@@ -158,8 +158,6 @@
       "notifications": "Notifications",
       "notificationsSublabel": "Daily reminders",
       "language": "Language",
-      "theme": "Theme",
-      "themeValue": "Light",
       "appSettings": "App Settings",
       "appVersion": "App Version",
       "appVersionValue": "Lua v1.0.0",
@@ -518,10 +516,6 @@
     "helpCenter": {
       "title": "Help Center",
       "description": "Find answers and get support here soon."
-    },
-    "theme": {
-      "title": "Theme",
-      "description": "Switch between light and dark themes here soon."
     }
   },
   "legal": {

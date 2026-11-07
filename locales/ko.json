@@ -150,8 +150,6 @@
       "notifications": "알림",
       "notificationsSublabel": "매일 알림",
       "language": "언어",
-      "theme": "테마",
-      "themeValue": "라이트",
       "appSettings": "앱 설정",
       "appVersion": "앱 버전",
       "appVersionValue": "Lua v1.0.0",
@@ -434,10 +432,6 @@
     "helpCenter": {
       "title": "고객센터",
       "description": "곧 여기에서 답변과 지원을 받을 수 있습니다."
-    },
-    "theme": {
-      "title": "테마",
-      "description": "곧 여기에서 라이트 및 다크 테마를 전환할 수 있습니다."
     }
   },
   "notifications": {

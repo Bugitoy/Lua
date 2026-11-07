@@ -150,8 +150,6 @@
       "notifications": "सूचनाएँ",
       "notificationsSublabel": "दैनिक अनुस्मारक",
       "language": "भाषा",
-      "theme": "थीम",
-      "themeValue": "हल्का",
       "appSettings": "ऐप सेटिंग्स",
       "appVersion": "ऐप संस्करण",
       "appVersionValue": "Lua v1.0.0",
@@ -434,10 +432,6 @@
     "helpCenter": {
       "title": "सहायता केंद्र",
       "description": "जल्द ही यहाँ उत्तर और सहायता पाएँ।"
-    },
-    "theme": {
-      "title": "थीम",
-      "description": "जल्द ही यहाँ हल्की और गहरी थीम के बीच स्विच करें।"
     }
   },
   "notifications": {

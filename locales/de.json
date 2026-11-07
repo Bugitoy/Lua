@@ -150,8 +150,6 @@
       "notifications": "Benachrichtigungen",
       "notificationsSublabel": "Tägliche Erinnerungen",
       "language": "Sprache",
-      "theme": "Design",
-      "themeValue": "Hell",
       "appSettings": "App-Einstellungen",
       "appVersion": "App-Version",
       "appVersionValue": "Lua v1.0.0",
@@ -434,10 +432,6 @@
     "helpCenter": {
       "title": "Hilfe-Center",
       "description": "Finde hier bald Antworten und Support."
-    },
-    "theme": {
-      "title": "Design",
-      "description": "Wechsle hier bald zwischen hellem und dunklem Design."
     }
   },
   "notifications": {

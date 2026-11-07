@@ -150,8 +150,6 @@
       "notifications": "通知",
       "notificationsSublabel": "每日提醒",
       "language": "语言",
-      "theme": "主题",
-      "themeValue": "浅色",
       "appSettings": "应用设置",
       "appVersion": "应用版本",
       "appVersionValue": "Lua v1.0.0",
@@ -434,10 +432,6 @@
     "helpCenter": {
       "title": "帮助中心",
       "description": "即将在此查找答案并获取支持。"
-    },
-    "theme": {
-      "title": "主题",
-      "description": "即将在此切换浅色和深色主题。"
     }
   },
   "notifications": {

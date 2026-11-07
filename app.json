@@ -6,7 +6,7 @@
     "orientation": "portrait",
     "icon": "./assets/images/lua-logo-icon.png",
     "scheme": "lua",
-    "userInterfaceStyle": "automatic",
+    "userInterfaceStyle": "light",
     "newArchEnabled": true,
     "ios": {
       "supportsTablet": true,
@@ -41,10 +41,7 @@
           "image": "./assets/images/splash-lua-logo.png",
           "imageWidth": 200,
           "resizeMode": "contain",
-          "backgroundColor": "#ffffff",
-          "dark": {
-            "backgroundColor": "#000000"
-          }
+          "backgroundColor": "#ffffff"
         }
       ],
       "expo-web-browser",

@@ -150,8 +150,6 @@
       "notifications": "Notifiche",
       "notificationsSublabel": "Promemoria giornalieri",
       "language": "Lingua",
-      "theme": "Tema",
-      "themeValue": "Chiaro",
       "appSettings": "Impostazioni app",
       "appVersion": "Versione app",
       "appVersionValue": "Lua v1.0.0",
@@ -434,10 +432,6 @@
     "helpCenter": {
       "title": "Centro assistenza",
       "description": "Trova risposte e supporto qui a breve."
-    },
-    "theme": {
-      "title": "Tema",
-      "description": "Passa tra tema chiaro e scuro qui a breve."
     }
   },
   "notifications": {

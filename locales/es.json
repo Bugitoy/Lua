@@ -150,8 +150,6 @@
       "notifications": "Notificaciones",
       "notificationsSublabel": "Recordatorios diarios",
       "language": "Idioma",
-      "theme": "Tema",
-      "themeValue": "Claro",
       "appSettings": "Ajustes de la app",
       "appVersion": "Versión de la app",
       "appVersionValue": "Lua v1.0.0",
@@ -434,10 +432,6 @@
     "helpCenter": {
       "title": "Centro de ayuda",
       "description": "Encuentra respuestas y obtén ayuda aquí pronto."
-    },
-    "theme": {
-      "title": "Tema",
-      "description": "Cambia entre temas claro y oscuro aquí pronto."
     }
   },
   "notifications": {
