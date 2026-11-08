@@ -240,7 +240,18 @@
     "returnMessage_other": "L'ultima volta non hai spuntato questi obiettivi. Li hai completati?",
     "tickedOff": "Spuntato",
     "notYet": "Non ancora",
-    "done": "Fatto"
+    "done": "Fatto",
+    "notification": {
+      "leaveBody_one": "Hai completato \"{{goal}}\"?",
+      "leaveBody_other": "Hai completato i tuoi {{count}} obiettivi lì?",
+      "returnBody_one": "L'ultima volta non hai spuntato \"{{goal}}\". L'hai completato?",
+      "returnBody_other": "L'ultima volta non hai spuntato {{count}} obiettivi qui. Li hai completati?",
+      "tickAll": "Spunta tutti",
+      "nudgeTitle": "Obiettivi da spuntare",
+      "nudgeBody_one": "Oggi hai raggiunto \"{{goal}}\", ma non l'hai ancora spuntato.",
+      "nudgeBody_other": "Oggi hai raggiunto {{count}} obiettivi, ma non li hai ancora spuntati.",
+      "channelName": "Check-in degli obiettivi"
+    }
   },
   "profile": {
     "title": "Profilo",
@@ -269,7 +280,7 @@
       "achievements": "Traguardi",
       "achievementsSublabel": "{{xp}} XP totali",
       "notifications": "Notifiche",
-      "notificationsSublabel": "Promemoria giornalieri",
+      "notificationsSublabel": "Check-in degli obiettivi e promemoria serali",
       "language": "Lingua",
       "appSettings": "Impostazioni app",
       "appVersion": "Versione app",

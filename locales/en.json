@@ -240,7 +240,18 @@
     "returnMessage_other": "You didn't tick these goals off last time. Did you finish them?",
     "tickedOff": "Ticked off",
     "notYet": "Not yet",
-    "done": "Done"
+    "done": "Done",
+    "notification": {
+      "leaveBody_one": "Did you finish \"{{goal}}\"?",
+      "leaveBody_other": "Did you finish your {{count}} goals there?",
+      "returnBody_one": "You didn't tick off \"{{goal}}\" last time. Did you finish it?",
+      "returnBody_other": "You didn't tick off {{count}} goals here last time. Did you finish them?",
+      "tickAll": "Tick all off",
+      "nudgeTitle": "Goals waiting to be ticked off",
+      "nudgeBody_one": "You reached \"{{goal}}\" today but haven't ticked it off.",
+      "nudgeBody_other": "You reached {{count}} goals today but haven't ticked them off.",
+      "channelName": "Goal check-ins"
+    }
   },
   "profile": {
     "title": "Profile",
@@ -269,7 +280,7 @@
       "achievements": "Achievements",
       "achievementsSublabel": "{{xp}} XP total",
       "notifications": "Notifications",
-      "notificationsSublabel": "Daily reminders",
+      "notificationsSublabel": "Goal check-ins and evening reminders",
       "language": "Language",
       "appSettings": "App Settings",
       "appVersion": "App Version",

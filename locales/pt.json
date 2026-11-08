@@ -240,7 +240,18 @@
     "returnMessage_other": "Da última vez você não marcou estas metas como feitas. Você as concluiu?",
     "tickedOff": "Feita",
     "notYet": "Ainda não",
-    "done": "Pronto"
+    "done": "Pronto",
+    "notification": {
+      "leaveBody_one": "Você concluiu \"{{goal}}\"?",
+      "leaveBody_other": "Você concluiu suas {{count}} metas lá?",
+      "returnBody_one": "Da última vez você não marcou \"{{goal}}\" como feita. Você a concluiu?",
+      "returnBody_other": "Da última vez você não marcou {{count}} metas aqui como feitas. Você as concluiu?",
+      "tickAll": "Marcar todas",
+      "nudgeTitle": "Metas esperando para ser marcadas",
+      "nudgeBody_one": "Hoje você chegou a \"{{goal}}\", mas ainda não a marcou como feita.",
+      "nudgeBody_other": "Hoje você chegou a {{count}} metas, mas ainda não as marcou como feitas.",
+      "channelName": "Check-ins de metas"
+    }
   },
   "profile": {
     "title": "Perfil",
@@ -269,7 +280,7 @@
       "achievements": "Conquistas",
       "achievementsSublabel": "{{xp}} XP total",
       "notifications": "Notificações",
-      "notificationsSublabel": "Lembretes diários",
+      "notificationsSublabel": "Check-ins de metas e lembretes à noite",
       "language": "Idioma",
       "appSettings": "Configurações do app",
       "appVersion": "Versão do app",

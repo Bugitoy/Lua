@@ -238,7 +238,18 @@
     "returnMessage_other": "前回これらの目標にチェックを入れていません。終わりましたか？",
     "tickedOff": "チェック済み",
     "notYet": "まだ",
-    "done": "完了"
+    "done": "完了",
+    "notification": {
+      "leaveBody_one": "「{{goal}}」は終わりましたか？",
+      "leaveBody_other": "そこでの{{count}}件の目標は終わりましたか？",
+      "returnBody_one": "前回「{{goal}}」にチェックを入れていません。終わりましたか？",
+      "returnBody_other": "前回ここで{{count}}件の目標にチェックを入れていません。終わりましたか？",
+      "tickAll": "すべてチェック",
+      "nudgeTitle": "チェック待ちの目標があります",
+      "nudgeBody_one": "今日「{{goal}}」に到着しましたが、まだチェックを入れていません。",
+      "nudgeBody_other": "今日{{count}}件の目標に到着しましたが、まだチェックを入れていません。",
+      "channelName": "目標のチェックイン"
+    }
   },
   "profile": {
     "title": "プロフィール",
@@ -265,7 +276,7 @@
       "achievements": "実績",
       "achievementsSublabel": "合計 {{xp}} XP",
       "notifications": "通知",
-      "notificationsSublabel": "毎日のリマインダー",
+      "notificationsSublabel": "目標のチェックインと夜のリマインダー",
       "language": "言語",
       "appSettings": "アプリ設定",
       "appVersion": "アプリバージョン",

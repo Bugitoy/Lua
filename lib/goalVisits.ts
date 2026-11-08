@@ -237,6 +237,16 @@ export function dismissCheckInPrompt(id: string): void {
 
 // ─── Reads ────────────────────────────────────────────────────────────────────
 
+/** Calls `listener` on every change, for code outside React such as notifications. */
+export function subscribeGoalVisits(listener: Listener): () => void {
+  return subscribe(listener);
+}
+
+/** Today's queued prompts, oldest first. */
+export function getCheckInPrompts(): readonly CheckInPrompt[] {
+  return state.day === dayKey() ? state.prompts : [];
+}
+
 function getPendingPrompt(): CheckInPrompt | null {
   return state.day === dayKey() ? (state.prompts[0] ?? null) : null;
 }

@@ -8,6 +8,7 @@ import { LUA_GREEN } from "@/constants/mapAssets";
 import { isOnScreen, useIsOnScreen } from "@/hooks/useIsOnScreen";
 import { haversineMeters, type LatLngPoint } from "@/lib/geo";
 import { checkInAtGoals } from "@/lib/goalCheckIn";
+import { startGoalNotifications } from "@/lib/goalNotifications";
 import {
   needsGoalTracking,
   startGoalVisits,
@@ -141,6 +142,8 @@ TaskManager.defineTask<{ locations: Location.LocationObject[] }>(
     // The phone may start Lua in the background just for this task, before anything has loaded.
     await startSchedule();
     await startGoalVisits();
+    // Leaving a place in the background posts a check-in notification.
+    await startGoalNotifications();
 
     if (trackingDay !== todayKey() || !needsGoalTracking()) {
       await enqueue(stopTracking);

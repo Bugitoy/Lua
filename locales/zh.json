@@ -238,7 +238,18 @@
     "returnMessage_other": "上次你没有勾选完成这些目标。完成了吗？",
     "tickedOff": "已勾选",
     "notYet": "还没有",
-    "done": "完成"
+    "done": "完成",
+    "notification": {
+      "leaveBody_one": "“{{goal}}”完成了吗？",
+      "leaveBody_other": "你在那里的 {{count}} 个目标完成了吗？",
+      "returnBody_one": "上次你没有勾选完成“{{goal}}”。完成了吗？",
+      "returnBody_other": "上次你在这里有 {{count}} 个目标没有勾选完成。完成了吗？",
+      "tickAll": "全部勾选完成",
+      "nudgeTitle": "有目标等待勾选完成",
+      "nudgeBody_one": "你今天到达了“{{goal}}”，但还没有勾选完成。",
+      "nudgeBody_other": "你今天到达了 {{count}} 个目标，但还没有勾选完成。",
+      "channelName": "目标签到"
+    }
   },
   "profile": {
     "title": "个人资料",
@@ -265,7 +276,7 @@
       "achievements": "成就",
       "achievementsSublabel": "共 {{xp}} XP",
       "notifications": "通知",
-      "notificationsSublabel": "每日提醒",
+      "notificationsSublabel": "目标签到和晚间提醒",
       "language": "语言",
       "appSettings": "应用设置",
       "appVersion": "应用版本",

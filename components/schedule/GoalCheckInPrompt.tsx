@@ -7,6 +7,7 @@ import { Pixelify } from "@/constants/fonts";
 import { LUA_GREEN } from "@/constants/mapAssets";
 import { useIsOnScreen } from "@/hooks/useIsOnScreen";
 import { tickOffGoal } from "@/lib/goalCheckIn";
+import { useNudgeOpensSchedule } from "@/lib/goalNotifications";
 import { dismissCheckInPrompt, usePendingCheckInPrompt } from "@/lib/goalVisits";
 import { formatAppTime } from "@/lib/i18n/formatLocale";
 import { useScheduledItems, useScheduleLoaded, type ScheduledItem } from "@/lib/scheduleStore";
@@ -19,10 +20,12 @@ const TICK_GREEN = "#15803d";
  * after the navigator, so it draws on top.
  *
  * It closes on its own once every goal it asks about is ticked off (or
- * removed); "Not yet" or tapping outside puts the rest off.
+ * removed); "Not yet" or tapping outside puts the rest off. It also opens the
+ * Schedule when the evening reminder notification is tapped.
  */
 export function GoalCheckInHost() {
   const { t } = useTranslation();
+  useNudgeOpensSchedule();
   const prompt = usePendingCheckInPrompt();
   const items = useScheduledItems();
   const scheduleLoaded = useScheduleLoaded();

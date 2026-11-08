@@ -1,5 +1,4 @@
 import { Ionicons } from "@expo/vector-icons";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import * as Device from "expo-device";
 import { LinearGradient } from "expo-linear-gradient";
 import * as Notifications from "expo-notifications";
@@ -19,12 +18,13 @@ import { Pixelify } from "@/constants/fonts";
 import { LUA_GREEN } from "@/constants/mapAssets";
 import { useAchievements } from "@/lib/achievementsStore";
 import { useGameStats } from "@/lib/gameStats";
+import { syncEveningNudge } from "@/lib/goalNotifications";
 import { getAppLocale } from "@/lib/i18n/formatLocale";
 import { useLanguagePreference } from "@/lib/i18n/LanguageProvider";
+import { notificationsWanted, setNotificationChoice } from "@/lib/notificationPrefs";
 import { useProfile } from "@/lib/profileStore";
 import { useStatsXp } from "@/lib/xp";
 
-const NOTIFICATIONS_ENABLED_KEY = "notificationsEnabled";
 
 type SettingRowProps = {
   icon: keyof typeof Ionicons.glyphMap;
@@ -109,18 +109,14 @@ export default function ProfileScreen() {
   const [languageModalVisible, setLanguageModalVisible] = useState(false);
 
   useEffect(() => {
-    const loadNotificationPreference = async () => {
-      try {
-        const stored = await AsyncStorage.getItem(NOTIFICATIONS_ENABLED_KEY);
-        if (stored !== null) {
-          setNotificationsEnabled(stored === "true");
-        }
-      } catch {
-        // ignore storage errors
-      }
+    let active = true;
+    // On unless the user turned it off, and only if the phone allows notifications.
+    void notificationsWanted().then((wanted) => {
+      if (active) setNotificationsEnabled(wanted);
+    });
+    return () => {
+      active = false;
     };
-
-    loadNotificationPreference();
   }, []);
 
   const onToggleNotifications = useCallback(
@@ -147,20 +143,21 @@ export default function ProfileScreen() {
               t("notifications.permissionDeniedMessage"),
             );
             setNotificationsEnabled(false);
-            await AsyncStorage.setItem(NOTIFICATIONS_ENABLED_KEY, "false");
             return;
           }
 
           setNotificationsEnabled(true);
-          await AsyncStorage.setItem(NOTIFICATIONS_ENABLED_KEY, "true");
+          await setNotificationChoice(true);
+          syncEveningNudge(true);
         } catch {
           Alert.alert(t("notifications.errorTitle"), t("notifications.errorEnabling"));
         }
       } else {
         try {
           setNotificationsEnabled(false);
-          await AsyncStorage.setItem(NOTIFICATIONS_ENABLED_KEY, "false");
+          await setNotificationChoice(false);
           await Notifications.cancelAllScheduledNotificationsAsync();
+          syncEveningNudge(true);
         } catch {
           Alert.alert(t("notifications.errorTitle"), t("notifications.errorDisabling"));
         }

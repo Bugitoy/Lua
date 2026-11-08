@@ -16,6 +16,7 @@ import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { GoalCheckInHost } from "@/components/schedule/GoalCheckInPrompt";
 import { useDayRollover } from "@/hooks/useDayRollover";
 import { useBackgroundTracking } from "@/lib/backgroundTracking";
+import { startGoalNotifications } from "@/lib/goalNotifications";
 import { LanguageProvider } from "@/lib/i18n/LanguageProvider";
 import { ProfileProvider } from "@/lib/ProfileProvider";
 
@@ -36,6 +37,8 @@ export default function RootLayout() {
   });
 
   useEffect(() => {
+    // Goal check-in notifications and the evening reminder
+    void startGoalNotifications();
     return () => {
       mountedRef.current = false;
     };

@@ -240,7 +240,18 @@
     "returnMessage_other": "La última vez no marcaste estas metas como hechas. ¿Las terminaste?",
     "tickedOff": "Hecha",
     "notYet": "Todavía no",
-    "done": "Listo"
+    "done": "Listo",
+    "notification": {
+      "leaveBody_one": "¿Terminaste «{{goal}}»?",
+      "leaveBody_other": "¿Terminaste tus {{count}} metas allí?",
+      "returnBody_one": "La última vez no marcaste «{{goal}}» como hecha. ¿La terminaste?",
+      "returnBody_other": "La última vez no marcaste {{count}} metas aquí como hechas. ¿Las terminaste?",
+      "tickAll": "Marcar todas",
+      "nudgeTitle": "Metas por marcar como hechas",
+      "nudgeBody_one": "Hoy llegaste a «{{goal}}», pero aún no la marcaste como hecha.",
+      "nudgeBody_other": "Hoy llegaste a {{count}} metas, pero aún no las marcaste como hechas.",
+      "channelName": "Avisos de metas"
+    }
   },
   "profile": {
     "title": "Perfil",
@@ -269,7 +280,7 @@
       "achievements": "Logros",
       "achievementsSublabel": "{{xp}} XP total",
       "notifications": "Notificaciones",
-      "notificationsSublabel": "Recordatorios diarios",
+      "notificationsSublabel": "Avisos de metas y recordatorios por la noche",
       "language": "Idioma",
       "appSettings": "Ajustes de la app",
       "appVersion": "Versión de la app",

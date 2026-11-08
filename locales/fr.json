@@ -240,7 +240,18 @@
     "returnMessage_other": "Vous n'avez pas coché ces objectifs la dernière fois. Les avez-vous accomplis ?",
     "tickedOff": "Coché",
     "notYet": "Pas encore",
-    "done": "Terminé"
+    "done": "Terminé",
+    "notification": {
+      "leaveBody_one": "Avez-vous accompli « {{goal}} » ?",
+      "leaveBody_other": "Avez-vous accompli vos {{count}} objectifs là-bas ?",
+      "returnBody_one": "Vous n'avez pas coché « {{goal}} » la dernière fois. L'avez-vous accompli ?",
+      "returnBody_other": "Vous n'avez pas coché {{count}} objectifs ici la dernière fois. Les avez-vous accomplis ?",
+      "tickAll": "Tout cocher",
+      "nudgeTitle": "Des objectifs attendent d'être cochés",
+      "nudgeBody_one": "Vous avez atteint « {{goal}} » aujourd'hui, mais vous ne l'avez pas coché.",
+      "nudgeBody_other": "Vous avez atteint {{count}} objectifs aujourd'hui, mais vous ne les avez pas cochés.",
+      "channelName": "Suivi des objectifs"
+    }
   },
   "profile": {
     "title": "Profil",
@@ -269,7 +280,7 @@
       "achievements": "Succès",
       "achievementsSublabel": "{{xp}} XP au total",
       "notifications": "Notifications",
-      "notificationsSublabel": "Rappels quotidiens",
+      "notificationsSublabel": "Suivi des objectifs et rappels du soir",
       "language": "Langue",
       "appSettings": "Paramètres de l'app",
       "appVersion": "Version de l'app",

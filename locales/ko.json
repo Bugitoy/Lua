@@ -238,7 +238,18 @@
     "returnMessage_other": "지난번에 이 목표들을 체크하지 않았어요. 마쳤나요?",
     "tickedOff": "체크됨",
     "notYet": "아직이요",
-    "done": "완료"
+    "done": "완료",
+    "notification": {
+      "leaveBody_one": "'{{goal}}'을(를) 마쳤나요?",
+      "leaveBody_other": "그곳의 목표 {{count}}개를 마쳤나요?",
+      "returnBody_one": "지난번에 '{{goal}}'을(를) 체크하지 않았어요. 마쳤나요?",
+      "returnBody_other": "지난번에 이곳의 목표 {{count}}개를 체크하지 않았어요. 마쳤나요?",
+      "tickAll": "모두 체크하기",
+      "nudgeTitle": "체크를 기다리는 목표가 있어요",
+      "nudgeBody_one": "오늘 '{{goal}}'에 도착했지만 아직 체크하지 않았어요.",
+      "nudgeBody_other": "오늘 목표 {{count}}개에 도착했지만 아직 체크하지 않았어요.",
+      "channelName": "목표 체크인"
+    }
   },
   "profile": {
     "title": "프로필",
@@ -265,7 +276,7 @@
       "achievements": "업적",
       "achievementsSublabel": "총 {{xp}} XP",
       "notifications": "알림",
-      "notificationsSublabel": "매일 알림",
+      "notificationsSublabel": "목표 체크인과 저녁 알림",
       "language": "언어",
       "appSettings": "앱 설정",
       "appVersion": "앱 버전",

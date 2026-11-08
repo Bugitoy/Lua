@@ -240,7 +240,18 @@
     "returnMessage_other": "Du hast diese Ziele letztes Mal nicht abgehakt. Hast du sie erledigt?",
     "tickedOff": "Abgehakt",
     "notYet": "Noch nicht",
-    "done": "Fertig"
+    "done": "Fertig",
+    "notification": {
+      "leaveBody_one": "Hast du „{{goal}}“ erledigt?",
+      "leaveBody_other": "Hast du deine {{count}} Ziele dort erledigt?",
+      "returnBody_one": "Du hast „{{goal}}“ letztes Mal nicht abgehakt. Hast du es erledigt?",
+      "returnBody_other": "Du hast hier letztes Mal {{count}} Ziele nicht abgehakt. Hast du sie erledigt?",
+      "tickAll": "Alle abhaken",
+      "nudgeTitle": "Ziele warten aufs Abhaken",
+      "nudgeBody_one": "Du hast „{{goal}}“ heute erreicht, aber noch nicht abgehakt.",
+      "nudgeBody_other": "Du hast heute {{count}} Ziele erreicht, aber noch nicht abgehakt.",
+      "channelName": "Ziel-Check-ins"
+    }
   },
   "profile": {
     "title": "Profil",
@@ -269,7 +280,7 @@
       "achievements": "Erfolge",
       "achievementsSublabel": "{{xp}} XP gesamt",
       "notifications": "Benachrichtigungen",
-      "notificationsSublabel": "Tägliche Erinnerungen",
+      "notificationsSublabel": "Ziel-Check-ins und Erinnerungen am Abend",
       "language": "Sprache",
       "appSettings": "App-Einstellungen",
       "appVersion": "App-Version",
