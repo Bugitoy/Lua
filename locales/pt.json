@@ -122,8 +122,10 @@
       "notePlaceholder": "Adicione algum detalhe",
       "location": "Local",
       "locationSearchHint": "Digite pelo menos 2 caracteres para buscar em qualquer lugar.",
+      "usesHomeHint": "Nenhum lugar escolhido, então esta meta será em Casa.",
       "tooCloseWarning": "Este lugar é exatamente onde você está, então não vai render XP. Escolha um lugar até onde você vá caminhar.",
       "pickOnMap": "Escolher no mapa",
+      "useHome": "Usar endereço de casa",
       "repeat": "Repetir",
       "addButton": "Adicionar à agenda",
       "saveButton": "Salvar alterações"
@@ -170,9 +172,17 @@
     },
     "search": {
       "waitingForGps": "Aguardando GPS…",
-      "placeholder": "Busque qualquer lugar no mundo…",
+      "placeholder": "Buscar um lugar…",
       "noResults": "Nenhum lugar encontrado. Tente outro nome.",
       "home": "Casa"
+    },
+    "homePrompt": {
+      "title": "Defina seu endereço de casa",
+      "body": "Metas sem lugar vão usá-lo. Você pode mudá-lo depois no perfil.",
+      "useCurrent": "Usar minha localização atual",
+      "myLocation": "Minha localização",
+      "notNow": "Agora não",
+      "save": "Salvar como casa"
     },
     "mapPicker": {
       "title": "Escolha um local",

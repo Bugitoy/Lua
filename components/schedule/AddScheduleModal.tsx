@@ -14,6 +14,7 @@ import {
 import { useTranslation } from "react-i18next";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
+import { HomeAddressPrompt } from "@/components/schedule/HomeAddressPrompt";
 import { MapLocationPicker } from "@/components/schedule/MapLocationPicker";
 import { NearbyLocationSearchField } from "@/components/schedule/NearbyLocationSearchField";
 import {
@@ -28,8 +29,10 @@ import { Pixelify } from "@/constants/fonts";
 import { LUA_GREEN } from "@/constants/mapAssets";
 import { startOfDay } from "@/lib/dayKey";
 import { haversineMeters } from "@/lib/geo";
+import { HOME_PLACE_ID, homeAsPlace } from "@/lib/homeAddress";
 import { formatAppDate, formatAppTime } from "@/lib/i18n/formatLocale";
 import type { NearbyPlace } from "@/lib/nearbyPlacesProvider";
+import { useProfile, type HomeAddress } from "@/lib/profileStore";
 import { presetOf, type RepeatRule } from "@/lib/repeatRule";
 import type { GoalDraft } from "@/lib/scheduleActions";
 import { TOO_CLOSE_GOAL_METERS } from "@/lib/walkingRules";
@@ -123,6 +126,12 @@ export function AddScheduleModal({
   const [theme, setTheme] = useState<ScheduleThemeKey>("academic");
   const [repeat, setRepeat] = useState<RepeatChoice>(DEFAULT_REPEAT_CHOICE);
   const [mapPickerOpen, setMapPickerOpen] = useState(false);
+  /** "Set your home address" is open; `saveAfter` adds the goal once the home is saved. */
+  const [homePrompt, setHomePrompt] = useState<{ saveAfter: boolean } | null>(null);
+
+  const { profile } = useProfile();
+  const homeLabel = t("schedule.search.home");
+  const homePlace = profile.home ? homeAsPlace(profile.home, homeLabel) : null;
 
   const keyboardHeight = useKeyboardHeight();
   /** Overlay height with the keyboard hidden vs now — detects if the OS already resized the window. */
@@ -217,6 +226,7 @@ export function AddScheduleModal({
     setTheme("academic");
     setRepeat(DEFAULT_REPEAT_CHOICE);
     setMapPickerOpen(false);
+    setHomePrompt(null);
   }, [defaultDay]);
 
   const openMapPicker = useCallback(() => {
@@ -257,9 +267,10 @@ export function AddScheduleModal({
     setShowTimePicker((prev) => !prev);
   }, [scrollToField, showTimePicker, time]);
 
-  const handleSave = useCallback(() => {
+  /** Saves the goal at `place`. */
+  const saveAt = useCallback((place: NearbyPlace) => {
     const trimmedTitle = title.trim();
-    if (!trimmedTitle || !picked) return;
+    if (!trimmedTitle) return;
     const preset = SCHEDULE_THEME_PRESETS[theme];
     const trimmedNote = note.trim();
     onSave({
@@ -274,10 +285,10 @@ export function AddScheduleModal({
         title: trimmedTitle,
         // Always set, so clearing the note while editing removes it.
         note: trimmedNote || undefined,
-        location: picked.title,
-        latitude: picked.latitude,
-        longitude: picked.longitude,
-        placeId: picked.id,
+        location: place.title,
+        latitude: place.latitude,
+        longitude: place.longitude,
+        placeId: place.id,
         icon: preset.icon,
         gradientColors: preset.gradientColors,
         glowColor: preset.glowColor,
@@ -285,15 +296,56 @@ export function AddScheduleModal({
     });
     reset();
     onClose();
-  }, [day, fallbackTime, note, onClose, onSave, picked, repeat, reset, t, theme, time, title, today]);
+  }, [day, fallbackTime, note, onClose, onSave, repeat, reset, t, theme, time, title, today]);
 
-  const canSave = !!title.trim() && picked != null;
+  /** A goal with no place is set at home; with no home yet, ask for one first. */
+  const handleSave = useCallback(() => {
+    if (!title.trim()) return;
+    const place = picked ?? homePlace;
+    if (place) {
+      saveAt(place);
+      return;
+    }
+    Keyboard.dismiss();
+    setHomePrompt({ saveAfter: true });
+  }, [homePlace, picked, saveAt, title]);
+
+  /** The Home button: use the saved home, or ask for one. */
+  const pickHome = useCallback(() => {
+    if (homePlace) {
+      setPicked(homePlace);
+      setSearchQuery(homePlace.title);
+      return;
+    }
+    Keyboard.dismiss();
+    setHomePrompt({ saveAfter: false });
+  }, [homePlace]);
+
+  const handleHomeSaved = useCallback(
+    (home: HomeAddress) => {
+      const place = homeAsPlace(home, homeLabel);
+      const saveAfter = homePrompt?.saveAfter ?? false;
+      setHomePrompt(null);
+      if (saveAfter) {
+        saveAt(place);
+      } else {
+        setPicked(place);
+        setSearchQuery(place.title);
+      }
+    },
+    [homeLabel, homePrompt, saveAt],
+  );
+
+  const canSave = !!title.trim();
+  /** Where the goal will be: the picked place, or home when none is picked. */
+  const goalPlace = picked ?? homePlace;
+  const pickedIsHome = picked?.id === HOME_PLACE_ID;
   /** A goal right where the user stands completes without walking, so it won't pay XP. */
   const pickedTooClose =
     day === today &&
-    picked != null &&
+    goalPlace != null &&
     userLocation != null &&
-    haversineMeters(userLocation, picked) <= TOO_CLOSE_GOAL_METERS;
+    haversineMeters(userLocation, goalPlace) <= TOO_CLOSE_GOAL_METERS;
 
   const timeText = time
     ? formatAppTime(time, { hour: "numeric", minute: "2-digit" })
@@ -305,7 +357,11 @@ export function AddScheduleModal({
       animationType="slide"
       transparent
       onRequestClose={
-        mapPickerOpen ? () => setMapPickerOpen(false) : handleClose
+        mapPickerOpen
+          ? () => setMapPickerOpen(false)
+          : homePrompt
+            ? () => setHomePrompt(null)
+            : handleClose
       }
     >
       {mapPickerOpen ? (
@@ -478,31 +534,53 @@ export function AddScheduleModal({
                   setSearchQuery(place.title);
                 }}
                 userLocation={userLocation}
-                active={visible}
+                active={visible && homePrompt == null}
                 pickedTitle={picked?.title ?? null}
                 onClearPick={() => setPicked(null)}
                 onFocus={() => focusField("location")}
                 offerHome
+                compact
                 trailing={
-                  <Pressable
-                    onPress={openMapPicker}
-                    accessibilityRole="button"
-                    accessibilityLabel={t("schedule.addModal.pickOnMap")}
-                    className="w-[52px] items-center justify-center rounded-xl border active:opacity-80"
-                    style={{
-                      borderColor: LUA_GREEN,
-                      backgroundColor: "rgba(22,163,74,0.08)",
-                    }}
-                  >
-                    <Ionicons name="map-outline" size={20} color={LUA_GREEN} />
-                  </Pressable>
+                  <>
+                    <Pressable
+                      onPress={openMapPicker}
+                      accessibilityRole="button"
+                      accessibilityLabel={t("schedule.addModal.pickOnMap")}
+                      className="w-[52px] items-center justify-center rounded-xl border active:opacity-80"
+                      style={{
+                        borderColor: LUA_GREEN,
+                        backgroundColor: "rgba(22,163,74,0.08)",
+                      }}
+                    >
+                      <Ionicons name="map-outline" size={20} color={LUA_GREEN} />
+                    </Pressable>
+                    <Pressable
+                      onPress={pickHome}
+                      accessibilityRole="button"
+                      accessibilityLabel={t("schedule.addModal.useHome")}
+                      accessibilityState={{ selected: pickedIsHome }}
+                      className="w-[52px] items-center justify-center rounded-xl border active:opacity-80"
+                      style={{
+                        borderColor: pickedIsHome ? LUA_GREEN : "#e5e5e5",
+                        backgroundColor: pickedIsHome ? "rgba(22,163,74,0.08)" : "#fafafa",
+                      }}
+                    >
+                      <Ionicons
+                        name={pickedIsHome ? "home" : "home-outline"}
+                        size={20}
+                        color={pickedIsHome ? LUA_GREEN : "#525252"}
+                      />
+                    </Pressable>
+                  </>
                 }
               />
               <Text
                 className="mb-4 text-xs text-neutral-500"
                 style={{ fontFamily: Pixelify.regular }}
               >
-                {t("schedule.addModal.locationSearchHint")}
+                {!picked && homePlace
+                  ? t("schedule.addModal.usesHomeHint")
+                  : t("schedule.addModal.locationSearchHint")}
               </Text>
               {pickedTooClose ? (
                 <View
@@ -540,6 +618,14 @@ export function AddScheduleModal({
               </Pressable>
             </ScrollView>
           </View>
+          {homePrompt ? (
+            <HomeAddressPrompt
+              userLocation={userLocation}
+              bottomInset={keyboardOverlap}
+              onCancel={() => setHomePrompt(null)}
+              onSaved={handleHomeSaved}
+            />
+          ) : null}
         </View>
       )}
     </Modal>

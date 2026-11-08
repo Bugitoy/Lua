@@ -23,12 +23,11 @@ import {
   schedulePlacesSearchProvider,
   type NearbyPlace,
 } from "@/lib/nearbyPlacesProvider";
+import { homeAsPlace } from "@/lib/homeAddress";
 import { useProfile, type HomeAddress } from "@/lib/profileStore";
 
 const SEARCH_DEBOUNCE_MS = 350;
 const SEARCH_RADIUS_METERS = 5000;
-/** Id of the "Home" result, so goals set there can be told apart. */
-export const HOME_PLACE_ID = "home";
 
 /** True when `query` is empty, starts "Home" (in English or the app's language), or is part of the address. */
 function matchesHome(query: string, home: HomeAddress, homeLabel: string): boolean {
@@ -165,19 +164,12 @@ export function NearbyLocationSearchField({
   }, [onChangeQuery, onClearPick]);
 
   const trimmed = value.trim();
-  const showWaiting = !userLocation;
   const home = offerHome ? profile.home : null;
+  // Search needs GPS, but a saved home can still be picked without it.
+  const showWaiting = !userLocation && home == null;
   const homeLabel = t("schedule.search.home");
-  const homePlace: NearbyPlace | null =
-    home && matchesHome(value, home, homeLabel)
-      ? {
-          id: HOME_PLACE_ID,
-          title: homeLabel,
-          subtitle: home.address,
-          latitude: home.latitude,
-          longitude: home.longitude,
-        }
-      : null;
+  const homePlace =
+    home && matchesHome(value, home, homeLabel) ? homeAsPlace(home, homeLabel) : null;
   const menuShown = menuOpen && active && !pickedTitle;
   const showResults = menuShown && (results.length > 0 || homePlace != null);
   const showEmpty =

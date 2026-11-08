@@ -122,8 +122,10 @@
       "notePlaceholder": "Details hinzufügen",
       "location": "Ort",
       "locationSearchHint": "Gib mindestens 2 Zeichen ein, um überall zu suchen.",
+      "usesHomeHint": "Kein Ort gewählt, daher ist dieses Ziel zu Hause.",
       "tooCloseWarning": "Dieser Ort ist genau da, wo du gerade bist, und bringt daher keine XP. Wähle einen Ort, zu dem du hinläufst.",
       "pickOnMap": "Auf Karte wählen",
+      "useHome": "Wohnadresse verwenden",
       "repeat": "Wiederholen",
       "addButton": "Zum Zeitplan hinzufügen",
       "saveButton": "Änderungen speichern"
@@ -170,9 +172,17 @@
     },
     "search": {
       "waitingForGps": "Warte auf GPS…",
-      "placeholder": "Suche einen Ort weltweit…",
+      "placeholder": "Ort suchen…",
       "noResults": "Keine passenden Orte. Probiere einen anderen Namen.",
       "home": "Zuhause"
+    },
+    "homePrompt": {
+      "title": "Wohnadresse festlegen",
+      "body": "Ziele ohne Ort verwenden sie. Du kannst sie später im Profil ändern.",
+      "useCurrent": "Aktuellen Standort verwenden",
+      "myLocation": "Mein Standort",
+      "notNow": "Nicht jetzt",
+      "save": "Als Zuhause speichern"
     },
     "mapPicker": {
       "title": "Ort auswählen",

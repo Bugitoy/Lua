@@ -17,6 +17,7 @@ import { NearbyLocationSearchField } from "@/components/schedule/NearbyLocationS
 import { Pixelify } from "@/constants/fonts";
 import { LUA_GREEN } from "@/constants/mapAssets";
 import { useLocation } from "@/hooks/useLocation";
+import { homeFromPlace } from "@/lib/homeAddress";
 import type { NearbyPlace } from "@/lib/nearbyPlacesProvider";
 import {
   isValidHandle,
@@ -26,18 +27,6 @@ import {
   type HomeAddress,
 } from "@/lib/profileStore";
 
-/** A picked place as a home address: its name plus the area under it, when there is one. */
-function homeFromPlace(place: NearbyPlace): HomeAddress {
-  const address = place.subtitle && !place.title.includes(place.subtitle)
-    ? `${place.title}, ${place.subtitle}`
-    : place.title;
-  return {
-    address,
-    latitude: place.latitude,
-    longitude: place.longitude,
-    placeId: place.id,
-  };
-}
 
 export function ManageProfileForm() {
   const { t } = useTranslation();

@@ -122,8 +122,10 @@
       "notePlaceholder": "添加一些细节",
       "location": "位置",
       "locationSearchHint": "输入至少 2 个字符即可搜索全球地点。",
+      "usesHomeHint": "未选择地点，此目标将设在家。",
       "tooCloseWarning": "这个地点就在你现在的位置，所以不会获得 XP。选一个需要步行前往的地方吧。",
       "pickOnMap": "在地图上选择",
+      "useHome": "使用家庭住址",
       "repeat": "重复",
       "addButton": "添加到日程",
       "saveButton": "保存更改"
@@ -170,9 +172,17 @@
     },
     "search": {
       "waitingForGps": "正在等待 GPS…",
-      "placeholder": "搜索全球任意地点…",
+      "placeholder": "搜索地点…",
       "noResults": "没有匹配的地点。请尝试其他名称。",
       "home": "家"
+    },
+    "homePrompt": {
+      "title": "设置家庭住址",
+      "body": "没有地点的目标将使用它。你之后可以在个人资料中修改。",
+      "useCurrent": "使用我当前的位置",
+      "myLocation": "我的位置",
+      "notNow": "以后再说",
+      "save": "保存为家"
     },
     "mapPicker": {
       "title": "选择位置",

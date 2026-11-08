@@ -122,8 +122,10 @@
       "notePlaceholder": "Aggiungi qualche dettaglio",
       "location": "Posizione",
       "locationSearchHint": "Digita almeno 2 caratteri per cercare ovunque.",
+      "usesHomeHint": "Nessun luogo scelto, quindi questo obiettivo sarà a Casa.",
       "tooCloseWarning": "Questo luogo è proprio dove ti trovi, quindi non darà XP. Scegli un posto che raggiungerai a piedi.",
       "pickOnMap": "Scegli sulla mappa",
+      "useHome": "Usa l'indirizzo di casa",
       "repeat": "Ripeti",
       "addButton": "Aggiungi al programma",
       "saveButton": "Salva modifiche"
@@ -170,9 +172,17 @@
     },
     "search": {
       "waitingForGps": "In attesa del GPS…",
-      "placeholder": "Cerca un luogo nel mondo…",
+      "placeholder": "Cerca un luogo…",
       "noResults": "Nessun luogo corrispondente. Prova un altro nome.",
       "home": "Casa"
+    },
+    "homePrompt": {
+      "title": "Imposta l'indirizzo di casa",
+      "body": "Gli obiettivi senza luogo lo useranno. Puoi cambiarlo più tardi nel profilo.",
+      "useCurrent": "Usa la mia posizione attuale",
+      "myLocation": "La mia posizione",
+      "notNow": "Non ora",
+      "save": "Salva come casa"
     },
     "mapPicker": {
       "title": "Scegli un luogo",

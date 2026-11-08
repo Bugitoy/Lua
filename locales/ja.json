@@ -122,8 +122,10 @@
       "notePlaceholder": "詳細を追加",
       "location": "場所",
       "locationSearchHint": "2 文字以上入力すると世界中を検索できます。",
+      "usesHomeHint": "場所が選ばれていないため、この目標は自宅になります。",
       "tooCloseWarning": "この場所は今いる場所のすぐ近くなので、XPはもらえません。歩いて行ける別の場所を選びましょう。",
       "pickOnMap": "地図で選ぶ",
+      "useHome": "自宅の住所を使う",
       "repeat": "繰り返し",
       "addButton": "スケジュールに追加",
       "saveButton": "変更を保存"
@@ -170,9 +172,17 @@
     },
     "search": {
       "waitingForGps": "GPS を待機中…",
-      "placeholder": "世界中の場所を検索…",
+      "placeholder": "場所を検索…",
       "noResults": "一致する場所がありません。別の名前を試してください。",
       "home": "自宅"
+    },
+    "homePrompt": {
+      "title": "自宅の住所を設定",
+      "body": "場所のない目標には自宅が使われます。あとでプロフィールから変更できます。",
+      "useCurrent": "現在地を使う",
+      "myLocation": "現在地",
+      "notNow": "あとで",
+      "save": "自宅として保存"
     },
     "mapPicker": {
       "title": "場所を選択",

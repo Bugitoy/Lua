@@ -122,8 +122,10 @@
       "notePlaceholder": "Ajoutez un détail",
       "location": "Lieu",
       "locationSearchHint": "Saisissez au moins 2 caractères pour rechercher partout.",
+      "usesHomeHint": "Aucun lieu choisi : cet objectif sera au Domicile.",
       "tooCloseWarning": "Ce lieu est juste là où vous êtes, il ne rapportera donc pas d'XP. Choisissez un endroit où vous irez à pied.",
       "pickOnMap": "Choisir sur la carte",
+      "useHome": "Utiliser l'adresse du domicile",
       "repeat": "Répéter",
       "addButton": "Ajouter au planning",
       "saveButton": "Enregistrer"
@@ -170,9 +172,17 @@
     },
     "search": {
       "waitingForGps": "En attente du GPS…",
-      "placeholder": "Rechercher un lieu dans le monde…",
+      "placeholder": "Chercher un lieu…",
       "noResults": "Aucun lieu correspondant. Essayez un autre nom.",
       "home": "Domicile"
+    },
+    "homePrompt": {
+      "title": "Indiquez votre domicile",
+      "body": "Les objectifs sans lieu l'utiliseront. Vous pourrez la modifier plus tard dans le profil.",
+      "useCurrent": "Utiliser ma position actuelle",
+      "myLocation": "Ma position",
+      "notNow": "Plus tard",
+      "save": "Enregistrer"
     },
     "mapPicker": {
       "title": "Choisir un lieu",

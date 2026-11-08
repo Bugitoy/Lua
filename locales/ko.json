@@ -122,8 +122,10 @@
       "notePlaceholder": "세부 내용 추가",
       "location": "위치",
       "locationSearchHint": "2자 이상 입력하면 전 세계를 검색할 수 있습니다.",
+      "usesHomeHint": "장소를 고르지 않아 이 목표는 집으로 설정됩니다.",
       "tooCloseWarning": "이 장소는 지금 있는 곳과 너무 가까워서 XP를 받을 수 없어요. 걸어서 갈 곳을 골라 보세요.",
       "pickOnMap": "지도에서 선택",
+      "useHome": "집 주소 사용",
       "repeat": "반복",
       "addButton": "일정에 추가",
       "saveButton": "변경 사항 저장"
@@ -170,9 +172,17 @@
     },
     "search": {
       "waitingForGps": "GPS 대기 중…",
-      "placeholder": "전 세계 장소 검색…",
+      "placeholder": "장소 검색…",
       "noResults": "일치하는 장소가 없습니다. 다른 이름을 시도해 보세요.",
       "home": "집"
+    },
+    "homePrompt": {
+      "title": "집 주소 설정",
+      "body": "장소가 없는 목표는 집 주소를 사용합니다. 나중에 프로필에서 바꿀 수 있어요.",
+      "useCurrent": "현재 위치 사용",
+      "myLocation": "내 위치",
+      "notNow": "나중에",
+      "save": "집으로 저장"
     },
     "mapPicker": {
       "title": "위치 선택",
