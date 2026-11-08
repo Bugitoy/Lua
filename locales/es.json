@@ -64,7 +64,6 @@
       "you": "Tú",
       "destination": "Destino",
       "destinationDescription": "Mantén pulsado en cualquier lugar para mover este marcador",
-      "goalComplete": "Meta completada",
       "goalCompleteWithTitle": "{{title}} · Meta completada"
     },
     "study": {
@@ -230,16 +229,7 @@
   },
   "profile": {
     "title": "Perfil",
-    "displayName": "Mason",
-    "handle": "@masonmavinga",
     "experienceLevel": "Nivel de experiencia",
-    "stats": {
-      "goalsToday": "Metas hoy",
-      "stepsToday": "Pasos hoy",
-      "goalStreak": "Racha de metas completadas",
-      "milesWalked": "Millas recorridas",
-      "hoursStudied": "Horas de trabajo"
-    },
     "summary": {
       "goalsLabel": "metas",
       "goalsToGo_one": "Falta {{count}} meta",
@@ -282,7 +272,6 @@
       "chipHackathon": "Hackathon de 24 horas",
       "chipCampusFlow": "Campus Flow",
       "paragraph1": "Lua no empezó en una sala de juntas; comenzó como un sprint de 24 horas en un hackathon universitario. Creada por el estudiante de Ingeniería Informática Lefika Moalosi, el prototipo original se llamaba \"Campus Flow\". El problema que buscaba resolver era simple: es demasiado fácil escribir un horario ambicioso y quedarse quieto en una habitación todo el día. La app fue diseñada para forzar el movimiento, exigiendo que los usuarios (sobre todo estudiantes) caminen físicamente a sus clases, comidas y eventos sociales para marcarlos como hechos.",
-      "companionCaption": "Conoce a Lua — tu compañero digital",
       "paragraph2": "El proyecto no ganó el hackathon, pero la mecánica central era demasiado efectiva para abandonarla. En el corazón de la app había un pequeño compañero digital llamado Lua. Como los usuarios se conectaron tanto con mantener vivo al avatar, Lefika siguió desarrollando la app y acabó renombrando todo el proyecto a \"Lua\". Hoy ha evolucionado de una herramienta solo para campus a un proyecto experiencial más amplio para quien quiera unir planificación digital y acción física."
     },
     "howItWorks": {
@@ -465,7 +454,6 @@
     },
     "summary": {
       "distance": "Distancia",
-      "goals": "Metas",
       "study": "Trabajo",
       "distanceValue": "{{distance}} mi",
       "goalsValue": "{{done}}/{{total}}"
@@ -632,7 +620,6 @@
     "systemSettingsDescription": "Abre los ajustes del dispositivo para controlar permisos como notificaciones."
   },
   "legal": {
-    "lastUpdated": "Última actualización: 27 de mayo de 2026",
     "terms": {
       "title": "Términos y condiciones",
       "effectiveDate": "Fecha de entrada en vigor: 27 de mayo de 2026",
@@ -769,16 +756,13 @@
     "notificationBody": "Contando tu distancia y completando tus metas mientras la pantalla está apagada."
   },
   "units": {
-    "miles": "millas",
-    "milesShort": "mi",
-    "days": "días"
+    "milesShort": "mi"
   },
   "errors": {
     "permissionDenied": "Permiso denegado",
     "searchFailed": "Error en la búsqueda"
   },
   "a11y": {
-    "luaLogo": "Logo de Lua",
     "profile": "Perfil",
     "profileAvatar": "Avatar del perfil",
     "customizeAvatarHint": "Abre el armario para vestir a tu Lua",

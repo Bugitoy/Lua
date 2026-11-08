@@ -64,7 +64,6 @@
       "you": "나",
       "destination": "목적지",
       "destinationDescription": "아무 곳이나 길게 눌러 이 마커를 이동하세요",
-      "goalComplete": "목표 완료",
       "goalCompleteWithTitle": "{{title}} · 목표 완료"
     },
     "study": {
@@ -228,16 +227,7 @@
   },
   "profile": {
     "title": "프로필",
-    "displayName": "Mason",
-    "handle": "@masonmavinga",
     "experienceLevel": "경험 레벨",
-    "stats": {
-      "goalsToday": "오늘의 목표",
-      "stepsToday": "오늘 걸음 수",
-      "goalStreak": "목표 완료 연속 일수",
-      "milesWalked": "걸은 마일",
-      "hoursStudied": "작업 시간"
-    },
     "summary": {
       "goalsLabel": "목표",
       "goalsToGo_other": "목표 {{count}}개 남음",
@@ -278,7 +268,6 @@
       "chipHackathon": "24시간 해커톤",
       "chipCampusFlow": "Campus Flow",
       "paragraph1": "Lua는 회의실이 아니라 대학 해커톤의 24시간 스프린트에서 시작되었습니다. 컴퓨터공학과 학생 Lefika Moalosi가 만들었고, 최초 프로토타입 이름은 \"Campus Flow\"였습니다. 해결하려 한 문제는 단순했습니다. 야심 찬 일정을 적어도 하루 종일 방에만 있기 쉽다는 것. 수업, 식사, 사교 행사까지 실제로 걸어가 체크하도록, 특히 학생들에게 움직임을 요구하는 앱이었습니다.",
-      "companionCaption": "Lua를 만나보세요 — 디지털 동반자",
       "paragraph2": "해커톤 상은 받지 못했지만, 핵심 메커니즘은 너무 효과적이어서 놓을 수 없었습니다. 앱의 중심에는 Lua라는 작은 디지털 동반이 있었습니다. 아바타를 살리려는 사용자들의 열정에 Lefika는 개발을 이어갔고, 결국 프로젝트 전체 이름을 \"Lua\"로 바꿨습니다. 오늘날 캠퍼스 전용 도구에서 디지털 계획과 실제 행동을 잇고 싶은 모든 이를 위한 더 넓은 경험 프로젝트로 발전했습니다."
     },
     "howItWorks": {
@@ -461,7 +450,6 @@
     },
     "summary": {
       "distance": "거리",
-      "goals": "목표",
       "study": "작업",
       "distanceValue": "{{distance}} mi",
       "goalsValue": "{{done}}/{{total}}"
@@ -628,7 +616,6 @@
     "systemSettingsDescription": "알림과 같은 권한을 관리하려면 기기 설정을 여세요."
   },
   "legal": {
-    "lastUpdated": "최종 업데이트: 2026년 5월 27일",
     "terms": {
       "title": "이용약관",
       "effectiveDate": "시행일: 2026년 5월 27일",
@@ -765,16 +752,13 @@
     "notificationBody": "화면이 꺼져 있어도 걸은 거리를 기록하고 목표에 도착하면 완료로 표시합니다."
   },
   "units": {
-    "miles": "마일",
-    "milesShort": "mi",
-    "days": "일"
+    "milesShort": "mi"
   },
   "errors": {
     "permissionDenied": "권한이 거부되었습니다",
     "searchFailed": "검색에 실패했습니다"
   },
   "a11y": {
-    "luaLogo": "Lua 로고",
     "profile": "프로필",
     "profileAvatar": "프로필 아바타",
     "customizeAvatarHint": "옷장을 열어 Lua를 꾸밉니다",

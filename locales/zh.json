@@ -64,7 +64,6 @@
       "you": "你",
       "destination": "目的地",
       "destinationDescription": "长按任意位置以移动此标记",
-      "goalComplete": "目标已完成",
       "goalCompleteWithTitle": "{{title}} · 目标已完成"
     },
     "study": {
@@ -228,16 +227,7 @@
   },
   "profile": {
     "title": "个人资料",
-    "displayName": "Mason",
-    "handle": "@masonmavinga",
     "experienceLevel": "经验等级",
-    "stats": {
-      "goalsToday": "今日目标",
-      "stepsToday": "今日步数",
-      "goalStreak": "目标完成连续天数",
-      "milesWalked": "步行英里数",
-      "hoursStudied": "工作时长"
-    },
     "summary": {
       "goalsLabel": "目标",
       "goalsToGo_other": "还剩 {{count}} 个目标",
@@ -278,7 +268,6 @@
       "chipHackathon": "24 小时黑客松",
       "chipCampusFlow": "Campus Flow",
       "paragraph1": "Lua 并非诞生于会议室，而是始于大学黑客松的一场 24 小时冲刺。由计算机工程学生 Lefika Moalosi 打造，最初原型名为「Campus Flow」。它要解决的核心问题很简单：写下雄心勃勃的日程却整天待在房间里太容易了。应用旨在迫使人们动起来，要求用户（尤其是学生）亲自走到课堂、用餐和社交地点才能完成打卡。",
-      "companionCaption": "认识 Lua — 你的数字伙伴",
       "paragraph2": "项目没有赢得黑客松奖项，但核心机制太有效，无法放下。应用中心是一个名叫 Lua 的小数字伙伴。因为用户非常在意让角色保持存活，Lefika 继续开发应用，最终将整个项目更名为「Lua」。如今它已从校园专用工具，演变为帮助任何人连接数字规划与实际行动的更广体验项目。"
     },
     "howItWorks": {
@@ -461,7 +450,6 @@
     },
     "summary": {
       "distance": "距离",
-      "goals": "目标",
       "study": "工作",
       "distanceValue": "{{distance}} 英里",
       "goalsValue": "{{done}}/{{total}}"
@@ -628,7 +616,6 @@
     "systemSettingsDescription": "打开设备设置以管理通知等权限。"
   },
   "legal": {
-    "lastUpdated": "最后更新：2026年5月27日",
     "terms": {
       "title": "条款与条件",
       "effectiveDate": "生效日期：2026年5月27日",
@@ -765,16 +752,13 @@
     "notificationBody": "屏幕关闭时也会统计步行距离，并在到达目标时完成打卡。"
   },
   "units": {
-    "miles": "英里",
-    "milesShort": "英里",
-    "days": "天"
+    "milesShort": "英里"
   },
   "errors": {
     "permissionDenied": "权限被拒绝",
     "searchFailed": "搜索失败"
   },
   "a11y": {
-    "luaLogo": "Lua 标志",
     "profile": "个人资料",
     "profileAvatar": "个人资料头像",
     "customizeAvatarHint": "打开衣橱为你的 Lua 换装",
