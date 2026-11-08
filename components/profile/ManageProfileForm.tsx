@@ -236,6 +236,9 @@ export function ManageProfileForm() {
       <Text
         className="mb-6 text-xs text-neutral-500"
         style={{ fontFamily: Pixelify.regular }}
+        numberOfLines={1}
+        adjustsFontSizeToFit
+        minimumFontScale={0.8}
       >
         {t("manageProfile.homeHint")}
       </Text>

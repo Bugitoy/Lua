@@ -438,7 +438,7 @@
     "handlePlaceholder": "@username",
     "homeLabel": "집 주소",
     "homePlaceholder": "주소 검색…",
-    "homeHint": "이 휴대폰에만 저장됩니다. 목표를 추가할 때 장소 검색에 \"집\"을 입력하면 사용할 수 있어요.",
+    "homeHint": "이 휴대폰에만 저장됩니다.",
     "save": "변경 사항 저장",
     "errorTitle": "저장할 수 없음",
     "errorEmptyName": "표시 이름을 입력하세요.",

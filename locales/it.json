@@ -442,7 +442,7 @@
     "handlePlaceholder": "@utente",
     "homeLabel": "Indirizzo di casa",
     "homePlaceholder": "Cerca l'indirizzo…",
-    "homeHint": "Salvato solo su questo telefono. Quando aggiungi un obiettivo, scrivi \"Casa\" nella ricerca del luogo per usarlo.",
+    "homeHint": "Salvato solo su questo telefono.",
     "save": "Salva modifiche",
     "errorTitle": "Salvataggio non riuscito",
     "errorEmptyName": "Inserisci un nome visualizzato.",

@@ -438,7 +438,7 @@
     "handlePlaceholder": "@username",
     "homeLabel": "自宅の住所",
     "homePlaceholder": "住所を検索…",
-    "homeHint": "この端末にのみ保存されます。目標を追加するときに、場所の検索で「自宅」と入力すると使えます。",
+    "homeHint": "この端末にのみ保存されます。",
     "save": "変更を保存",
     "errorTitle": "保存できませんでした",
     "errorEmptyName": "表示名を入力してください。",

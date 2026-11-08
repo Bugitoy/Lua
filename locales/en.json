@@ -442,7 +442,7 @@
     "handlePlaceholder": "@username",
     "homeLabel": "Home address",
     "homePlaceholder": "Search your address…",
-    "homeHint": "Saved only on this phone. When you add a goal, type \"Home\" in the location search to use it.",
+    "homeHint": "Saved only on this phone.",
     "save": "Save changes",
     "errorTitle": "Could not save",
     "errorEmptyName": "Please enter a display name.",

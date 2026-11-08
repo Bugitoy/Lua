@@ -438,7 +438,7 @@
     "handlePlaceholder": "@username",
     "homeLabel": "家庭住址",
     "homePlaceholder": "搜索你的地址…",
-    "homeHint": "仅保存在这部手机上。添加目标时，在地点搜索中输入“家”即可使用。",
+    "homeHint": "仅保存在这部手机上。",
     "save": "保存更改",
     "errorTitle": "无法保存",
     "errorEmptyName": "请输入显示名称。",

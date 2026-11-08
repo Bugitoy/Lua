@@ -442,7 +442,7 @@
     "handlePlaceholder": "@utilisateur",
     "homeLabel": "Adresse du domicile",
     "homePlaceholder": "Chercher l'adresse…",
-    "homeHint": "Enregistrée uniquement sur ce téléphone. Quand vous ajoutez un objectif, tapez « Domicile » dans la recherche de lieu pour l'utiliser.",
+    "homeHint": "Enregistrée uniquement sur ce téléphone.",
     "save": "Enregistrer",
     "errorTitle": "Échec de l'enregistrement",
     "errorEmptyName": "Veuillez saisir un nom affiché.",

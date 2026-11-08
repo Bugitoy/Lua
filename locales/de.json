@@ -442,7 +442,7 @@
     "handlePlaceholder": "@benutzername",
     "homeLabel": "Wohnadresse",
     "homePlaceholder": "Adresse suchen…",
-    "homeHint": "Nur auf diesem Handy gespeichert. Wenn du ein Ziel hinzufügst, gib bei der Ortssuche „Zuhause“ ein, um sie zu verwenden.",
+    "homeHint": "Nur auf diesem Handy gespeichert.",
     "save": "Änderungen speichern",
     "errorTitle": "Speichern fehlgeschlagen",
     "errorEmptyName": "Bitte gib einen Anzeigenamen ein.",

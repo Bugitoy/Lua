@@ -442,7 +442,7 @@
     "handlePlaceholder": "@usuario",
     "homeLabel": "Dirección de casa",
     "homePlaceholder": "Busca tu dirección…",
-    "homeHint": "Solo se guarda en este teléfono. Al añadir una meta, escribe «Casa» en la búsqueda de lugar para usarla.",
+    "homeHint": "Solo se guarda en este teléfono.",
     "save": "Guardar cambios",
     "errorTitle": "No se pudo guardar",
     "errorEmptyName": "Introduce un nombre visible.",
