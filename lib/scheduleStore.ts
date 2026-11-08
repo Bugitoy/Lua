@@ -1,14 +1,15 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useMemo, useSyncExternalStore } from "react";
 
-import type { ScheduleItemData } from "@/components/schedule/scheduleTypes";
+import type { GoalFields, ScheduleItemData } from "@/components/schedule/scheduleTypes";
+import type { GoalRecord } from "@/lib/dayHistory";
 import { dayKey } from "@/lib/dayKey";
 import { updateGameStats } from "@/lib/gameStats";
 
 /**
  * Today's goals, saved on the phone. Goals last one day: at midnight
  * `dailyProgress` records them in the day's history (done or missed)
- * and clears the schedule.
+ * and starts the new day with the goals planned for it (`goalPlans`).
  */
 
 const STORAGE_KEY = "schedule";
@@ -116,13 +117,27 @@ export function startSchedule(): Promise<void> {
 
 // ─── Mutations ────────────────────────────────────────────────────────────────
 
+function newItem(data: Omit<ScheduleItemData, "id">): ScheduledItem {
+  const id = `${Date.now()}-${Math.random().toString(36).slice(2, 9)}`;
+  return { ...data, id, label: data.location, completed: false, completedAtMs: null };
+}
+
 /** Adds a goal for today and returns its id. */
 export function addScheduleItem(data: Omit<ScheduleItemData, "id">): string {
-  const id = `${Date.now()}-${Math.random().toString(36).slice(2, 9)}`;
+  const item = newItem(data);
   const next = new Map(state.items);
-  next.set(id, { ...data, id, label: data.location, completed: false, completedAtMs: null });
+  next.set(item.id, item);
   commit({ items: next });
-  return id;
+  return item.id;
+}
+
+/** Edits a goal for today. A goal that is already done keeps its completion. */
+export function updateScheduleItem(id: string, changes: GoalFields & { seriesId?: string }): void {
+  const item = state.items.get(id);
+  if (!item) return;
+  const next = new Map(state.items);
+  next.set(id, { ...item, ...changes, seriesId: changes.seriesId, label: changes.location });
+  commit({ items: next });
 }
 
 export function removeScheduleItem(id: string): void {
@@ -145,9 +160,14 @@ export function markGoalCompleted(id: string): boolean {
   return true;
 }
 
-/** Starts a new day with no goals. Called after the old day is recorded. */
-export function clearSchedule(day: string): void {
-  commit({ day, items: new Map() });
+/** Starts a new day with the goals planned for it. Called after the old day is recorded. */
+export function clearSchedule(day: string, planned: Omit<ScheduleItemData, "id">[] = []): void {
+  const items = new Map<string, ScheduledItem>();
+  for (const data of planned) {
+    const item = newItem(data);
+    items.set(item.id, item);
+  }
+  commit({ day, items });
 }
 
 // ─── Reads ────────────────────────────────────────────────────────────────────
@@ -164,6 +184,21 @@ export function getScheduledItems(): ScheduledItem[] {
 /** The day the current goals belong to. */
 export function getScheduleDay(): string {
   return state.day;
+}
+
+/** A goal as saved in the day's history. */
+export function toGoalRecord(item: ScheduledItem): GoalRecord {
+  return {
+    id: item.id,
+    title: item.title,
+    location: item.location,
+    time: item.time,
+    themeKey: item.themeKey,
+    completed: item.completed,
+    completedAtMs: item.completedAtMs,
+    ...(item.note ? { note: item.note } : {}),
+    ...(item.seriesId ? { repeating: true } : {}),
+  };
 }
 
 export function hasUnfinishedGoals(): boolean {

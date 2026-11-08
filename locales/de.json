@@ -65,7 +65,7 @@
       "destination": "Ziel",
       "destinationDescription": "Halte irgendwo gedrückt, um diesen Marker zu verschieben",
       "goalComplete": "Ziel erreicht",
-      "goalCompleteWithCategory": "{{category}} · Ziel erreicht"
+      "goalCompleteWithTitle": "{{title}} · Ziel erreicht"
     },
     "study": {
       "promptTitle": "Hier mit der Arbeit beginnen?",
@@ -86,36 +86,87 @@
   "schedule": {
     "remove": {
       "title": "Ziel entfernen?",
-      "message": "„{{title}}“ wird aus dem heutigen Plan entfernt.",
+      "message": "„{{title}}“ wird entfernt.",
       "confirm": "Entfernen",
-      "hint": "Lange drücken zum Entfernen"
+      "hint": "Lange drücken zum Entfernen",
+      "repeatMessage": "„{{title}}“ wiederholt sich. Nur dieses entfernen oder dieses und alle folgenden?",
+      "thisOnly": "Nur dieses Ziel",
+      "thisAndFuture": "Dieses und alle folgenden"
     },
-    "title": "Heutiger Zeitplan.",
+    "title": "Zeitplan",
+    "backToToday": "Zurück zu heute",
     "liveMap": "Live-Karte",
     "empty": {
-      "title": "Noch keine Ziele",
-      "description": "Tippe auf die +-Schaltfläche, um einen Ort hinzuzufügen. Wenn du auf der Live-Karte dorthin gehst, ist das Ziel erreicht. Ziele gelten nur für heute."
+      "todayTitle": "Noch keine Ziele",
+      "todayDescription": "Tippe auf die +-Schaltfläche, um einen Ort hinzuzufügen. Wenn du auf der Live-Karte dorthin gehst, ist das Ziel erreicht.",
+      "pastTitle": "Nichts geplant",
+      "pastDescription": "Für diesen Tag wurden keine Ziele gesetzt.",
+      "futureTitle": "Noch nichts geplant",
+      "futureDescription": "Tippe auf die +-Schaltfläche, um ein Ziel für diesen Tag zu planen. Es zählt für XP und Gesundheit, sobald der Tag beginnt."
     },
     "addModal": {
       "title": "Neues Ziel",
+      "editTitle": "Ziel bearbeiten",
       "type": "Typ",
       "types": {
         "academic": "Arbeit",
         "meal": "Mahlzeit",
         "social": "Sozial"
       },
+      "date": "Datum",
       "time": "Uhrzeit",
-      "timePlaceholder": "Tippen, um eine Uhrzeit zu wählen",
-      "category": "Kategorie",
-      "categoryPlaceholder": "z. B. Arbeit, Club",
+      "timePlaceholder": "Wählen",
       "titleLabel": "Titel",
       "titlePlaceholder": "Titel hinzufügen",
+      "note": "Notiz",
+      "notePlaceholder": "Details hinzufügen",
       "location": "Ort",
       "locationSearchHint": "Gib mindestens 2 Zeichen ein, um überall zu suchen.",
       "tooCloseWarning": "Dieser Ort ist genau da, wo du gerade bist, und bringt daher keine XP. Wähle einen Ort, zu dem du hinläufst.",
       "pickOnMap": "Auf Karte wählen",
+      "repeat": "Wiederholen",
       "addButton": "Zum Zeitplan hinzufügen",
-      "defaultCategory": "Ereignis"
+      "saveButton": "Änderungen speichern"
+    },
+    "repeat": {
+      "presets": {
+        "never": "Nie",
+        "daily": "Täglich",
+        "weekdays": "Werktags",
+        "weekly": "Wöchentlich",
+        "monthly": "Monatlich",
+        "custom": "Eigene"
+      },
+      "every": "Alle",
+      "fewer": "Weniger",
+      "more": "Mehr",
+      "unitShort": {
+        "day": "T",
+        "week": "W",
+        "month": "M",
+        "year": "J"
+      },
+      "unitName": {
+        "day": "Tage",
+        "week": "Wochen",
+        "month": "Monate",
+        "year": "Jahre"
+      },
+      "summary": {
+        "single": {
+          "weekdays": "Jeden Werktag",
+          "day": "Jeden Tag",
+          "week": "Jede Woche",
+          "month": "Jeden Monat",
+          "year": "Jedes Jahr"
+        },
+        "multiple": {
+          "day_other": "Alle {{count}} Tage",
+          "week_other": "Alle {{count}} Wochen",
+          "month_other": "Alle {{count}} Monate",
+          "year_other": "Alle {{count}} Jahre"
+        }
+      }
     },
     "search": {
       "waitingForGps": "Warte auf GPS…",
@@ -130,7 +181,29 @@
       "droppedPin": "Gesetzte Nadel"
     },
     "card": {
-      "goalComplete": "Ziel erreicht"
+      "goalComplete": "Ziel erreicht",
+      "done": "Erledigt",
+      "missed": "Verpasst",
+      "planned": "Geplant",
+      "repeats": "Wiederholt sich",
+      "editHint": "Tippen zum Bearbeiten, lange drücken zum Entfernen"
+    },
+    "status": {
+      "today": "Live",
+      "past": "Vergangen",
+      "future": "Geplant",
+      "done": "{{done}}/{{total}} erledigt",
+      "goals_one": "{{count}} Ziel",
+      "goals_other": "{{count}} Ziele",
+      "empty": "Keine Ziele"
+    },
+    "calendar": {
+      "previous": "Zurück",
+      "next": "Weiter",
+      "showMonth": "Ganzen Monat anzeigen",
+      "showWeek": "Eine Woche anzeigen",
+      "dayGoals_one": "{{date}}, {{count}} Ziel",
+      "dayGoals_other": "{{date}}, {{count}} Ziele"
     }
   },
   "profile": {

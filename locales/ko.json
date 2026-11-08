@@ -65,7 +65,7 @@
       "destination": "목적지",
       "destinationDescription": "아무 곳이나 길게 눌러 이 마커를 이동하세요",
       "goalComplete": "목표 완료",
-      "goalCompleteWithCategory": "{{category}} · 목표 완료"
+      "goalCompleteWithTitle": "{{title}} · 목표 완료"
     },
     "study": {
       "promptTitle": "여기서 작업을 시작할까요?",
@@ -86,36 +86,87 @@
   "schedule": {
     "remove": {
       "title": "목표를 삭제할까요?",
-      "message": "\"{{title}}\"이(가) 오늘 일정에서 삭제됩니다.",
+      "message": "\"{{title}}\"이(가) 삭제됩니다.",
       "confirm": "삭제",
-      "hint": "길게 눌러 삭제"
+      "hint": "길게 눌러 삭제",
+      "repeatMessage": "\"{{title}}\"은(는) 반복되는 목표입니다. 이번 것만 삭제할까요, 아니면 이후의 것도 모두 삭제할까요?",
+      "thisOnly": "이 목표만",
+      "thisAndFuture": "이 목표와 이후 목표"
     },
-    "title": "오늘의 일정.",
+    "title": "일정",
+    "backToToday": "오늘로 돌아가기",
     "liveMap": "실시간 지도",
     "empty": {
-      "title": "아직 목표가 없습니다",
-      "description": "+ 버튼을 눌러 장소를 추가하세요. 실시간 지도에서 그곳까지 걸어가면 목표가 완료됩니다. 목표는 오늘 하루만 유지됩니다."
+      "todayTitle": "아직 목표가 없습니다",
+      "todayDescription": "+ 버튼을 눌러 장소를 추가하세요. 실시간 지도에서 그곳까지 걸어가면 목표가 완료됩니다.",
+      "pastTitle": "일정 없음",
+      "pastDescription": "이 날에는 설정된 목표가 없었습니다.",
+      "futureTitle": "아직 계획이 없습니다",
+      "futureDescription": "+ 버튼을 눌러 이 날의 목표를 계획하세요. 그날이 시작되면 XP와 체력에 반영됩니다."
     },
     "addModal": {
       "title": "새 목표",
+      "editTitle": "목표 수정",
       "type": "유형",
       "types": {
         "academic": "업무",
         "meal": "식사",
         "social": "사교"
       },
+      "date": "날짜",
       "time": "시간",
-      "timePlaceholder": "탭하여 시간 선택",
-      "category": "카테고리",
-      "categoryPlaceholder": "예: 업무, 동아리",
+      "timePlaceholder": "선택",
       "titleLabel": "제목",
       "titlePlaceholder": "제목 추가",
+      "note": "메모",
+      "notePlaceholder": "세부 내용 추가",
       "location": "위치",
       "locationSearchHint": "2자 이상 입력하면 전 세계를 검색할 수 있습니다.",
       "tooCloseWarning": "이 장소는 지금 있는 곳과 너무 가까워서 XP를 받을 수 없어요. 걸어서 갈 곳을 골라 보세요.",
       "pickOnMap": "지도에서 선택",
+      "repeat": "반복",
       "addButton": "일정에 추가",
-      "defaultCategory": "이벤트"
+      "saveButton": "변경 사항 저장"
+    },
+    "repeat": {
+      "presets": {
+        "never": "안 함",
+        "daily": "매일",
+        "weekdays": "평일",
+        "weekly": "매주",
+        "monthly": "매월",
+        "custom": "사용자 지정"
+      },
+      "every": "간격",
+      "fewer": "줄이기",
+      "more": "늘리기",
+      "unitShort": {
+        "day": "일",
+        "week": "주",
+        "month": "월",
+        "year": "년"
+      },
+      "unitName": {
+        "day": "일",
+        "week": "주",
+        "month": "월",
+        "year": "년"
+      },
+      "summary": {
+        "single": {
+          "weekdays": "평일마다",
+          "day": "매일",
+          "week": "매주",
+          "month": "매월",
+          "year": "매년"
+        },
+        "multiple": {
+          "day_other": "{{count}}일마다",
+          "week_other": "{{count}}주마다",
+          "month_other": "{{count}}개월마다",
+          "year_other": "{{count}}년마다"
+        }
+      }
     },
     "search": {
       "waitingForGps": "GPS 대기 중…",
@@ -130,7 +181,27 @@
       "droppedPin": "놓은 핀"
     },
     "card": {
-      "goalComplete": "목표 완료"
+      "goalComplete": "목표 완료",
+      "done": "완료",
+      "missed": "놓침",
+      "planned": "예정",
+      "repeats": "반복",
+      "editHint": "탭하여 수정, 길게 눌러 삭제"
+    },
+    "status": {
+      "today": "실시간",
+      "past": "지난 날",
+      "future": "예정",
+      "done": "{{done}}/{{total}} 완료",
+      "goals_other": "목표 {{count}}개",
+      "empty": "목표 없음"
+    },
+    "calendar": {
+      "previous": "이전",
+      "next": "다음",
+      "showMonth": "한 달 전체 보기",
+      "showWeek": "한 주 보기",
+      "dayGoals_other": "{{date}}, 목표 {{count}}개"
     }
   },
   "profile": {

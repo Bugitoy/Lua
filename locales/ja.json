@@ -65,7 +65,7 @@
       "destination": "目的地",
       "destinationDescription": "どこでも長押ししてこのマーカーを移動",
       "goalComplete": "目標達成",
-      "goalCompleteWithCategory": "{{category}} · 目標達成"
+      "goalCompleteWithTitle": "{{title}} · 目標達成"
     },
     "study": {
       "promptTitle": "ここで作業を始めますか？",
@@ -86,36 +86,87 @@
   "schedule": {
     "remove": {
       "title": "目標を削除しますか？",
-      "message": "「{{title}}」を今日の予定から削除します。",
+      "message": "「{{title}}」を削除します。",
       "confirm": "削除",
-      "hint": "長押しで削除"
+      "hint": "長押しで削除",
+      "repeatMessage": "「{{title}}」は繰り返しの目標です。この回だけ削除しますか？それとも今後の分もすべて削除しますか？",
+      "thisOnly": "この目標のみ",
+      "thisAndFuture": "この目標と今後の目標"
     },
-    "title": "今日のスケジュール。",
+    "title": "スケジュール",
+    "backToToday": "今日に戻る",
     "liveMap": "ライブマップ",
     "empty": {
-      "title": "目標がまだありません",
-      "description": "+ ボタンをタップして場所を追加。ライブマップでそこまで歩くと目標が達成されます。目標はその日限りです。"
+      "todayTitle": "目標がまだありません",
+      "todayDescription": "+ ボタンをタップして場所を追加。ライブマップでそこまで歩くと目標が達成されます。",
+      "pastTitle": "予定なし",
+      "pastDescription": "この日の目標は設定されていませんでした。",
+      "futureTitle": "まだ予定がありません",
+      "futureDescription": "+ ボタンをタップして、この日の目標を計画しましょう。その日になると XP と体力に反映されます。"
     },
     "addModal": {
       "title": "新しい目標",
+      "editTitle": "目標を編集",
       "type": "種類",
       "types": {
         "academic": "仕事",
         "meal": "食事",
         "social": "社交"
       },
+      "date": "日付",
       "time": "時間",
-      "timePlaceholder": "タップして時間を選択",
-      "category": "カテゴリ",
-      "categoryPlaceholder": "例：仕事、クラブ",
+      "timePlaceholder": "選択",
       "titleLabel": "タイトル",
       "titlePlaceholder": "タイトルを追加",
+      "note": "メモ",
+      "notePlaceholder": "詳細を追加",
       "location": "場所",
       "locationSearchHint": "2 文字以上入力すると世界中を検索できます。",
       "tooCloseWarning": "この場所は今いる場所のすぐ近くなので、XPはもらえません。歩いて行ける別の場所を選びましょう。",
       "pickOnMap": "地図で選ぶ",
+      "repeat": "繰り返し",
       "addButton": "スケジュールに追加",
-      "defaultCategory": "イベント"
+      "saveButton": "変更を保存"
+    },
+    "repeat": {
+      "presets": {
+        "never": "なし",
+        "daily": "毎日",
+        "weekdays": "平日",
+        "weekly": "毎週",
+        "monthly": "毎月",
+        "custom": "カスタム"
+      },
+      "every": "間隔",
+      "fewer": "減らす",
+      "more": "増やす",
+      "unitShort": {
+        "day": "日",
+        "week": "週",
+        "month": "月",
+        "year": "年"
+      },
+      "unitName": {
+        "day": "日",
+        "week": "週",
+        "month": "月",
+        "year": "年"
+      },
+      "summary": {
+        "single": {
+          "weekdays": "平日（月〜金）",
+          "day": "毎日",
+          "week": "毎週",
+          "month": "毎月",
+          "year": "毎年"
+        },
+        "multiple": {
+          "day_other": "{{count}} 日ごと",
+          "week_other": "{{count}} 週間ごと",
+          "month_other": "{{count}} か月ごと",
+          "year_other": "{{count}} 年ごと"
+        }
+      }
     },
     "search": {
       "waitingForGps": "GPS を待機中…",
@@ -130,7 +181,27 @@
       "droppedPin": "ドロップしたピン"
     },
     "card": {
-      "goalComplete": "目標達成"
+      "goalComplete": "目標達成",
+      "done": "達成",
+      "missed": "未達成",
+      "planned": "予定",
+      "repeats": "繰り返し",
+      "editHint": "タップで編集、長押しで削除"
+    },
+    "status": {
+      "today": "ライブ",
+      "past": "過去",
+      "future": "予定",
+      "done": "{{done}}/{{total}} 達成",
+      "goals_other": "目標 {{count}} 件",
+      "empty": "目標なし"
+    },
+    "calendar": {
+      "previous": "前へ",
+      "next": "次へ",
+      "showMonth": "月全体を表示",
+      "showWeek": "1週間を表示",
+      "dayGoals_other": "{{date}}、目標 {{count}} 件"
     }
   },
   "profile": {

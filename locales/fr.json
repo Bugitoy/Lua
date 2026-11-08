@@ -65,7 +65,7 @@
       "destination": "Destination",
       "destinationDescription": "Appuyez longuement n'importe où pour déplacer ce marqueur",
       "goalComplete": "Objectif accompli",
-      "goalCompleteWithCategory": "{{category}} · Objectif accompli"
+      "goalCompleteWithTitle": "{{title}} · Objectif accompli"
     },
     "study": {
       "promptTitle": "Commencer à travailler ici ?",
@@ -86,36 +86,87 @@
   "schedule": {
     "remove": {
       "title": "Retirer l'objectif ?",
-      "message": "« {{title}} » sera retiré d'aujourd'hui.",
+      "message": "« {{title}} » sera retiré.",
       "confirm": "Retirer",
-      "hint": "Appui long pour retirer"
+      "hint": "Appui long pour retirer",
+      "repeatMessage": "« {{title}} » se répète. Retirer seulement celui-ci, ou celui-ci et tous les suivants ?",
+      "thisOnly": "Cet objectif seulement",
+      "thisAndFuture": "Celui-ci et les suivants"
     },
-    "title": "Planning du jour.",
+    "title": "Planning",
+    "backToToday": "Revenir à aujourd'hui",
     "liveMap": "Carte en direct",
     "empty": {
-      "title": "Aucun objectif pour l'instant",
-      "description": "Appuyez sur le bouton + pour ajouter un lieu. Marcher jusqu'à celui-ci sur la carte en direct accomplit l'objectif. Les objectifs ne durent qu'aujourd'hui."
+      "todayTitle": "Aucun objectif pour l'instant",
+      "todayDescription": "Appuyez sur le bouton + pour ajouter un lieu. Marcher jusqu'à celui-ci sur la carte en direct accomplit l'objectif.",
+      "pastTitle": "Rien de prévu",
+      "pastDescription": "Aucun objectif n'a été fixé pour ce jour.",
+      "futureTitle": "Rien de prévu pour l'instant",
+      "futureDescription": "Appuyez sur le bouton + pour prévoir un objectif ce jour-là. Il compte pour l'XP et la santé dès que la journée commence."
     },
     "addModal": {
       "title": "Nouvel objectif",
+      "editTitle": "Modifier l'objectif",
       "type": "Type",
       "types": {
         "academic": "Travail",
         "meal": "Repas",
         "social": "Social"
       },
+      "date": "Date",
       "time": "Heure",
-      "timePlaceholder": "Appuyez pour choisir une heure",
-      "category": "Catégorie",
-      "categoryPlaceholder": "ex. Travail, Club",
+      "timePlaceholder": "Choisir",
       "titleLabel": "Titre",
       "titlePlaceholder": "Ajouter un titre",
+      "note": "Note",
+      "notePlaceholder": "Ajoutez un détail",
       "location": "Lieu",
       "locationSearchHint": "Saisissez au moins 2 caractères pour rechercher partout.",
       "tooCloseWarning": "Ce lieu est juste là où vous êtes, il ne rapportera donc pas d'XP. Choisissez un endroit où vous irez à pied.",
       "pickOnMap": "Choisir sur la carte",
+      "repeat": "Répéter",
       "addButton": "Ajouter au planning",
-      "defaultCategory": "Événement"
+      "saveButton": "Enregistrer"
+    },
+    "repeat": {
+      "presets": {
+        "never": "Jamais",
+        "daily": "Chaque jour",
+        "weekdays": "En semaine",
+        "weekly": "Chaque semaine",
+        "monthly": "Chaque mois",
+        "custom": "Personnalisé"
+      },
+      "every": "Tous les",
+      "fewer": "Moins",
+      "more": "Plus",
+      "unitShort": {
+        "day": "J",
+        "week": "S",
+        "month": "M",
+        "year": "A"
+      },
+      "unitName": {
+        "day": "Jours",
+        "week": "Semaines",
+        "month": "Mois",
+        "year": "Ans"
+      },
+      "summary": {
+        "single": {
+          "weekdays": "Chaque jour de semaine",
+          "day": "Chaque jour",
+          "week": "Chaque semaine",
+          "month": "Chaque mois",
+          "year": "Chaque année"
+        },
+        "multiple": {
+          "day_other": "Tous les {{count}} jours",
+          "week_other": "Toutes les {{count}} semaines",
+          "month_other": "Tous les {{count}} mois",
+          "year_other": "Tous les {{count}} ans"
+        }
+      }
     },
     "search": {
       "waitingForGps": "En attente du GPS…",
@@ -130,7 +181,29 @@
       "droppedPin": "Épingle placée"
     },
     "card": {
-      "goalComplete": "Objectif accompli"
+      "goalComplete": "Objectif accompli",
+      "done": "Accompli",
+      "missed": "Manqué",
+      "planned": "Prévu",
+      "repeats": "Se répète",
+      "editHint": "Appuyez pour modifier, appui long pour retirer"
+    },
+    "status": {
+      "today": "En direct",
+      "past": "Passé",
+      "future": "Prévu",
+      "done": "{{done}}/{{total}} accomplis",
+      "goals_one": "{{count}} objectif",
+      "goals_other": "{{count}} objectifs",
+      "empty": "Aucun objectif"
+    },
+    "calendar": {
+      "previous": "Précédent",
+      "next": "Suivant",
+      "showMonth": "Afficher tout le mois",
+      "showWeek": "Afficher une semaine",
+      "dayGoals_one": "{{date}}, {{count}} objectif",
+      "dayGoals_other": "{{date}}, {{count}} objectifs"
     }
   },
   "profile": {

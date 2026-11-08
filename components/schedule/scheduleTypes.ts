@@ -8,9 +8,13 @@ export type ScheduleThemeKey = "academic" | "meal" | "social";
 export type ScheduleItemData = {
   id: string;
   themeKey: ScheduleThemeKey;
+  /** Display time, e.g. "3:39 PM", or an em dash when none was chosen. */
   time: string;
-  category: string;
+  /** Minutes after midnight for `time`; missing on goals saved before it existed. */
+  minutes?: number | null;
   title: string;
+  /** Optional detail, shown under the card's header. */
+  note?: string;
   /** Display label for the place, shown on the gradient header. */
   location: string;
   /** Coordinates used for the map marker and arrival detection. */
@@ -21,7 +25,12 @@ export type ScheduleItemData = {
   icon: ScheduleIconName;
   gradientColors: [string, string];
   glowColor: string;
+  /** The repeating plan (in `goalPlans`) this goal is one day of. */
+  seriesId?: string;
 };
+
+/** Everything a goal holds apart from where it lives: what the New goal sheet fills in. */
+export type GoalFields = Omit<ScheduleItemData, "id" | "seriesId">;
 
 export const SCHEDULE_THEME_PRESETS: Record<
   ScheduleThemeKey,

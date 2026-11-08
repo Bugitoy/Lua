@@ -354,10 +354,10 @@ function GeoMapViewImpl({
             title={item.label}
             description={
               item.completed
-                ? t("map.markers.goalCompleteWithCategory", {
-                    category: item.category,
+                ? t("map.markers.goalCompleteWithTitle", {
+                    title: item.title,
                   })
-                : item.category
+                : item.title
             }
             pinColor={item.completed ? LUA_GREEN : GOAL_PENDING_PIN}
             zIndex={100}

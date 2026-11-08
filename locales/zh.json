@@ -65,7 +65,7 @@
       "destination": "目的地",
       "destinationDescription": "长按任意位置以移动此标记",
       "goalComplete": "目标已完成",
-      "goalCompleteWithCategory": "{{category}} · 目标已完成"
+      "goalCompleteWithTitle": "{{title}} · 目标已完成"
     },
     "study": {
       "promptTitle": "在这里开始工作吗？",
@@ -86,36 +86,87 @@
   "schedule": {
     "remove": {
       "title": "删除目标？",
-      "message": "“{{title}}”将从今天的日程中删除。",
+      "message": "“{{title}}”将被删除。",
       "confirm": "删除",
-      "hint": "长按删除"
+      "hint": "长按删除",
+      "repeatMessage": "“{{title}}”是重复目标。只删除这一次，还是删除这一次及之后的所有目标？",
+      "thisOnly": "仅此目标",
+      "thisAndFuture": "此目标及之后的目标"
     },
-    "title": "今日日程。",
+    "title": "日程",
+    "backToToday": "回到今天",
     "liveMap": "实时地图",
     "empty": {
-      "title": "暂无目标",
-      "description": "点击 + 按钮添加地点。在实时地图上步行到达该地点即可完成目标。目标只在当天有效。"
+      "todayTitle": "暂无目标",
+      "todayDescription": "点击 + 按钮添加地点。在实时地图上步行到达该地点即可完成目标。",
+      "pastTitle": "没有安排",
+      "pastDescription": "这一天没有设定目标。",
+      "futureTitle": "暂无计划",
+      "futureDescription": "点击 + 按钮为这一天计划目标。当天开始后才会计入 XP 和健康值。"
     },
     "addModal": {
       "title": "新建目标",
+      "editTitle": "编辑目标",
       "type": "类型",
       "types": {
         "academic": "工作",
         "meal": "用餐",
         "social": "社交"
       },
+      "date": "日期",
       "time": "时间",
-      "timePlaceholder": "点击选择时间",
-      "category": "类别",
-      "categoryPlaceholder": "例如：工作、社团",
+      "timePlaceholder": "选择",
       "titleLabel": "标题",
       "titlePlaceholder": "添加标题",
+      "note": "备注",
+      "notePlaceholder": "添加一些细节",
       "location": "位置",
       "locationSearchHint": "输入至少 2 个字符即可搜索全球地点。",
       "tooCloseWarning": "这个地点就在你现在的位置，所以不会获得 XP。选一个需要步行前往的地方吧。",
       "pickOnMap": "在地图上选择",
+      "repeat": "重复",
       "addButton": "添加到日程",
-      "defaultCategory": "活动"
+      "saveButton": "保存更改"
+    },
+    "repeat": {
+      "presets": {
+        "never": "不重复",
+        "daily": "每天",
+        "weekdays": "工作日",
+        "weekly": "每周",
+        "monthly": "每月",
+        "custom": "自定义"
+      },
+      "every": "每",
+      "fewer": "减少",
+      "more": "增加",
+      "unitShort": {
+        "day": "天",
+        "week": "周",
+        "month": "月",
+        "year": "年"
+      },
+      "unitName": {
+        "day": "天",
+        "week": "周",
+        "month": "月",
+        "year": "年"
+      },
+      "summary": {
+        "single": {
+          "weekdays": "每个工作日",
+          "day": "每天",
+          "week": "每周",
+          "month": "每月",
+          "year": "每年"
+        },
+        "multiple": {
+          "day_other": "每 {{count}} 天",
+          "week_other": "每 {{count}} 周",
+          "month_other": "每 {{count}} 个月",
+          "year_other": "每 {{count}} 年"
+        }
+      }
     },
     "search": {
       "waitingForGps": "正在等待 GPS…",
@@ -130,7 +181,27 @@
       "droppedPin": "已放置的图钉"
     },
     "card": {
-      "goalComplete": "目标已完成"
+      "goalComplete": "目标已完成",
+      "done": "已完成",
+      "missed": "已错过",
+      "planned": "已计划",
+      "repeats": "重复",
+      "editHint": "点按编辑，长按删除"
+    },
+    "status": {
+      "today": "实时",
+      "past": "已过去",
+      "future": "已计划",
+      "done": "已完成 {{done}}/{{total}}",
+      "goals_other": "{{count}} 个目标",
+      "empty": "没有目标"
+    },
+    "calendar": {
+      "previous": "上一页",
+      "next": "下一页",
+      "showMonth": "显示整月",
+      "showWeek": "显示一周",
+      "dayGoals_other": "{{date}}，{{count}} 个目标"
     }
   },
   "profile": {

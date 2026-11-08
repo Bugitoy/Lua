@@ -10,13 +10,14 @@ import {
   type GoalRecord,
 } from "@/lib/dayHistory";
 import { getGameStats, subscribeGameStats, updateGameStats } from "@/lib/gameStats";
+import { missedGoalRecord, plansOn, startGoalPlans, takePlansForDay } from "@/lib/goalPlans";
 import { restoreDistanceMiles } from "@/lib/odometerRecorder";
 import {
   clearSchedule,
   getScheduleDay,
   getScheduledItems,
   startSchedule,
-  type ScheduledItem,
+  toGoalRecord,
 } from "@/lib/scheduleStore";
 import {
   beginStepDay,
@@ -30,9 +31,10 @@ import { beginXpDay, startXpLedger, xpEarnedOn } from "@/lib/xpLedger";
 /**
  * Owns the calendar day. Saves Lua's health and today's progress on the
  * phone. When a day ends it grades it (steps + goals) to heal or hurt Lua,
- * saves the day's record for the Stats calendar, and clears the goals,
- * which last one day. Days that passed while Lua was closed are handled on
- * the next launch.
+ * saves the day's record for the Stats calendar, and starts the next day
+ * with the goals planned for it (goals last one day). Days that passed
+ * while Lua was closed are handled on the next launch; goals planned for
+ * them count as missed.
  */
 
 const STORAGE_KEY = "dailyProgress";
@@ -88,18 +90,6 @@ function sanitize(raw: unknown): SavedDay | null {
     hoursStudied: num(r.hoursStudied),
     distanceMiles: num(r.distanceMiles),
     dayStartHours: num(r.dayStartHours),
-  };
-}
-
-function toGoalRecord(item: ScheduledItem): GoalRecord {
-  return {
-    id: item.id,
-    title: item.title,
-    location: item.location,
-    time: item.time,
-    themeKey: item.themeKey,
-    completed: item.completed,
-    completedAtMs: item.completedAtMs,
   };
 }
 
@@ -176,8 +166,11 @@ async function closeDays(
 
   for (const skipped of daysBetween(lastDay, today)) {
     const steps = (await stepsOnDay(skipped)) ?? 0;
+    // Lua wasn't open that day, so nothing planned for it was reached.
+    const goals = plansOn(skipped).map((plan) => missedGoalRecord(plan, skipped));
+    const missed: DayResult = { stepsToday: steps, goalsDone: 0, goalsTotal: goals.length };
     const before = next;
-    next = healthAfterDay(next, { stepsToday: steps, goalsDone: 0, goalsTotal: 0 });
+    next = healthAfterDay(next, missed);
     recordDay({
       day: skipped,
       steps,
@@ -186,8 +179,8 @@ async function closeDays(
       xpEarned: 0,
       healthBefore: before,
       healthAfter: next,
-      fullDay: steps >= DAILY_STEP_GOAL,
-      goals: [],
+      fullDay: dayScore(missed) >= 1,
+      goals,
     });
   }
   return next;
@@ -227,6 +220,7 @@ export function startDailyProgress(): Promise<void> {
         AsyncStorage.getItem(STORAGE_KEY),
         startXpLedger(),
         startSchedule(),
+        startGoalPlans(),
         startDayHistory(),
       ]);
       if (raw) saved = sanitize(JSON.parse(raw));
@@ -272,7 +266,7 @@ export function startDailyProgress(): Promise<void> {
     }
 
     // Goals last one day; a schedule left over from an earlier day was just recorded.
-    if (getScheduleDay() < today) clearSchedule(today);
+    if (getScheduleDay() < today) clearSchedule(today, takePlansForDay(today));
     await backfillSteps(today);
 
     currentDay = today;
@@ -314,7 +308,7 @@ export async function checkDayRollover(): Promise<void> {
     // Steps go back to 0 before the XP day resets, so yesterday's steps aren't paid twice.
     beginStepDay(today);
     beginXpDay(today);
-    clearSchedule(today);
+    clearSchedule(today, takePlansForDay(today));
     updateGameStats({ healthRatio });
     syncStreak();
     saveDailyProgress();

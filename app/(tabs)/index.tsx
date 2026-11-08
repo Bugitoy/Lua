@@ -133,10 +133,7 @@ export default function MapScreen() {
         { latitude: item.latitude, longitude: item.longitude },
       );
 
-      const isAcademicGoal =
-        item.themeKey === "academic" ||
-        (item.themeKey == null &&
-          /academic|study|class|lecture/i.test(item.category));
+      const isAcademicGoal = item.themeKey === "academic";
       if (isAcademicGoal && d <= GOAL_ARRIVAL_RADIUS_METERS && d < nearestAcademicDist) {
         nearestAcademic = item;
         nearestAcademicDist = d;

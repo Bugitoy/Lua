@@ -65,7 +65,7 @@
       "destination": "Destinazione",
       "destinationDescription": "Tieni premuto ovunque per spostare questo marcatore",
       "goalComplete": "Obiettivo completato",
-      "goalCompleteWithCategory": "{{category}} · Obiettivo completato"
+      "goalCompleteWithTitle": "{{title}} · Obiettivo completato"
     },
     "study": {
       "promptTitle": "Iniziare a lavorare qui?",
@@ -86,36 +86,87 @@
   "schedule": {
     "remove": {
       "title": "Rimuovere l'obiettivo?",
-      "message": "\"{{title}}\" verrà rimosso da oggi.",
+      "message": "\"{{title}}\" verrà rimosso.",
       "confirm": "Rimuovi",
-      "hint": "Tieni premuto per rimuovere"
+      "hint": "Tieni premuto per rimuovere",
+      "repeatMessage": "\"{{title}}\" si ripete. Rimuovere solo questo o questo e tutti i successivi?",
+      "thisOnly": "Solo questo obiettivo",
+      "thisAndFuture": "Questo e i successivi"
     },
-    "title": "Programma di oggi.",
+    "title": "Programma",
+    "backToToday": "Torna a oggi",
     "liveMap": "Mappa live",
     "empty": {
-      "title": "Nessun obiettivo ancora",
-      "description": "Tocca il pulsante + per aggiungere un luogo. Raggiungerlo camminando sulla mappa live completa l'obiettivo. Gli obiettivi valgono solo per oggi."
+      "todayTitle": "Nessun obiettivo ancora",
+      "todayDescription": "Tocca il pulsante + per aggiungere un luogo. Raggiungerlo camminando sulla mappa live completa l'obiettivo.",
+      "pastTitle": "Niente in programma",
+      "pastDescription": "Nessun obiettivo è stato fissato per questo giorno.",
+      "futureTitle": "Ancora niente in programma",
+      "futureDescription": "Tocca il pulsante + per programmare un obiettivo per questo giorno. Conta per XP e salute quando inizia il giorno."
     },
     "addModal": {
       "title": "Nuovo obiettivo",
+      "editTitle": "Modifica obiettivo",
       "type": "Tipo",
       "types": {
         "academic": "Lavoro",
         "meal": "Pasto",
         "social": "Sociale"
       },
+      "date": "Data",
       "time": "Orario",
-      "timePlaceholder": "Tocca per scegliere un orario",
-      "category": "Categoria",
-      "categoryPlaceholder": "es. Lavoro, Club",
+      "timePlaceholder": "Scegli",
       "titleLabel": "Titolo",
       "titlePlaceholder": "Aggiungi un titolo",
+      "note": "Nota",
+      "notePlaceholder": "Aggiungi qualche dettaglio",
       "location": "Posizione",
       "locationSearchHint": "Digita almeno 2 caratteri per cercare ovunque.",
       "tooCloseWarning": "Questo luogo è proprio dove ti trovi, quindi non darà XP. Scegli un posto che raggiungerai a piedi.",
       "pickOnMap": "Scegli sulla mappa",
+      "repeat": "Ripeti",
       "addButton": "Aggiungi al programma",
-      "defaultCategory": "Evento"
+      "saveButton": "Salva modifiche"
+    },
+    "repeat": {
+      "presets": {
+        "never": "Mai",
+        "daily": "Ogni giorno",
+        "weekdays": "Feriali",
+        "weekly": "Ogni settimana",
+        "monthly": "Ogni mese",
+        "custom": "Personalizzata"
+      },
+      "every": "Ogni",
+      "fewer": "Meno",
+      "more": "Più",
+      "unitShort": {
+        "day": "G",
+        "week": "S",
+        "month": "M",
+        "year": "A"
+      },
+      "unitName": {
+        "day": "Giorni",
+        "week": "Settimane",
+        "month": "Mesi",
+        "year": "Anni"
+      },
+      "summary": {
+        "single": {
+          "weekdays": "Ogni giorno feriale",
+          "day": "Ogni giorno",
+          "week": "Ogni settimana",
+          "month": "Ogni mese",
+          "year": "Ogni anno"
+        },
+        "multiple": {
+          "day_other": "Ogni {{count}} giorni",
+          "week_other": "Ogni {{count}} settimane",
+          "month_other": "Ogni {{count}} mesi",
+          "year_other": "Ogni {{count}} anni"
+        }
+      }
     },
     "search": {
       "waitingForGps": "In attesa del GPS…",
@@ -130,7 +181,29 @@
       "droppedPin": "Segnaposto"
     },
     "card": {
-      "goalComplete": "Obiettivo completato"
+      "goalComplete": "Obiettivo completato",
+      "done": "Fatto",
+      "missed": "Mancato",
+      "planned": "Programmato",
+      "repeats": "Si ripete",
+      "editHint": "Tocca per modificare, tieni premuto per rimuovere"
+    },
+    "status": {
+      "today": "Live",
+      "past": "Passato",
+      "future": "Programmato",
+      "done": "{{done}}/{{total}} completati",
+      "goals_one": "{{count}} obiettivo",
+      "goals_other": "{{count}} obiettivi",
+      "empty": "Nessun obiettivo"
+    },
+    "calendar": {
+      "previous": "Precedente",
+      "next": "Successivo",
+      "showMonth": "Mostra tutto il mese",
+      "showWeek": "Mostra una settimana",
+      "dayGoals_one": "{{date}}, {{count}} obiettivo",
+      "dayGoals_other": "{{date}}, {{count}} obiettivi"
     }
   },
   "profile": {

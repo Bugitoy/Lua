@@ -65,7 +65,7 @@
       "destination": "गंतव्य",
       "destinationDescription": "इस मार्कर को हटाने के लिए कहीं भी देर तक दबाएँ",
       "goalComplete": "लक्ष्य पूर्ण",
-      "goalCompleteWithCategory": "{{category}} · लक्ष्य पूर्ण"
+      "goalCompleteWithTitle": "{{title}} · लक्ष्य पूर्ण"
     },
     "study": {
       "promptTitle": "यहाँ काम शुरू करें?",
@@ -86,36 +86,87 @@
   "schedule": {
     "remove": {
       "title": "लक्ष्य हटाएँ?",
-      "message": "\"{{title}}\" आज से हटा दिया जाएगा।",
+      "message": "\"{{title}}\" हटा दिया जाएगा।",
       "confirm": "हटाएँ",
-      "hint": "हटाने के लिए देर तक दबाएँ"
+      "hint": "हटाने के लिए देर तक दबाएँ",
+      "repeatMessage": "\"{{title}}\" दोहराया जाता है। सिर्फ़ इसे हटाएँ, या इसे और इसके बाद वाले सभी को?",
+      "thisOnly": "सिर्फ़ यह लक्ष्य",
+      "thisAndFuture": "यह और आगे के लक्ष्य"
     },
-    "title": "आज का कार्यक्रम।",
+    "title": "कार्यक्रम",
+    "backToToday": "आज पर वापस जाएँ",
     "liveMap": "लाइव मानचित्र",
     "empty": {
-      "title": "अभी कोई लक्ष्य नहीं",
-      "description": "स्थान जोड़ने के लिए + बटन दबाएँ। लाइव मानचित्र पर वहाँ तक पहुँचने पर लक्ष्य पूरा हो जाता है। लक्ष्य सिर्फ़ आज के लिए होते हैं।"
+      "todayTitle": "अभी कोई लक्ष्य नहीं",
+      "todayDescription": "स्थान जोड़ने के लिए + बटन दबाएँ। लाइव मानचित्र पर वहाँ तक पहुँचने पर लक्ष्य पूरा हो जाता है।",
+      "pastTitle": "कुछ तय नहीं था",
+      "pastDescription": "इस दिन के लिए कोई लक्ष्य तय नहीं किया गया था।",
+      "futureTitle": "अभी कोई योजना नहीं",
+      "futureDescription": "इस दिन के लिए लक्ष्य की योजना बनाने को + बटन दबाएँ। दिन शुरू होते ही यह XP और सेहत में गिना जाएगा।"
     },
     "addModal": {
       "title": "नया लक्ष्य",
+      "editTitle": "लक्ष्य बदलें",
       "type": "प्रकार",
       "types": {
         "academic": "काम",
         "meal": "भोजन",
         "social": "सामाजिक"
       },
+      "date": "तारीख",
       "time": "समय",
-      "timePlaceholder": "समय चुनने के लिए टैप करें",
-      "category": "श्रेणी",
-      "categoryPlaceholder": "जैसे: काम, क्लब",
+      "timePlaceholder": "चुनें",
       "titleLabel": "शीर्षक",
       "titlePlaceholder": "शीर्षक जोड़ें",
+      "note": "नोट",
+      "notePlaceholder": "कुछ विवरण जोड़ें",
       "location": "स्थान",
       "locationSearchHint": "कहीं भी खोजने के लिए कम से कम 2 अक्षर लिखें।",
       "tooCloseWarning": "यह जगह ठीक वहीं है जहाँ आप हैं, इसलिए इससे XP नहीं मिलेगा। कोई ऐसी जगह चुनें जहाँ आप पैदल जाएँगे।",
       "pickOnMap": "मानचित्र पर चुनें",
+      "repeat": "दोहराएँ",
       "addButton": "कार्यक्रम में जोड़ें",
-      "defaultCategory": "कार्यक्रम"
+      "saveButton": "बदलाव सहेजें"
+    },
+    "repeat": {
+      "presets": {
+        "never": "कभी नहीं",
+        "daily": "रोज़",
+        "weekdays": "कार्यदिवस",
+        "weekly": "हर सप्ताह",
+        "monthly": "हर महीने",
+        "custom": "कस्टम"
+      },
+      "every": "हर",
+      "fewer": "कम",
+      "more": "ज़्यादा",
+      "unitShort": {
+        "day": "दि",
+        "week": "स",
+        "month": "म",
+        "year": "व"
+      },
+      "unitName": {
+        "day": "दिन",
+        "week": "सप्ताह",
+        "month": "महीने",
+        "year": "वर्ष"
+      },
+      "summary": {
+        "single": {
+          "weekdays": "हर कार्यदिवस",
+          "day": "हर दिन",
+          "week": "हर सप्ताह",
+          "month": "हर महीने",
+          "year": "हर साल"
+        },
+        "multiple": {
+          "day_other": "हर {{count}} दिन",
+          "week_other": "हर {{count}} सप्ताह",
+          "month_other": "हर {{count}} महीने",
+          "year_other": "हर {{count}} साल"
+        }
+      }
     },
     "search": {
       "waitingForGps": "GPS की प्रतीक्षा…",
@@ -130,7 +181,29 @@
       "droppedPin": "लगाया गया पिन"
     },
     "card": {
-      "goalComplete": "लक्ष्य पूर्ण"
+      "goalComplete": "लक्ष्य पूर्ण",
+      "done": "पूरा",
+      "missed": "छूटा",
+      "planned": "योजना में",
+      "repeats": "दोहराया जाता है",
+      "editHint": "बदलने के लिए टैप करें, हटाने के लिए देर तक दबाएँ"
+    },
+    "status": {
+      "today": "लाइव",
+      "past": "बीता दिन",
+      "future": "योजना",
+      "done": "{{done}}/{{total}} पूरे",
+      "goals_one": "{{count}} लक्ष्य",
+      "goals_other": "{{count}} लक्ष्य",
+      "empty": "कोई लक्ष्य नहीं"
+    },
+    "calendar": {
+      "previous": "पिछला",
+      "next": "अगला",
+      "showMonth": "पूरा महीना दिखाएँ",
+      "showWeek": "एक सप्ताह दिखाएँ",
+      "dayGoals_one": "{{date}}, {{count}} लक्ष्य",
+      "dayGoals_other": "{{date}}, {{count}} लक्ष्य"
     }
   },
   "profile": {

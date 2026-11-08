@@ -65,7 +65,7 @@
       "destination": "Destino",
       "destinationDescription": "Pressione e segure em qualquer lugar para mover este marcador",
       "goalComplete": "Meta concluída",
-      "goalCompleteWithCategory": "{{category}} · Meta concluída"
+      "goalCompleteWithTitle": "{{title}} · Meta concluída"
     },
     "study": {
       "promptTitle": "Começar a trabalhar aqui?",
@@ -86,36 +86,87 @@
   "schedule": {
     "remove": {
       "title": "Remover meta?",
-      "message": "\"{{title}}\" será removida de hoje.",
+      "message": "\"{{title}}\" será removida.",
       "confirm": "Remover",
-      "hint": "Toque e segure para remover"
+      "hint": "Toque e segure para remover",
+      "repeatMessage": "\"{{title}}\" se repete. Remover só esta ou esta e todas as seguintes?",
+      "thisOnly": "Só esta meta",
+      "thisAndFuture": "Esta e as seguintes"
     },
-    "title": "Agenda de hoje.",
+    "title": "Agenda",
+    "backToToday": "Voltar para hoje",
     "liveMap": "Mapa ao vivo",
     "empty": {
-      "title": "Ainda não há metas",
-      "description": "Toque no botão + para adicionar um lugar. Caminhar até ele no mapa ao vivo conclui a meta. As metas valem só para hoje."
+      "todayTitle": "Ainda não há metas",
+      "todayDescription": "Toque no botão + para adicionar um lugar. Caminhar até ele no mapa ao vivo conclui a meta.",
+      "pastTitle": "Nada agendado",
+      "pastDescription": "Nenhuma meta foi definida para este dia.",
+      "futureTitle": "Nada planejado ainda",
+      "futureDescription": "Toque no botão + para planejar uma meta para este dia. Ela conta para o XP e a saúde quando o dia começar."
     },
     "addModal": {
       "title": "Nova meta",
+      "editTitle": "Editar meta",
       "type": "Tipo",
       "types": {
         "academic": "Trabalho",
         "meal": "Refeição",
         "social": "Social"
       },
+      "date": "Data",
       "time": "Horário",
-      "timePlaceholder": "Toque para escolher um horário",
-      "category": "Categoria",
-      "categoryPlaceholder": "ex.: Trabalho, Clube",
+      "timePlaceholder": "Escolher",
       "titleLabel": "Título",
       "titlePlaceholder": "Adicionar um título",
+      "note": "Nota",
+      "notePlaceholder": "Adicione algum detalhe",
       "location": "Local",
       "locationSearchHint": "Digite pelo menos 2 caracteres para buscar em qualquer lugar.",
       "tooCloseWarning": "Este lugar é exatamente onde você está, então não vai render XP. Escolha um lugar até onde você vá caminhar.",
       "pickOnMap": "Escolher no mapa",
+      "repeat": "Repetir",
       "addButton": "Adicionar à agenda",
-      "defaultCategory": "Evento"
+      "saveButton": "Salvar alterações"
+    },
+    "repeat": {
+      "presets": {
+        "never": "Nunca",
+        "daily": "Diária",
+        "weekdays": "Dias úteis",
+        "weekly": "Semanal",
+        "monthly": "Mensal",
+        "custom": "Personalizada"
+      },
+      "every": "A cada",
+      "fewer": "Menos",
+      "more": "Mais",
+      "unitShort": {
+        "day": "D",
+        "week": "S",
+        "month": "M",
+        "year": "A"
+      },
+      "unitName": {
+        "day": "Dias",
+        "week": "Semanas",
+        "month": "Meses",
+        "year": "Anos"
+      },
+      "summary": {
+        "single": {
+          "weekdays": "Todo dia útil",
+          "day": "Todo dia",
+          "week": "Toda semana",
+          "month": "Todo mês",
+          "year": "Todo ano"
+        },
+        "multiple": {
+          "day_other": "A cada {{count}} dias",
+          "week_other": "A cada {{count}} semanas",
+          "month_other": "A cada {{count}} meses",
+          "year_other": "A cada {{count}} anos"
+        }
+      }
     },
     "search": {
       "waitingForGps": "Aguardando GPS…",
@@ -130,7 +181,29 @@
       "droppedPin": "Alfinete colocado"
     },
     "card": {
-      "goalComplete": "Meta concluída"
+      "goalComplete": "Meta concluída",
+      "done": "Concluída",
+      "missed": "Perdida",
+      "planned": "Planejada",
+      "repeats": "Repete",
+      "editHint": "Toque para editar, toque e segure para remover"
+    },
+    "status": {
+      "today": "Ao vivo",
+      "past": "Passado",
+      "future": "Planejado",
+      "done": "{{done}}/{{total}} concluídas",
+      "goals_one": "{{count}} meta",
+      "goals_other": "{{count}} metas",
+      "empty": "Sem metas"
+    },
+    "calendar": {
+      "previous": "Anterior",
+      "next": "Próximo",
+      "showMonth": "Mostrar o mês inteiro",
+      "showWeek": "Mostrar uma semana",
+      "dayGoals_one": "{{date}}, {{count}} meta",
+      "dayGoals_other": "{{date}}, {{count}} metas"
     }
   },
   "profile": {

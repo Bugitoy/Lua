@@ -65,7 +65,7 @@
       "destination": "Destination",
       "destinationDescription": "Long press anywhere to move this marker",
       "goalComplete": "Goal complete",
-      "goalCompleteWithCategory": "{{category}} · Goal complete"
+      "goalCompleteWithTitle": "{{title}} · Goal complete"
     },
     "study": {
       "promptTitle": "Begin working here?",
@@ -86,36 +86,87 @@
   "schedule": {
     "remove": {
       "title": "Remove goal?",
-      "message": "\"{{title}}\" will be removed from today.",
+      "message": "\"{{title}}\" will be removed.",
       "confirm": "Remove",
-      "hint": "Long-press to remove"
+      "hint": "Long-press to remove",
+      "repeatMessage": "\"{{title}}\" repeats. Remove just this one, or this one and every one after it?",
+      "thisOnly": "This goal only",
+      "thisAndFuture": "This and future goals"
     },
-    "title": "Today's Schedule.",
+    "title": "Schedule",
+    "backToToday": "Back to today",
     "liveMap": "Live map",
     "empty": {
-      "title": "No goals yet",
-      "description": "Tap the + button to add a place. Walking up to it on the live map completes the goal. Goals last for today only."
+      "todayTitle": "No goals yet",
+      "todayDescription": "Tap the + button to add a place. Walking up to it on the live map completes the goal.",
+      "pastTitle": "Nothing scheduled",
+      "pastDescription": "No goals were set for this day.",
+      "futureTitle": "Nothing planned yet",
+      "futureDescription": "Tap the + button to plan a goal for this day. It counts toward XP and health once the day starts."
     },
     "addModal": {
       "title": "New goal",
+      "editTitle": "Edit goal",
       "type": "Type",
       "types": {
         "academic": "Work",
         "meal": "Meal",
         "social": "Social"
       },
+      "date": "Date",
       "time": "Time",
-      "timePlaceholder": "Tap to choose a time",
-      "category": "Category",
-      "categoryPlaceholder": "e.g. Work, Club",
+      "timePlaceholder": "Choose",
       "titleLabel": "Title",
       "titlePlaceholder": "Add a title",
+      "note": "Note",
+      "notePlaceholder": "Add some detail",
       "location": "Location",
       "locationSearchHint": "Type at least 2 characters to search anywhere.",
       "tooCloseWarning": "This place is right where you are, so it won't earn XP. Pick somewhere you'll walk to.",
       "pickOnMap": "Pick on map",
+      "repeat": "Repeat",
       "addButton": "Add to schedule",
-      "defaultCategory": "Event"
+      "saveButton": "Save changes"
+    },
+    "repeat": {
+      "presets": {
+        "never": "Never",
+        "daily": "Daily",
+        "weekdays": "Weekdays",
+        "weekly": "Weekly",
+        "monthly": "Monthly",
+        "custom": "Custom"
+      },
+      "every": "Every",
+      "fewer": "Fewer",
+      "more": "More",
+      "unitShort": {
+        "day": "D",
+        "week": "W",
+        "month": "M",
+        "year": "Y"
+      },
+      "unitName": {
+        "day": "Days",
+        "week": "Weeks",
+        "month": "Months",
+        "year": "Years"
+      },
+      "summary": {
+        "single": {
+          "weekdays": "Every weekday",
+          "day": "Every day",
+          "week": "Every week",
+          "month": "Every month",
+          "year": "Every year"
+        },
+        "multiple": {
+          "day_other": "Every {{count}} days",
+          "week_other": "Every {{count}} weeks",
+          "month_other": "Every {{count}} months",
+          "year_other": "Every {{count}} years"
+        }
+      }
     },
     "search": {
       "waitingForGps": "Waiting for GPS…",
@@ -130,7 +181,29 @@
       "droppedPin": "Dropped pin"
     },
     "card": {
-      "goalComplete": "Goal complete"
+      "goalComplete": "Goal complete",
+      "done": "Done",
+      "missed": "Missed",
+      "planned": "Planned",
+      "repeats": "Repeats",
+      "editHint": "Tap to edit, long-press to remove"
+    },
+    "status": {
+      "today": "Live",
+      "past": "Past",
+      "future": "Planned",
+      "done": "{{done}}/{{total}} done",
+      "goals_one": "{{count}} goal",
+      "goals_other": "{{count}} goals",
+      "empty": "No goals"
+    },
+    "calendar": {
+      "previous": "Previous",
+      "next": "Next",
+      "showMonth": "Show the whole month",
+      "showWeek": "Show one week",
+      "dayGoals_one": "{{date}}, {{count}} goal",
+      "dayGoals_other": "{{date}}, {{count}} goals"
     }
   },
   "profile": {

@@ -22,6 +22,9 @@ export type GoalRecord = {
   themeKey: ScheduleThemeKey;
   completed: boolean;
   completedAtMs: number | null;
+  note?: string;
+  /** One day of a repeating goal. */
+  repeating?: boolean;
 };
 
 export type DayRecord = {
@@ -85,6 +88,8 @@ function sanitize(raw: unknown): DayRecord | null {
             themeKey: (g.themeKey as ScheduleThemeKey) ?? "academic",
             completed: g.completed === true,
             completedAtMs: typeof g.completedAtMs === "number" ? g.completedAtMs : null,
+            ...(typeof g.note === "string" && g.note ? { note: g.note } : {}),
+            ...(g.repeating === true ? { repeating: true } : {}),
           }))
       : [],
     ...(r.sample === true ? { sample: true } : {}),

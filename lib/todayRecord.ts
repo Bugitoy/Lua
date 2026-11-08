@@ -4,7 +4,7 @@ import { getDayStartHealth, getDayStartHours } from "@/lib/dailyProgress";
 import { dayKey } from "@/lib/dayKey";
 import type { DayRecord } from "@/lib/dayHistory";
 import { useGameStats } from "@/lib/gameStats";
-import { useScheduledItems } from "@/lib/scheduleStore";
+import { toGoalRecord, useScheduledItems } from "@/lib/scheduleStore";
 import { getGpsMetersToday } from "@/lib/stepCounter";
 import { dayScore } from "@/lib/walkingRules";
 import { useXpEarnedToday } from "@/lib/xpLedger";
@@ -29,15 +29,7 @@ export function useTodayRecord(): DayRecord {
       healthBefore: getDayStartHealth(),
       healthAfter: null,
       fullDay: dayScore(stats) >= 1,
-      goals: goals.map((g) => ({
-        id: g.id,
-        title: g.title,
-        location: g.location,
-        time: g.time,
-        themeKey: g.themeKey,
-        completed: g.completed,
-        completedAtMs: g.completedAtMs,
-      })),
+      goals: goals.map(toGoalRecord),
     }),
     [stats, goals, xpEarned],
   );
