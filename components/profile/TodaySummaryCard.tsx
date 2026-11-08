@@ -3,7 +3,7 @@ import { Text, View } from "react-native";
 import { useTranslation } from "react-i18next";
 
 import { formatXp } from "@/components/achievements/theme";
-import { RoundedProgressRing } from "@/components/profile/RoundedProgressRing";
+import { ProgressRing } from "@/components/stats/ProgressRing";
 import { Pixelify } from "@/constants/fonts";
 import { LUA_GREEN } from "@/constants/mapAssets";
 import { formatHours } from "@/lib/formatters";
@@ -56,7 +56,7 @@ export function TodaySummaryCard({
     >
       {/* Goals ring + what's left + streak */}
       <View className="flex-row items-center gap-4 px-1">
-        <RoundedProgressRing
+        <ProgressRing
           size={72}
           thickness={7}
           progress={goalsTotal > 0 ? goalsDone / goalsTotal : 0}
@@ -69,7 +69,7 @@ export function TodaySummaryCard({
           <Text className="text-neutral-500" style={{ fontFamily: Pixelify.regular, fontSize: 9 }}>
             {t("profile.summary.goalsLabel")}
           </Text>
-        </RoundedProgressRing>
+        </ProgressRing>
 
         <View className="min-w-0 flex-1 items-start">
           <Text

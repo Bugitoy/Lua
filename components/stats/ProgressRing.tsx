@@ -1,5 +1,6 @@
-import type { ReactNode } from "react";
-import { View } from "react-native";
+import { Canvas, Circle, Path, Skia } from "@shopify/react-native-skia";
+import { useMemo, type ReactNode } from "react";
+import { StyleSheet, View } from "react-native";
 
 type ProgressRingProps = {
   size: number;
@@ -12,80 +13,35 @@ type ProgressRingProps = {
 };
 
 /**
- * A ring that fills clockwise from the top, drawn with plain views.
- *
- * Each half of the ring is clipped to its side. A circle with only its top and
- * right borders coloured is a half ring; turned 45° it covers the right side,
- * and turned further it slides round to show any part of a half.
+ * A ring that fills clockwise from the top, with soft round ends on the
+ * filled arc. Used by the Stats steps panel and the Profile today card.
  */
-export function ProgressRing({ size, thickness, progress, color, trackColor, children }: ProgressRingProps) {
+export function ProgressRing({
+  size,
+  thickness,
+  progress,
+  color,
+  trackColor,
+  children,
+}: ProgressRingProps) {
   const p = Math.max(0, Math.min(1, progress || 0));
-  const half = size / 2;
+  const center = size / 2;
+  const radius = (size - thickness) / 2;
 
-  const arc = (degrees: number) => (
-    <View
-      style={{
-        position: "absolute",
-        width: size,
-        height: size,
-        borderRadius: half,
-        borderWidth: thickness,
-        borderTopColor: color,
-        borderRightColor: color,
-        borderBottomColor: "transparent",
-        borderLeftColor: "transparent",
-        transform: [{ rotate: `${degrees}deg` }],
-      }}
-    />
-  );
-
-  const clip = (side: "left" | "right", degrees: number) => (
-    <View
-      style={{
-        position: "absolute",
-        top: 0,
-        left: side === "left" ? 0 : half,
-        width: half,
-        height: size,
-        overflow: "hidden",
-      }}
-    >
-      <View style={{ position: "absolute", top: 0, left: side === "left" ? 0 : -half, width: size, height: size }}>
-        {arc(degrees)}
-      </View>
-    </View>
-  );
+  const arc = useMemo(() => {
+    const path = Skia.Path.Make();
+    const bounds = Skia.XYWHRect(thickness / 2, thickness / 2, size - thickness, size - thickness);
+    if (p >= 1) path.addOval(bounds);
+    else path.addArc(bounds, -90, p * 360);
+    return path;
+  }, [p, size, thickness]);
 
   return (
     <View style={{ width: size, height: size, alignItems: "center", justifyContent: "center" }}>
-      <View
-        style={{
-          position: "absolute",
-          width: size,
-          height: size,
-          borderRadius: half,
-          borderWidth: thickness,
-          borderColor: trackColor,
-        }}
-      />
-      {p >= 1 ? (
-        <View
-          style={{
-            position: "absolute",
-            width: size,
-            height: size,
-            borderRadius: half,
-            borderWidth: thickness,
-            borderColor: color,
-          }}
-        />
-      ) : p > 0 ? (
-        <>
-          {/* Right half: full once past halfway, otherwise the share up to `p`. */}
-          {clip("right", p <= 0.5 ? 225 + p * 360 : 45)}
-          {p > 0.5 && clip("left", 45 + (p - 0.5) * 360)}
-        </>
-      ) : null}
+      <Canvas style={StyleSheet.absoluteFill} pointerEvents="none">
+        <Circle cx={center} cy={center} r={radius} color={trackColor} style="stroke" strokeWidth={thickness} />
+        {p > 0 && <Path path={arc} color={color} style="stroke" strokeWidth={thickness} strokeCap="round" />}
+      </Canvas>
       {children}
     </View>
   );
