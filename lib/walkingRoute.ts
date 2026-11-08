@@ -22,7 +22,7 @@ const OFF_ROUTE_METERS = 60;
 const MIN_REFETCH_MS = 30_000;
 /** After a failed request, wait this long before trying that target again. */
 const FAILURE_COOLDOWN_MS = 60_000;
-/** Saved routes are dropped after this, so closures and new paths get picked up. */
+/** Saved routes are refreshed after this, so closures and new paths get picked up. */
 const ROUTE_MAX_AGE_MS = 15 * 60_000;
 /** Targets closer than this need no route; the straight line is the walk. */
 const MIN_ROUTE_METERS = 40;
@@ -149,11 +149,20 @@ export function routeProgress(route: WalkingRoute, at: LatLngPoint): RouteProgre
 // ─── Hook ─────────────────────────────────────────────────────────────────────
 
 /**
- * The walking route from `location` to `target`, measured from where the
- * user is now. Null while loading, when the target is very close, or when
- * no route could be fetched; show the straight-line estimate then.
+ * - `ready`: the route is in; `progress` is measured from where the user is now.
+ * - `loading`: asking for it. Show no line and no distance yet, so the guess
+ *   doesn't flash up and then jump to the real route.
+ * - `failed`: no route (offline, or the request failed); fall back to the straight-line estimate.
+ * - `near`: the target is too close to need a route; the straight line is the walk.
+ * - `idle`: no target or no position.
  */
-export function useWalkingRoute(location: LatLngPoint | null, target: LatLngPoint | null): RouteProgress | null {
+export type RouteStatus = "idle" | "near" | "loading" | "ready" | "failed";
+
+/** The walking route from `location` to `target`, and whether it's in yet. */
+export function useWalkingRoute(
+  location: LatLngPoint | null,
+  target: LatLngPoint | null,
+): { progress: RouteProgress | null; status: RouteStatus } {
   const [, setVersion] = useState(0);
   useEffect(() => {
     const listener = () => setVersion((v) => v + 1);
@@ -165,7 +174,9 @@ export function useWalkingRoute(location: LatLngPoint | null, target: LatLngPoin
 
   const key = target ? targetKey(target) : null;
   const entry = key ? cache.get(key) : undefined;
-  const route = entry?.route && Date.now() - entry.route.fetchedAtMs < ROUTE_MAX_AGE_MS ? entry.route : null;
+  // An old route keeps showing while its replacement loads, so the line never blinks out.
+  const route = entry?.route ?? null;
+  const stale = route != null && Date.now() - route.fetchedAtMs >= ROUTE_MAX_AGE_MS;
 
   const progress = useMemo(
     () => (route && location ? routeProgress(route, location) : null),
@@ -182,7 +193,7 @@ export function useWalkingRoute(location: LatLngPoint | null, target: LatLngPoin
     const now = Date.now();
     const current = cache.get(key);
     if (current?.inFlight) return;
-    if (route && !offRoute) return;
+    if (route && !offRoute && !stale) return;
     const waitUntil = Math.max(
       current?.failedAtMs != null ? current.failedAtMs + FAILURE_COOLDOWN_MS : 0,
       route ? route.fetchedAtMs + MIN_REFETCH_MS : 0,
@@ -194,7 +205,18 @@ export function useWalkingRoute(location: LatLngPoint | null, target: LatLngPoin
     fetchInto(key, location, target);
     // `location` changes every fix; only whether a fetch is needed matters.
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [key, route, offRoute, close, location != null, retryTick, entry?.failedAtMs]);
+  }, [key, route, offRoute, stale, close, location != null, retryTick, entry?.failedAtMs]);
 
-  return close ? null : progress;
+  const status: RouteStatus =
+    !location || !target
+      ? "idle"
+      : close
+        ? "near"
+        : progress
+          ? "ready"
+          : // A retry after a failure keeps showing the fallback rather than going blank.
+            entry?.failedAtMs != null
+            ? "failed"
+            : "loading";
+  return { progress: status === "ready" ? progress : null, status };
 }

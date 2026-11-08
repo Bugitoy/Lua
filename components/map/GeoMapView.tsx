@@ -60,8 +60,14 @@ export type MapSelection =
 type GeoMapViewProps = {
   currentLocation: LocationCoords | null;
   destination: LatLngPoint | null;
-  /** The walking route to `destination`, from the user on; without it the line is straight. */
+  /** The walking route to `destination`, from the user on. */
   routePath?: LatLngPoint[] | null;
+  /**
+   * Without `routePath`, whether to draw a straight line to `destination`
+   * instead (no route available). False draws no line, e.g. while the
+   * route is still loading.
+   */
+  showStraightLine?: boolean;
   nearbyPlaces: NearbyPlace[];
   scheduledItems?: ScheduledItem[];
   onSetDestination?: (point: LatLngPoint) => void;
@@ -168,6 +174,7 @@ function GeoMapViewImpl({
   currentLocation,
   destination,
   routePath = null,
+  showStraightLine = true,
   nearbyPlaces,
   scheduledItems = [],
   onSetDestination,
@@ -285,7 +292,7 @@ function GeoMapViewImpl({
     const start = spriteMapCoordinate(currentLocation);
     // The route starts at the GPS fix; begin it at the sprite so the line meets it.
     if (routePath && routePath.length >= 2) return [start, ...routePath.slice(1)];
-    return [start, destination];
+    return showStraightLine ? [start, destination] : [];
     // Compass turns replace `currentLocation` without moving the line's start.
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
@@ -295,6 +302,7 @@ function GeoMapViewImpl({
     currentLocation?.vyMps,
     destination,
     routePath,
+    showStraightLine,
   ]);
 
   const handleLongPress = (event: LongPressEvent) => {

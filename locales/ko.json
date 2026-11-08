@@ -33,7 +33,8 @@
       "longPressHint": "지도를 길게 눌러 목적지 마커를 배치하세요",
       "arrived": "목적지에 도착했습니다",
       "bearingEta": "방위: {{bearing}}°   예상 도착: {{eta}}",
-      "remaining": "남은 거리: {{distance}} mi"
+      "remaining": "남은 거리: {{distance}} mi",
+      "findingRoute": "도보 경로를 찾는 중…"
     },
     "gpsDebug": {
       "title": "GPS 디버그",
@@ -77,7 +78,8 @@
       "standingStill": "멈춤",
       "steps": "걸음",
       "miles": "마일",
-      "goals": "목표"
+      "goals": "목표",
+      "findingRoute": "도보 경로를 찾는 중…"
     },
     "study": {
       "promptTitle": "여기서 작업을 시작할까요?",

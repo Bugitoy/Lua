@@ -171,19 +171,22 @@ function CardButton({
 }
 
 /**
- * "0.15 mi · 4 min walk" to a point along the real walking route, or
- * "~0.15 mi · …" from the straight-line estimate until a route is in.
+ * "0.15 mi · 4 min walk" to a point along the real walking route, "Finding
+ * walking route…" while it loads, or "~0.15 mi · …" from the straight-line
+ * estimate if no route could be found.
  */
 function useAwayText(location: LocationCoords | null, point: LatLngPoint | null): string | undefined {
   const { t } = useTranslation();
-  const route = useWalkingRoute(location, point);
-  if (!location || !point) return undefined;
-  const meters = route ? route.remainingMeters : distanceFromSpriteMeters(location, point);
-  const minutes = route ? route.remainingSeconds / 60 : walkingEtaMinutes(location, point);
+  const { progress, status } = useWalkingRoute(location, point);
+  if (!location || !point || status === "idle") return undefined;
+  if (status === "loading") return t("map.card.findingRoute");
+  const meters = progress ? progress.remainingMeters : distanceFromSpriteMeters(location, point);
+  const minutes = progress ? progress.remainingSeconds / 60 : walkingEtaMinutes(location, point);
   const miles = meters / METERS_PER_MILE;
   const distance = miles < 10 ? miles.toFixed(2) : String(Math.round(miles));
   return t("map.card.away", {
-    distance: route ? distance : `~${distance}`,
+    // Only a failed route is a guess; next to the target the straight line is the walk.
+    distance: status === "failed" ? `~${distance}` : distance,
     eta: formatWalkingEta(minutes),
   });
 }

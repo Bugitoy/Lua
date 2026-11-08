@@ -86,11 +86,20 @@ export default function MapScreen() {
     clearDestination,
   } = useDestinationTracking(gpsLocation);
 
-  // The real walk along streets once Google's route is in; the straight line until then.
-  const destinationRoute = useWalkingRoute(gpsLocation, destination);
+  // The real walk along streets. While it loads there's no line and no distance,
+  // so a straight-line guess doesn't flash up first; only if it fails (or the pin
+  // is a few steps away) does the straight line stand in.
+  const { progress: destinationRoute, status: routeStatus } = useWalkingRoute(gpsLocation, destination);
+  const findingRoute = routeStatus === "loading";
   const distanceMeters = destinationRoute?.remainingMeters ?? straightMeters;
   const etaMinutes =
     destinationRoute != null ? destinationRoute.remainingSeconds / 60 : straightEtaMinutes;
+  const routeLine =
+    routeStatus === "ready"
+      ? "route"
+      : routeStatus === "failed" || routeStatus === "near"
+        ? "straight"
+        : "none";
 
   useEffect(() => {
     setHasDestination(destination != null);
@@ -98,12 +107,12 @@ export default function MapScreen() {
 
   useDistanceOdometer(gpsLocation);
 
-  /** Miles to the pin; "~" marks the straight-line estimate. */
+  /** Miles to the pin; "~" marks the straight-line estimate after a failed route. */
   const distanceMilesToDestination = useMemo(() => {
     if (distanceMeters == null) return null;
     const miles = (Math.round(distanceMeters * 0.000621371 * 100) / 100).toFixed(2);
-    return destinationRoute ? miles : `~${miles}`;
-  }, [destinationRoute, distanceMeters]);
+    return routeStatus === "failed" ? `~${miles}` : miles;
+  }, [routeStatus, distanceMeters]);
 
   useEffect(() => {
     let active = true;
@@ -189,7 +198,8 @@ export default function MapScreen() {
       <GeoMapView
         currentLocation={location}
         destination={destination}
-        routePath={destinationRoute?.remainingPath ?? null}
+        routePath={routeLine === "route" ? (destinationRoute?.remainingPath ?? null) : null}
+        showStraightLine={routeLine === "straight"}
         nearbyPlaces={nearbyPlaces}
         scheduledItems={scheduledItems}
         onSetDestination={setDestination}
@@ -292,11 +302,13 @@ export default function MapScreen() {
                 color: "#d4d4d4",
               }}
             >
-              {destination
-                ? t("map.liveTracking.destinationAway", {
-                    distance: distanceMilesToDestination ?? 0,
-                  })
-                : t("map.liveTracking.longPressHint")}
+              {!destination
+                ? t("map.liveTracking.longPressHint")
+                : findingRoute
+                  ? t("map.liveTracking.findingRoute")
+                  : t("map.liveTracking.destinationAway", {
+                      distance: distanceMilesToDestination ?? 0,
+                    })}
             </Text>
             {destination ? (
               <Text
@@ -311,8 +323,9 @@ export default function MapScreen() {
                   : t("map.liveTracking.bearingEta", {
                       bearing:
                         bearingDeg != null ? Math.round(bearingDeg) : "?",
-                      eta:
-                        etaMinutes != null
+                      eta: findingRoute
+                        ? "…"
+                        : etaMinutes != null
                           ? formatWalkingEta(etaMinutes)
                           : t("common.notAvailable"),
                     })}
@@ -462,7 +475,7 @@ export default function MapScreen() {
                       }}
                     >
                       {t("map.liveTracking.remaining", {
-                        distance: distanceMilesToDestination ?? 0,
+                        distance: findingRoute ? "…" : (distanceMilesToDestination ?? 0),
                       })}
                     </Text>
                   </>
