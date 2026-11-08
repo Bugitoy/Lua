@@ -309,6 +309,7 @@
     "welcome": "Welcome to the Help Center! If you are having trouble keeping your daily streak or navigating the map, you can find answers to our most common questions below.",
     "sectionKeys": [
       "gameplay",
+      "schedule",
       "gps",
       "account"
     ],
@@ -323,10 +324,27 @@
           {
             "q": "How do I earn XP and level up?",
             "a": "You earn Experience Points (XP) by walking. Your XP total never goes down. You can earn XP in three ways:\n\nSteps: +1 XP for every 100 steps\n\nDaily Step Goal: +100 XP when you reach 6,000 steps in a day\n\nGoals: +50 XP for each goal you walk to. A goal only pays if you walked at least 200 steps (or 150 meters) since the last goal that paid, and goals at the same spot pay once.\n\nWork time is still tracked, but it doesn't earn XP."
-          },
+          }
+        ]
+      },
+      {
+        "title": "Schedule & Goals",
+        "faqs": [
           {
             "q": "What happens to my goals at midnight?",
-            "a": "Goals last one day. At midnight Lua grades your day, and any goal you didn't walk to counts as missed. Your goals are then cleared from the schedule and saved under that day on the Stats calendar, where you can tap any day to see what you completed and what you missed.\n\nAdded a goal by mistake? Long-press it on the Schedule page to remove it."
+            "a": "Goals belong to their day. At midnight Lua grades the day, and any goal you didn't walk to counts as missed. Past days stay on the Schedule calendar, where each goal shows Done or Missed, and on the Stats calendar. Goals you planned for the new day then move into today's live schedule.\n\nAdded a goal by mistake? Long-press it on the Schedule page to remove it."
+          },
+          {
+            "q": "Can I plan goals for later days?",
+            "a": "Yes. Tap a later day on the Schedule calendar and tap the + button, or pick a date when you add a goal. Planned goals are tagged Planned and don't count toward XP or Lua's health until their day starts. On that day they move into your live schedule. If you don't open Lua that day, they still count as missed."
+          },
+          {
+            "q": "How do repeating goals work?",
+            "a": "When you add a goal, set Repeat to Daily, Weekdays, Weekly or Monthly, or choose Custom to repeat every few days, weeks, months or years. Until sets the last day it repeats; Forever keeps it going. Repeating goals show a ↻ tag.\n\nWhen you edit or remove one day of a repeating goal, Lua asks whether to change This goal only or This and future goals. Days that have already passed never change."
+          },
+          {
+            "q": "What is my home address used for?",
+            "a": "Add your home address in Manage Profile, or with the Home button next to the location search when you add a goal. Then tap the Home button, or type \"Home\" in the location search, to set a goal there. A goal added without a place is set at your home. Your home address is saved only on this phone."
           }
         ]
       },

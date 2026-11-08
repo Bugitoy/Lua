@@ -309,6 +309,7 @@
     "welcome": "Willkommen im Hilfe-Center! Wenn du Probleme hast, deine tägliche Serie zu halten oder dich auf der Karte zurechtzufinden, findest du unten Antworten auf die häufigsten Fragen.",
     "sectionKeys": [
       "gameplay",
+      "schedule",
       "gps",
       "account"
     ],
@@ -323,10 +324,27 @@
           {
             "q": "Wie verdiene ich XP und steige im Level auf?",
             "a": "Du verdienst Erfahrungspunkte (XP) durch Gehen. Deine XP-Summe sinkt nie. Es gibt drei Wege, XP zu verdienen:\n\nSchritte: +1 XP pro 100 Schritte\n\nTägliches Schrittziel: +100 XP, wenn du an einem Tag 6.000 Schritte erreichst\n\nZiele: +50 XP für jedes Ziel, zu dem du gehst. Ein Ziel zählt nur, wenn du seit dem letzten belohnten Ziel mindestens 200 Schritte (oder 150 Meter) gegangen bist, und Ziele am selben Ort werden nur einmal belohnt.\n\nArbeitszeit wird weiterhin erfasst, bringt aber keine XP."
-          },
+          }
+        ]
+      },
+      {
+        "title": "Zeitplan & Ziele",
+        "faqs": [
           {
             "q": "Was passiert um Mitternacht mit meinen Zielen?",
-            "a": "Ziele gelten einen Tag. Um Mitternacht bewertet Lua deinen Tag, und jedes Ziel, zu dem du nicht gegangen bist, zählt als verpasst. Deine Ziele werden dann aus dem Zeitplan entfernt und unter diesem Tag im Statistik-Kalender gespeichert. Dort kannst du auf jeden Tag tippen, um zu sehen, was du erledigt und was du verpasst hast.\n\nEin Ziel aus Versehen hinzugefügt? Drücke auf der Zeitplan-Seite lange darauf, um es zu entfernen."
+            "a": "Ziele gehören zu ihrem Tag. Um Mitternacht bewertet Lua den Tag, und jedes Ziel, zu dem du nicht gelaufen bist, zählt als verpasst. Vergangene Tage bleiben im Kalender des Zeitplans, wo jedes Ziel Erledigt oder Verpasst zeigt, und im Statistik-Kalender. Danach wandern die Ziele, die du für den neuen Tag geplant hast, in den heutigen Live-Zeitplan.\n\nEin Ziel aus Versehen hinzugefügt? Halte es auf der Zeitplan-Seite lange gedrückt, um es zu entfernen."
+          },
+          {
+            "q": "Kann ich Ziele für spätere Tage planen?",
+            "a": "Ja. Tippe im Kalender des Zeitplans auf einen späteren Tag und dann auf die +-Schaltfläche, oder wähle beim Hinzufügen eines Ziels ein Datum. Geplante Ziele sind als Geplant markiert und zählen erst ab ihrem Tag für XP und Luas Gesundheit. An diesem Tag wandern sie in deinen Live-Zeitplan. Öffnest du Lua an dem Tag nicht, zählen sie trotzdem als verpasst."
+          },
+          {
+            "q": "Wie funktionieren wiederkehrende Ziele?",
+            "a": "Stelle beim Hinzufügen eines Ziels Wiederholen auf Täglich, Werktags, Wöchentlich oder Monatlich, oder wähle Eigene, um alle paar Tage, Wochen, Monate oder Jahre zu wiederholen. Bis legt den letzten Tag fest; Für immer lässt es weiterlaufen. Wiederkehrende Ziele zeigen ein ↻.\n\nWenn du einen Tag eines wiederkehrenden Ziels bearbeitest oder entfernst, fragt Lua, ob Nur dieses Ziel oder Dieses und alle folgenden geändert werden sollen. Vergangene Tage ändern sich nie."
+          },
+          {
+            "q": "Wofür wird meine Wohnadresse verwendet?",
+            "a": "Füge deine Wohnadresse unter Profil verwalten hinzu oder beim Hinzufügen eines Ziels über die Zuhause-Schaltfläche neben der Ortssuche. Tippe dann auf die Zuhause-Schaltfläche oder gib „Zuhause“ in die Ortssuche ein, um ein Ziel dort festzulegen. Ein Ziel ohne Ort wird bei dir zu Hause festgelegt. Deine Wohnadresse wird nur auf diesem Handy gespeichert."
           }
         ]
       },

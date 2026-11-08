@@ -24,6 +24,7 @@ type HelpSection = { title: string; faqs: FaqItem[] };
 
 const SECTION_ICONS: Record<string, keyof typeof Ionicons.glyphMap> = {
   gameplay: "heart-outline",
+  schedule: "calendar-outline",
   gps: "navigate-outline",
   account: "cloud-outline",
 };

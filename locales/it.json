@@ -309,6 +309,7 @@
     "welcome": "Benvenuto nel Centro assistenza! Se hai difficoltà a mantenere la tua serie giornaliera o a orientarti sulla mappa, qui sotto trovi le risposte alle domande più frequenti.",
     "sectionKeys": [
       "gameplay",
+      "schedule",
       "gps",
       "account"
     ],
@@ -323,10 +324,27 @@
           {
             "q": "Come guadagno XP e salgo di livello?",
             "a": "Guadagni punti esperienza (XP) camminando. Il tuo totale di XP non scende mai. Puoi guadagnare XP in tre modi:\n\nPassi: +1 XP ogni 100 passi\n\nObiettivo di passi giornaliero: +100 XP quando raggiungi 6.000 passi in un giorno\n\nObiettivi: +50 XP per ogni obiettivo raggiunto a piedi. Un obiettivo vale solo se hai camminato almeno 200 passi (o 150 metri) dall'ultimo obiettivo premiato, e gli obiettivi nello stesso posto valgono una sola volta.\n\nIl tempo di lavoro viene ancora registrato, ma non fa guadagnare XP."
-          },
+          }
+        ]
+      },
+      {
+        "title": "Programma e obiettivi",
+        "faqs": [
           {
             "q": "Cosa succede ai miei obiettivi a mezzanotte?",
-            "a": "Gli obiettivi durano un giorno. A mezzanotte Lua valuta la tua giornata, e ogni obiettivo che non hai raggiunto conta come mancato. I tuoi obiettivi vengono poi tolti dal programma e salvati sotto quel giorno nel calendario delle Statistiche, dove puoi toccare qualsiasi giorno per vedere cosa hai completato e cosa hai mancato.\n\nHai aggiunto un obiettivo per errore? Tienilo premuto nella pagina Programma per rimuoverlo."
+            "a": "Gli obiettivi appartengono al loro giorno. A mezzanotte Lua valuta la giornata, e ogni obiettivo che non hai raggiunto a piedi conta come mancato. I giorni passati restano nel calendario del Programma, dove ogni obiettivo mostra Fatto o Mancato, e nel calendario delle Statistiche. Poi gli obiettivi programmati per il nuovo giorno passano nel programma live di oggi.\n\nHai aggiunto un obiettivo per sbaglio? Tienilo premuto nella pagina Programma per rimuoverlo."
+          },
+          {
+            "q": "Posso programmare obiettivi per altri giorni?",
+            "a": "Sì. Tocca un giorno successivo nel calendario del Programma e poi il pulsante +, oppure scegli una data quando aggiungi un obiettivo. Gli obiettivi programmati hanno l'etichetta Programmato e non contano per XP e salute di Lua finché non inizia il loro giorno. Quel giorno passano nel tuo programma live. Se quel giorno non apri Lua, contano comunque come mancati."
+          },
+          {
+            "q": "Come funzionano gli obiettivi ricorrenti?",
+            "a": "Quando aggiungi un obiettivo, imposta Ripeti su Ogni giorno, Feriali, Ogni settimana o Ogni mese, oppure scegli Personalizzata per ripeterlo ogni tot giorni, settimane, mesi o anni. Fino al imposta l'ultimo giorno; Per sempre lo fa continuare. Gli obiettivi ricorrenti mostrano un ↻.\n\nQuando modifichi o rimuovi un giorno di un obiettivo ricorrente, Lua ti chiede se cambiare Solo questo obiettivo o Questo e i successivi. I giorni già passati non cambiano mai."
+          },
+          {
+            "q": "A cosa serve il mio indirizzo di casa?",
+            "a": "Aggiungi il tuo indirizzo di casa in Gestisci profilo, oppure con il pulsante Casa accanto alla ricerca del luogo quando aggiungi un obiettivo. Poi tocca il pulsante Casa, o scrivi \"Casa\" nella ricerca del luogo, per impostare lì un obiettivo. Un obiettivo aggiunto senza luogo viene impostato a casa tua. Il tuo indirizzo di casa è salvato solo su questo telefono."
           }
         ]
       },

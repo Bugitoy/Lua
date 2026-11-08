@@ -309,6 +309,7 @@
     "welcome": "Bienvenue dans le Centre d'aide ! Si vous avez du mal à garder votre série quotidienne ou à vous repérer sur la carte, vous trouverez ci-dessous les réponses aux questions les plus fréquentes.",
     "sectionKeys": [
       "gameplay",
+      "schedule",
       "gps",
       "account"
     ],
@@ -323,10 +324,27 @@
           {
             "q": "Comment gagner de l'XP et monter de niveau ?",
             "a": "Vous gagnez des points d'expérience (XP) en marchant. Votre total d'XP ne baisse jamais. Il y a trois façons de gagner de l'XP :\n\nPas : +1 XP tous les 100 pas\n\nObjectif de pas quotidien : +100 XP quand vous atteignez 6 000 pas dans la journée\n\nObjectifs : +50 XP pour chaque objectif rejoint à pied. Un objectif ne rapporte que si vous avez marché au moins 200 pas (ou 150 mètres) depuis le dernier objectif récompensé, et les objectifs au même endroit ne rapportent qu'une fois.\n\nLe temps de travail est toujours suivi, mais il ne rapporte pas d'XP."
-          },
+          }
+        ]
+      },
+      {
+        "title": "Planning et objectifs",
+        "faqs": [
           {
             "q": "Que deviennent mes objectifs à minuit ?",
-            "a": "Les objectifs durent une journée. À minuit, Lua évalue votre journée, et tout objectif que vous n'avez pas rejoint compte comme manqué. Vos objectifs sont alors retirés du planning et enregistrés à ce jour dans le calendrier des Statistiques, où vous pouvez toucher n'importe quel jour pour voir ce que vous avez accompli et ce que vous avez manqué.\n\nVous avez ajouté un objectif par erreur ? Appuyez longuement dessus sur la page Planning pour le supprimer."
+            "a": "Les objectifs appartiennent à leur journée. À minuit, Lua note la journée, et tout objectif jusqu'auquel vous n'avez pas marché compte comme manqué. Les jours passés restent dans le calendrier du Planning, où chaque objectif affiche Accompli ou Manqué, ainsi que dans le calendrier des Statistiques. Les objectifs prévus pour le nouveau jour passent ensuite dans le planning en direct du jour.\n\nVous avez ajouté un objectif par erreur ? Appuyez longuement dessus sur la page Planning pour le retirer."
+          },
+          {
+            "q": "Puis-je prévoir des objectifs pour d'autres jours ?",
+            "a": "Oui. Touchez un jour à venir dans le calendrier du Planning puis le bouton +, ou choisissez une date en ajoutant un objectif. Les objectifs prévus portent l'étiquette Prévu et ne comptent pour l'XP et la santé de Lua qu'à partir de leur jour. Ce jour-là, ils passent dans votre planning en direct. Si vous n'ouvrez pas Lua ce jour-là, ils comptent quand même comme manqués."
+          },
+          {
+            "q": "Comment fonctionnent les objectifs récurrents ?",
+            "a": "En ajoutant un objectif, réglez Répéter sur Chaque jour, En semaine, Chaque semaine ou Chaque mois, ou choisissez Personnalisé pour répéter tous les quelques jours, semaines, mois ou ans. Jusqu'au fixe le dernier jour de répétition ; Toujours le fait continuer. Les objectifs récurrents affichent un ↻.\n\nQuand vous modifiez ou retirez un jour d'un objectif récurrent, Lua vous demande s'il faut changer Cet objectif seulement ou Celui-ci et les suivants. Les jours déjà passés ne changent jamais."
+          },
+          {
+            "q": "À quoi sert l'adresse de mon domicile ?",
+            "a": "Ajoutez l'adresse de votre domicile dans Gérer le profil, ou avec le bouton Domicile à côté de la recherche de lieu en ajoutant un objectif. Touchez ensuite le bouton Domicile, ou tapez « Domicile » dans la recherche de lieu, pour y placer un objectif. Un objectif ajouté sans lieu est placé à votre domicile. Votre adresse est enregistrée uniquement sur ce téléphone."
           }
         ]
       },

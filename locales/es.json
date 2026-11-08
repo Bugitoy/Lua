@@ -309,6 +309,7 @@
     "welcome": "¡Te damos la bienvenida al Centro de ayuda! Si tienes problemas para mantener tu racha diaria o para moverte por el mapa, abajo encontrarás respuestas a las preguntas más comunes.",
     "sectionKeys": [
       "gameplay",
+      "schedule",
       "gps",
       "account"
     ],
@@ -323,10 +324,27 @@
           {
             "q": "¿Cómo gano XP y subo de nivel?",
             "a": "Ganas puntos de experiencia (XP) caminando. Tu total de XP nunca baja. Puedes ganar XP de tres formas:\n\nPasos: +1 XP por cada 100 pasos\n\nObjetivo diario de pasos: +100 XP cuando llegas a 6.000 pasos en un día\n\nMetas: +50 XP por cada meta a la que llegas caminando. Una meta solo cuenta si caminaste al menos 200 pasos (o 150 metros) desde la última meta que dio XP, y las metas en el mismo lugar solo dan XP una vez.\n\nEl tiempo de trabajo se sigue registrando, pero no da XP."
-          },
+          }
+        ]
+      },
+      {
+        "title": "Horario y metas",
+        "faqs": [
           {
             "q": "¿Qué pasa con mis metas a medianoche?",
-            "a": "Las metas duran un día. A medianoche Lua evalúa tu día, y cualquier meta a la que no llegaste cuenta como perdida. Después tus metas se quitan del horario y se guardan en ese día del calendario de Estadísticas, donde puedes tocar cualquier día para ver qué completaste y qué te faltó.\n\n¿Añadiste una meta por error? Mantén pulsada la meta en la página Horario para quitarla."
+            "a": "Las metas pertenecen a su día. A medianoche, Lua califica el día y cualquier meta a la que no caminaste cuenta como perdida. Los días pasados se quedan en el calendario del Horario, donde cada meta muestra Hecha o Perdida, y en el calendario de Estadísticas. Después, las metas que planeaste para el nuevo día pasan al horario en vivo de hoy.\n\n¿Añadiste una meta por error? Mantenla pulsada en la página del Horario para quitarla."
+          },
+          {
+            "q": "¿Puedo planear metas para otros días?",
+            "a": "Sí. Toca un día posterior en el calendario del Horario y luego el botón +, o elige una fecha al añadir una meta. Las metas planeadas llevan la etiqueta Planeada y no cuentan para la XP ni para la salud de Lua hasta que empieza su día. Ese día pasan a tu horario en vivo. Si no abres Lua ese día, igual cuentan como perdidas."
+          },
+          {
+            "q": "¿Cómo funcionan las metas que se repiten?",
+            "a": "Al añadir una meta, pon Repetir en A diario, Entre semana, Semanal o Mensual, o elige Personalizado para repetirla cada ciertos días, semanas, meses o años. Hasta fija el último día en que se repite; Siempre la mantiene. Las metas que se repiten muestran un ↻.\n\nCuando editas o quitas un día de una meta que se repite, Lua te pregunta si cambiar Solo esta meta o Esta y las siguientes. Los días que ya pasaron nunca cambian."
+          },
+          {
+            "q": "¿Para qué se usa mi dirección de casa?",
+            "a": "Añade tu dirección de casa en Administrar perfil, o con el botón Casa junto a la búsqueda de lugar al añadir una meta. Luego toca el botón Casa, o escribe «Casa» en la búsqueda de lugar, para poner una meta allí. Una meta añadida sin lugar se pone en tu casa. Tu dirección de casa solo se guarda en este teléfono."
           }
         ]
       },
