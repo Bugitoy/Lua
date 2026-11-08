@@ -171,7 +171,8 @@
     "search": {
       "waitingForGps": "正在等待 GPS…",
       "placeholder": "搜索全球任意地点…",
-      "noResults": "没有匹配的地点。请尝试其他名称。"
+      "noResults": "没有匹配的地点。请尝试其他名称。",
+      "home": "家"
     },
     "mapPicker": {
       "title": "选择位置",
@@ -350,6 +351,9 @@
     "displayNamePlaceholder": "你的姓名",
     "handleLabel": "用户名",
     "handlePlaceholder": "@username",
+    "homeLabel": "家庭住址",
+    "homePlaceholder": "搜索你的地址…",
+    "homeHint": "仅保存在这部手机上。添加目标时，在地点搜索中输入“家”即可使用。",
     "save": "保存更改",
     "errorTitle": "无法保存",
     "errorEmptyName": "请输入显示名称。",

@@ -171,7 +171,8 @@
     "search": {
       "waitingForGps": "Esperando GPS…",
       "placeholder": "Busca cualquier lugar del mundo…",
-      "noResults": "No hay lugares coincidentes. Prueba con otro nombre."
+      "noResults": "No hay lugares coincidentes. Prueba con otro nombre.",
+      "home": "Casa"
     },
     "mapPicker": {
       "title": "Elige una ubicación",
@@ -352,6 +353,9 @@
     "displayNamePlaceholder": "Tu nombre",
     "handleLabel": "Usuario",
     "handlePlaceholder": "@usuario",
+    "homeLabel": "Dirección de casa",
+    "homePlaceholder": "Busca tu dirección…",
+    "homeHint": "Solo se guarda en este teléfono. Al añadir una meta, escribe «Casa» en la búsqueda de lugar para usarla.",
     "save": "Guardar cambios",
     "errorTitle": "No se pudo guardar",
     "errorEmptyName": "Introduce un nombre visible.",

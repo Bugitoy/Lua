@@ -171,7 +171,8 @@
     "search": {
       "waitingForGps": "GPS 대기 중…",
       "placeholder": "전 세계 장소 검색…",
-      "noResults": "일치하는 장소가 없습니다. 다른 이름을 시도해 보세요."
+      "noResults": "일치하는 장소가 없습니다. 다른 이름을 시도해 보세요.",
+      "home": "집"
     },
     "mapPicker": {
       "title": "위치 선택",
@@ -350,6 +351,9 @@
     "displayNamePlaceholder": "이름",
     "handleLabel": "핸들",
     "handlePlaceholder": "@username",
+    "homeLabel": "집 주소",
+    "homePlaceholder": "주소 검색…",
+    "homeHint": "이 휴대폰에만 저장됩니다. 목표를 추가할 때 장소 검색에 \"집\"을 입력하면 사용할 수 있어요.",
     "save": "변경 사항 저장",
     "errorTitle": "저장할 수 없음",
     "errorEmptyName": "표시 이름을 입력하세요.",

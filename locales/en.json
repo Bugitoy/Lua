@@ -171,7 +171,8 @@
     "search": {
       "waitingForGps": "Waiting for GPS…",
       "placeholder": "Search any place in the world…",
-      "noResults": "No places match. Try a different name."
+      "noResults": "No places match. Try a different name.",
+      "home": "Home"
     },
     "mapPicker": {
       "title": "Pick a location",
@@ -352,6 +353,9 @@
     "displayNamePlaceholder": "Your name",
     "handleLabel": "Handle",
     "handlePlaceholder": "@username",
+    "homeLabel": "Home address",
+    "homePlaceholder": "Search your address…",
+    "homeHint": "Saved only on this phone. When you add a goal, type \"Home\" in the location search to use it.",
     "save": "Save changes",
     "errorTitle": "Could not save",
     "errorEmptyName": "Please enter a display name.",

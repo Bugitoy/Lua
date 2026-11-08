@@ -171,7 +171,8 @@
     "search": {
       "waitingForGps": "Aguardando GPS…",
       "placeholder": "Busque qualquer lugar no mundo…",
-      "noResults": "Nenhum lugar encontrado. Tente outro nome."
+      "noResults": "Nenhum lugar encontrado. Tente outro nome.",
+      "home": "Casa"
     },
     "mapPicker": {
       "title": "Escolha um local",
@@ -352,6 +353,9 @@
     "displayNamePlaceholder": "Seu nome",
     "handleLabel": "Usuário",
     "handlePlaceholder": "@usuario",
+    "homeLabel": "Endereço de casa",
+    "homePlaceholder": "Buscar endereço…",
+    "homeHint": "Salvo apenas neste telefone. Ao adicionar uma meta, digite \"Casa\" na busca de local para usá-lo.",
     "save": "Salvar alterações",
     "errorTitle": "Não foi possível salvar",
     "errorEmptyName": "Digite um nome de exibição.",

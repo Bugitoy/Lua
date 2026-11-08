@@ -482,6 +482,7 @@ export function AddScheduleModal({
                 pickedTitle={picked?.title ?? null}
                 onClearPick={() => setPicked(null)}
                 onFocus={() => focusField("location")}
+                offerHome
                 trailing={
                   <Pressable
                     onPress={openMapPicker}

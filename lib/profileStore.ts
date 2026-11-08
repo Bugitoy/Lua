@@ -3,15 +3,46 @@ import { useSyncExternalStore } from "react";
 
 export const PROFILE_STORAGE_KEY = "userProfile";
 
+/** The user's home, offered as "Home" in the Schedule location search. */
+export type HomeAddress = {
+  address: string;
+  latitude: number;
+  longitude: number;
+  placeId?: string;
+};
+
 export type UserProfile = {
   displayName: string;
   handle: string;
+  home: HomeAddress | null;
 };
 
 const DEFAULT_PROFILE: UserProfile = {
   displayName: "Mason",
   handle: "@masonmavinga",
+  home: null,
 };
+
+function sanitizeHome(raw: unknown): HomeAddress | null {
+  if (!raw || typeof raw !== "object") return null;
+  const r = raw as Record<string, unknown>;
+  if (
+    typeof r.address !== "string" ||
+    !r.address.trim() ||
+    typeof r.latitude !== "number" ||
+    typeof r.longitude !== "number" ||
+    !Number.isFinite(r.latitude) ||
+    !Number.isFinite(r.longitude)
+  ) {
+    return null;
+  }
+  return {
+    address: r.address.trim(),
+    latitude: r.latitude,
+    longitude: r.longitude,
+    ...(typeof r.placeId === "string" ? { placeId: r.placeId } : {}),
+  };
+}
 
 let state: UserProfile = { ...DEFAULT_PROFILE };
 let hydrated = false;
@@ -67,6 +98,7 @@ export async function loadProfile(): Promise<void> {
             typeof parsed.handle === "string"
               ? normalizeHandle(parsed.handle) || DEFAULT_PROFILE.handle
               : DEFAULT_PROFILE.handle,
+          home: sanitizeHome(parsed.home),
         };
       }
     } catch {
@@ -98,6 +130,8 @@ export async function updateProfile(
       partial.handle !== undefined
         ? normalizeHandle(partial.handle) || state.handle
         : state.handle,
+    // null removes the home; leaving it out keeps the saved one.
+    home: partial.home !== undefined ? sanitizeHome(partial.home) : state.home,
   };
 
   state = next;

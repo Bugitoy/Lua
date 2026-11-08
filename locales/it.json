@@ -171,7 +171,8 @@
     "search": {
       "waitingForGps": "In attesa del GPS…",
       "placeholder": "Cerca un luogo nel mondo…",
-      "noResults": "Nessun luogo corrispondente. Prova un altro nome."
+      "noResults": "Nessun luogo corrispondente. Prova un altro nome.",
+      "home": "Casa"
     },
     "mapPicker": {
       "title": "Scegli un luogo",
@@ -352,6 +353,9 @@
     "displayNamePlaceholder": "Il tuo nome",
     "handleLabel": "Handle",
     "handlePlaceholder": "@utente",
+    "homeLabel": "Indirizzo di casa",
+    "homePlaceholder": "Cerca l'indirizzo…",
+    "homeHint": "Salvato solo su questo telefono. Quando aggiungi un obiettivo, scrivi \"Casa\" nella ricerca del luogo per usarlo.",
     "save": "Salva modifiche",
     "errorTitle": "Salvataggio non riuscito",
     "errorEmptyName": "Inserisci un nome visualizzato.",

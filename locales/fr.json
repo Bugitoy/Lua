@@ -171,7 +171,8 @@
     "search": {
       "waitingForGps": "En attente du GPS…",
       "placeholder": "Rechercher un lieu dans le monde…",
-      "noResults": "Aucun lieu correspondant. Essayez un autre nom."
+      "noResults": "Aucun lieu correspondant. Essayez un autre nom.",
+      "home": "Domicile"
     },
     "mapPicker": {
       "title": "Choisir un lieu",
@@ -352,6 +353,9 @@
     "displayNamePlaceholder": "Votre nom",
     "handleLabel": "Identifiant",
     "handlePlaceholder": "@utilisateur",
+    "homeLabel": "Adresse du domicile",
+    "homePlaceholder": "Chercher l'adresse…",
+    "homeHint": "Enregistrée uniquement sur ce téléphone. Quand vous ajoutez un objectif, tapez « Domicile » dans la recherche de lieu pour l'utiliser.",
     "save": "Enregistrer",
     "errorTitle": "Échec de l'enregistrement",
     "errorEmptyName": "Veuillez saisir un nom affiché.",

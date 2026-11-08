@@ -171,7 +171,8 @@
     "search": {
       "waitingForGps": "GPS を待機中…",
       "placeholder": "世界中の場所を検索…",
-      "noResults": "一致する場所がありません。別の名前を試してください。"
+      "noResults": "一致する場所がありません。別の名前を試してください。",
+      "home": "自宅"
     },
     "mapPicker": {
       "title": "場所を選択",
@@ -350,6 +351,9 @@
     "displayNamePlaceholder": "あなたの名前",
     "handleLabel": "ハンドル",
     "handlePlaceholder": "@username",
+    "homeLabel": "自宅の住所",
+    "homePlaceholder": "住所を検索…",
+    "homeHint": "この端末にのみ保存されます。目標を追加するときに、場所の検索で「自宅」と入力すると使えます。",
     "save": "変更を保存",
     "errorTitle": "保存できませんでした",
     "errorEmptyName": "表示名を入力してください。",

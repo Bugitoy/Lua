@@ -18,13 +18,28 @@ import {
 import { useTranslation } from "react-i18next";
 
 import { Pixelify } from "@/constants/fonts";
+import { LUA_GREEN } from "@/constants/mapAssets";
 import {
   schedulePlacesSearchProvider,
   type NearbyPlace,
 } from "@/lib/nearbyPlacesProvider";
+import { useProfile, type HomeAddress } from "@/lib/profileStore";
 
 const SEARCH_DEBOUNCE_MS = 350;
 const SEARCH_RADIUS_METERS = 5000;
+/** Id of the "Home" result, so goals set there can be told apart. */
+export const HOME_PLACE_ID = "home";
+
+/** True when `query` is empty, starts "Home" (in English or the app's language), or is part of the address. */
+function matchesHome(query: string, home: HomeAddress, homeLabel: string): boolean {
+  const q = query.trim().toLocaleLowerCase();
+  if (!q) return true;
+  return (
+    homeLabel.toLocaleLowerCase().startsWith(q) ||
+    "home".startsWith(q) ||
+    home.address.toLocaleLowerCase().includes(q)
+  );
+}
 
 type NearbyLocationSearchFieldProps = {
   /** Currently entered query text. */
@@ -44,6 +59,12 @@ type NearbyLocationSearchFieldProps = {
   onFocus?: () => void;
   /** Shown on the same row, right of the search bar; the results list still spans the full width below. */
   trailing?: ReactNode;
+  /** Offer the home address from Manage Profile as a "Home" result. */
+  offerHome?: boolean;
+  /** Smaller text in the bar, so the placeholder fits on one line in narrow fields. */
+  compact?: boolean;
+  /** Replaces the default "Search any place in the world…" hint. */
+  placeholder?: string;
 };
 
 export function NearbyLocationSearchField({
@@ -56,8 +77,12 @@ export function NearbyLocationSearchField({
   onClearPick,
   onFocus,
   trailing,
+  offerHome = false,
+  compact = false,
+  placeholder,
 }: NearbyLocationSearchFieldProps) {
   const { t } = useTranslation();
+  const { profile } = useProfile();
   const [results, setResults] = useState<NearbyPlace[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -141,15 +166,27 @@ export function NearbyLocationSearchField({
 
   const trimmed = value.trim();
   const showWaiting = !userLocation;
-  const showResults = menuOpen && active && !pickedTitle && results.length > 0;
+  const home = offerHome ? profile.home : null;
+  const homeLabel = t("schedule.search.home");
+  const homePlace: NearbyPlace | null =
+    home && matchesHome(value, home, homeLabel)
+      ? {
+          id: HOME_PLACE_ID,
+          title: homeLabel,
+          subtitle: home.address,
+          latitude: home.latitude,
+          longitude: home.longitude,
+        }
+      : null;
+  const menuShown = menuOpen && active && !pickedTitle;
+  const showResults = menuShown && (results.length > 0 || homePlace != null);
   const showEmpty =
-    menuOpen &&
-    active &&
-    !pickedTitle &&
+    menuShown &&
     !loading &&
     !error &&
     trimmed.length >= 2 &&
-    results.length === 0;
+    results.length === 0 &&
+    homePlace == null;
 
   return (
     <View className="z-10 mb-2">
@@ -169,7 +206,7 @@ export function NearbyLocationSearchField({
           {pickedTitle ? (
             <View className="min-h-[48px] flex-1 justify-center py-3 pl-2 pr-2">
               <Text
-                className="text-base text-neutral-900"
+                className={compact ? "text-sm text-neutral-900" : "text-base text-neutral-900"}
                 style={{ fontFamily: Pixelify.semibold }}
                 numberOfLines={2}
               >
@@ -190,11 +227,12 @@ export function NearbyLocationSearchField({
               placeholder={
                 showWaiting
                   ? t("schedule.search.waitingForGps")
-                  : t("schedule.search.placeholder")
+                  : (placeholder ?? t("schedule.search.placeholder"))
               }
               placeholderTextColor="#a3a3a3"
-              className="min-h-[48px] flex-1 py-3 pl-2 pr-2 text-base text-neutral-900"
+              className={`min-h-[48px] flex-1 py-3 pl-2 pr-2 text-neutral-900 ${compact ? "text-sm" : "text-base"}`}
               style={{ fontFamily: Pixelify.regular }}
+              numberOfLines={1}
               autoCorrect={false}
               autoCapitalize="words"
               editable={!showWaiting}
@@ -233,6 +271,31 @@ export function NearbyLocationSearchField({
             nestedScrollEnabled
             style={{ maxHeight: 260 }}
           >
+            {homePlace ? (
+              <Pressable
+                onPress={() => pick(homePlace)}
+                className="flex-row items-center gap-3 border-b border-neutral-100 px-4 py-3 active:bg-neutral-50"
+                style={{ backgroundColor: "rgba(22,163,74,0.05)" }}
+              >
+                <Ionicons name="home" size={18} color={LUA_GREEN} />
+                <View className="min-w-0 flex-1">
+                  <Text
+                    className="text-base text-neutral-900"
+                    style={{ fontFamily: Pixelify.semibold }}
+                    numberOfLines={1}
+                  >
+                    {homePlace.title}
+                  </Text>
+                  <Text
+                    className="mt-0.5 text-xs text-neutral-500"
+                    style={{ fontFamily: Pixelify.regular }}
+                    numberOfLines={1}
+                  >
+                    {homePlace.subtitle}
+                  </Text>
+                </View>
+              </Pressable>
+            ) : null}
             {results.map((place) => (
               <Pressable
                 key={place.id}

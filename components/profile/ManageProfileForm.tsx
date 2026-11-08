@@ -1,8 +1,9 @@
 import { Ionicons } from "@expo/vector-icons";
 import { router } from "expo-router";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import {
   Alert,
+  Modal,
   Pressable,
   Text,
   TextInput,
@@ -11,14 +12,32 @@ import {
 import { useTranslation } from "react-i18next";
 
 import { MySpriteAvatar } from "@/components/profile/SpriteAvatar";
+import { MapLocationPicker } from "@/components/schedule/MapLocationPicker";
+import { NearbyLocationSearchField } from "@/components/schedule/NearbyLocationSearchField";
 import { Pixelify } from "@/constants/fonts";
 import { LUA_GREEN } from "@/constants/mapAssets";
+import { useLocation } from "@/hooks/useLocation";
+import type { NearbyPlace } from "@/lib/nearbyPlacesProvider";
 import {
   isValidHandle,
   normalizeHandle,
   updateProfile,
   useProfile,
+  type HomeAddress,
 } from "@/lib/profileStore";
+
+/** A picked place as a home address: its name plus the area under it, when there is one. */
+function homeFromPlace(place: NearbyPlace): HomeAddress {
+  const address = place.subtitle && !place.title.includes(place.subtitle)
+    ? `${place.title}, ${place.subtitle}`
+    : place.title;
+  return {
+    address,
+    latitude: place.latitude,
+    longitude: place.longitude,
+    placeId: place.id,
+  };
+}
 
 export function ManageProfileForm() {
   const { t } = useTranslation();
@@ -27,14 +46,35 @@ export function ManageProfileForm() {
 
   const [displayName, setDisplayName] = useState(profile.displayName);
   const [handle, setHandle] = useState(profile.handle);
+  const [home, setHome] = useState<HomeAddress | null>(profile.home);
+  const [homeQuery, setHomeQuery] = useState(profile.home?.address ?? "");
+  const [mapOpen, setMapOpen] = useState(false);
   const [saving, setSaving] = useState(false);
+
+  // The address search ranks results near where the user is.
+  const { location } = useLocation();
+  const lat = location?.latitude;
+  const lng = location?.longitude;
+  const userLocation = useMemo(
+    () => (lat != null && lng != null ? { latitude: lat, longitude: lng } : null),
+    [lat, lng],
+  );
 
   useEffect(() => {
     if (!isReady || hydratedForm.current) return;
     hydratedForm.current = true;
     setDisplayName(profile.displayName);
     setHandle(profile.handle);
+    setHome(profile.home);
+    setHomeQuery(profile.home?.address ?? "");
   }, [isReady, profile]);
+
+  const pickHome = useCallback((place: NearbyPlace) => {
+    const next = homeFromPlace(place);
+    setHome(next);
+    setHomeQuery(next.address);
+    setMapOpen(false);
+  }, []);
 
   const onCustomizeLook = useCallback(() => {
     router.push("/achievements");
@@ -64,6 +104,7 @@ export function ManageProfileForm() {
       await updateProfile({
         displayName: trimmedName,
         handle: normalizedHandle,
+        home,
       });
       router.back();
     } catch {
@@ -71,7 +112,7 @@ export function ManageProfileForm() {
     } finally {
       setSaving(false);
     }
-  }, [displayName, handle, t]);
+  }, [displayName, handle, home, t]);
 
   return (
     <View
@@ -139,9 +180,61 @@ export function ManageProfileForm() {
         placeholderTextColor="#a3a3a3"
         autoCapitalize="none"
         autoCorrect={false}
-        className="mb-6 rounded-xl border border-neutral-200 bg-neutral-50 px-4 py-3 text-base text-neutral-900"
+        className="mb-4 rounded-xl border border-neutral-200 bg-neutral-50 px-4 py-3 text-base text-neutral-900"
         style={{ fontFamily: Pixelify.regular }}
       />
+
+      <Text
+        className="mb-1.5 text-xs text-neutral-500"
+        style={{ fontFamily: Pixelify.medium }}
+      >
+        {t("manageProfile.homeLabel")}
+      </Text>
+      <NearbyLocationSearchField
+        value={homeQuery}
+        onChangeQuery={setHomeQuery}
+        onPick={pickHome}
+        userLocation={userLocation}
+        active={!mapOpen}
+        pickedTitle={home?.address ?? null}
+        onClearPick={() => setHome(null)}
+        compact
+        placeholder={t("manageProfile.homePlaceholder")}
+        trailing={
+          <Pressable
+            onPress={() => setMapOpen(true)}
+            accessibilityRole="button"
+            accessibilityLabel={t("schedule.addModal.pickOnMap")}
+            className="w-[52px] items-center justify-center rounded-xl border active:opacity-80"
+            style={{
+              borderColor: LUA_GREEN,
+              backgroundColor: "rgba(22,163,74,0.08)",
+            }}
+          >
+            <Ionicons name="map-outline" size={20} color={LUA_GREEN} />
+          </Pressable>
+        }
+      />
+      <Text
+        className="mb-6 text-xs text-neutral-500"
+        style={{ fontFamily: Pixelify.regular }}
+      >
+        {t("manageProfile.homeHint")}
+      </Text>
+
+      <Modal
+        visible={mapOpen}
+        animationType="slide"
+        transparent
+        onRequestClose={() => setMapOpen(false)}
+      >
+        <MapLocationPicker
+          initial={home ?? userLocation}
+          userLocation={userLocation}
+          onCancel={() => setMapOpen(false)}
+          onConfirm={pickHome}
+        />
+      </Modal>
 
       <Pressable
         onPress={onSave}

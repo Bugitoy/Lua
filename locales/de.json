@@ -171,7 +171,8 @@
     "search": {
       "waitingForGps": "Warte auf GPS…",
       "placeholder": "Suche einen Ort weltweit…",
-      "noResults": "Keine passenden Orte. Probiere einen anderen Namen."
+      "noResults": "Keine passenden Orte. Probiere einen anderen Namen.",
+      "home": "Zuhause"
     },
     "mapPicker": {
       "title": "Ort auswählen",
@@ -352,6 +353,9 @@
     "displayNamePlaceholder": "Dein Name",
     "handleLabel": "Handle",
     "handlePlaceholder": "@benutzername",
+    "homeLabel": "Wohnadresse",
+    "homePlaceholder": "Adresse suchen…",
+    "homeHint": "Nur auf diesem Handy gespeichert. Wenn du ein Ziel hinzufügst, gib bei der Ortssuche „Zuhause“ ein, um sie zu verwenden.",
     "save": "Änderungen speichern",
     "errorTitle": "Speichern fehlgeschlagen",
     "errorEmptyName": "Bitte gib einen Anzeigenamen ein.",
