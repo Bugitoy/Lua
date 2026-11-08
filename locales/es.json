@@ -38,8 +38,8 @@
     },
     "gpsDebug": {
       "title": "DEPURACIÓN GPS",
-      "lat": "Lat:  {{value}}",
-      "lng": "Lng:  {{value}}",
+      "lat": "Lat: {{value}}",
+      "lng": "Lng: {{value}}",
       "accuracy": "Prec: ±{{value}} m",
       "speed": "Vel: {{speed}}   bruta: {{rawSpeed}} m/s",
       "stateStationary": "Estado: inmóvil",

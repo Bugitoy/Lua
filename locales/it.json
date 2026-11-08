@@ -38,8 +38,8 @@
     },
     "gpsDebug": {
       "title": "DEBUG GPS",
-      "lat": "Lat:  {{value}}",
-      "lng": "Lng:  {{value}}",
+      "lat": "Lat: {{value}}",
+      "lng": "Lng: {{value}}",
       "accuracy": "Prec: ±{{value}} m",
       "speed": "Vel: {{speed}}   grezza: {{rawSpeed}} m/s",
       "stateStationary": "Stato: fermo",

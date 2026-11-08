@@ -388,31 +388,24 @@ export default function MapScreen() {
               </Text>
             ) : location ? (
               <>
-                {/* One row: a pin and "lat, lng". Labels wouldn't fit beside the stats card. */}
-                <View
-                  accessible
-                  accessibilityLabel={`${t("map.gpsDebug.lat", {
+                {/* Lat and Lng on one row; the box beside the stats card is narrow, so the
+                    text shrinks a little rather than wrapping onto a second line. */}
+                <Text
+                  numberOfLines={1}
+                  adjustsFontSizeToFit
+                  minimumFontScale={0.7}
+                  style={{
+                    fontFamily: Pixelify.regular,
+                    fontSize: 10,
+                    color: "#d4d4d4",
+                  }}
+                >
+                  {`${t("map.gpsDebug.lat", {
                     value: location.latitude.toFixed(5),
-                  })}, ${t("map.gpsDebug.lng", {
+                  })}   ${t("map.gpsDebug.lng", {
                     value: location.longitude.toFixed(5),
                   })}`}
-                  style={{ flexDirection: "row", alignItems: "center", gap: 4 }}
-                >
-                  <Ionicons name="location-outline" size={10} color="#d4d4d4" />
-                  <Text
-                    numberOfLines={1}
-                    adjustsFontSizeToFit
-                    minimumFontScale={0.8}
-                    style={{
-                      flexShrink: 1,
-                      fontFamily: Pixelify.regular,
-                      fontSize: 10,
-                      color: "#d4d4d4",
-                    }}
-                  >
-                    {`${location.latitude.toFixed(5)}, ${location.longitude.toFixed(5)}`}
-                  </Text>
-                </View>
+                </Text>
                 <Text
                   style={{
                     fontFamily: Pixelify.regular,
