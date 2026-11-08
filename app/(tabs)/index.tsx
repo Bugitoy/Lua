@@ -412,7 +412,11 @@ export default function MapScreen() {
                       value: location.longitude.toFixed(5),
                     })}`}
                   </Text>
+                  {/* Accuracy and State share a row, shrinking a little rather than wrapping. */}
                   <Text
+                    numberOfLines={1}
+                    adjustsFontSizeToFit
+                    minimumFontScale={0.7}
                     style={{
                       fontFamily: Pixelify.regular,
                       fontSize: 10,
@@ -425,6 +429,16 @@ export default function MapScreen() {
                           ? location.accuracy.toFixed(1)
                           : "?",
                     })}
+                    {"   "}
+                    <Text style={{ color: location.isStationary ? "#a3a3a3" : "#86efac" }}>
+                      {location.isStationary
+                        ? t("map.gpsDebug.stateStationary")
+                        : location.compassHeading != null
+                          ? t("map.gpsDebug.stateMovingWithHeading", {
+                              heading: Math.round(location.compassHeading),
+                            })
+                          : t("map.gpsDebug.stateMoving")}
+                    </Text>
                   </Text>
                   <Text
                     style={{
@@ -443,21 +457,6 @@ export default function MapScreen() {
                           ? location.rawDeviceSpeed.toFixed(2)
                           : t("common.notAvailable"),
                     })}
-                  </Text>
-                  <Text
-                    style={{
-                      fontFamily: Pixelify.regular,
-                      fontSize: 10,
-                      color: location.isStationary ? "#a3a3a3" : "#86efac",
-                    }}
-                  >
-                    {location.isStationary
-                      ? t("map.gpsDebug.stateStationary")
-                      : location.compassHeading != null
-                        ? t("map.gpsDebug.stateMovingWithHeading", {
-                            heading: Math.round(location.compassHeading),
-                          })
-                        : t("map.gpsDebug.stateMoving")}
                   </Text>
                   {destination ? (
                     <>
