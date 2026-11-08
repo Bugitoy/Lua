@@ -1,4 +1,3 @@
-import { Ionicons } from "@expo/vector-icons";
 import * as Haptics from "expo-haptics";
 import { router } from "expo-router";
 import { useCallback } from "react";
@@ -56,8 +55,7 @@ export function MapStatsCard({
         }}
       >
         <View className="flex-row items-center justify-between gap-2">
-          <View className="min-w-0 flex-1 flex-row items-center gap-1.5">
-            <Ionicons name="flag-outline" size={18} color={LUA_GREEN} />
+          <View className="min-w-0 flex-1 flex-row items-center">
             <Text
               className="shrink text-xs text-neutral-800"
               style={{ fontFamily: Pixelify.semibold }}
@@ -77,8 +75,7 @@ export function MapStatsCard({
         </View>
 
         <View className="mt-2.5 flex-row items-center justify-between gap-2">
-          <View className="min-w-0 flex-1 flex-row items-center gap-1.5">
-            <Ionicons name="walk-outline" size={18} color={LUA_GREEN} />
+          <View className="min-w-0 flex-1 flex-row items-center">
             <Text
               className="shrink text-xs text-neutral-800"
               style={{ fontFamily: Pixelify.semibold }}
@@ -98,8 +95,7 @@ export function MapStatsCard({
         </View>
 
         <View className="mt-2.5 flex-row items-center justify-between gap-2">
-          <View className="min-w-0 flex-1 flex-row items-center gap-1.5">
-            <Ionicons name="footsteps" size={18} color={LUA_GREEN} />
+          <View className="min-w-0 flex-1 flex-row items-center">
             <Text
               className="shrink text-xs text-neutral-800"
               style={{ fontFamily: Pixelify.semibold }}
