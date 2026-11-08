@@ -33,8 +33,9 @@ type ScheduleCalendarProps = {
 };
 
 /**
- * The Schedule calendar: one week with ‹ › arrows. Tapping the month name
- * opens the whole month. Today is outlined; the chosen day is filled green.
+ * The Schedule calendar: the whole month with ‹ › arrows. Tapping the
+ * month name folds it down to one week (and back). Today is outlined; the
+ * chosen day is filled green.
  */
 export function ScheduleCalendar({
   selectedDay,
@@ -45,7 +46,8 @@ export function ScheduleCalendar({
   monthOnly = false,
 }: ScheduleCalendarProps) {
   const { t } = useTranslation();
-  const [expanded, setExpanded] = useState(monthOnly);
+  // Opens on the whole month; the chevron by the month name folds it to one week.
+  const [expanded, setExpanded] = useState(true);
   const [anchor, setAnchor] = useState(selectedDay);
 
   // Jump to the chosen day when it changes from outside (e.g. the Today chip).
@@ -59,7 +61,12 @@ export function ScheduleCalendar({
 
   const pick = (day: string) => {
     onSelectDay(day);
-    if (!monthOnly) setExpanded(false);
+  };
+
+  const toggleExpanded = () => {
+    // Folding to a week shows the chosen day's week when it's in the month on screen.
+    if (expanded && selectedDay.slice(0, 7) === anchor.slice(0, 7)) setAnchor(selectedDay);
+    setExpanded((v) => !v);
   };
 
   const monthLabel = formatAppDate(startOfDay(anchor), { month: "long", year: "numeric" });
@@ -82,7 +89,7 @@ export function ScheduleCalendar({
           </Text>
         ) : (
           <Pressable
-            onPress={() => setExpanded((v) => !v)}
+            onPress={toggleExpanded}
             accessibilityRole="button"
             accessibilityLabel={t(expanded ? "schedule.calendar.showWeek" : "schedule.calendar.showMonth")}
             accessibilityState={{ expanded }}
