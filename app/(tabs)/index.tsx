@@ -65,6 +65,9 @@ export default function MapScreen() {
   const [studyCalloutGoalId, setStudyCalloutGoalId] = useState<string | null>(
     null,
   );
+  /** Heights of the bottom boxes, so the GPS box can sit just above the taller one. */
+  const [statsCardHeight, setStatsCardHeight] = useState(0);
+  const [liveTrackingHeight, setLiveTrackingHeight] = useState(0);
   /** The pin or sprite whose card is open. */
   const [selection, setSelection] = useState<MapSelection | null>(null);
   const closeSelection = useCallback(() => setSelection(null), []);
@@ -247,18 +250,17 @@ export default function MapScreen() {
             distanceMiles={stats.distanceMiles}
             stepsToday={stats.stepsToday}
             bottomInset={insets.bottom}
+            onHeight={setStatsCardHeight}
           />
-          {/* Live tracking with the GPS box stacked right above it, a fixed gap apart.
-              column-reverse keeps live tracking at the bottom. */}
+          {/* Live tracking, level with the stats card; its height places the GPS box. */}
           <View
             pointerEvents="box-none"
+            onLayout={(e) => setLiveTrackingHeight(e.nativeEvent.layout.height)}
             style={{
               position: "absolute",
               left: 12,
               bottom: insets.bottom + 24,
               width: liveTrackingWidth,
-              flexDirection: "column-reverse",
-              gap: 6,
             }}
           >
             <View
@@ -341,158 +343,158 @@ export default function MapScreen() {
                 </Text>
               ) : null}
             </View>
+          </View>
 
+          {/* GPS debug spans the map, just above the taller of the stats card and live tracking. */}
+          <View
+            pointerEvents="none"
+            style={{
+              position: "absolute",
+              left: 12,
+              right: 12,
+              bottom: insets.bottom + 24 + Math.max(statsCardHeight, liveTrackingHeight) + 6,
+              // Hidden until the boxes below are measured, so it doesn't jump into place.
+              opacity: statsCardHeight > 0 ? 1 : 0,
+              backgroundColor: "rgba(0,0,0,0.72)",
+              borderRadius: 10,
+              paddingHorizontal: 12,
+              paddingVertical: 8,
+              gap: 3,
+            }}
+          >
             <View
-              pointerEvents="none"
               style={{
-                backgroundColor: "rgba(0,0,0,0.72)",
-                borderRadius: 10,
-                paddingHorizontal: 12,
-                paddingVertical: 8,
-                gap: 3,
+                flexDirection: "row",
+                alignItems: "center",
+                gap: 5,
+                marginBottom: 2,
               }}
             >
-              <View
+              <Ionicons
+                name={
+                  location
+                    ? "locate"
+                    : errorMsg
+                      ? "warning-outline"
+                      : "hourglass-outline"
+                }
+                size={12}
+                color={location ? "#4ade80" : errorMsg ? "#f87171" : "#facc15"}
+              />
+              <Text
                 style={{
-                  flexDirection: "row",
-                  alignItems: "center",
-                  gap: 5,
-                  marginBottom: 2,
+                  fontFamily: Pixelify.bold,
+                  fontSize: 10,
+                  color: "#e5e5e5",
+                  letterSpacing: 1,
                 }}
               >
-                <Ionicons
-                  name={
-                    location
-                      ? "locate"
-                      : errorMsg
-                        ? "warning-outline"
-                        : "hourglass-outline"
-                  }
-                  size={12}
-                  color={location ? "#4ade80" : errorMsg ? "#f87171" : "#facc15"}
-                />
-                <Text
-                  style={{
-                    fontFamily: Pixelify.bold,
-                    fontSize: 10,
-                    color: "#e5e5e5",
-                    letterSpacing: 1,
-                  }}
-                >
-                  {t("map.gpsDebug.title")}
-                </Text>
-              </View>
-              {errorMsg ? (
-                <Text
-                  style={{
-                    fontFamily: Pixelify.regular,
-                    fontSize: 10,
-                    color: "#f87171",
-                  }}
-                >
-                  {errorMsg}
-                </Text>
-              ) : location ? (
-                <>
-                  {/* Lat and Lng on one row; the box beside the stats card is narrow, so the
-                      text shrinks a little rather than wrapping onto a second line. */}
-                  <Text
-                    numberOfLines={1}
-                    adjustsFontSizeToFit
-                    minimumFontScale={0.7}
-                    style={{
-                      fontFamily: Pixelify.regular,
-                      fontSize: 10,
-                      color: "#d4d4d4",
-                    }}
-                  >
-                    {`${t("map.gpsDebug.lat", {
-                      value: location.latitude.toFixed(5),
-                    })}   ${t("map.gpsDebug.lng", {
-                      value: location.longitude.toFixed(5),
-                    })}`}
-                  </Text>
-                  {/* Accuracy and State share a row, shrinking a little rather than wrapping. */}
-                  <Text
-                    numberOfLines={1}
-                    adjustsFontSizeToFit
-                    minimumFontScale={0.7}
-                    style={{
-                      fontFamily: Pixelify.regular,
-                      fontSize: 10,
-                      color: "#a3a3a3",
-                    }}
-                  >
-                    {t("map.gpsDebug.accuracy", {
-                      value:
-                        location.accuracy != null
-                          ? location.accuracy.toFixed(1)
-                          : "?",
-                    })}
-                    {"   "}
-                    <Text style={{ color: location.isStationary ? "#a3a3a3" : "#86efac" }}>
-                      {location.isStationary
-                        ? t("map.gpsDebug.stateStationary")
-                        : location.compassHeading != null
-                          ? t("map.gpsDebug.stateMovingWithHeading", {
-                              heading: Math.round(location.compassHeading),
-                            })
-                          : t("map.gpsDebug.stateMoving")}
-                    </Text>
-                  </Text>
-                  <Text
-                    style={{
-                      fontFamily: Pixelify.regular,
-                      fontSize: 10,
-                      color: "#a3a3a3",
-                    }}
-                  >
-                    {t("map.gpsDebug.speed", {
-                      speed:
-                        location.speed != null
-                          ? location.speed.toFixed(2)
-                          : t("common.notAvailable"),
-                      rawSpeed:
-                        location.rawDeviceSpeed != null
-                          ? location.rawDeviceSpeed.toFixed(2)
-                          : t("common.notAvailable"),
-                    })}
-                  </Text>
-                  {destination ? (
-                    <>
-                      <View
-                        style={{
-                          height: 1,
-                          backgroundColor: "rgba(255,255,255,0.12)",
-                          marginVertical: 2,
-                        }}
-                      />
-                      <Text
-                        style={{
-                          fontFamily: Pixelify.regular,
-                          fontSize: 10,
-                          color: "#86efac",
-                        }}
-                      >
-                        {t("map.liveTracking.remaining", {
-                          distance: findingRoute ? "…" : (distanceMilesToDestination ?? 0),
-                        })}
-                      </Text>
-                    </>
-                  ) : null}
-                </>
-              ) : (
-                <Text
-                  style={{
-                    fontFamily: Pixelify.regular,
-                    fontSize: 10,
-                    color: "#facc15",
-                  }}
-                >
-                  {t("map.gpsDebug.requestingPermission")}
-                </Text>
-              )}
+                {t("map.gpsDebug.title")}
+              </Text>
             </View>
+            {errorMsg ? (
+              <Text
+                style={{
+                  fontFamily: Pixelify.regular,
+                  fontSize: 10,
+                  color: "#f87171",
+                }}
+              >
+                {errorMsg}
+              </Text>
+            ) : location ? (
+              <>
+                {/* Lat and Lng on one row. */}
+                <Text
+                  style={{
+                    fontFamily: Pixelify.regular,
+                    fontSize: 10,
+                    color: "#d4d4d4",
+                  }}
+                >
+                  {`${t("map.gpsDebug.lat", {
+                    value: location.latitude.toFixed(5),
+                  })}   ${t("map.gpsDebug.lng", {
+                    value: location.longitude.toFixed(5),
+                  })}`}
+                </Text>
+                {/* Accuracy and State on one row. */}
+                <Text
+                  style={{
+                    fontFamily: Pixelify.regular,
+                    fontSize: 10,
+                    color: "#a3a3a3",
+                  }}
+                >
+                  {t("map.gpsDebug.accuracy", {
+                    value:
+                      location.accuracy != null
+                        ? location.accuracy.toFixed(1)
+                        : "?",
+                  })}
+                  {"   "}
+                  <Text style={{ color: location.isStationary ? "#a3a3a3" : "#86efac" }}>
+                    {location.isStationary
+                      ? t("map.gpsDebug.stateStationary")
+                      : location.compassHeading != null
+                        ? t("map.gpsDebug.stateMovingWithHeading", {
+                            heading: Math.round(location.compassHeading),
+                          })
+                        : t("map.gpsDebug.stateMoving")}
+                  </Text>
+                </Text>
+                <Text
+                  style={{
+                    fontFamily: Pixelify.regular,
+                    fontSize: 10,
+                    color: "#a3a3a3",
+                  }}
+                >
+                  {t("map.gpsDebug.speed", {
+                    speed:
+                      location.speed != null
+                        ? location.speed.toFixed(2)
+                        : t("common.notAvailable"),
+                    rawSpeed:
+                      location.rawDeviceSpeed != null
+                        ? location.rawDeviceSpeed.toFixed(2)
+                        : t("common.notAvailable"),
+                  })}
+                </Text>
+                {destination ? (
+                  <>
+                    <View
+                      style={{
+                        height: 1,
+                        backgroundColor: "rgba(255,255,255,0.12)",
+                        marginVertical: 2,
+                      }}
+                    />
+                    <Text
+                      style={{
+                        fontFamily: Pixelify.regular,
+                        fontSize: 10,
+                        color: "#86efac",
+                      }}
+                    >
+                      {t("map.liveTracking.remaining", {
+                        distance: findingRoute ? "…" : (distanceMilesToDestination ?? 0),
+                      })}
+                    </Text>
+                  </>
+                ) : null}
+              </>
+            ) : (
+              <Text
+                style={{
+                  fontFamily: Pixelify.regular,
+                  fontSize: 10,
+                  color: "#facc15",
+                }}
+              >
+                {t("map.gpsDebug.requestingPermission")}
+              </Text>
+            )}
           </View>
         </View>
       </View>

@@ -17,6 +17,8 @@ type MapStatsCardProps = {
   distanceMiles: number;
   stepsToday: number;
   bottomInset: number;
+  /** Reports the card's height, so boxes above it can sit clear of it. */
+  onHeight?: (height: number) => void;
 };
 
 export function MapStatsCard({
@@ -25,6 +27,7 @@ export function MapStatsCard({
   distanceMiles,
   stepsToday,
   bottomInset,
+  onHeight,
 }: MapStatsCardProps) {
   const { t } = useTranslation();
   const openHealthStatus = useCallback(() => {
@@ -36,6 +39,7 @@ export function MapStatsCard({
     <View
       className="absolute z-10"
       pointerEvents="auto"
+      onLayout={onHeight ? (e) => onHeight(e.nativeEvent.layout.height) : undefined}
       style={{
         right: 12,
         // Level with the live tracking box on the left (app/(tabs)/index.tsx),
