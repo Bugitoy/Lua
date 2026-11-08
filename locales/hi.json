@@ -452,11 +452,11 @@
   "account": {
     "createTitle": "अपना खाता बनाएँ",
     "signInTitle": "फिर से स्वागत है",
-    "why": "खाते से आप दोस्त जोड़ सकते हैं और लीडरबोर्ड में शामिल हो सकते हैं।",
+    "why": "दोस्त जोड़ें और लीडरबोर्ड में शामिल हों।",
     "createTab": "खाता बनाएँ",
     "signInTab": "साइन इन",
     "usernameLabel": "यूज़रनेम",
-    "usernameHint": "2–30 अक्षर, अंक या अंडरस्कोर। दोस्त आपको इसी से ढूँढ सकते हैं।",
+    "usernameHint": "2–30 अक्षर, अंक या अंडरस्कोर।",
     "usernamePlaceholder": "username",
     "emailLabel": "ईमेल",
     "emailPlaceholder": "aap@example.com",

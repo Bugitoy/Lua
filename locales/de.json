@@ -452,11 +452,11 @@
   "account": {
     "createTitle": "Konto erstellen",
     "signInTitle": "Willkommen zurück",
-    "why": "Mit einem Konto kannst du Freunde hinzufügen und in der Rangliste mitmachen.",
+    "why": "Freunde hinzufügen, Rangliste beitreten.",
     "createTab": "Konto erstellen",
     "signInTab": "Anmelden",
     "usernameLabel": "Benutzername",
-    "usernameHint": "2–30 Buchstaben, Zahlen oder Unterstriche. Freunde finden dich darüber.",
+    "usernameHint": "2–30 Buchstaben, Zahlen oder Unterstriche.",
     "usernamePlaceholder": "benutzername",
     "emailLabel": "E-Mail",
     "emailPlaceholder": "du@beispiel.de",

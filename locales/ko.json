@@ -448,11 +448,11 @@
   "account": {
     "createTitle": "계정 만들기",
     "signInTitle": "다시 오신 걸 환영해요",
-    "why": "계정이 있으면 친구를 추가하고 리더보드에 참여할 수 있어요.",
+    "why": "친구를 추가하고 리더보드에 참여하세요.",
     "createTab": "계정 만들기",
     "signInTab": "로그인",
     "usernameLabel": "사용자 이름",
-    "usernameHint": "영문, 숫자, 밑줄로 2~30자. 친구가 이 이름으로 나를 찾을 수 있어요.",
+    "usernameHint": "영문, 숫자, 밑줄로 2~30자.",
     "usernamePlaceholder": "username",
     "emailLabel": "이메일",
     "emailPlaceholder": "you@example.com",

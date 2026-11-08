@@ -452,11 +452,11 @@
   "account": {
     "createTitle": "Crée ton compte",
     "signInTitle": "Bon retour",
-    "why": "Un compte te permet d'ajouter des amis et de rejoindre le classement.",
+    "why": "Ajoute des amis et rejoins le classement.",
     "createTab": "Créer un compte",
     "signInTab": "Se connecter",
     "usernameLabel": "Nom d'utilisateur",
-    "usernameHint": "2 à 30 lettres, chiffres ou tirets bas. Tes amis te trouveront grâce à lui.",
+    "usernameHint": "2 à 30 lettres, chiffres ou tirets bas.",
     "usernamePlaceholder": "nomutilisateur",
     "emailLabel": "E-mail",
     "emailPlaceholder": "toi@exemple.fr",

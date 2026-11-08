@@ -201,6 +201,9 @@ export default function SignInScreen() {
           <Text
             className="mt-1 text-center text-sm text-neutral-500"
             style={{ fontFamily: Pixelify.regular }}
+            numberOfLines={1}
+            adjustsFontSizeToFit
+            minimumFontScale={0.8}
           >
             {t("account.why")}
           </Text>

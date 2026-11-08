@@ -452,11 +452,11 @@
   "account": {
     "createTitle": "Create your account",
     "signInTitle": "Welcome back",
-    "why": "An account lets you add friends and join the leaderboard.",
+    "why": "Add friends and join the leaderboard.",
     "createTab": "Create account",
     "signInTab": "Sign in",
     "usernameLabel": "Username",
-    "usernameHint": "2–30 letters, numbers or underscores. Friends can find you by it.",
+    "usernameHint": "2–30 letters, numbers or underscores.",
     "usernamePlaceholder": "username",
     "emailLabel": "Email",
     "emailPlaceholder": "you@example.com",

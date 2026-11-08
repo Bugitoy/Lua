@@ -452,11 +452,11 @@
   "account": {
     "createTitle": "Crea tu cuenta",
     "signInTitle": "Hola de nuevo",
-    "why": "Con una cuenta puedes añadir amigos y unirte a la clasificación.",
+    "why": "Añade amigos y únete a la clasificación.",
     "createTab": "Crear cuenta",
     "signInTab": "Iniciar sesión",
     "usernameLabel": "Nombre de usuario",
-    "usernameHint": "De 2 a 30 letras, números o guiones bajos. Tus amigos te encontrarán por él.",
+    "usernameHint": "De 2 a 30 letras, números o guiones bajos.",
     "usernamePlaceholder": "usuario",
     "emailLabel": "Correo electrónico",
     "emailPlaceholder": "tu@ejemplo.com",

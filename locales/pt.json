@@ -452,11 +452,11 @@
   "account": {
     "createTitle": "Crie sua conta",
     "signInTitle": "Bem-vindo de volta",
-    "why": "Com uma conta você pode adicionar amigos e participar do ranking.",
+    "why": "Adicione amigos e entre no ranking.",
     "createTab": "Criar conta",
     "signInTab": "Entrar",
     "usernameLabel": "Nome de usuário",
-    "usernameHint": "De 2 a 30 letras, números ou sublinhados. Seus amigos encontram você por ele.",
+    "usernameHint": "De 2 a 30 letras, números ou sublinhados.",
     "usernamePlaceholder": "usuario",
     "emailLabel": "E-mail",
     "emailPlaceholder": "voce@exemplo.com",

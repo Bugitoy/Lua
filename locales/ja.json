@@ -448,11 +448,11 @@
   "account": {
     "createTitle": "アカウントを作成",
     "signInTitle": "おかえりなさい",
-    "why": "アカウントがあると、フレンドを追加したりランキングに参加したりできます。",
+    "why": "フレンドを追加してランキングに参加しよう。",
     "createTab": "アカウント作成",
     "signInTab": "サインイン",
     "usernameLabel": "ユーザー名",
-    "usernameHint": "英数字とアンダースコアで2〜30文字。フレンドはこれであなたを見つけられます。",
+    "usernameHint": "英数字とアンダースコアで2〜30文字。",
     "usernamePlaceholder": "username",
     "emailLabel": "メールアドレス",
     "emailPlaceholder": "you@example.com",

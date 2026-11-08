@@ -448,11 +448,11 @@
   "account": {
     "createTitle": "创建账号",
     "signInTitle": "欢迎回来",
-    "why": "有了账号,你就可以添加好友并加入排行榜。",
+    "why": "添加好友,加入排行榜。",
     "createTab": "创建账号",
     "signInTab": "登录",
     "usernameLabel": "用户名",
-    "usernameHint": "2–30 个字母、数字或下划线。好友可以通过它找到你。",
+    "usernameHint": "2–30 个字母、数字或下划线。",
     "usernamePlaceholder": "username",
     "emailLabel": "邮箱",
     "emailPlaceholder": "you@example.com",
