@@ -49,7 +49,6 @@
     },
     "statsCard": {
       "goalsCompleted": "完了した目標",
-      "dayPercent": "今日 {{percent}}%",
       "goalsRatio": "{{done}}/{{total}}",
       "stepsToday": "今日の歩数",
       "stepsRatio": "{{steps}}/{{goal}}",

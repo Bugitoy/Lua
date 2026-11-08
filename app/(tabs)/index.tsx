@@ -244,7 +244,6 @@ export default function MapScreen() {
           <MapStatsCard
             goalsDone={stats.goalsDone}
             goalsTotal={stats.goalsTotal}
-            goalDayPercent={stats.goalDayPercent}
             distanceMiles={stats.distanceMiles}
             stepsToday={stats.stepsToday}
             bottomInset={insets.bottom}
@@ -389,28 +388,31 @@ export default function MapScreen() {
               </Text>
             ) : location ? (
               <>
-                <Text
-                  style={{
-                    fontFamily: Pixelify.regular,
-                    fontSize: 10,
-                    color: "#d4d4d4",
-                  }}
-                >
-                  {t("map.gpsDebug.lat", {
-                    value: location.latitude.toFixed(5),
-                  })}
-                </Text>
-                <Text
-                  style={{
-                    fontFamily: Pixelify.regular,
-                    fontSize: 10,
-                    color: "#d4d4d4",
-                  }}
-                >
-                  {t("map.gpsDebug.lng", {
-                    value: location.longitude.toFixed(5),
-                  })}
-                </Text>
+                {/* Lat and Lng share a row; a narrow box wraps them back onto two. */}
+                <View style={{ flexDirection: "row", flexWrap: "wrap", columnGap: 10 }}>
+                  <Text
+                    style={{
+                      fontFamily: Pixelify.regular,
+                      fontSize: 10,
+                      color: "#d4d4d4",
+                    }}
+                  >
+                    {t("map.gpsDebug.lat", {
+                      value: location.latitude.toFixed(5),
+                    })}
+                  </Text>
+                  <Text
+                    style={{
+                      fontFamily: Pixelify.regular,
+                      fontSize: 10,
+                      color: "#d4d4d4",
+                    }}
+                  >
+                    {t("map.gpsDebug.lng", {
+                      value: location.longitude.toFixed(5),
+                    })}
+                  </Text>
+                </View>
                 <Text
                   style={{
                     fontFamily: Pixelify.regular,

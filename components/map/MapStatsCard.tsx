@@ -14,7 +14,6 @@ import { DAILY_STEP_GOAL } from "@/lib/walkingRules";
 type MapStatsCardProps = {
   goalsDone: number;
   goalsTotal: number;
-  goalDayPercent: number;
   distanceMiles: number;
   stepsToday: number;
   bottomInset: number;
@@ -23,7 +22,6 @@ type MapStatsCardProps = {
 export function MapStatsCard({
   goalsDone,
   goalsTotal,
-  goalDayPercent,
   distanceMiles,
   stepsToday,
   bottomInset,
@@ -57,44 +55,25 @@ export function MapStatsCard({
           elevation: 6,
         }}
       >
-        <View className="flex-row items-start gap-1.5">
-          <Ionicons name="flag-outline" size={18} color={LUA_GREEN} />
-          <View className="min-w-0 flex-1">
-            <View className="flex-row items-start justify-between gap-2">
-              <View className="min-w-0 flex-1">
-                <Text
-                  className="text-xs text-neutral-800"
-                  style={{ fontFamily: Pixelify.semibold }}
-                >
-                  {t("map.statsCard.goalsCompleted")}
-                </Text>
-                <Text
-                  className="mt-0.5 text-[11px] text-neutral-500"
-                  style={{ fontFamily: Pixelify.semibold }}
-                >
-                  {t("map.statsCard.dayPercent", { percent: goalDayPercent })}
-                </Text>
-              </View>
-              <Text
-                className="text-base text-neutral-900"
-                style={{ fontFamily: Pixelify.bold }}
-              >
-                {t("map.statsCard.goalsRatio", {
-                  done: goalsDone,
-                  total: goalsTotal,
-                })}
-              </Text>
-            </View>
-            <View className="mt-1.5 h-1 overflow-hidden rounded-full bg-neutral-200">
-              <View
-                className="h-full rounded-full"
-                style={{
-                  width: "50%",
-                  backgroundColor: LUA_GREEN,
-                }}
-              />
-            </View>
+        <View className="flex-row items-center justify-between gap-2">
+          <View className="min-w-0 flex-1 flex-row items-center gap-1.5">
+            <Ionicons name="flag-outline" size={18} color={LUA_GREEN} />
+            <Text
+              className="shrink text-xs text-neutral-800"
+              style={{ fontFamily: Pixelify.semibold }}
+            >
+              {t("map.statsCard.goalsCompleted")}
+            </Text>
           </View>
+          <Text
+            className="text-base text-neutral-900"
+            style={{ fontFamily: Pixelify.bold }}
+          >
+            {t("map.statsCard.goalsRatio", {
+              done: goalsDone,
+              total: goalsTotal,
+            })}
+          </Text>
         </View>
 
         <View className="mt-2.5 flex-row items-center justify-between gap-2">
