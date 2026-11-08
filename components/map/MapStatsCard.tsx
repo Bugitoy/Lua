@@ -64,7 +64,7 @@ export function MapStatsCard({
             </Text>
           </View>
           <Text
-            className="text-sm text-neutral-900"
+            className="text-xs text-neutral-900"
             style={{ fontFamily: Pixelify.bold }}
           >
             {t("map.statsCard.goalsRatio", {
@@ -84,7 +84,7 @@ export function MapStatsCard({
             </Text>
           </View>
           <Text
-            className="text-sm text-neutral-900"
+            className="text-xs text-neutral-900"
             style={{ fontFamily: Pixelify.bold }}
           >
             {t("map.statsCard.stepsRatio", {
@@ -104,7 +104,7 @@ export function MapStatsCard({
             </Text>
           </View>
           <Text
-            className="text-sm text-neutral-900"
+            className="text-xs text-neutral-900"
             style={{ fontFamily: Pixelify.bold }}
           >
             {t("map.statsCard.distanceMiles", { distance: distanceMiles })}
