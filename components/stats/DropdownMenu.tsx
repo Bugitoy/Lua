@@ -18,7 +18,15 @@ type DropdownMenuProps<T extends string> = {
   accessibilityLabel?: string;
 };
 
-/** A small menu that drops down from its button, above everything else on screen. */
+/** Height of one option row plus the menu's padding, for deciding whether it fits below. */
+const ROW_HEIGHT = 40;
+const MENU_PADDING = 8;
+const SCREEN_MARGIN = 12;
+
+/**
+ * A small menu that drops down from its button, above everything else on
+ * screen. When there isn't room below the button, it opens upwards instead.
+ */
 export function DropdownMenu<T extends string>({
   value,
   options,
@@ -28,13 +36,19 @@ export function DropdownMenu<T extends string>({
   accessibilityLabel,
 }: DropdownMenuProps<T>) {
   const anchorRef = useRef<View>(null);
-  const { width: screenW } = useWindowDimensions();
+  const { width: screenW, height: screenH } = useWindowDimensions();
   const [anchor, setAnchor] = useState<{ x: number; y: number; w: number; h: number } | null>(null);
 
   const open = () => {
     anchorRef.current?.measureInWindow((x, y, w, h) => setAnchor({ x, y, w, h }));
   };
   const close = () => setAnchor(null);
+
+  const menuHeight = options.length * ROW_HEIGHT + MENU_PADDING;
+  const opensUp =
+    anchor != null &&
+    anchor.y + anchor.h + 6 + menuHeight > screenH - SCREEN_MARGIN &&
+    anchor.y - 6 - menuHeight >= SCREEN_MARGIN;
 
   return (
     <>
@@ -56,7 +70,7 @@ export function DropdownMenu<T extends string>({
             <View
               style={{
                 position: "absolute",
-                top: anchor.y + anchor.h + 6,
+                ...(opensUp ? { bottom: screenH - anchor.y + 6 } : { top: anchor.y + anchor.h + 6 }),
                 ...(align === "left" ? { left: anchor.x } : { right: screenW - anchor.x - anchor.w }),
                 minWidth: Math.max(140, anchor.w),
                 backgroundColor: "#fff",
