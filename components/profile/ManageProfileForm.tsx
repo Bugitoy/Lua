@@ -2,7 +2,6 @@ import { Ionicons } from "@expo/vector-icons";
 import { router } from "expo-router";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import {
-  Alert,
   Modal,
   Pressable,
   Text,
@@ -17,6 +16,7 @@ import { NearbyLocationSearchField } from "@/components/schedule/NearbyLocationS
 import { Pixelify } from "@/constants/fonts";
 import { LUA_GREEN } from "@/constants/mapAssets";
 import { useLocation } from "@/hooks/useLocation";
+import { showAppNotice } from "@/lib/appAlert";
 import { homeFromPlace } from "@/lib/homeAddress";
 import type { NearbyPlace } from "@/lib/nearbyPlacesProvider";
 import {
@@ -70,21 +70,26 @@ export function ManageProfileForm() {
   }, []);
 
   const onSave = useCallback(async () => {
+    const cannotSave = (message: string) =>
+      showAppNotice(
+        {
+          icon: "alert-circle-outline",
+          tone: "danger",
+          title: t("manageProfile.errorTitle"),
+          message,
+        },
+        t("common.ok"),
+      );
+
     const trimmedName = displayName.trim();
     if (!trimmedName) {
-      Alert.alert(
-        t("manageProfile.errorTitle"),
-        t("manageProfile.errorEmptyName"),
-      );
+      cannotSave(t("manageProfile.errorEmptyName"));
       return;
     }
 
     const normalizedHandle = normalizeHandle(handle);
     if (!isValidHandle(normalizedHandle)) {
-      Alert.alert(
-        t("manageProfile.errorTitle"),
-        t("manageProfile.errorInvalidHandle"),
-      );
+      cannotSave(t("manageProfile.errorInvalidHandle"));
       return;
     }
 
@@ -97,7 +102,7 @@ export function ManageProfileForm() {
       });
       router.back();
     } catch {
-      Alert.alert(t("manageProfile.errorTitle"), t("manageProfile.errorSave"));
+      cannotSave(t("manageProfile.errorSave"));
     } finally {
       setSaving(false);
     }

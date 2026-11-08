@@ -25,6 +25,8 @@ type ChoicePromptProps = {
   message: string;
   choices: PromptChoice[];
   onCancel: () => void;
+  /** The quiet button under the choices; defaults to Cancel, null hides it. */
+  cancelLabel?: string | null;
 };
 
 const TONES: Record<ChoiceTone, { bg: string; border: string; text: string; detail: string }> = {
@@ -38,15 +40,16 @@ const TONES: Record<ChoiceTone, { bg: string; border: string; text: string; deta
  * title and message, a stack of choices and Cancel. Fills its parent, so
  * draw it over a sheet or inside a transparent Modal.
  */
-export function ChoicePrompt({ icon, tone, title, message, choices, onCancel }: ChoicePromptProps) {
+export function ChoicePrompt({ icon, tone, title, message, choices, onCancel, cancelLabel }: ChoicePromptProps) {
   const { t } = useTranslation();
   const accent = tone === "danger" ? DANGER : LUA_GREEN;
+  const cancelText = cancelLabel === undefined ? t("common.cancel") : cancelLabel;
 
   return (
     <View className="absolute inset-0 items-center justify-center bg-black/45 px-5">
-      <Pressable className="absolute inset-0" onPress={onCancel} accessibilityLabel={t("common.cancel")} />
+      <Pressable className="absolute inset-0" onPress={onCancel} accessibilityLabel={cancelText ?? t("common.cancel")} />
       <View
-        className="w-full max-w-[400px] rounded-3xl bg-white px-5 pb-3 pt-6"
+        className={`w-full max-w-[400px] rounded-3xl bg-white px-5 pt-6 ${cancelText ? "pb-3" : "pb-5"}`}
         style={{
           shadowColor: "#000",
           shadowOffset: { width: 0, height: 8 },
@@ -99,11 +102,13 @@ export function ChoicePrompt({ icon, tone, title, message, choices, onCancel }: 
           })}
         </View>
 
-        <Pressable onPress={onCancel} accessibilityRole="button" className="mt-1 items-center py-3 active:opacity-70">
-          <Text className="text-neutral-500" style={{ fontFamily: Pixelify.semibold, fontSize: 14 }}>
-            {t("common.cancel")}
-          </Text>
-        </Pressable>
+        {cancelText ? (
+          <Pressable onPress={onCancel} accessibilityRole="button" className="mt-1 items-center py-3 active:opacity-70">
+            <Text className="text-neutral-500" style={{ fontFamily: Pixelify.semibold, fontSize: 14 }}>
+              {cancelText}
+            </Text>
+          </Pressable>
+        ) : null}
       </View>
     </View>
   );

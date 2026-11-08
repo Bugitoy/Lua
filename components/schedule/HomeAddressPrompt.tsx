@@ -1,11 +1,12 @@
 import { Ionicons } from "@expo/vector-icons";
 import { useCallback, useEffect, useRef, useState } from "react";
-import { ActivityIndicator, Alert, Pressable, Text, View } from "react-native";
+import { ActivityIndicator, Pressable, Text, View } from "react-native";
 import { useTranslation } from "react-i18next";
 
 import { NearbyLocationSearchField } from "@/components/schedule/NearbyLocationSearchField";
 import { Pixelify } from "@/constants/fonts";
 import { LUA_GREEN } from "@/constants/mapAssets";
+import { showAppNotice } from "@/lib/appAlert";
 import { homeFromPlace } from "@/lib/homeAddress";
 import { reverseGeocode, type NearbyPlace } from "@/lib/nearbyPlacesProvider";
 import { updateProfile, type HomeAddress } from "@/lib/profileStore";
@@ -44,7 +45,15 @@ export function HomeAddressPrompt({ userLocation, bottomInset = 0, onCancel, onS
 
   const fillCurrentLocation = useCallback(async () => {
     if (!userLocation) {
-      Alert.alert(t("schedule.homePrompt.title"), t("schedule.search.waitingForGps"));
+      showAppNotice(
+        {
+          icon: "locate-outline",
+          tone: "primary",
+          title: t("schedule.homePrompt.title"),
+          message: t("schedule.search.waitingForGps"),
+        },
+        t("common.ok"),
+      );
       return;
     }
     setLocating(true);
@@ -76,7 +85,15 @@ export function HomeAddressPrompt({ userLocation, bottomInset = 0, onCancel, onS
       await updateProfile({ home });
       onSaved(home);
     } catch {
-      Alert.alert(t("manageProfile.errorTitle"), t("manageProfile.errorSave"));
+      showAppNotice(
+        {
+          icon: "alert-circle-outline",
+          tone: "danger",
+          title: t("manageProfile.errorTitle"),
+          message: t("manageProfile.errorSave"),
+        },
+        t("common.ok"),
+      );
     } finally {
       setSaving(false);
     }

@@ -27,8 +27,10 @@ import { ChoicePrompt } from "@/components/schedule/ChoicePrompt";
 import { RepeatUntilPicker } from "@/components/schedule/RepeatUntilPicker";
 import { ScheduleCalendar } from "@/components/schedule/ScheduleCalendar";
 import { TimeWheelPicker } from "@/components/schedule/TimeWheelPicker";
+import { AppAlertHost } from "@/components/settings/AppAlertHost";
 import { Pixelify } from "@/constants/fonts";
 import { LUA_GREEN } from "@/constants/mapAssets";
+import { closeAppAlert, useAppAlert } from "@/lib/appAlert";
 import { startOfDay } from "@/lib/dayKey";
 import { haversineMeters } from "@/lib/geo";
 import { HOME_PLACE_ID, homeAsPlace } from "@/lib/homeAddress";
@@ -123,6 +125,7 @@ export function AddScheduleModal({
 }: AddScheduleModalProps) {
   const { t } = useTranslation();
   const insets = useSafeAreaInsets();
+  const appAlert = useAppAlert();
   const [day, setDay] = useState(defaultDay);
   const [showDatePicker, setShowDatePicker] = useState(false);
   const [time, setTime] = useState<Date | null>(null);
@@ -403,7 +406,9 @@ export function AddScheduleModal({
       animationType="slide"
       transparent
       onRequestClose={
-        mapPickerOpen
+        appAlert
+          ? closeAppAlert
+          : mapPickerOpen
           ? () => setMapPickerOpen(false)
           : homePrompt
             ? () => setHomePrompt(null)
@@ -712,6 +717,8 @@ export function AddScheduleModal({
               }}
             />
           ) : null}
+          {/* Alerts raised while the sheet is open (e.g. by the home prompt) draw here, above it. */}
+          <AppAlertHost />
         </View>
       )}
     </Modal>

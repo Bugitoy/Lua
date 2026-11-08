@@ -5,7 +5,7 @@ import * as Notifications from "expo-notifications";
 import { router } from "expo-router";
 import { useCallback, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Alert, Linking, Pressable, ScrollView, Switch, Text, View } from "react-native";
+import { Linking, Pressable, ScrollView, Switch, Text, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 import { formatXp } from "@/components/achievements/theme";
@@ -17,6 +17,7 @@ import { APP_VERSION } from "@/constants/appVersion";
 import { Pixelify } from "@/constants/fonts";
 import { LUA_GREEN } from "@/constants/mapAssets";
 import { useAchievements } from "@/lib/achievementsStore";
+import { showAppAlert, showAppNotice } from "@/lib/appAlert";
 import { useGameStats } from "@/lib/gameStats";
 import { syncEveningNudge } from "@/lib/goalNotifications";
 import { getAppLocale } from "@/lib/i18n/formatLocale";
@@ -121,11 +122,22 @@ export default function ProfileScreen() {
 
   const onToggleNotifications = useCallback(
     async (value: boolean) => {
+      const notificationError = (message: string) =>
+        showAppNotice(
+          { icon: "alert-circle-outline", tone: "danger", title: t("notifications.errorTitle"), message },
+          t("common.ok"),
+        );
+
       if (value) {
         if (!Device.isDevice) {
-          Alert.alert(
-            t("notifications.unsupportedTitle"),
-            t("notifications.unsupportedMessage"),
+          showAppNotice(
+            {
+              icon: "phone-portrait-outline",
+              tone: "primary",
+              title: t("notifications.unsupportedTitle"),
+              message: t("notifications.unsupportedMessage"),
+            },
+            t("common.ok"),
           );
           return;
         }
@@ -138,10 +150,16 @@ export default function ProfileScreen() {
           }
 
           if (permission.status !== "granted") {
-            Alert.alert(
-              t("notifications.permissionDeniedTitle"),
-              t("notifications.permissionDeniedMessage"),
-            );
+            showAppAlert({
+              icon: "notifications-off-outline",
+              tone: "primary",
+              title: t("notifications.permissionDeniedTitle"),
+              message: t("notifications.permissionDeniedMessage"),
+              buttons: [
+                { label: t("common.openSettings"), tone: "primary", onPress: () => void Linking.openSettings() },
+              ],
+              cancelLabel: t("common.notNow"),
+            });
             setNotificationsEnabled(false);
             return;
           }
@@ -150,7 +168,7 @@ export default function ProfileScreen() {
           await setNotificationChoice(true);
           syncEveningNudge(true);
         } catch {
-          Alert.alert(t("notifications.errorTitle"), t("notifications.errorEnabling"));
+          notificationError(t("notifications.errorEnabling"));
         }
       } else {
         try {
@@ -159,7 +177,7 @@ export default function ProfileScreen() {
           await Notifications.cancelAllScheduledNotificationsAsync();
           syncEveningNudge(true);
         } catch {
-          Alert.alert(t("notifications.errorTitle"), t("notifications.errorDisabling"));
+          notificationError(t("notifications.errorDisabling"));
         }
       }
     },
@@ -184,18 +202,14 @@ export default function ProfileScreen() {
   }, []);
 
   const onSignOut = useCallback(() => {
-    Alert.alert(
-      t("common.signOutConfirmTitle"),
-      t("common.signOutConfirmMessage"),
-      [
-        { text: t("common.cancel"), style: "cancel" },
-        {
-          text: t("common.signOut"),
-          style: "destructive",
-          onPress: () => {},
-        },
-      ],
-    );
+    showAppAlert({
+      icon: "log-out-outline",
+      tone: "danger",
+      title: t("common.signOutConfirmTitle"),
+      message: t("common.signOutConfirmMessage"),
+      // Signing out isn't wired up yet; the button only closes the alert, as before.
+      buttons: [{ label: t("common.signOut"), tone: "danger" }],
+    });
   }, [t]);
 
   return (
