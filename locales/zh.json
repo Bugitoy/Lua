@@ -466,7 +466,6 @@
     "agreeBefore": "创建账号即表示你同意",
     "agreeBetween": "和",
     "agreeAfter": "。",
-    "keepsData": "无论登录还是退出,你在这部手机上的记录都会保留。",
     "confirmEmailTitle": "请查看邮箱",
     "confirmEmailMessage": "我们已向 {{email}} 发送了一个链接。打开链接确认账号后再登录。",
     "friendCodeLabel": "好友码",

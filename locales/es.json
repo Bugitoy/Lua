@@ -470,7 +470,6 @@
     "agreeBefore": "Al crear una cuenta aceptas los ",
     "agreeBetween": " y la ",
     "agreeAfter": ".",
-    "keepsData": "Todo lo que has hecho en este teléfono se queda aquí al iniciar o cerrar sesión.",
     "confirmEmailTitle": "Revisa tu correo",
     "confirmEmailMessage": "Hemos enviado un enlace a {{email}}. Ábrelo para confirmar tu cuenta y luego inicia sesión.",
     "friendCodeLabel": "Código de amigo",

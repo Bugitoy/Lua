@@ -470,7 +470,6 @@
     "agreeBefore": "Mit dem Erstellen eines Kontos akzeptierst du: ",
     "agreeBetween": " und ",
     "agreeAfter": ".",
-    "keepsData": "Alles, was du auf diesem Handy gemacht hast, bleibt hier, wenn du dich an- oder abmeldest.",
     "confirmEmailTitle": "Prüfe deine E-Mails",
     "confirmEmailMessage": "Wir haben einen Link an {{email}} gesendet. Öffne ihn, um dein Konto zu bestätigen, und melde dich dann an.",
     "friendCodeLabel": "Freundescode",

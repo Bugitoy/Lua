@@ -466,7 +466,6 @@
     "agreeBefore": "アカウントを作成すると、",
     "agreeBetween": "と",
     "agreeAfter": "に同意したことになります。",
-    "keepsData": "サインインやサインアウトをしても、このスマホでの記録はそのまま残ります。",
     "confirmEmailTitle": "メールを確認してください",
     "confirmEmailMessage": "{{email}} にリンクを送りました。リンクを開いてアカウントを確認してから、サインインしてください。",
     "friendCodeLabel": "フレンドコード",

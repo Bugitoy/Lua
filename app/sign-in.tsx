@@ -334,13 +334,6 @@ export default function SignInScreen() {
             </Text>
           ) : null}
         </View>
-
-        <Text
-          className="mt-4 text-center text-xs text-neutral-500"
-          style={{ fontFamily: Pixelify.regular }}
-        >
-          {t("account.keepsData")}
-        </Text>
       </ScrollView>
     </View>
   );

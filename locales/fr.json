@@ -470,7 +470,6 @@
     "agreeBefore": "En créant un compte, tu acceptes les ",
     "agreeBetween": " et la ",
     "agreeAfter": ".",
-    "keepsData": "Tout ce que tu as fait sur ce téléphone y reste quand tu te connectes ou te déconnectes.",
     "confirmEmailTitle": "Vérifie tes e-mails",
     "confirmEmailMessage": "Nous avons envoyé un lien à {{email}}. Ouvre-le pour confirmer ton compte, puis connecte-toi.",
     "friendCodeLabel": "Code ami",

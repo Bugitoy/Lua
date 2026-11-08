@@ -466,7 +466,6 @@
     "agreeBefore": "계정을 만들면 ",
     "agreeBetween": " 및 ",
     "agreeAfter": "에 동의하게 됩니다.",
-    "keepsData": "로그인하거나 로그아웃해도 이 휴대폰에서 한 기록은 그대로 남아요.",
     "confirmEmailTitle": "이메일을 확인하세요",
     "confirmEmailMessage": "{{email}}(으)로 링크를 보냈어요. 링크를 열어 계정을 확인한 다음 로그인하세요.",
     "friendCodeLabel": "친구 코드",

@@ -470,7 +470,6 @@
     "agreeBefore": "Creando un account accetti i ",
     "agreeBetween": " e l'",
     "agreeAfter": ".",
-    "keepsData": "Tutto quello che hai fatto su questo telefono resta qui quando accedi o esci.",
     "confirmEmailTitle": "Controlla la tua email",
     "confirmEmailMessage": "Abbiamo inviato un link a {{email}}. Aprilo per confermare l'account, poi accedi.",
     "friendCodeLabel": "Codice amico",

@@ -470,7 +470,6 @@
     "agreeBefore": "By creating an account you agree to the ",
     "agreeBetween": " and the ",
     "agreeAfter": ".",
-    "keepsData": "Everything you've done on this phone stays here when you sign in or out.",
     "confirmEmailTitle": "Check your email",
     "confirmEmailMessage": "We sent a link to {{email}}. Open it to confirm your account, then sign in.",
     "friendCodeLabel": "Friend code",
