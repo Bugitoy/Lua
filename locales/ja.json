@@ -227,6 +227,17 @@
       "milesWalked": "歩いたマイル",
       "hoursStudied": "作業時間"
     },
+    "summary": {
+      "goalsLabel": "目標",
+      "goalsToGo_other": "残り {{count}} 件",
+      "allDone": "すべての目標を達成！",
+      "noGoals": "目標はまだありません",
+      "streak_other": "{{count}} 日連続",
+      "streakNone": "連続記録はまだありません",
+      "ofSteps": "目標 {{goal}} 歩",
+      "walked": "歩いた距離",
+      "worked": "作業時間"
+    },
     "sections": {
       "account": "アカウント",
       "preferences": "設定",

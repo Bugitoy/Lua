@@ -229,6 +229,19 @@
       "milesWalked": "Miles Walked",
       "hoursStudied": "Hours Worked"
     },
+    "summary": {
+      "goalsLabel": "goals",
+      "goalsToGo_one": "{{count}} goal to go",
+      "goalsToGo_other": "{{count}} goals to go",
+      "allDone": "All goals done!",
+      "noGoals": "No goals yet",
+      "streak_one": "{{count}}-day streak",
+      "streak_other": "{{count}}-day streak",
+      "streakNone": "No streak yet",
+      "ofSteps": "of {{goal}} steps",
+      "walked": "walked",
+      "worked": "worked"
+    },
     "sections": {
       "account": "Account",
       "preferences": "Preferences",

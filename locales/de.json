@@ -229,6 +229,19 @@
       "milesWalked": "Gelaufene Meilen",
       "hoursStudied": "Arbeitsstunden"
     },
+    "summary": {
+      "goalsLabel": "Ziele",
+      "goalsToGo_one": "Noch {{count}} Ziel",
+      "goalsToGo_other": "Noch {{count}} Ziele",
+      "allDone": "Alle Ziele erreicht!",
+      "noGoals": "Noch keine Ziele",
+      "streak_one": "{{count}} Tag in Folge",
+      "streak_other": "{{count}} Tage in Folge",
+      "streakNone": "Noch keine Serie",
+      "ofSteps": "von {{goal}} Schritten",
+      "walked": "gegangen",
+      "worked": "gearbeitet"
+    },
     "sections": {
       "account": "Konto",
       "preferences": "Einstellungen",

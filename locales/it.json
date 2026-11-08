@@ -229,6 +229,19 @@
       "milesWalked": "Miglia percorse",
       "hoursStudied": "Ore di lavoro"
     },
+    "summary": {
+      "goalsLabel": "obiettivi",
+      "goalsToGo_one": "Manca {{count}} obiettivo",
+      "goalsToGo_other": "Mancano {{count}} obiettivi",
+      "allDone": "Tutti gli obiettivi completati!",
+      "noGoals": "Nessun obiettivo ancora",
+      "streak_one": "Serie di {{count}} giorno",
+      "streak_other": "Serie di {{count}} giorni",
+      "streakNone": "Nessuna serie ancora",
+      "ofSteps": "di {{goal}} passi",
+      "walked": "percorsi",
+      "worked": "di lavoro"
+    },
     "sections": {
       "account": "Account",
       "preferences": "Preferenze",

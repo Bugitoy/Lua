@@ -227,6 +227,17 @@
       "milesWalked": "步行英里数",
       "hoursStudied": "工作时长"
     },
+    "summary": {
+      "goalsLabel": "目标",
+      "goalsToGo_other": "还剩 {{count}} 个目标",
+      "allDone": "所有目标已完成！",
+      "noGoals": "暂无目标",
+      "streak_other": "连续 {{count}} 天",
+      "streakNone": "暂无连续记录",
+      "ofSteps": "目标 {{goal}} 步",
+      "walked": "步行",
+      "worked": "工作"
+    },
     "sections": {
       "account": "账户",
       "preferences": "偏好设置",

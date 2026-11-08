@@ -229,6 +229,19 @@
       "milesWalked": "चले गए मील",
       "hoursStudied": "काम के घंटे"
     },
+    "summary": {
+      "goalsLabel": "लक्ष्य",
+      "goalsToGo_one": "{{count}} लक्ष्य बाकी",
+      "goalsToGo_other": "{{count}} लक्ष्य बाकी",
+      "allDone": "सभी लक्ष्य पूरे!",
+      "noGoals": "अभी कोई लक्ष्य नहीं",
+      "streak_one": "{{count}} दिन की लय",
+      "streak_other": "{{count}} दिन की लय",
+      "streakNone": "अभी कोई लय नहीं",
+      "ofSteps": "{{goal}} कदमों में से",
+      "walked": "चले",
+      "worked": "काम किया"
+    },
     "sections": {
       "account": "खाता",
       "preferences": "प्राथमिकताएँ",

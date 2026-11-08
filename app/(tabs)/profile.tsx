@@ -4,7 +4,7 @@ import * as Device from "expo-device";
 import { LinearGradient } from "expo-linear-gradient";
 import * as Notifications from "expo-notifications";
 import { router } from "expo-router";
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Alert, Linking, Pressable, ScrollView, Switch, Text, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
@@ -12,17 +12,16 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { formatXp } from "@/components/achievements/theme";
 import { xpBarProgress } from "@/components/achievements/unlockRoute";
 import { MySpriteAvatar } from "@/components/profile/SpriteAvatar";
+import { TodaySummaryCard } from "@/components/profile/TodaySummaryCard";
 import { LanguagePickerModal } from "@/components/settings/LanguagePickerModal";
 import { APP_VERSION } from "@/constants/appVersion";
 import { Pixelify } from "@/constants/fonts";
 import { LUA_GREEN } from "@/constants/mapAssets";
 import { useAchievements } from "@/lib/achievementsStore";
-import { formatHours } from "@/lib/formatters";
 import { useGameStats } from "@/lib/gameStats";
 import { getAppLocale } from "@/lib/i18n/formatLocale";
 import { useLanguagePreference } from "@/lib/i18n/LanguageProvider";
 import { useProfile } from "@/lib/profileStore";
-import { DAILY_STEP_GOAL } from "@/lib/walkingRules";
 import { useStatsXp } from "@/lib/xp";
 
 const NOTIFICATIONS_ENABLED_KEY = "notificationsEnabled";
@@ -174,52 +173,6 @@ export default function ProfileScreen() {
   const xpLabel = formatXp(xp, getAppLocale());
   const xpProgress = xpBarProgress(xp);
 
-  const statCards = useMemo(
-    () => [
-      {
-        key: "stepsToday",
-        label: t("profile.stats.stepsToday"),
-        value: formatXp(stats.stepsToday, getAppLocale()),
-        sub: `/ ${formatXp(DAILY_STEP_GOAL, getAppLocale())}`,
-        icon: "walk-outline" as const,
-        accent: "#14b8a6",
-        fullWidth: true,
-      },
-      {
-        key: "goalsToday",
-        label: t("profile.stats.goalsToday"),
-        value: `${stats.goalsDone}`,
-        sub: `/ ${stats.goalsTotal}`,
-        icon: "flag-outline" as const,
-        accent: LUA_GREEN,
-      },
-      {
-        key: "goalStreak",
-        label: t("profile.stats.goalStreak"),
-        value: `${stats.goalStreak}`,
-        sub: t("units.days"),
-        icon: "flame-outline" as const,
-        accent: "#f97316",
-      },
-      {
-        key: "milesWalked",
-        label: t("profile.stats.milesWalked"),
-        value: `${stats.distanceMiles}`,
-        sub: t("units.milesShort"),
-        icon: "footsteps" as const,
-        accent: "#3b82f6",
-      },
-      {
-        key: "hoursStudied",
-        label: t("profile.stats.hoursStudied"),
-        value: formatHours(stats.hoursStudied),
-        sub: "",
-        icon: "briefcase-outline" as const,
-        accent: "#8b5cf6",
-      },
-    ],
-    [stats, t],
-  );
 
   const onManageProfile = useCallback(() => {
     router.push("/manage-profile");
@@ -280,7 +233,7 @@ export default function ProfileScreen() {
             colors={["#d1fae5", "#ffffff"]}
             start={{ x: 0, y: 0 }}
             end={{ x: 0, y: 1 }}
-            style={{ padding: 20, alignItems: "center" }}
+            style={{ paddingHorizontal: 16, paddingVertical: 14, alignItems: "center" }}
           >
             <Pressable
               onPress={onOpenWardrobe}
@@ -289,17 +242,17 @@ export default function ProfileScreen() {
               accessibilityLabel={t("a11y.profileAvatar")}
               accessibilityHint={t("a11y.customizeAvatarHint")}
             >
-              <MySpriteAvatar size={88} ringWidth={3} ringColor={LUA_GREEN} />
+              <MySpriteAvatar size={64} ringWidth={2} ringColor={LUA_GREEN} />
               <View
-                className="absolute bottom-0 right-0 size-7 items-center justify-center rounded-full border-2 border-white"
+                className="absolute bottom-0 right-0 size-6 items-center justify-center rounded-full border-2 border-white"
                 style={{ backgroundColor: LUA_GREEN }}
               >
-                <Ionicons name="shirt" size={13} color="#fff" />
+                <Ionicons name="shirt" size={11} color="#fff" />
               </View>
             </Pressable>
 
             <Text
-              className="mt-3 text-xl text-neutral-900"
+              className="mt-2 text-lg text-neutral-900"
               style={{ fontFamily: Pixelify.bold }}
             >
               {profile.displayName}
@@ -311,7 +264,7 @@ export default function ProfileScreen() {
               {profile.handle}
             </Text>
 
-            <View className="mt-4 w-full">
+            <View className="mt-3 w-full">
               <View className="mb-1 flex-row items-center justify-between">
                 <Text
                   className="text-xs text-neutral-600"
@@ -326,7 +279,7 @@ export default function ProfileScreen() {
                   {t("achievements.xpAmount", { xp: xpLabel })}
                 </Text>
               </View>
-              <View className="h-3 overflow-hidden rounded-full bg-neutral-200">
+              <View className="h-2.5 overflow-hidden rounded-full bg-neutral-200">
                 <LinearGradient
                   colors={[LUA_GREEN, "#84cc16"]}
                   start={{ x: 0, y: 0.5 }}
@@ -342,49 +295,14 @@ export default function ProfileScreen() {
           </LinearGradient>
         </View>
 
-        <View className="mb-4 flex-row flex-wrap gap-3">
-          {statCards.map((item) => (
-            <View
-              key={item.key}
-              className="items-center rounded-2xl bg-white py-4"
-              style={{
-                width: "fullWidth" in item ? "100%" : "47.5%",
-                shadowColor: "#000",
-                shadowOffset: { width: 0, height: 2 },
-                shadowOpacity: 0.05,
-                shadowRadius: 6,
-                elevation: 2,
-              }}
-            >
-              <View
-                className="mb-2 size-10 items-center justify-center rounded-full"
-                style={{ backgroundColor: `${item.accent}15` }}
-              >
-                <Ionicons name={item.icon} size={20} color={item.accent} />
-              </View>
-              <View className="flex-row items-baseline gap-1">
-                <Text
-                  className="text-2xl text-neutral-900"
-                  style={{ fontFamily: Pixelify.bold }}
-                >
-                  {item.value}
-                </Text>
-                <Text
-                  className="text-sm text-neutral-400"
-                  style={{ fontFamily: Pixelify.regular }}
-                >
-                  {item.sub}
-                </Text>
-              </View>
-              <Text
-                className="mt-0.5 text-center text-[11px] text-neutral-500"
-                style={{ fontFamily: Pixelify.regular }}
-              >
-                {item.label}
-              </Text>
-            </View>
-          ))}
-        </View>
+        <TodaySummaryCard
+          goalsDone={stats.goalsDone}
+          goalsTotal={stats.goalsTotal}
+          goalStreak={stats.goalStreak}
+          stepsToday={stats.stepsToday}
+          distanceMiles={stats.distanceMiles}
+          hoursWorked={stats.hoursStudied}
+        />
 
         <Text
           className="mb-2 ml-1 text-xs uppercase tracking-widest text-neutral-400"

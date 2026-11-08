@@ -229,6 +229,19 @@
       "milesWalked": "Millas recorridas",
       "hoursStudied": "Horas de trabajo"
     },
+    "summary": {
+      "goalsLabel": "metas",
+      "goalsToGo_one": "Falta {{count}} meta",
+      "goalsToGo_other": "Faltan {{count}} metas",
+      "allDone": "¡Todas las metas cumplidas!",
+      "noGoals": "Aún no hay metas",
+      "streak_one": "Racha de {{count}} día",
+      "streak_other": "Racha de {{count}} días",
+      "streakNone": "Aún sin racha",
+      "ofSteps": "de {{goal}} pasos",
+      "walked": "caminado",
+      "worked": "trabajado"
+    },
     "sections": {
       "account": "Cuenta",
       "preferences": "Preferencias",

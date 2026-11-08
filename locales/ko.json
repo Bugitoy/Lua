@@ -227,6 +227,17 @@
       "milesWalked": "걸은 마일",
       "hoursStudied": "작업 시간"
     },
+    "summary": {
+      "goalsLabel": "목표",
+      "goalsToGo_other": "목표 {{count}}개 남음",
+      "allDone": "모든 목표 완료!",
+      "noGoals": "아직 목표가 없어요",
+      "streak_other": "{{count}}일 연속",
+      "streakNone": "아직 연속 기록이 없어요",
+      "ofSteps": "목표 {{goal}}걸음",
+      "walked": "걸은 거리",
+      "worked": "작업 시간"
+    },
     "sections": {
       "account": "계정",
       "preferences": "환경설정",
