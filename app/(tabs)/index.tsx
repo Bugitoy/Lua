@@ -29,6 +29,7 @@ import {
   type NearbyPlace,
 } from "@/lib/nearbyPlacesProvider";
 import { useScheduledItems } from "@/lib/scheduleStore";
+import { useWalkingRoute } from "@/lib/walkingRoute";
 import {
   startStudySession,
   stopStudySession,
@@ -77,13 +78,19 @@ export default function MapScreen() {
 
   const {
     destination,
-    distanceMeters,
+    distanceMeters: straightMeters,
     bearingDeg,
-    etaMinutes,
+    etaMinutes: straightEtaMinutes,
     hasArrived,
     setDestination,
     clearDestination,
   } = useDestinationTracking(gpsLocation);
+
+  // The real walk along streets once Google's route is in; the straight line until then.
+  const destinationRoute = useWalkingRoute(gpsLocation, destination);
+  const distanceMeters = destinationRoute?.remainingMeters ?? straightMeters;
+  const etaMinutes =
+    destinationRoute != null ? destinationRoute.remainingSeconds / 60 : straightEtaMinutes;
 
   useEffect(() => {
     setHasDestination(destination != null);
@@ -91,13 +98,12 @@ export default function MapScreen() {
 
   useDistanceOdometer(gpsLocation);
 
-  const distanceMilesToDestination = useMemo(
-    () =>
-      distanceMeters != null
-        ? Math.round(distanceMeters * 0.000621371 * 100) / 100
-        : null,
-    [distanceMeters],
-  );
+  /** Miles to the pin; "~" marks the straight-line estimate. */
+  const distanceMilesToDestination = useMemo(() => {
+    if (distanceMeters == null) return null;
+    const miles = (Math.round(distanceMeters * 0.000621371 * 100) / 100).toFixed(2);
+    return destinationRoute ? miles : `~${miles}`;
+  }, [destinationRoute, distanceMeters]);
 
   useEffect(() => {
     let active = true;
@@ -183,6 +189,7 @@ export default function MapScreen() {
       <GeoMapView
         currentLocation={location}
         destination={destination}
+        routePath={destinationRoute?.remainingPath ?? null}
         nearbyPlaces={nearbyPlaces}
         scheduledItems={scheduledItems}
         onSetDestination={setDestination}

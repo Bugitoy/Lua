@@ -60,6 +60,8 @@ export type MapSelection =
 type GeoMapViewProps = {
   currentLocation: LocationCoords | null;
   destination: LatLngPoint | null;
+  /** The walking route to `destination`, from the user on; without it the line is straight. */
+  routePath?: LatLngPoint[] | null;
   nearbyPlaces: NearbyPlace[];
   scheduledItems?: ScheduledItem[];
   onSetDestination?: (point: LatLngPoint) => void;
@@ -165,6 +167,7 @@ const UserSpriteMarker = memo(function UserSpriteMarker({
 function GeoMapViewImpl({
   currentLocation,
   destination,
+  routePath = null,
   nearbyPlaces,
   scheduledItems = [],
   onSetDestination,
@@ -279,7 +282,10 @@ function GeoMapViewImpl({
 
   const pathCoordinates = useMemo(() => {
     if (!currentLocation || !destination) return [];
-    return [spriteMapCoordinate(currentLocation), destination];
+    const start = spriteMapCoordinate(currentLocation);
+    // The route starts at the GPS fix; begin it at the sprite so the line meets it.
+    if (routePath && routePath.length >= 2) return [start, ...routePath.slice(1)];
+    return [start, destination];
     // Compass turns replace `currentLocation` without moving the line's start.
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
@@ -288,6 +294,7 @@ function GeoMapViewImpl({
     currentLocation?.vxMps,
     currentLocation?.vyMps,
     destination,
+    routePath,
   ]);
 
   const handleLongPress = (event: LongPressEvent) => {
@@ -401,7 +408,7 @@ function GeoMapViewImpl({
           />
         ) : null}
 
-        {pathCoordinates.length === 2 ? (
+        {pathCoordinates.length >= 2 ? (
           <Polyline
             coordinates={pathCoordinates}
             strokeColor={LUA_GREEN}

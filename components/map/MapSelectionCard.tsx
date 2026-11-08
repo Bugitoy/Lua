@@ -18,6 +18,7 @@ import { distanceFromSpriteMeters, formatWalkingEta, walkingEtaMinutes } from "@
 import type { NearbyPlace } from "@/lib/nearbyPlacesProvider";
 import { useProfile } from "@/lib/profileStore";
 import type { ScheduledItem } from "@/lib/scheduleStore";
+import { useWalkingRoute } from "@/lib/walkingRoute";
 
 const INK = "#171717";
 const MUTED = "#737373";
@@ -169,14 +170,21 @@ function CardButton({
   );
 }
 
-/** "0.15 mi · 4 min walk" from the sprite to a point. */
-function useAwayText(location: LocationCoords | null, point: LatLngPoint): string | undefined {
+/**
+ * "0.15 mi · 4 min walk" to a point along the real walking route, or
+ * "~0.15 mi · …" from the straight-line estimate until a route is in.
+ */
+function useAwayText(location: LocationCoords | null, point: LatLngPoint | null): string | undefined {
   const { t } = useTranslation();
-  if (!location) return undefined;
-  const miles = distanceFromSpriteMeters(location, point) / METERS_PER_MILE;
+  const route = useWalkingRoute(location, point);
+  if (!location || !point) return undefined;
+  const meters = route ? route.remainingMeters : distanceFromSpriteMeters(location, point);
+  const minutes = route ? route.remainingSeconds / 60 : walkingEtaMinutes(location, point);
+  const miles = meters / METERS_PER_MILE;
+  const distance = miles < 10 ? miles.toFixed(2) : String(Math.round(miles));
   return t("map.card.away", {
-    distance: miles < 10 ? miles.toFixed(2) : Math.round(miles),
-    eta: formatWalkingEta(walkingEtaMinutes(location, point)),
+    distance: route ? distance : `~${distance}`,
+    eta: formatWalkingEta(minutes),
   });
 }
 
@@ -184,7 +192,8 @@ function useAwayText(location: LocationCoords | null, point: LatLngPoint): strin
 
 function GoalBody({ goal, location, onWalkTo, onClose }: MapSelectionCardProps & { goal: ScheduledItem }) {
   const { t } = useTranslation();
-  const away = useAwayText(location, goal);
+  // A finished goal shows no distance, so it needs no route.
+  const away = useAwayText(location, goal.completed ? null : goal);
   const preset = SCHEDULE_THEME_PRESETS[goal.themeKey] ?? SCHEDULE_THEME_PRESETS.academic;
   const reached = goal.reachedAtMs != null;
   const status = goal.completed
