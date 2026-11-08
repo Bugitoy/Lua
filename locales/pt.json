@@ -364,6 +364,10 @@
             "a": "As metas pertencem ao seu dia. À meia-noite, Lua avalia o dia, e qualquer meta que você não marcou como feita conta como perdida. Os dias passados ficam no calendário da Agenda, onde cada meta mostra Concluída ou Perdida, e no calendário de Estatísticas. Depois, as metas que você planejou para o novo dia passam para a agenda ao vivo de hoje.\n\nAdicionou uma meta por engano? Toque e segure nela na página Agenda para removê-la."
           },
           {
+            "q": "Como funciona minha sequência?",
+            "a": "Sua sequência conta os dias seguidos em que você marcou como feitas todas as suas metas. Hoje entra assim que você marca a última meta do dia.\n\nUm dia sem metas, ou com alguma meta sem marcar, volta a sequência para 0, assim como um dia com metas planejadas em que você não abriu a Lua.\n\nOs passos não afetam sua sequência, mas continuam contando para a saúde da Lua."
+          },
+          {
             "q": "Posso planejar metas para outros dias?",
             "a": "Sim. Toque em um dia futuro no calendário da Agenda e depois no botão +, ou escolha uma data ao adicionar uma meta. Metas planejadas têm a etiqueta Planejada e não contam para o XP nem para a saúde de Lua até o dia delas começar. Nesse dia, elas passam para a sua agenda ao vivo. Se você não abrir Lua nesse dia, elas ainda contam como perdidas."
           },

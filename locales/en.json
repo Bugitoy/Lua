@@ -364,6 +364,10 @@
             "a": "Goals belong to their day. At midnight Lua grades the day, and any goal you didn't tick off counts as missed. Past days stay on the Schedule calendar, where each goal shows Done or Missed, and on the Stats calendar. Goals you planned for the new day then move into today's live schedule.\n\nAdded a goal by mistake? Long-press it on the Schedule page to remove it."
           },
           {
+            "q": "How does my streak work?",
+            "a": "Your streak counts the days in a row where you ticked off every goal you had. Today joins it as soon as you tick off its last goal.\n\nA day with no goals, or with any goal left unticked, resets it to 0, and so does a day you didn't open Lua when goals were planned.\n\nSteps don't affect your streak, but they still count toward Lua's health."
+          },
+          {
             "q": "Can I plan goals for later days?",
             "a": "Yes. Tap a later day on the Schedule calendar and tap the + button, or pick a date when you add a goal. Planned goals are tagged Planned and don't count toward XP or Lua's health until their day starts. On that day they move into your live schedule. If you don't open Lua that day, they still count as missed."
           },

@@ -176,18 +176,28 @@ export function useDayHistory(): DayHistory {
 }
 
 /**
- * Full days in a row, counting back from yesterday, plus today if it is
- * already a full day. A missing record (a day with nothing saved) breaks it.
+ * A streak day: the day had at least one goal and every one was ticked off.
+ * Steps don't matter here (they still count toward Lua's health); a day with
+ * no goals doesn't count.
  */
-export function streakFrom(records: DayHistory, today: string, todayIsFull: boolean): number {
-  let streak = todayIsFull ? 1 : 0;
+export function isStreakDay(record: DayRecord | undefined): boolean {
+  return record != null && record.goals.length > 0 && record.goals.every((g) => g.completed);
+}
+
+/**
+ * Streak days in a row, counting back from yesterday, plus today if every
+ * goal today is already ticked off. A day without goals, or with any goal
+ * left unticked, breaks it, and so does a missing record.
+ */
+export function streakFrom(records: DayHistory, today: string, todayCounts: boolean): number {
+  let streak = todayCounts ? 1 : 0;
   const cursor = startOfDay(today);
   for (let i = 0; i < KEEP_DAYS; i++) {
     cursor.setDate(cursor.getDate() - 1);
     const y = cursor.getFullYear();
     const m = String(cursor.getMonth() + 1).padStart(2, "0");
     const d = String(cursor.getDate()).padStart(2, "0");
-    if (!records[`${y}-${m}-${d}`]?.fullDay) break;
+    if (!isStreakDay(records[`${y}-${m}-${d}`])) break;
     streak++;
   }
   return streak;

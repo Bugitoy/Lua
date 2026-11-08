@@ -364,6 +364,10 @@
             "a": "Las metas pertenecen a su día. A medianoche, Lua califica el día y cualquier meta que no marcaste como hecha cuenta como perdida. Los días pasados se quedan en el calendario del Horario, donde cada meta muestra Hecha o Perdida, y en el calendario de Estadísticas. Después, las metas que planeaste para el nuevo día pasan al horario en vivo de hoy.\n\n¿Añadiste una meta por error? Mantenla pulsada en la página del Horario para quitarla."
           },
           {
+            "q": "¿Cómo funciona mi racha?",
+            "a": "Tu racha cuenta los días seguidos en los que marcaste como hechas todas tus metas. Hoy se suma en cuanto marcas la última meta del día.\n\nUn día sin metas, o con alguna meta sin marcar, la reinicia a 0, y también un día con metas planeadas en el que no abriste Lua.\n\nLos pasos no afectan a tu racha, pero siguen contando para la salud de Lua."
+          },
+          {
             "q": "¿Puedo planear metas para otros días?",
             "a": "Sí. Toca un día posterior en el calendario del Horario y luego el botón +, o elige una fecha al añadir una meta. Las metas planeadas llevan la etiqueta Planeada y no cuentan para la XP ni para la salud de Lua hasta que empieza su día. Ese día pasan a tu horario en vivo. Si no abres Lua ese día, igual cuentan como perdidas."
           },

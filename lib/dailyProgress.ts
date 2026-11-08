@@ -124,12 +124,16 @@ export function saveDailyProgress(): void {
   AsyncStorage.setItem(STORAGE_KEY, json).catch(() => {});
 }
 
-/** Keeps `goalStreak` in game stats equal to full days in a row. Call after history changes. */
+/**
+ * Keeps `goalStreak` in game stats equal to days in a row with every goal
+ * ticked off (see `isStreakDay`). Call after history changes.
+ */
 export function syncStreak(): void {
   if (!currentDay) return;
   const stats = getGameStats();
-  const todayIsFull = dayScore(stats) >= 1;
-  const goalStreak = streakFrom(getDayHistory(), currentDay, todayIsFull);
+  // Today joins the streak as soon as its last goal is ticked off.
+  const todayCounts = stats.goalsTotal > 0 && stats.goalsDone >= stats.goalsTotal;
+  const goalStreak = streakFrom(getDayHistory(), currentDay, todayCounts);
   if (goalStreak !== stats.goalStreak) updateGameStats({ goalStreak });
 }
 

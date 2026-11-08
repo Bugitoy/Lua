@@ -364,6 +364,10 @@
             "a": "Les objectifs appartiennent à leur journée. À minuit, Lua note la journée, et tout objectif que vous n'avez pas coché compte comme manqué. Les jours passés restent dans le calendrier du Planning, où chaque objectif affiche Accompli ou Manqué, ainsi que dans le calendrier des Statistiques. Les objectifs prévus pour le nouveau jour passent ensuite dans le planning en direct du jour.\n\nVous avez ajouté un objectif par erreur ? Appuyez longuement dessus sur la page Planning pour le retirer."
           },
           {
+            "q": "Comment fonctionne ma série ?",
+            "a": "Votre série compte les jours d'affilée où vous avez coché tous vos objectifs. Aujourd'hui s'y ajoute dès que vous cochez le dernier objectif du jour.\n\nUn jour sans objectif, ou avec un objectif non coché, la remet à 0, tout comme un jour avec des objectifs prévus où vous n'avez pas ouvert Lua.\n\nLes pas ne comptent pas pour votre série, mais ils comptent toujours pour la santé de Lua."
+          },
+          {
             "q": "Puis-je prévoir des objectifs pour d'autres jours ?",
             "a": "Oui. Touchez un jour à venir dans le calendrier du Planning puis le bouton +, ou choisissez une date en ajoutant un objectif. Les objectifs prévus portent l'étiquette Prévu et ne comptent pour l'XP et la santé de Lua qu'à partir de leur jour. Ce jour-là, ils passent dans votre planning en direct. Si vous n'ouvrez pas Lua ce jour-là, ils comptent quand même comme manqués."
           },

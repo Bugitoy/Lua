@@ -364,6 +364,10 @@
             "a": "Gli obiettivi appartengono al loro giorno. A mezzanotte Lua valuta la giornata, e ogni obiettivo che non hai spuntato conta come mancato. I giorni passati restano nel calendario del Programma, dove ogni obiettivo mostra Fatto o Mancato, e nel calendario delle Statistiche. Poi gli obiettivi programmati per il nuovo giorno passano nel programma live di oggi.\n\nHai aggiunto un obiettivo per sbaglio? Tienilo premuto nella pagina Programma per rimuoverlo."
           },
           {
+            "q": "Come funziona la mia serie?",
+            "a": "La tua serie conta i giorni consecutivi in cui hai spuntato tutti i tuoi obiettivi. Oggi si aggiunge appena spunti l'ultimo obiettivo della giornata.\n\nUn giorno senza obiettivi, o con un obiettivo non spuntato, la riporta a 0, così come un giorno con obiettivi in programma in cui non hai aperto Lua.\n\nI passi non contano per la serie, ma contano ancora per la salute di Lua."
+          },
+          {
             "q": "Posso programmare obiettivi per altri giorni?",
             "a": "Sì. Tocca un giorno successivo nel calendario del Programma e poi il pulsante +, oppure scegli una data quando aggiungi un obiettivo. Gli obiettivi programmati hanno l'etichetta Programmato e non contano per XP e salute di Lua finché non inizia il loro giorno. Quel giorno passano nel tuo programma live. Se quel giorno non apri Lua, contano comunque come mancati."
           },

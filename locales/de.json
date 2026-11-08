@@ -364,6 +364,10 @@
             "a": "Ziele gehören zu ihrem Tag. Um Mitternacht bewertet Lua den Tag, und jedes Ziel, das du nicht abgehakt hast, zählt als verpasst. Vergangene Tage bleiben im Kalender des Zeitplans, wo jedes Ziel Erledigt oder Verpasst zeigt, und im Statistik-Kalender. Danach wandern die Ziele, die du für den neuen Tag geplant hast, in den heutigen Live-Zeitplan.\n\nEin Ziel aus Versehen hinzugefügt? Halte es auf der Zeitplan-Seite lange gedrückt, um es zu entfernen."
           },
           {
+            "q": "Wie funktioniert meine Serie?",
+            "a": "Deine Serie zählt die Tage in Folge, an denen du jedes deiner Ziele abgehakt hast. Heute zählt mit, sobald du das letzte Ziel des Tages abhakst.\n\nEin Tag ohne Ziele oder mit einem nicht abgehakten Ziel setzt sie auf 0 zurück, ebenso ein Tag mit geplanten Zielen, an dem du Lua nicht geöffnet hast.\n\nSchritte zählen nicht für deine Serie, aber weiterhin für Luas Gesundheit."
+          },
+          {
             "q": "Kann ich Ziele für spätere Tage planen?",
             "a": "Ja. Tippe im Kalender des Zeitplans auf einen späteren Tag und dann auf die +-Schaltfläche, oder wähle beim Hinzufügen eines Ziels ein Datum. Geplante Ziele sind als Geplant markiert und zählen erst ab ihrem Tag für XP und Luas Gesundheit. An diesem Tag wandern sie in deinen Live-Zeitplan. Öffnest du Lua an dem Tag nicht, zählen sie trotzdem als verpasst."
           },

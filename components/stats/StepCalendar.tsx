@@ -18,7 +18,7 @@ import { Pixelify } from "@/constants/fonts";
 import { LUA_GREEN } from "@/constants/mapAssets";
 import { addDays, daysIn, monthWeeks, shiftPeriod, weekDays, type CalendarView, type Week } from "@/lib/calendarGrid";
 import { startOfDay } from "@/lib/dayKey";
-import type { DayHistory, DayRecord } from "@/lib/dayHistory";
+import { isStreakDay, type DayHistory, type DayRecord } from "@/lib/dayHistory";
 import { formatAppDate, getAppLocale } from "@/lib/i18n/formatLocale";
 
 const VIEWS: CalendarView[] = ["week", "month", "year"];
@@ -230,7 +230,7 @@ function ShadeKey({ metric }: { metric: MetricKey }) {
   );
 }
 
-/** The longest run of full days in the year shown. */
+/** The longest run of streak days (every goal ticked off) in the year shown. */
 function BestStreak({
   anchor,
   todayKey,
@@ -245,7 +245,7 @@ function BestStreak({
   let best = 0;
   let run = 0;
   for (let day = `${year}-01-01`; day <= `${year}-12-31` && day <= todayKey; day = addDays(day, 1)) {
-    run = recordFor(day)?.fullDay ? run + 1 : 0;
+    run = isStreakDay(recordFor(day)) ? run + 1 : 0;
     best = Math.max(best, run);
   }
   if (best === 0) return <View />;
