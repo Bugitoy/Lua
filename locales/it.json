@@ -66,9 +66,18 @@
     "markers": {
       "you": "Tu",
       "destination": "Destinazione",
-      "destinationDescription": "Tieni premuto ovunque per spostare questo marcatore",
-      "goalCompleteWithTitle": "{{title}} · Obiettivo completato",
-      "goalReachedWithTitle": "{{title}} · Pronto da spuntare"
+      "destinationDescription": "Tieni premuto ovunque per spostare questo marcatore"
+    },
+    "card": {
+      "close": "Chiudi",
+      "away": "{{distance}} mi · {{eta}} a piedi",
+      "readyToTick": "Pronto da spuntare",
+      "walkHere": "Vai qui a piedi",
+      "walking": "In cammino",
+      "standingStill": "Fermo",
+      "steps": "Passi",
+      "miles": "Miglia",
+      "goals": "Obiettivi"
     },
     "study": {
       "promptTitle": "Iniziare a lavorare qui?",

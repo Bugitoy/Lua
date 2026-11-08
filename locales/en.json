@@ -66,9 +66,18 @@
     "markers": {
       "you": "You",
       "destination": "Destination",
-      "destinationDescription": "Long press anywhere to move this marker",
-      "goalCompleteWithTitle": "{{title}} · Goal complete",
-      "goalReachedWithTitle": "{{title}} · Ready to tick off"
+      "destinationDescription": "Long press anywhere to move this marker"
+    },
+    "card": {
+      "close": "Close",
+      "away": "{{distance}} mi · {{eta}} walk",
+      "readyToTick": "Ready to tick off",
+      "walkHere": "Walk here",
+      "walking": "Walking",
+      "standingStill": "Standing still",
+      "steps": "Steps",
+      "miles": "Miles",
+      "goals": "Goals"
     },
     "study": {
       "promptTitle": "Begin working here?",

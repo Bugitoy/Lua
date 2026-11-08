@@ -66,9 +66,18 @@
     "markers": {
       "you": "你",
       "destination": "目的地",
-      "destinationDescription": "长按任意位置以移动此标记",
-      "goalCompleteWithTitle": "{{title}} · 目标已完成",
-      "goalReachedWithTitle": "{{title}} · 可以勾选完成"
+      "destinationDescription": "长按任意位置以移动此标记"
+    },
+    "card": {
+      "close": "关闭",
+      "away": "{{distance}} 英里 · 步行{{eta}}",
+      "readyToTick": "可以勾选完成",
+      "walkHere": "步行前往",
+      "walking": "步行中",
+      "standingStill": "静止",
+      "steps": "步数",
+      "miles": "英里",
+      "goals": "目标"
     },
     "study": {
       "promptTitle": "在这里开始工作吗？",

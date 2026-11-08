@@ -1,11 +1,12 @@
 import { Ionicons } from "@expo/vector-icons";
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Pressable, Text, useWindowDimensions, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
-import { GeoMapView } from "@/components/map/GeoMapView";
+import { GeoMapView, type MapSelection } from "@/components/map/GeoMapView";
 import { MapHealthBarCard } from "@/components/map/MapHealthBarCard";
+import { MapSelectionCard } from "@/components/map/MapSelectionCard";
 import { MapStatsCard } from "@/components/map/MapStatsCard";
 import { MapTopBar } from "@/components/map/MapTopBar";
 import { Pixelify } from "@/constants/fonts";
@@ -63,6 +64,9 @@ export default function MapScreen() {
   const [studyCalloutGoalId, setStudyCalloutGoalId] = useState<string | null>(
     null,
   );
+  /** The pin or sprite whose card is open. */
+  const [selection, setSelection] = useState<MapSelection | null>(null);
+  const closeSelection = useCallback(() => setSelection(null), []);
 
   // Two-pass initialization: first render boots the GPS subscription in High mode;
   // once the user drops a destination we switch the same subscription to BestForNavigation.
@@ -182,6 +186,7 @@ export default function MapScreen() {
         nearbyPlaces={nearbyPlaces}
         scheduledItems={scheduledItems}
         onSetDestination={setDestination}
+        onSelect={setSelection}
       />
 
       <View className="absolute inset-0 z-10" pointerEvents="box-none">
@@ -204,254 +209,270 @@ export default function MapScreen() {
             stopStudySession();
           }}
         />
-        <MapStatsCard
-          goalsDone={stats.goalsDone}
-          goalsTotal={stats.goalsTotal}
-          goalDayPercent={stats.goalDayPercent}
-          distanceMiles={stats.distanceMiles}
-          stepsToday={stats.stepsToday}
-          bottomInset={insets.bottom}
-        />
-        <View
-          pointerEvents="auto"
-          style={{
-            position: "absolute",
-            left: 12,
-            bottom: insets.bottom + 24,
-            width: liveTrackingWidth,
-            backgroundColor: "rgba(0,0,0,0.75)",
-            borderRadius: 12,
-            paddingHorizontal: 12,
-            paddingVertical: 10,
-            gap: 4,
-          }}
-        >
+        {selection ? (
+          <MapSelectionCard
+            selection={selection}
+            scheduledItems={scheduledItems}
+            nearbyPlaces={nearbyPlaces}
+            location={gpsLocation}
+            destination={destination}
+            bottomInset={insets.bottom}
+            onClose={closeSelection}
+            onWalkTo={setDestination}
+            onClearDestination={clearDestination}
+          />
+        ) : null}
+        {/* The selection card takes the bottom of the map while it's open. */}
+        <View className="absolute inset-0" pointerEvents="box-none" style={{ display: selection ? "none" : "flex" }}>
+          <MapStatsCard
+            goalsDone={stats.goalsDone}
+            goalsTotal={stats.goalsTotal}
+            goalDayPercent={stats.goalDayPercent}
+            distanceMiles={stats.distanceMiles}
+            stepsToday={stats.stepsToday}
+            bottomInset={insets.bottom}
+          />
           <View
+            pointerEvents="auto"
             style={{
-              flexDirection: "row",
-              justifyContent: "space-between",
-              alignItems: "center",
+              position: "absolute",
+              left: 12,
+              bottom: insets.bottom + 24,
+              width: liveTrackingWidth,
+              backgroundColor: "rgba(0,0,0,0.75)",
+              borderRadius: 12,
+              paddingHorizontal: 12,
+              paddingVertical: 10,
+              gap: 4,
             }}
           >
-            <Text
+            <View
               style={{
-                fontFamily: Pixelify.bold,
-                fontSize: 11,
-                color: "#e5e5e5",
-                letterSpacing: 0.6,
+                flexDirection: "row",
+                justifyContent: "space-between",
+                alignItems: "center",
               }}
             >
-              {t("map.liveTracking.title")}
+              <Text
+                style={{
+                  fontFamily: Pixelify.bold,
+                  fontSize: 11,
+                  color: "#e5e5e5",
+                  letterSpacing: 0.6,
+                }}
+              >
+                {t("map.liveTracking.title")}
+              </Text>
+              {destination ? (
+                <Pressable onPress={clearDestination} hitSlop={8}>
+                  <Text
+                    style={{
+                      fontFamily: Pixelify.bold,
+                      fontSize: 10,
+                      color: LUA_GREEN,
+                    }}
+                  >
+                    {t("map.liveTracking.clearPin")}
+                  </Text>
+                </Pressable>
+              ) : null}
+            </View>
+
+            <Text
+              style={{
+                fontFamily: Pixelify.regular,
+                fontSize: 10,
+                color: "#d4d4d4",
+              }}
+            >
+              {destination
+                ? t("map.liveTracking.destinationAway", {
+                    distance: distanceMilesToDestination ?? 0,
+                  })
+                : t("map.liveTracking.longPressHint")}
             </Text>
             {destination ? (
-              <Pressable onPress={clearDestination} hitSlop={8}>
-                <Text
-                  style={{
-                    fontFamily: Pixelify.bold,
-                    fontSize: 10,
-                    color: LUA_GREEN,
-                  }}
-                >
-                  {t("map.liveTracking.clearPin")}
-                </Text>
-              </Pressable>
+              <Text
+                style={{
+                  fontFamily: Pixelify.regular,
+                  fontSize: 10,
+                  color: hasArrived ? "#86efac" : "#a3a3a3",
+                }}
+              >
+                {hasArrived
+                  ? t("map.liveTracking.arrived")
+                  : t("map.liveTracking.bearingEta", {
+                      bearing:
+                        bearingDeg != null ? Math.round(bearingDeg) : "?",
+                      eta:
+                        etaMinutes != null
+                          ? formatWalkingEta(etaMinutes)
+                          : t("common.notAvailable"),
+                    })}
+              </Text>
             ) : null}
           </View>
 
-          <Text
+          <View
+            pointerEvents="none"
             style={{
-              fontFamily: Pixelify.regular,
-              fontSize: 10,
-              color: "#d4d4d4",
+              position: "absolute",
+              left: 12,
+              bottom: insets.bottom + 100,
+              width: liveTrackingWidth,
+              backgroundColor: "rgba(0,0,0,0.72)",
+              borderRadius: 10,
+              paddingHorizontal: 12,
+              paddingVertical: 8,
+              gap: 3,
             }}
           >
-            {destination
-              ? t("map.liveTracking.destinationAway", {
-                  distance: distanceMilesToDestination ?? 0,
-                })
-              : t("map.liveTracking.longPressHint")}
-          </Text>
-          {destination ? (
-            <Text
+            <View
               style={{
-                fontFamily: Pixelify.regular,
-                fontSize: 10,
-                color: hasArrived ? "#86efac" : "#a3a3a3",
+                flexDirection: "row",
+                alignItems: "center",
+                gap: 5,
+                marginBottom: 2,
               }}
             >
-              {hasArrived
-                ? t("map.liveTracking.arrived")
-                : t("map.liveTracking.bearingEta", {
-                    bearing:
-                      bearingDeg != null ? Math.round(bearingDeg) : "?",
-                    eta:
-                      etaMinutes != null
-                        ? formatWalkingEta(etaMinutes)
+              <Ionicons
+                name={
+                  location
+                    ? "locate"
+                    : errorMsg
+                      ? "warning-outline"
+                      : "hourglass-outline"
+                }
+                size={12}
+                color={location ? "#4ade80" : errorMsg ? "#f87171" : "#facc15"}
+              />
+              <Text
+                style={{
+                  fontFamily: Pixelify.bold,
+                  fontSize: 10,
+                  color: "#e5e5e5",
+                  letterSpacing: 1,
+                }}
+              >
+                {t("map.gpsDebug.title")}
+              </Text>
+            </View>
+            {errorMsg ? (
+              <Text
+                style={{
+                  fontFamily: Pixelify.regular,
+                  fontSize: 10,
+                  color: "#f87171",
+                }}
+              >
+                {errorMsg}
+              </Text>
+            ) : location ? (
+              <>
+                <Text
+                  style={{
+                    fontFamily: Pixelify.regular,
+                    fontSize: 10,
+                    color: "#d4d4d4",
+                  }}
+                >
+                  {t("map.gpsDebug.lat", {
+                    value: location.latitude.toFixed(5),
+                  })}
+                </Text>
+                <Text
+                  style={{
+                    fontFamily: Pixelify.regular,
+                    fontSize: 10,
+                    color: "#d4d4d4",
+                  }}
+                >
+                  {t("map.gpsDebug.lng", {
+                    value: location.longitude.toFixed(5),
+                  })}
+                </Text>
+                <Text
+                  style={{
+                    fontFamily: Pixelify.regular,
+                    fontSize: 10,
+                    color: "#a3a3a3",
+                  }}
+                >
+                  {t("map.gpsDebug.accuracy", {
+                    value:
+                      location.accuracy != null
+                        ? location.accuracy.toFixed(1)
+                        : "?",
+                  })}
+                </Text>
+                <Text
+                  style={{
+                    fontFamily: Pixelify.regular,
+                    fontSize: 10,
+                    color: "#a3a3a3",
+                  }}
+                >
+                  {t("map.gpsDebug.speed", {
+                    speed:
+                      location.speed != null
+                        ? location.speed.toFixed(2)
+                        : t("common.notAvailable"),
+                    rawSpeed:
+                      location.rawDeviceSpeed != null
+                        ? location.rawDeviceSpeed.toFixed(2)
                         : t("common.notAvailable"),
                   })}
-            </Text>
-          ) : null}
-        </View>
-
-        <View
-          pointerEvents="none"
-          style={{
-            position: "absolute",
-            left: 12,
-            bottom: insets.bottom + 100,
-            width: liveTrackingWidth,
-            backgroundColor: "rgba(0,0,0,0.72)",
-            borderRadius: 10,
-            paddingHorizontal: 12,
-            paddingVertical: 8,
-            gap: 3,
-          }}
-        >
-          <View
-            style={{
-              flexDirection: "row",
-              alignItems: "center",
-              gap: 5,
-              marginBottom: 2,
-            }}
-          >
-            <Ionicons
-              name={
-                location
-                  ? "locate"
-                  : errorMsg
-                    ? "warning-outline"
-                    : "hourglass-outline"
-              }
-              size={12}
-              color={location ? "#4ade80" : errorMsg ? "#f87171" : "#facc15"}
-            />
-            <Text
-              style={{
-                fontFamily: Pixelify.bold,
-                fontSize: 10,
-                color: "#e5e5e5",
-                letterSpacing: 1,
-              }}
-            >
-              {t("map.gpsDebug.title")}
-            </Text>
+                </Text>
+                <Text
+                  style={{
+                    fontFamily: Pixelify.regular,
+                    fontSize: 10,
+                    color: location.isStationary ? "#a3a3a3" : "#86efac",
+                  }}
+                >
+                  {location.isStationary
+                    ? t("map.gpsDebug.stateStationary")
+                    : location.compassHeading != null
+                      ? t("map.gpsDebug.stateMovingWithHeading", {
+                          heading: Math.round(location.compassHeading),
+                        })
+                      : t("map.gpsDebug.stateMoving")}
+                </Text>
+                {destination ? (
+                  <>
+                    <View
+                      style={{
+                        height: 1,
+                        backgroundColor: "rgba(255,255,255,0.12)",
+                        marginVertical: 2,
+                      }}
+                    />
+                    <Text
+                      style={{
+                        fontFamily: Pixelify.regular,
+                        fontSize: 10,
+                        color: "#86efac",
+                      }}
+                    >
+                      {t("map.liveTracking.remaining", {
+                        distance: distanceMilesToDestination ?? 0,
+                      })}
+                    </Text>
+                  </>
+                ) : null}
+              </>
+            ) : (
+              <Text
+                style={{
+                  fontFamily: Pixelify.regular,
+                  fontSize: 10,
+                  color: "#facc15",
+                }}
+              >
+                {t("map.gpsDebug.requestingPermission")}
+              </Text>
+            )}
           </View>
-          {errorMsg ? (
-            <Text
-              style={{
-                fontFamily: Pixelify.regular,
-                fontSize: 10,
-                color: "#f87171",
-              }}
-            >
-              {errorMsg}
-            </Text>
-          ) : location ? (
-            <>
-              <Text
-                style={{
-                  fontFamily: Pixelify.regular,
-                  fontSize: 10,
-                  color: "#d4d4d4",
-                }}
-              >
-                {t("map.gpsDebug.lat", {
-                  value: location.latitude.toFixed(5),
-                })}
-              </Text>
-              <Text
-                style={{
-                  fontFamily: Pixelify.regular,
-                  fontSize: 10,
-                  color: "#d4d4d4",
-                }}
-              >
-                {t("map.gpsDebug.lng", {
-                  value: location.longitude.toFixed(5),
-                })}
-              </Text>
-              <Text
-                style={{
-                  fontFamily: Pixelify.regular,
-                  fontSize: 10,
-                  color: "#a3a3a3",
-                }}
-              >
-                {t("map.gpsDebug.accuracy", {
-                  value:
-                    location.accuracy != null
-                      ? location.accuracy.toFixed(1)
-                      : "?",
-                })}
-              </Text>
-              <Text
-                style={{
-                  fontFamily: Pixelify.regular,
-                  fontSize: 10,
-                  color: "#a3a3a3",
-                }}
-              >
-                {t("map.gpsDebug.speed", {
-                  speed:
-                    location.speed != null
-                      ? location.speed.toFixed(2)
-                      : t("common.notAvailable"),
-                  rawSpeed:
-                    location.rawDeviceSpeed != null
-                      ? location.rawDeviceSpeed.toFixed(2)
-                      : t("common.notAvailable"),
-                })}
-              </Text>
-              <Text
-                style={{
-                  fontFamily: Pixelify.regular,
-                  fontSize: 10,
-                  color: location.isStationary ? "#a3a3a3" : "#86efac",
-                }}
-              >
-                {location.isStationary
-                  ? t("map.gpsDebug.stateStationary")
-                  : location.compassHeading != null
-                    ? t("map.gpsDebug.stateMovingWithHeading", {
-                        heading: Math.round(location.compassHeading),
-                      })
-                    : t("map.gpsDebug.stateMoving")}
-              </Text>
-              {destination ? (
-                <>
-                  <View
-                    style={{
-                      height: 1,
-                      backgroundColor: "rgba(255,255,255,0.12)",
-                      marginVertical: 2,
-                    }}
-                  />
-                  <Text
-                    style={{
-                      fontFamily: Pixelify.regular,
-                      fontSize: 10,
-                      color: "#86efac",
-                    }}
-                  >
-                    {t("map.liveTracking.remaining", {
-                      distance: distanceMilesToDestination ?? 0,
-                    })}
-                  </Text>
-                </>
-              ) : null}
-            </>
-          ) : (
-            <Text
-              style={{
-                fontFamily: Pixelify.regular,
-                fontSize: 10,
-                color: "#facc15",
-              }}
-            >
-              {t("map.gpsDebug.requestingPermission")}
-            </Text>
-          )}
         </View>
       </View>
     </View>

@@ -66,9 +66,18 @@
     "markers": {
       "you": "Du",
       "destination": "Ziel",
-      "destinationDescription": "Halte irgendwo gedrückt, um diesen Marker zu verschieben",
-      "goalCompleteWithTitle": "{{title}} · Ziel erreicht",
-      "goalReachedWithTitle": "{{title}} · Bereit zum Abhaken"
+      "destinationDescription": "Halte irgendwo gedrückt, um diesen Marker zu verschieben"
+    },
+    "card": {
+      "close": "Schließen",
+      "away": "{{distance}} mi · {{eta}} zu Fuß",
+      "readyToTick": "Bereit zum Abhaken",
+      "walkHere": "Hierhin gehen",
+      "walking": "Unterwegs",
+      "standingStill": "Steht still",
+      "steps": "Schritte",
+      "miles": "Meilen",
+      "goals": "Ziele"
     },
     "study": {
       "promptTitle": "Hier mit der Arbeit beginnen?",

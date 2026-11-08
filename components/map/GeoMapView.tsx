@@ -10,6 +10,7 @@ import MapView, {
   MarkerAnimated,
   Polyline,
   type LongPressEvent,
+  type MapPressEvent,
   type Region,
 } from "react-native-maps";
 
@@ -49,12 +50,24 @@ const GOAL_PENDING_PIN = "#facc15";
 const GOAL_COMPLETED_FILL = "rgba(22, 163, 74, 0.22)";
 const GOAL_COMPLETED_STROKE = "rgba(22, 163, 74, 0.9)";
 
+/** What the user tapped on the map; the screen shows a card for it. */
+export type MapSelection =
+  | { kind: "goal"; id: string }
+  | { kind: "you" }
+  | { kind: "destination" }
+  | { kind: "place"; id: string };
+
 type GeoMapViewProps = {
   currentLocation: LocationCoords | null;
   destination: LatLngPoint | null;
   nearbyPlaces: NearbyPlace[];
   scheduledItems?: ScheduledItem[];
   onSetDestination?: (point: LatLngPoint) => void;
+  /**
+   * Tapping a pin or the sprite selects it; tapping empty map clears it
+   * (null). The map draws no pop-up of its own.
+   */
+  onSelect?: (selection: MapSelection | null) => void;
   /** When false the map ignores taps, hides the recenter button, and disables long-press destination drops. */
   interactive?: boolean;
 };
@@ -82,7 +95,7 @@ type UserSpriteMarkerProps = {
   isStationary: boolean;
   /** False while the map can't be seen; the walk cycle and native snapshots stop. */
   animating: boolean;
-  title: string;
+  onPress?: () => void;
 };
 
 /**
@@ -94,7 +107,7 @@ const UserSpriteMarker = memo(function UserSpriteMarker({
   heading,
   isStationary,
   animating,
-  title,
+  onPress,
 }: UserSpriteMarkerProps) {
   const [spriteFrame, setSpriteFrame] = useState(0);
   const [spriteRow, setSpriteRow] = useState(0);
@@ -129,7 +142,7 @@ const UserSpriteMarker = memo(function UserSpriteMarker({
       anchor={{ x: 0.5, y: 0.55 }}
       tracksViewChanges={animating}
       zIndex={999}
-      title={title}
+      onPress={onPress}
     >
       <View style={styles.userSpriteFrame}>
         <Image
@@ -155,6 +168,7 @@ function GeoMapViewImpl({
   nearbyPlaces,
   scheduledItems = [],
   onSetDestination,
+  onSelect,
   interactive = true,
 }: GeoMapViewProps) {
   const { t } = useTranslation();
@@ -282,6 +296,15 @@ function GeoMapViewImpl({
     onSetDestination({ latitude, longitude });
   };
 
+  /** Tapping a marker selects it; null while the map is a static preview. */
+  const select = interactive && onSelect ? onSelect : null;
+
+  const handleMapPress = (event: MapPressEvent) => {
+    // iOS also reports marker taps here; those are handled by the marker.
+    if (event.nativeEvent.action === "marker-press") return;
+    select?.(null);
+  };
+
   const recenterOnUser = () => {
     if (!currentLocation || !mapRef.current) return;
     mapRef.current.animateToRegion(
@@ -310,6 +333,9 @@ function GeoMapViewImpl({
         rotateEnabled={interactive}
         pitchEnabled={interactive}
         onLongPress={interactive ? handleLongPress : undefined}
+        onPress={select ? handleMapPress : undefined}
+        // Android would otherwise pan to a tapped pin; the card shows its details instead.
+        moveOnMarkerPress={false}
         onRegionChangeComplete={(region) => {
           setZoomedInForAccuracy(
             region.latitudeDelta <= ACCURACY_CIRCLE_HIDE_WHEN_LAT_DELTA_GT,
@@ -351,18 +377,7 @@ function GeoMapViewImpl({
               latitude: item.latitude,
               longitude: item.longitude,
             }}
-            title={item.label}
-            description={
-              item.completed
-                ? t("map.markers.goalCompleteWithTitle", {
-                    title: item.title,
-                  })
-                : item.reachedAtMs != null
-                  ? t("map.markers.goalReachedWithTitle", {
-                      title: item.title,
-                    })
-                  : item.title
-            }
+            onPress={select ? () => select({ kind: "goal", id: item.id }) : undefined}
             pinColor={item.completed ? LUA_GREEN : GOAL_PENDING_PIN}
             zIndex={100}
           />
@@ -374,15 +389,14 @@ function GeoMapViewImpl({
             heading={currentLocation.heading}
             isStationary={isStationary}
             animating={onScreen && isFocused}
-            title={t("map.markers.you")}
+            onPress={select ? () => select({ kind: "you" }) : undefined}
           />
         ) : null}
 
         {destination ? (
           <Marker
             coordinate={destination}
-            title={t("map.markers.destination")}
-            description={t("map.markers.destinationDescription")}
+            onPress={select ? () => select({ kind: "destination" }) : undefined}
             pinColor={LUA_GREEN}
           />
         ) : null}
@@ -403,8 +417,7 @@ function GeoMapViewImpl({
               latitude: place.latitude,
               longitude: place.longitude,
             }}
-            title={place.title}
-            description={place.subtitle}
+            onPress={select ? () => select({ kind: "place", id: place.id }) : undefined}
             pinColor="#f59e0b"
           />
         ))}

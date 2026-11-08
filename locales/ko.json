@@ -66,9 +66,18 @@
     "markers": {
       "you": "나",
       "destination": "목적지",
-      "destinationDescription": "아무 곳이나 길게 눌러 이 마커를 이동하세요",
-      "goalCompleteWithTitle": "{{title}} · 목표 완료",
-      "goalReachedWithTitle": "{{title}} · 체크할 수 있어요"
+      "destinationDescription": "아무 곳이나 길게 눌러 이 마커를 이동하세요"
+    },
+    "card": {
+      "close": "닫기",
+      "away": "{{distance}} mi · 걸어서 {{eta}}",
+      "readyToTick": "체크할 수 있어요",
+      "walkHere": "여기로 걷기",
+      "walking": "걷는 중",
+      "standingStill": "멈춤",
+      "steps": "걸음",
+      "miles": "마일",
+      "goals": "목표"
     },
     "study": {
       "promptTitle": "여기서 작업을 시작할까요?",

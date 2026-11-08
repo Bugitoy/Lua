@@ -66,9 +66,18 @@
     "markers": {
       "you": "あなた",
       "destination": "目的地",
-      "destinationDescription": "どこでも長押ししてこのマーカーを移動",
-      "goalCompleteWithTitle": "{{title}} · 目標達成",
-      "goalReachedWithTitle": "{{title}} · チェックできます"
+      "destinationDescription": "どこでも長押ししてこのマーカーを移動"
+    },
+    "card": {
+      "close": "閉じる",
+      "away": "{{distance}} mi · 徒歩{{eta}}",
+      "readyToTick": "チェックできます",
+      "walkHere": "ここへ歩く",
+      "walking": "歩いています",
+      "standingStill": "止まっています",
+      "steps": "歩数",
+      "miles": "マイル",
+      "goals": "目標"
     },
     "study": {
       "promptTitle": "ここで作業を始めますか？",

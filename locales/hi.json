@@ -66,9 +66,18 @@
     "markers": {
       "you": "आप",
       "destination": "गंतव्य",
-      "destinationDescription": "इस मार्कर को हटाने के लिए कहीं भी देर तक दबाएँ",
-      "goalCompleteWithTitle": "{{title}} · लक्ष्य पूर्ण",
-      "goalReachedWithTitle": "{{title}} · पूरा चिह्नित करने के लिए तैयार"
+      "destinationDescription": "इस मार्कर को हटाने के लिए कहीं भी देर तक दबाएँ"
+    },
+    "card": {
+      "close": "बंद करें",
+      "away": "{{distance}} मील · {{eta}} पैदल",
+      "readyToTick": "पूरा चिह्नित करने के लिए तैयार",
+      "walkHere": "यहाँ चलें",
+      "walking": "चल रहे हैं",
+      "standingStill": "रुके हुए",
+      "steps": "कदम",
+      "miles": "मील",
+      "goals": "लक्ष्य"
     },
     "study": {
       "promptTitle": "यहाँ काम शुरू करें?",
