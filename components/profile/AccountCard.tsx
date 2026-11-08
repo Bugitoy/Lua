@@ -8,6 +8,7 @@ import { Pixelify } from "@/constants/fonts";
 import { LUA_GREEN } from "@/constants/mapAssets";
 import { deleteAccount, resetFriendCode, useAccount } from "@/lib/account";
 import { showAppAlert, showAppNotice } from "@/lib/appAlert";
+import { inviteLink } from "@/lib/invite";
 
 /**
  * Manage Profile's account card, shown while signed in: the friend code with
@@ -34,8 +35,10 @@ export function AccountCard() {
 
   const onShare = useCallback(() => {
     if (!friendCode) return;
+    const link = inviteLink(friendCode);
+    const vars = { code: friendCode, username: username ?? "", link };
     void Share.share({
-      message: t("account.shareCodeMessage", { code: friendCode, username: username ?? "" }),
+      message: t(link ? "account.shareLinkMessage" : "account.shareCodeMessage", vars),
     }).catch(() => {});
   }, [friendCode, t, username]);
 

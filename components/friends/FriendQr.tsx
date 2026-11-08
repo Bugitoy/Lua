@@ -6,11 +6,6 @@ import { PixelRatio, View } from "react-native";
 /** Light squares around the code; scanners need at least this much quiet space. */
 const QUIET_MODULES = 2;
 
-/** What a Lua QR code holds: a link that opens the add-friend screen for that code. */
-export function friendQrValue(code: string): string {
-  return `lua://friend/${code}`;
-}
-
 /**
  * A QR code for `value`, drawn with Skia as one path of whole-pixel squares so
  * it stays sharp for scanners at any size.

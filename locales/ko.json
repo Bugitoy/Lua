@@ -476,6 +476,7 @@
     "friendCodeHint": "공유하면 친구가 나를 추가할 수 있어요. 이전 코드를 더 이상 쓰지 않게 하려면 재설정하세요.",
     "shareCode": "친구 코드 공유",
     "shareCodeMessage": "Lua에서 친구 추가해 줘! 내 친구 코드는 {{code}}이야 (@{{username}}).",
+    "shareLinkMessage": "Lua에서 친구 추가해 줘! {{link}} (친구 코드 {{code}})",
     "resetCodeTitle": "친구 코드를 재설정할까요?",
     "resetCodeMessage": "새 코드를 받게 되고, 이전 코드는 더 이상 작동하지 않아요.",
     "resetCodeButton": "코드 재설정",

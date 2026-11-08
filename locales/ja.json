@@ -476,6 +476,7 @@
     "friendCodeHint": "共有するとフレンドに追加してもらえます。古いコードを使えなくしたいときはリセットしてください。",
     "shareCode": "フレンドコードを共有",
     "shareCodeMessage": "Luaでフレンドになろう!フレンドコードは {{code}} です(@{{username}})。",
+    "shareLinkMessage": "Luaでフレンドになろう! {{link}} (フレンドコード {{code}})",
     "resetCodeTitle": "フレンドコードをリセットしますか?",
     "resetCodeMessage": "新しいコードが発行され、古いコードは使えなくなります。",
     "resetCodeButton": "コードをリセット",

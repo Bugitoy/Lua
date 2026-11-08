@@ -480,6 +480,7 @@
     "friendCodeHint": "Share it so friends can add you. Reset it if you want the old code to stop working.",
     "shareCode": "Share friend code",
     "shareCodeMessage": "Add me on Lua! My friend code is {{code}} (@{{username}}).",
+    "shareLinkMessage": "Add me as a friend on Lua! {{link}} (friend code {{code}})",
     "resetCodeTitle": "Reset friend code?",
     "resetCodeMessage": "You'll get a new code, and the old one will stop working.",
     "resetCodeButton": "Reset code",

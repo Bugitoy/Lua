@@ -16,12 +16,13 @@ import {
 } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
-import { FriendQr, friendQrValue } from "@/components/friends/FriendQr";
+import { FriendQr } from "@/components/friends/FriendQr";
 import { PersonRow, SmallButton, StatusPill } from "@/components/friends/PersonRow";
 import { Pixelify } from "@/constants/fonts";
 import { LUA_GREEN } from "@/constants/mapAssets";
 import { useAccount } from "@/lib/account";
 import { showAppAlert, showAppNotice } from "@/lib/appAlert";
+import { friendQrValue, inviteLink } from "@/lib/invite";
 import {
   refreshFriends,
   removeFriend,
@@ -169,8 +170,10 @@ export default function FriendsScreen() {
 
   const onShareCode = useCallback(() => {
     if (!account.friendCode) return;
+    const link = inviteLink(account.friendCode);
+    const vars = { code: account.friendCode, username: account.username ?? "", link };
     void Share.share({
-      message: t("account.shareCodeMessage", { code: account.friendCode, username: account.username ?? "" }),
+      message: t(link ? "account.shareLinkMessage" : "account.shareCodeMessage", vars),
     }).catch(() => {});
   }, [account.friendCode, account.username, t]);
 

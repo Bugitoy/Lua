@@ -1,0 +1,151 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Join me on Lua</title>
+    <meta name="description" content="You've been invited to be friends on Lua, the walking app with a pixel-art companion." />
+    <meta property="og:title" content="Join me on Lua" />
+    <meta property="og:description" content="Add me as a friend on Lua, the walking app with a pixel-art companion." />
+    <meta property="og:image" content="/lua.png" />
+    <meta name="theme-color" content="#16a34a" />
+    <link rel="icon" href="/lua.png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400;600;700&display=swap" rel="stylesheet" />
+    <style>
+      :root {
+        --green: #16a34a;
+        --green-soft: rgba(22, 163, 74, 0.08);
+        --bg: #f5f5f5;
+        --card: #ffffff;
+        --text: #171717;
+        --muted: #737373;
+        --line: #e5e5e5;
+      }
+      * { box-sizing: border-box; }
+      body {
+        margin: 0;
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 24px 16px;
+        background: var(--bg);
+        color: var(--text);
+        font-family: "Pixelify Sans", system-ui, sans-serif;
+      }
+      main {
+        width: 100%;
+        max-width: 380px;
+        background: var(--card);
+        border-radius: 20px;
+        padding: 28px 22px 24px;
+        text-align: center;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.07);
+      }
+      .sprite {
+        width: 88px;
+        height: 88px;
+        border-radius: 50%;
+        background: #d1fae5;
+        border: 3px solid var(--green);
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
+      }
+      .sprite img { width: 62px; image-rendering: pixelated; }
+      h1 { font-size: 24px; margin: 14px 0 6px; font-weight: 700; }
+      p { font-size: 14px; line-height: 1.45; color: var(--muted); margin: 0; }
+      .code {
+        margin: 18px 0 4px;
+        padding: 12px;
+        border: 1px solid var(--line);
+        border-radius: 12px;
+        background: #fafafa;
+        font-size: 22px;
+        font-weight: 700;
+        letter-spacing: 0.12em;
+        user-select: all;
+      }
+      .label { font-size: 12px; color: var(--muted); }
+      .button {
+        display: block;
+        margin-top: 18px;
+        padding: 14px;
+        border-radius: 12px;
+        background: var(--green);
+        color: #fff;
+        font-family: inherit;
+        font-size: 16px;
+        font-weight: 700;
+        text-decoration: none;
+        border: 0;
+        width: 100%;
+        cursor: pointer;
+      }
+      .button.quiet {
+        margin-top: 10px;
+        background: var(--green-soft);
+        color: var(--green);
+        border: 1px solid var(--green);
+      }
+      .steps { margin-top: 20px; padding-top: 16px; border-top: 1px solid var(--line); text-align: left; }
+      .steps p + p { margin-top: 6px; }
+      .hidden { display: none; }
+    </style>
+  </head>
+  <body>
+    <main>
+      <div class="sprite"><img src="/lua.png" alt="" /></div>
+      <h1 id="title">Join me on Lua</h1>
+      <p id="intro">You've been invited to be friends on Lua, the walking app where a pixel-art Lua grows as you walk to your goals.</p>
+
+      <div id="has-code" class="hidden">
+        <div class="code" id="code"></div>
+        <div class="label">Friend code</div>
+        <a class="button" id="open" href="#">Open in Lua</a>
+        <button class="button quiet" id="copy" type="button">Copy code</button>
+        <div class="steps">
+          <p><strong>Don't have Lua yet?</strong></p>
+          <p>Install it, sign in, then open this link again, or go to Profile → Friends and type the code.</p>
+        </div>
+      </div>
+
+      <div id="no-code" class="hidden">
+        <p style="margin-top: 16px">This invite link is missing its friend code. Ask your friend to send it again.</p>
+      </div>
+    </main>
+
+    <script>
+      // The friend code is the last part of the path: /friend/LUA-7KX2QD.
+      // Same pattern as the app: no 0, O, 1, I or L.
+      const match = decodeURIComponent(location.pathname)
+        .toUpperCase()
+        .match(/LUA-?([A-HJ-NP-Z2-9]{6})\b/);
+      const code = match ? "LUA-" + match[1] : null;
+
+      if (code) {
+        document.getElementById("has-code").classList.remove("hidden");
+        document.getElementById("code").textContent = code;
+        // The app's own link; Android opens Lua directly for https links once
+        // it's verified, so this page mostly shows when Lua isn't installed.
+        document.getElementById("open").href = "lua://friend/" + code;
+
+        const copy = document.getElementById("copy");
+        copy.addEventListener("click", async () => {
+          try {
+            await navigator.clipboard.writeText(code);
+            copy.textContent = "Copied!";
+          } catch {
+            copy.textContent = code;
+          }
+          setTimeout(() => (copy.textContent = "Copy code"), 2000);
+        });
+      } else {
+        document.getElementById("no-code").classList.remove("hidden");
+      }
+    </script>
+  </body>
+</html>

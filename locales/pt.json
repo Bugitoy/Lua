@@ -480,6 +480,7 @@
     "friendCodeHint": "Compartilhe para que seus amigos possam adicionar você. Redefina se quiser que o código antigo pare de funcionar.",
     "shareCode": "Compartilhar código de amigo",
     "shareCodeMessage": "Me adicione no Lua! Meu código de amigo é {{code}} (@{{username}}).",
+    "shareLinkMessage": "Me adicione como amigo no Lua! {{link}} (código de amigo {{code}})",
     "resetCodeTitle": "Redefinir código de amigo?",
     "resetCodeMessage": "Você receberá um novo código e o antigo vai parar de funcionar.",
     "resetCodeButton": "Redefinir código",

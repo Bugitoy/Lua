@@ -476,6 +476,7 @@
     "friendCodeHint": "分享给好友,他们就能添加你。如果想让旧好友码失效,可以重置。",
     "shareCode": "分享好友码",
     "shareCodeMessage": "在 Lua 上加我吧!我的好友码是 {{code}}(@{{username}})。",
+    "shareLinkMessage": "在 Lua 上加我为好友吧! {{link}} (好友码 {{code}})",
     "resetCodeTitle": "重置好友码?",
     "resetCodeMessage": "你会得到一个新好友码,旧的将无法再使用。",
     "resetCodeButton": "重置好友码",

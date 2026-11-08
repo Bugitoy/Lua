@@ -480,6 +480,7 @@
     "friendCodeHint": "Partage-le pour que tes amis puissent t'ajouter. Réinitialise-le si tu veux que l'ancien code ne marche plus.",
     "shareCode": "Partager le code ami",
     "shareCodeMessage": "Ajoute-moi sur Lua ! Mon code ami est {{code}} (@{{username}}).",
+    "shareLinkMessage": "Ajoute-moi en ami sur Lua ! {{link}} (code ami {{code}})",
     "resetCodeTitle": "Réinitialiser le code ami ?",
     "resetCodeMessage": "Tu recevras un nouveau code et l'ancien ne fonctionnera plus.",
     "resetCodeButton": "Réinitialiser le code",

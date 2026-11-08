@@ -41,6 +41,11 @@ The app runs fully on the phone. Everything is saved locally with AsyncStorage. 
    - Deploy the function that deletes an account: `npx supabase functions deploy delete-account --no-verify-jwt`. It checks the user's token itself.
    - Without an email service, Supabase only sends emails to your own team, so new accounts can't be confirmed. Until you add one (Authentication → Emails → SMTP settings), turn off **Confirm email** under Authentication → Sign In / Providers → Email.
 
+5. Invite links (optional). [web/](web/) is a small static site for links like `https://<host>/friend/LUA-7KX2QD`. Without Lua installed they show the invite page; with it, Android opens the app on that person's card.
+   - In Vercel, import this repo and set **Root Directory** to `web`. No build step; every push to `main` redeploys it.
+   - Put the site's host in `.env` as `EXPO_PUBLIC_INVITE_HOST` (for example `lua-friends.vercel.app`) and rebuild the app. Sharing a friend code then includes the link, and QR codes hold it.
+   - Android only opens these links in Lua if the signing key's SHA-256 fingerprint is listed in [web/.well-known/assetlinks.json](web/.well-known/assetlinks.json). It has the debug key; add the release key (and Google Play's app signing key) before publishing.
+
 ## Running
 
 Lua needs a development build. Maps, Skia, background location and the step counter use native code, so Expo Go isn't enough.
