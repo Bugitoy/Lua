@@ -539,7 +539,45 @@
     "cameraMessage": "Lua 需要使用相机扫描好友的二维码,仅在此页面打开时使用。",
     "allowCamera": "允许使用相机",
     "scanHint": "将相机对准好友的 Lua 二维码。",
-    "notLuaCode": "这不是 Lua 好友码。"
+    "notLuaCode": "这不是 Lua 好友码。",
+    "errors": {
+      "unavailable": "你无法向此人发送请求。",
+      "limit": "你今天发送的请求太多了。请明天再试。",
+      "notFound": "没有人使用这个好友码。"
+    },
+    "settingsTitle": "好友隐私",
+    "requestsFromTitle": "谁可以向你发送请求",
+    "requestsFrom": {
+      "everyone": "所有人",
+      "everyoneHint": "任何人都可以通过用户名找到你并发送请求。",
+      "friends_of_friends": "好友的好友",
+      "friends_of_friendsHint": "只有和你有共同好友的人才能通过用户名找到你。",
+      "code_only": "仅限我的好友码",
+      "code_onlyHint": "你不会出现在用户名搜索中。"
+    },
+    "requestsFromNote": "拥有你的链接、二维码或好友码的人始终可以向你发送请求。",
+    "blockedListTitle": "已屏蔽",
+    "noneBlocked": "你还没有屏蔽任何人。",
+    "unblock": "取消屏蔽",
+    "block": "屏蔽",
+    "blockTitle": "屏蔽 {{name}}?",
+    "blockMessage": "你们将不再是好友,彼此都无法找到或添加对方。{{name}} 不会收到通知。",
+    "blockedTitle": "已屏蔽 {{name}}",
+    "blockedMessage": "你可以在好友隐私中取消屏蔽。",
+    "report": "举报",
+    "reportTitle": "举报 {{name}}?",
+    "reportMessage": "出了什么问题?举报是保密的,对方不会知道是你。",
+    "reasons": {
+      "spam": "垃圾信息",
+      "harassment": "骚扰或欺凌",
+      "inappropriate": "不当的名称或形象",
+      "other": "其他"
+    },
+    "reportedTitle": "感谢你的举报",
+    "reportedMessage": "我们会进行核查。你也想屏蔽 {{name}} 吗?",
+    "reportLimitTitle": "举报次数过多",
+    "reportLimitMessage": "你今天的举报次数已达上限。请明天再试。",
+    "reportOrBlock": "举报或屏蔽"
   },
   "stats": {
     "calendar": {

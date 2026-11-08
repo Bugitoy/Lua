@@ -543,7 +543,45 @@
     "cameraMessage": "Lua a besoin de l'appareil photo pour scanner le code QR d'un ami. Il n'est utilisé que tant que cet écran est ouvert.",
     "allowCamera": "Autoriser l'appareil photo",
     "scanHint": "Vise le code QR Lua d'un ami avec l'appareil photo.",
-    "notLuaCode": "Ce n'est pas un code ami Lua."
+    "notLuaCode": "Ce n'est pas un code ami Lua.",
+    "errors": {
+      "unavailable": "Tu ne peux pas envoyer de demande à cette personne.",
+      "limit": "Tu as envoyé beaucoup de demandes aujourd'hui. Réessaie demain.",
+      "notFound": "Personne n'a ce code ami."
+    },
+    "settingsTitle": "Confidentialité des amis",
+    "requestsFromTitle": "Qui peut t'envoyer des demandes",
+    "requestsFrom": {
+      "everyone": "Tout le monde",
+      "everyoneHint": "N'importe qui peut te trouver par ton nom d'utilisateur et te demander en ami.",
+      "friends_of_friends": "Amis d'amis",
+      "friends_of_friendsHint": "Seules les personnes qui ont un ami en commun avec toi peuvent te trouver par ton nom d'utilisateur.",
+      "code_only": "Seulement avec mon code",
+      "code_onlyHint": "Tu n'apparaîtras pas dans la recherche par nom d'utilisateur."
+    },
+    "requestsFromNote": "Les personnes qui ont ton lien, ton code QR ou ton code ami peuvent toujours t'envoyer une demande.",
+    "blockedListTitle": "Bloqués",
+    "noneBlocked": "Tu n'as bloqué personne.",
+    "unblock": "Débloquer",
+    "block": "Bloquer",
+    "blockTitle": "Bloquer {{name}} ?",
+    "blockMessage": "Vous ne serez plus amis, et aucun de vous ne pourra trouver ni ajouter l'autre. {{name}} n'en sera pas informé.",
+    "blockedTitle": "{{name}} est bloqué",
+    "blockedMessage": "Tu peux le débloquer dans Confidentialité des amis.",
+    "report": "Signaler",
+    "reportTitle": "Signaler {{name}} ?",
+    "reportMessage": "Quel est le problème ? Les signalements sont privés : la personne ne saura pas que c'était toi.",
+    "reasons": {
+      "spam": "Spam",
+      "harassment": "Harcèlement ou intimidation",
+      "inappropriate": "Nom ou apparence inappropriés",
+      "other": "Autre chose"
+    },
+    "reportedTitle": "Merci de nous l'avoir signalé",
+    "reportedMessage": "Nous allons examiner ça. Veux-tu aussi bloquer {{name}} ?",
+    "reportLimitTitle": "Ça fait beaucoup de signalements",
+    "reportLimitMessage": "Tu as envoyé le nombre maximal de signalements pour aujourd'hui. Réessaie demain.",
+    "reportOrBlock": "Signaler ou bloquer"
   },
   "stats": {
     "calendar": {

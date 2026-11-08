@@ -543,7 +543,45 @@
     "cameraMessage": "Lua ha bisogno della fotocamera per scansionare il codice QR di un amico. Viene usata solo mentre questa schermata è aperta.",
     "allowCamera": "Consenti fotocamera",
     "scanHint": "Inquadra il codice QR Lua di un amico.",
-    "notLuaCode": "Questo non è un codice amico di Lua."
+    "notLuaCode": "Questo non è un codice amico di Lua.",
+    "errors": {
+      "unavailable": "Non puoi inviare una richiesta a questa persona.",
+      "limit": "Oggi hai inviato molte richieste. Riprova domani.",
+      "notFound": "Nessuno ha questo codice amico."
+    },
+    "settingsTitle": "Privacy degli amici",
+    "requestsFromTitle": "Chi può inviarti richieste",
+    "requestsFrom": {
+      "everyone": "Tutti",
+      "everyoneHint": "Chiunque può trovarti tramite il nome utente e chiederti l'amicizia.",
+      "friends_of_friends": "Amici di amici",
+      "friends_of_friendsHint": "Solo chi ha un amico in comune con te può trovarti tramite il nome utente.",
+      "code_only": "Solo con il mio codice",
+      "code_onlyHint": "Non comparirai nella ricerca per nome utente."
+    },
+    "requestsFromNote": "Chi ha il tuo link, il tuo codice QR o il tuo codice amico può sempre inviarti una richiesta.",
+    "blockedListTitle": "Bloccati",
+    "noneBlocked": "Non hai bloccato nessuno.",
+    "unblock": "Sblocca",
+    "block": "Blocca",
+    "blockTitle": "Bloccare {{name}}?",
+    "blockMessage": "Non sarete più amici e nessuno dei due potrà trovare o aggiungere l'altro. {{name}} non lo saprà.",
+    "blockedTitle": "{{name}} è bloccato",
+    "blockedMessage": "Puoi sbloccarlo in Privacy degli amici.",
+    "report": "Segnala",
+    "reportTitle": "Segnalare {{name}}?",
+    "reportMessage": "Qual è il problema? Le segnalazioni sono private: non saprà che sei stato tu.",
+    "reasons": {
+      "spam": "Spam",
+      "harassment": "Molestie o bullismo",
+      "inappropriate": "Nome o aspetto inappropriato",
+      "other": "Altro"
+    },
+    "reportedTitle": "Grazie per la segnalazione",
+    "reportedMessage": "Lo esamineremo. Vuoi bloccare anche {{name}}?",
+    "reportLimitTitle": "Sono tante segnalazioni",
+    "reportLimitMessage": "Oggi hai inviato il numero massimo di segnalazioni. Riprova domani.",
+    "reportOrBlock": "Segnala o blocca"
   },
   "stats": {
     "calendar": {

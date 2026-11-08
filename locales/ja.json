@@ -539,7 +539,45 @@
     "cameraMessage": "フレンドのQRコードを読み取るためにカメラを使います。この画面を開いている間だけ使用します。",
     "allowCamera": "カメラを許可",
     "scanHint": "フレンドのLua QRコードにカメラを向けてください。",
-    "notLuaCode": "これはLuaのフレンドコードではありません。"
+    "notLuaCode": "これはLuaのフレンドコードではありません。",
+    "errors": {
+      "unavailable": "この人にはリクエストを送れません。",
+      "limit": "今日はたくさんリクエストを送りました。明日もう一度お試しください。",
+      "notFound": "このフレンドコードのユーザーはいません。"
+    },
+    "settingsTitle": "フレンドのプライバシー",
+    "requestsFromTitle": "リクエストを送れる人",
+    "requestsFrom": {
+      "everyone": "全員",
+      "everyoneHint": "誰でもユーザー名であなたを見つけてリクエストを送れます。",
+      "friends_of_friends": "フレンドのフレンド",
+      "friends_of_friendsHint": "共通のフレンドがいる人だけがユーザー名であなたを見つけられます。",
+      "code_only": "自分のコードのみ",
+      "code_onlyHint": "ユーザー名検索に表示されなくなります。"
+    },
+    "requestsFromNote": "リンク、QRコード、フレンドコードを持っている人は、いつでもリクエストを送れます。",
+    "blockedListTitle": "ブロック中",
+    "noneBlocked": "ブロックしている人はいません。",
+    "unblock": "ブロック解除",
+    "block": "ブロック",
+    "blockTitle": "{{name}}さんをブロックしますか?",
+    "blockMessage": "フレンドではなくなり、お互いに検索や追加ができなくなります。{{name}}さんには通知されません。",
+    "blockedTitle": "{{name}}さんをブロックしました",
+    "blockedMessage": "フレンドのプライバシーからブロックを解除できます。",
+    "report": "報告",
+    "reportTitle": "{{name}}さんを報告しますか?",
+    "reportMessage": "何が問題ですか?報告は非公開なので、あなたが報告したことは相手に伝わりません。",
+    "reasons": {
+      "spam": "スパム",
+      "harassment": "嫌がらせ・いじめ",
+      "inappropriate": "不適切な名前や見た目",
+      "other": "その他"
+    },
+    "reportedTitle": "ご報告ありがとうございます",
+    "reportedMessage": "内容を確認します。{{name}}さんをブロックしますか?",
+    "reportLimitTitle": "報告が多すぎます",
+    "reportLimitMessage": "今日送れる報告の上限に達しました。明日もう一度お試しください。",
+    "reportOrBlock": "報告またはブロック"
   },
   "stats": {
     "calendar": {

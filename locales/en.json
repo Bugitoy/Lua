@@ -543,7 +543,45 @@
     "cameraMessage": "Lua needs the camera to scan a friend's QR code. It's only used while this screen is open.",
     "allowCamera": "Allow camera",
     "scanHint": "Point the camera at a friend's Lua QR code.",
-    "notLuaCode": "That's not a Lua friend code."
+    "notLuaCode": "That's not a Lua friend code.",
+    "errors": {
+      "unavailable": "You can't send this person a request.",
+      "limit": "You've sent a lot of requests today. Try again tomorrow.",
+      "notFound": "No one has that friend code."
+    },
+    "settingsTitle": "Friend privacy",
+    "requestsFromTitle": "Who can send you requests",
+    "requestsFrom": {
+      "everyone": "Everyone",
+      "everyoneHint": "Anyone can find you by username and ask.",
+      "friends_of_friends": "Friends of friends",
+      "friends_of_friendsHint": "Only people who share a friend with you can find you by username.",
+      "code_only": "Only with my code",
+      "code_onlyHint": "You won't show up in username search."
+    },
+    "requestsFromNote": "People with your link, QR code or friend code can always send you a request.",
+    "blockedListTitle": "Blocked",
+    "noneBlocked": "You haven't blocked anyone.",
+    "unblock": "Unblock",
+    "block": "Block",
+    "blockTitle": "Block {{name}}?",
+    "blockMessage": "You won't be friends anymore, and neither of you can find or add the other. {{name}} won't be told.",
+    "blockedTitle": "{{name}} is blocked",
+    "blockedMessage": "You can unblock them in Friend privacy.",
+    "report": "Report",
+    "reportTitle": "Report {{name}}?",
+    "reportMessage": "What's wrong? Reports are private, so they won't know it was you.",
+    "reasons": {
+      "spam": "Spam",
+      "harassment": "Harassment or bullying",
+      "inappropriate": "Inappropriate name or look",
+      "other": "Something else"
+    },
+    "reportedTitle": "Thanks for telling us",
+    "reportedMessage": "We'll look into it. Do you also want to block {{name}}?",
+    "reportLimitTitle": "That's a lot of reports",
+    "reportLimitMessage": "You've sent the most reports allowed today. Try again tomorrow.",
+    "reportOrBlock": "Report or block"
   },
   "stats": {
     "calendar": {

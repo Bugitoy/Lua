@@ -543,7 +543,45 @@
     "cameraMessage": "Lua braucht die Kamera, um den QR-Code eines Freundes zu scannen. Sie wird nur genutzt, solange dieser Bildschirm offen ist.",
     "allowCamera": "Kamera erlauben",
     "scanHint": "Richte die Kamera auf den Lua-QR-Code eines Freundes.",
-    "notLuaCode": "Das ist kein Lua-Freundescode."
+    "notLuaCode": "Das ist kein Lua-Freundescode.",
+    "errors": {
+      "unavailable": "Du kannst dieser Person keine Anfrage senden.",
+      "limit": "Du hast heute viele Anfragen gesendet. Versuche es morgen wieder.",
+      "notFound": "Niemand hat diesen Freundescode."
+    },
+    "settingsTitle": "Freunde-Privatsphäre",
+    "requestsFromTitle": "Wer dir Anfragen senden kann",
+    "requestsFrom": {
+      "everyone": "Alle",
+      "everyoneHint": "Jeder kann dich über deinen Benutzernamen finden und anfragen.",
+      "friends_of_friends": "Freunde von Freunden",
+      "friends_of_friendsHint": "Nur wer einen gemeinsamen Freund mit dir hat, findet dich über den Benutzernamen.",
+      "code_only": "Nur mit meinem Code",
+      "code_onlyHint": "Du erscheinst nicht in der Benutzernamensuche."
+    },
+    "requestsFromNote": "Wer deinen Link, QR-Code oder Freundescode hat, kann dir immer eine Anfrage senden.",
+    "blockedListTitle": "Blockiert",
+    "noneBlocked": "Du hast niemanden blockiert.",
+    "unblock": "Entsperren",
+    "block": "Blockieren",
+    "blockTitle": "{{name}} blockieren?",
+    "blockMessage": "Ihr seid dann keine Freunde mehr und könnt euch gegenseitig weder finden noch hinzufügen. {{name}} erfährt davon nichts.",
+    "blockedTitle": "{{name}} ist blockiert",
+    "blockedMessage": "Du kannst die Blockierung unter Freunde-Privatsphäre aufheben.",
+    "report": "Melden",
+    "reportTitle": "{{name}} melden?",
+    "reportMessage": "Was ist los? Meldungen sind privat, die Person erfährt nicht, dass du es warst.",
+    "reasons": {
+      "spam": "Spam",
+      "harassment": "Belästigung oder Mobbing",
+      "inappropriate": "Unangemessener Name oder Look",
+      "other": "Etwas anderes"
+    },
+    "reportedTitle": "Danke für deine Meldung",
+    "reportedMessage": "Wir sehen uns das an. Möchtest du {{name}} auch blockieren?",
+    "reportLimitTitle": "Das sind viele Meldungen",
+    "reportLimitMessage": "Du hast heute die maximale Anzahl an Meldungen gesendet. Versuche es morgen wieder.",
+    "reportOrBlock": "Melden oder blockieren"
   },
   "stats": {
     "calendar": {

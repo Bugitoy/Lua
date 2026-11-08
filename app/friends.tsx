@@ -17,22 +17,24 @@ import {
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 import { FriendQr } from "@/components/friends/FriendQr";
+import { openPersonMenu } from "@/components/friends/personMenu";
 import { PersonRow, SmallButton, StatusPill } from "@/components/friends/PersonRow";
 import { Pixelify } from "@/constants/fonts";
 import { LUA_GREEN } from "@/constants/mapAssets";
 import { useAccount } from "@/lib/account";
-import { showAppAlert, showAppNotice } from "@/lib/appAlert";
+import { showAppNotice } from "@/lib/appAlert";
 import { friendQrValue, inviteLink } from "@/lib/invite";
 import {
+  friendErrorKey,
   refreshFriends,
   removeFriend,
   respondToRequest,
   searchPeople,
   sendFriendRequest,
+  sendFriendRequestByCode,
   useFriends,
-  type Connection,
+  type FoundProfile,
   type FriendsError,
-  type PublicProfile,
 } from "@/lib/friends";
 
 /** Wait this long after typing stops before searching. */
@@ -49,7 +51,7 @@ const CARD_SHADOW = {
 type Search =
   | { state: "idle" }
   | { state: "loading" }
-  | { state: "done"; people: PublicProfile[] }
+  | { state: "done"; people: FoundProfile[] }
   | { state: "error"; error: FriendsError };
 
 function SectionTitle({ children }: { children: ReactNode }) {
@@ -121,7 +123,7 @@ export default function FriendsScreen() {
           icon: "alert-circle-outline",
           tone: "danger",
           title: t("account.errors.genericTitle"),
-          message: t(error === "network" ? "account.errors.network" : "account.errors.unknown"),
+          message: t(friendErrorKey(error)),
         },
         t("common.ok"),
       ),
@@ -149,25 +151,6 @@ export default function FriendsScreen() {
     setRefreshing(false);
   }, []);
 
-  const confirmRemove = useCallback(
-    (person: Connection) => {
-      showAppAlert({
-        icon: "person-remove-outline",
-        tone: "danger",
-        title: t("friends.removeTitle", { name: person.displayName }),
-        message: t("friends.removeMessage", { name: person.displayName }),
-        buttons: [
-          {
-            label: t("friends.remove"),
-            tone: "danger",
-            onPress: () => void act(person.id, () => removeFriend(person.id)),
-          },
-        ],
-      });
-    },
-    [act, t],
-  );
-
   const onShareCode = useCallback(() => {
     if (!account.friendCode) return;
     const link = inviteLink(account.friendCode);
@@ -183,7 +166,7 @@ export default function FriendsScreen() {
   const friends = connections.filter((c) => c.relation === "friend");
 
   /** The right side of a search result: what you can do with that person. */
-  const resultAction = (person: PublicProfile) => {
+  const resultAction = (person: FoundProfile) => {
     const relation = relationOf(person.id);
     const disabled = busy.has(person.id);
     if (relation === "friend") return <StatusPill label={t("friends.friendsLabel")} />;
@@ -202,7 +185,12 @@ export default function FriendsScreen() {
         label={t("friends.add")}
         icon="person-add"
         disabled={disabled}
-        onPress={() => void act(person.id, () => sendFriendRequest(person.id))}
+        // Found by their code: ask by code, which their search setting doesn't limit.
+        onPress={() =>
+          void act(person.id, () =>
+            person.viaCode ? sendFriendRequestByCode(person.viaCode) : sendFriendRequest(person.id),
+          )
+        }
       />
     );
   };
@@ -219,9 +207,23 @@ export default function FriendsScreen() {
           {t("common.back")}
         </Text>
       </Pressable>
-      <Text className="mb-5 text-3xl text-neutral-900" style={{ fontFamily: Pixelify.bold }}>
-        {t("friends.title")}
-      </Text>
+      <View className="mb-5 flex-row items-center justify-between">
+        <Text className="text-3xl text-neutral-900" style={{ fontFamily: Pixelify.bold }}>
+          {t("friends.title")}
+        </Text>
+        {signedIn ? (
+          <Pressable
+            onPress={() => router.push("/friend-settings")}
+            hitSlop={8}
+            accessibilityRole="button"
+            accessibilityLabel={t("friends.settingsTitle")}
+            className="size-10 items-center justify-center rounded-full bg-white active:opacity-70"
+            style={CARD_SHADOW}
+          >
+            <Ionicons name="shield-checkmark-outline" size={20} color="#525252" />
+          </Pressable>
+        ) : null}
+      </View>
     </>
   );
 
@@ -337,7 +339,11 @@ export default function FriendsScreen() {
                 search.people.map((person, i) => (
                   <View key={person.id}>
                     {i > 0 ? <Divider /> : null}
-                    <PersonRow person={person} right={resultAction(person)} />
+                    <PersonRow
+                      person={person}
+                      onPress={() => openPersonMenu(t, person)}
+                      right={resultAction(person)}
+                    />
                   </View>
                 ))
               ) : null}
@@ -354,6 +360,7 @@ export default function FriendsScreen() {
                   {i > 0 ? <Divider /> : null}
                   <PersonRow
                     person={person}
+                    onPress={() => openPersonMenu(t, person)}
                     right={
                       <View className="flex-row gap-1.5">
                         <SmallButton
@@ -397,7 +404,7 @@ export default function FriendsScreen() {
                 {i > 0 ? <Divider /> : null}
                 <PersonRow
                   person={person}
-                  onPress={() => confirmRemove(person)}
+                  onPress={() => openPersonMenu(t, person, { isFriend: true })}
                   right={<Ionicons name="ellipsis-horizontal" size={18} color="#a3a3a3" />}
                 />
               </View>

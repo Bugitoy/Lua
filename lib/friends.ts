@@ -32,9 +32,23 @@ export type FriendsState = {
   connections: Connection[];
 };
 
-export type FriendsError = "notSignedIn" | "network" | "unknown";
+/**
+ * unavailable: blocked either way, or their "who can send requests" setting
+ * doesn't allow it (the two look the same, so a block isn't revealed).
+ * limit: the daily request limit is used up. notFound: no one has that code.
+ */
+export type FriendsError = "notSignedIn" | "network" | "unknown" | "unavailable" | "limit" | "notFound";
 /** incoming: they'd already asked the user, so nothing was sent; accept theirs instead. */
 export type SendResult = "requested" | "incoming" | "already_requested" | "already_friends";
+
+/** Who can send the user requests from username search. A link, QR or code always works. */
+export type RequestsFrom = "everyone" | "friends_of_friends" | "code_only";
+export const REQUESTS_FROM: RequestsFrom[] = ["everyone", "friends_of_friends", "code_only"];
+
+export type ReportReason = "spam" | "harassment" | "inappropriate" | "other";
+
+/** A search result; `viaCode` is set when it was found by friend code, so Add can ask by code. */
+export type FoundProfile = PublicProfile & { viaCode?: string };
 
 const EMPTY: FriendsState = { status: "idle", connections: [] };
 
@@ -147,6 +161,22 @@ export function useIncomingCount(): number {
   return useSyncExternalStore(subscribe, () => state.connections.filter((c) => c.relation === "incoming").length);
 }
 
+/** The translation key that explains a failed friend action. */
+export function friendErrorKey(error: FriendsError): string {
+  switch (error) {
+    case "network":
+      return "account.errors.network";
+    case "unavailable":
+      return "friends.errors.unavailable";
+    case "limit":
+      return "friends.errors.limit";
+    case "notFound":
+      return "friends.errors.notFound";
+    default:
+      return "account.errors.unknown";
+  }
+}
+
 /** Friend codes look like LUA-7KX2QD; also accepts them typed without the prefix or dash. */
 export function looksLikeFriendCode(text: string): boolean {
   return /^(LUA-?)?[A-HJ-NP-Z2-9]{6}$/i.test(text.trim().replace(/\s+/g, ""));
@@ -169,51 +199,64 @@ export async function findByFriendCode(
   return { ok: true, person: row ? toProfile(row) : null };
 }
 
-/** Usernames starting with `query`, plus whoever owns it if it's a friend code. Never the user. */
+/**
+ * Usernames starting with `query` that the user may ask (the server leaves
+ * out blocked people and anyone whose setting doesn't allow it), plus whoever
+ * owns the text if it's a friend code. Never the user.
+ */
 export async function searchPeople(
   query: string,
-): Promise<{ ok: true; people: PublicProfile[] } | { ok: false; error: FriendsError }> {
+): Promise<{ ok: true; people: FoundProfile[] } | { ok: false; error: FriendsError }> {
   if (!supabase || !userId) return { ok: false, error: "notSignedIn" };
   const text = query.trim().replace(/^@/, "");
   if (text.length < 2) return { ok: true, people: [] };
 
   const byCode = looksLikeFriendCode(text) ? findByFriendCode(text) : null;
-  // _ is a wildcard in LIKE patterns, and usernames can contain it.
-  const pattern = `${text.replace(/[\\%_]/g, (c) => `\\${c}`)}%`;
-  const byName = /^[A-Za-z0-9_]+$/.test(text)
-    ? supabase
-        .from("profiles")
-        .select("id, username, display_name, look, xp, streak")
-        .ilike("username", pattern)
-        .neq("id", userId)
-        .order("username")
-        .limit(20)
-    : null;
+  const byName = /^[A-Za-z0-9_]+$/.test(text) ? supabase.rpc("search_profiles", { term: text }) : null;
 
   const [codeResult, nameResult] = await Promise.all([byCode, byName]);
   if (codeResult && !codeResult.ok) return codeResult;
   if (nameResult?.error) return { ok: false, error: errorOf(nameResult.error) };
 
-  const people: PublicProfile[] = [];
-  if (codeResult?.ok && codeResult.person && codeResult.person.id !== userId) people.push(codeResult.person);
-  for (const row of (nameResult?.data ?? []) as Record<string, unknown>[]) {
+  const people: FoundProfile[] = [];
+  if (codeResult?.ok && codeResult.person && codeResult.person.id !== userId) {
+    people.push({ ...codeResult.person, viaCode: text });
+  }
+  for (const row of (Array.isArray(nameResult?.data) ? nameResult.data : []) as Record<string, unknown>[]) {
     const person = toProfile(row);
     if (!people.some((p) => p.id === person.id)) people.push(person);
   }
   return { ok: true, people };
 }
 
-async function call<T>(fn: string, args: Record<string, unknown>): Promise<{ ok: true; data: T } | { ok: false; error: FriendsError }> {
+type Result<T> = { ok: true; data: T } | { ok: false; error: FriendsError };
+
+async function call<T>(fn: string, args: Record<string, unknown> = {}, refresh = true): Promise<Result<T>> {
   if (!supabase || !userId) return { ok: false, error: "notSignedIn" };
   const { data, error } = await supabase.rpc(fn, args);
   if (error) return { ok: false, error: errorOf(error) };
-  void refreshFriends();
+  if (refresh) void refreshFriends();
   return { ok: true, data: data as T };
 }
 
-/** Asks someone to be friends. Never makes a friendship by itself; the other person has to accept. */
+/** Turns the server's refusals into errors the screens can explain. */
+async function request(fn: string, args: Record<string, unknown>): Promise<Result<SendResult>> {
+  const result = await call<SendResult | "unavailable" | "limit" | "not_found">(fn, args);
+  if (!result.ok) return result;
+  if (result.data === "unavailable") return { ok: false, error: "unavailable" };
+  if (result.data === "limit") return { ok: false, error: "limit" };
+  if (result.data === "not_found") return { ok: false, error: "notFound" };
+  return { ok: true, data: result.data };
+}
+
+/** Asks someone found by username search. Never makes a friendship by itself; they have to accept. */
 export function sendFriendRequest(personId: string) {
-  return call<SendResult>("send_friend_request", { target: personId });
+  return request("send_friend_request", { target: personId });
+}
+
+/** Asks whoever owns a friend code (from a link, QR or typed code); their search setting doesn't apply. */
+export function sendFriendRequestByCode(code: string) {
+  return request("send_friend_request_by_code", { code });
 }
 
 export function respondToRequest(personId: string, accept: boolean) {
@@ -223,4 +266,45 @@ export function respondToRequest(personId: string, accept: boolean) {
 /** Unfriends someone, or cancels a request the user sent them. */
 export function removeFriend(personId: string) {
   return call<boolean>("remove_friend", { other: personId });
+}
+
+/** Blocks someone: ends any friendship or request, and neither can find or ask the other. */
+export function blockUser(personId: string) {
+  return call<boolean>("block_user", { target: personId });
+}
+
+export function unblockUser(personId: string) {
+  return call<boolean>("unblock_user", { target: personId }, false);
+}
+
+/** Saves a report for review. `false` means the daily report limit is used up. */
+export function reportUser(personId: string, reason: ReportReason) {
+  return call<boolean>("report_user", { target: personId, reason }, false);
+}
+
+export async function listBlocked(): Promise<Result<PublicProfile[]>> {
+  const result = await call<Record<string, unknown>[]>("list_blocked", {}, false);
+  if (!result.ok) return result;
+  return { ok: true, data: (Array.isArray(result.data) ? result.data : []).map(toProfile) };
+}
+
+export async function getRequestsFrom(): Promise<Result<RequestsFrom>> {
+  if (!supabase || !userId) return { ok: false, error: "notSignedIn" };
+  const { data, error } = await supabase
+    .from("friend_settings")
+    .select("requests_from")
+    .eq("user_id", userId)
+    .maybeSingle();
+  if (error) return { ok: false, error: errorOf(error) };
+  const value = data?.requests_from as RequestsFrom | undefined;
+  return { ok: true, data: value && REQUESTS_FROM.includes(value) ? value : "everyone" };
+}
+
+export async function setRequestsFrom(value: RequestsFrom): Promise<Result<RequestsFrom>> {
+  if (!supabase || !userId) return { ok: false, error: "notSignedIn" };
+  const { error } = await supabase
+    .from("friend_settings")
+    .upsert({ user_id: userId, requests_from: value }, { onConflict: "user_id" });
+  if (error) return { ok: false, error: errorOf(error) };
+  return { ok: true, data: value };
 }

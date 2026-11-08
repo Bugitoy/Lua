@@ -543,7 +543,45 @@
     "cameraMessage": "O Lua precisa da câmera para ler o código QR de um amigo. Ela só é usada enquanto esta tela está aberta.",
     "allowCamera": "Permitir câmera",
     "scanHint": "Aponte a câmera para o código QR do Lua de um amigo.",
-    "notLuaCode": "Esse não é um código de amigo do Lua."
+    "notLuaCode": "Esse não é um código de amigo do Lua.",
+    "errors": {
+      "unavailable": "Você não pode enviar um pedido para esta pessoa.",
+      "limit": "Você enviou muitos pedidos hoje. Tente de novo amanhã.",
+      "notFound": "Ninguém tem esse código de amigo."
+    },
+    "settingsTitle": "Privacidade de amigos",
+    "requestsFromTitle": "Quem pode enviar pedidos para você",
+    "requestsFrom": {
+      "everyone": "Todos",
+      "everyoneHint": "Qualquer pessoa pode encontrar você pelo nome de usuário e enviar um pedido.",
+      "friends_of_friends": "Amigos de amigos",
+      "friends_of_friendsHint": "Só quem tem um amigo em comum com você pode encontrar você pelo nome de usuário.",
+      "code_only": "Só com meu código",
+      "code_onlyHint": "Você não aparece na busca por nome de usuário."
+    },
+    "requestsFromNote": "Quem tem seu link, código QR ou código de amigo sempre pode enviar um pedido para você.",
+    "blockedListTitle": "Bloqueados",
+    "noneBlocked": "Você não bloqueou ninguém.",
+    "unblock": "Desbloquear",
+    "block": "Bloquear",
+    "blockTitle": "Bloquear {{name}}?",
+    "blockMessage": "Vocês deixarão de ser amigos, e nenhum dos dois poderá encontrar ou adicionar o outro. {{name}} não será avisado.",
+    "blockedTitle": "{{name}} está bloqueado",
+    "blockedMessage": "Você pode desbloquear em Privacidade de amigos.",
+    "report": "Denunciar",
+    "reportTitle": "Denunciar {{name}}?",
+    "reportMessage": "Qual é o problema? As denúncias são privadas, então a pessoa não saberá que foi você.",
+    "reasons": {
+      "spam": "Spam",
+      "harassment": "Assédio ou bullying",
+      "inappropriate": "Nome ou visual inadequado",
+      "other": "Outra coisa"
+    },
+    "reportedTitle": "Obrigado por nos avisar",
+    "reportedMessage": "Vamos analisar. Quer bloquear {{name}} também?",
+    "reportLimitTitle": "São muitas denúncias",
+    "reportLimitMessage": "Você enviou o máximo de denúncias permitido hoje. Tente de novo amanhã.",
+    "reportOrBlock": "Denunciar ou bloquear"
   },
   "stats": {
     "calendar": {

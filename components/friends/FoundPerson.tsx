@@ -4,13 +4,15 @@ import { useTranslation } from "react-i18next";
 import { ActivityIndicator, Pressable, Text, View } from "react-native";
 
 import { PersonRow } from "@/components/friends/PersonRow";
+import { openPersonMenu } from "@/components/friends/personMenu";
 import { Pixelify } from "@/constants/fonts";
 import { LUA_GREEN } from "@/constants/mapAssets";
 import { useAccount } from "@/lib/account";
 import {
   findByFriendCode,
+  friendErrorKey,
   respondToRequest,
-  sendFriendRequest,
+  sendFriendRequestByCode,
   useFriends,
   type FriendsError,
   type PublicProfile,
@@ -125,7 +127,7 @@ export function FoundPerson({ code, onDone }: { code: string; onDone: () => void
     setSending(true);
     setSendError(null);
     const result =
-      relation === "incoming" ? await respondToRequest(person.id, true) : await sendFriendRequest(person.id);
+      relation === "incoming" ? await respondToRequest(person.id, true) : await sendFriendRequestByCode(code);
     setSending(false);
     if (!result.ok) setSendError(result.error);
   };
@@ -151,7 +153,7 @@ export function FoundPerson({ code, onDone }: { code: string; onDone: () => void
       <View className="mt-2">{footer}</View>
       {sendError ? (
         <Text className="mt-2 text-center text-xs text-red-500" style={{ fontFamily: Pixelify.regular }}>
-          {t(sendError === "network" ? "account.errors.network" : "account.errors.unknown")}
+          {t(friendErrorKey(sendError))}
         </Text>
       ) : null}
       {relation === "incoming"
@@ -159,6 +161,17 @@ export function FoundPerson({ code, onDone }: { code: string; onDone: () => void
         : relation === "friend" || relation === "outgoing" || isMe
           ? button(t("common.done"), onDone, false)
           : null}
+      {isMe ? null : (
+        <Pressable
+          onPress={() => openPersonMenu(t, person, { isFriend: relation === "friend", onDone })}
+          className="mt-3 self-center active:opacity-70"
+          hitSlop={8}
+        >
+          <Text className="text-xs text-neutral-500 underline" style={{ fontFamily: Pixelify.regular }}>
+            {t("friends.reportOrBlock")}
+          </Text>
+        </Pressable>
+      )}
     </>,
   );
 }
