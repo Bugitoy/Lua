@@ -2,7 +2,7 @@
 
 Lua is a walking app with a pixel-art companion. You set goals at real places on the map, walk there, and Lua earns XP and stays healthy from your steps and the goals you reach.
 
-- **Map**: live GPS position, goal markers, check-in when you arrive, and work/study sessions at a goal.
+- **Map**: live GPS position, goal markers, goals that unlock when you arrive so you can tick them off, and work/study sessions at a goal.
 - **Schedule**: add goals for today by searching nearby places. Goals last one day.
 - **Lua's health and XP**: steps, the daily step goal and goals you walked to all earn XP. A full day heals Lua, and missed days hurt her.
 - **Achievements**: unlock items as XP grows, dress Lua up in the wardrobe, and buy costume skins in the shop.

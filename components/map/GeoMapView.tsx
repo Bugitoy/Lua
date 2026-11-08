@@ -357,7 +357,11 @@ function GeoMapViewImpl({
                 ? t("map.markers.goalCompleteWithTitle", {
                     title: item.title,
                   })
-                : item.title
+                : item.reachedAtMs != null
+                  ? t("map.markers.goalReachedWithTitle", {
+                      title: item.title,
+                    })
+                  : item.title
             }
             pinColor={item.completed ? LUA_GREEN : GOAL_PENDING_PIN}
             zIndex={100}

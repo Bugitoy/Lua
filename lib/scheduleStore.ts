@@ -19,9 +19,16 @@ const STORAGE_KEY = "schedule";
 export type ScheduledItem = ScheduleItemData & {
   /** Place name shown on the map marker (same as `location`). */
   label: string;
-  /** True once the user arrived within the arrival radius. */
+  /**
+   * When the user first came within the arrival radius today. Reaching a goal
+   * doesn't finish it; it lets the user tick it off for the rest of the day.
+   */
+  reachedAtMs: number | null;
+  /** The visit that reached this goal; goals reached together share it, and its walk pays XP once. */
+  arrivalId: string | null;
+  /** True once the user ticked the goal off. */
   completed: boolean;
-  /** When the goal was completed, for the day's history. */
+  /** When the goal was ticked off, for the day's history. */
   completedAtMs: number | null;
 };
 
@@ -80,11 +87,17 @@ function sanitizeItem(raw: unknown): ScheduledItem | null {
     return null;
   }
   const item = r as unknown as ScheduledItem;
+  const completed = r.completed === true;
+  const completedAtMs = typeof r.completedAtMs === "number" ? r.completedAtMs : null;
   return {
     ...item,
     label: typeof r.label === "string" ? r.label : String(r.location ?? ""),
-    completed: r.completed === true,
-    completedAtMs: typeof r.completedAtMs === "number" ? r.completedAtMs : null,
+    // Goals saved before reaching was its own step were reached when they completed.
+    reachedAtMs:
+      typeof r.reachedAtMs === "number" ? r.reachedAtMs : completed ? (completedAtMs ?? Date.now()) : null,
+    arrivalId: typeof r.arrivalId === "string" ? r.arrivalId : null,
+    completed,
+    completedAtMs,
   };
 }
 
@@ -119,7 +132,15 @@ export function startSchedule(): Promise<void> {
 
 function newItem(data: Omit<ScheduleItemData, "id">): ScheduledItem {
   const id = `${Date.now()}-${Math.random().toString(36).slice(2, 9)}`;
-  return { ...data, id, label: data.location, completed: false, completedAtMs: null };
+  return {
+    ...data,
+    id,
+    label: data.location,
+    reachedAtMs: null,
+    arrivalId: null,
+    completed: false,
+    completedAtMs: null,
+  };
 }
 
 /** Adds a goal for today and returns its id. */
@@ -131,12 +152,23 @@ export function addScheduleItem(data: Omit<ScheduleItemData, "id">): string {
   return item.id;
 }
 
-/** Edits a goal for today. A goal that is already done keeps its completion. */
+/**
+ * Edits a goal for today. A goal that is already done keeps its completion;
+ * an unfinished goal moved to a new place has to be reached again.
+ */
 export function updateScheduleItem(id: string, changes: GoalFields & { seriesId?: string }): void {
   const item = state.items.get(id);
   if (!item) return;
+  const moved = changes.latitude !== item.latitude || changes.longitude !== item.longitude;
+  const resetReach = moved && !item.completed;
   const next = new Map(state.items);
-  next.set(id, { ...item, ...changes, seriesId: changes.seriesId, label: changes.location });
+  next.set(id, {
+    ...item,
+    ...changes,
+    seriesId: changes.seriesId,
+    label: changes.location,
+    ...(resetReach ? { reachedAtMs: null, arrivalId: null } : {}),
+  });
   commit({ items: next });
 }
 
@@ -147,13 +179,29 @@ export function removeScheduleItem(id: string): void {
   commit({ items: next });
 }
 
+/** Marks goals the user just arrived at as reached by visit `arrivalId`. Returns the ids it changed. */
+export function markGoalsReached(ids: Iterable<string>, arrivalId: string): string[] {
+  const now = Date.now();
+  let next: Map<string, ScheduledItem> | null = null;
+  const changed: string[] = [];
+  for (const id of ids) {
+    const item = state.items.get(id);
+    if (!item || item.reachedAtMs != null) continue;
+    next ??= new Map(state.items);
+    next.set(id, { ...item, reachedAtMs: now, arrivalId });
+    changed.push(id);
+  }
+  if (next) commit({ items: next });
+  return changed;
+}
+
 /**
- * Mark the goal with the given id as completed.
+ * Ticks off a goal the user has reached today.
  * Returns `true` only on the first completion so callers can reward it once.
  */
 export function markGoalCompleted(id: string): boolean {
   const item = state.items.get(id);
-  if (!item || item.completed) return false;
+  if (!item || item.completed || item.reachedAtMs == null) return false;
   const next = new Map(state.items);
   next.set(id, { ...item, completed: true, completedAtMs: Date.now() });
   commit({ items: next });
@@ -201,9 +249,10 @@ export function toGoalRecord(item: ScheduledItem): GoalRecord {
   };
 }
 
-export function hasUnfinishedGoals(): boolean {
+/** True while some goal today still has to be reached, so location tracking is needed. */
+export function hasUnreachedGoals(): boolean {
   for (const item of state.items.values()) {
-    if (!item.completed) return true;
+    if (item.reachedAtMs == null) return true;
   }
   return false;
 }
@@ -218,6 +267,6 @@ export function useScheduledItems(): ScheduledItem[] {
 }
 
 /** Re-renders only when the answer flips, not on every schedule change. */
-export function useHasUnfinishedGoals(): boolean {
-  return useSyncExternalStore(subscribe, hasUnfinishedGoals);
+export function useHasUnreachedGoals(): boolean {
+  return useSyncExternalStore(subscribe, hasUnreachedGoals);
 }

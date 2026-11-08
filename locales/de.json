@@ -64,7 +64,8 @@
       "you": "Du",
       "destination": "Ziel",
       "destinationDescription": "Halte irgendwo gedrückt, um diesen Marker zu verschieben",
-      "goalCompleteWithTitle": "{{title}} · Ziel erreicht"
+      "goalCompleteWithTitle": "{{title}} · Ziel erreicht",
+      "goalReachedWithTitle": "{{title}} · Bereit zum Abhaken"
     },
     "study": {
       "promptTitle": "Hier mit der Arbeit beginnen?",
@@ -103,7 +104,7 @@
     "liveMap": "Live-Karte",
     "empty": {
       "todayTitle": "Noch keine Ziele",
-      "todayDescription": "Tippe auf die +-Schaltfläche, um einen Ort hinzuzufügen. Wenn du auf der Live-Karte dorthin gehst, ist das Ziel erreicht.",
+      "todayDescription": "Tippe auf die +-Schaltfläche, um einen Ort hinzuzufügen. Geh dorthin und hak das Ziel dann hier ab.",
       "pastTitle": "Nichts geplant",
       "pastDescription": "Für diesen Tag wurden keine Ziele gesetzt.",
       "futureTitle": "Noch nichts geplant",
@@ -203,6 +204,9 @@
     },
     "card": {
       "complete": "Abgeschlossen",
+      "notReached": "Nicht erreicht",
+      "tickOff": "Abhaken",
+      "tickOffLabel": "{{title}} abhaken",
       "done": "Erledigt",
       "missed": "Verpasst",
       "planned": "Geplant",
@@ -284,7 +288,7 @@
         },
         "prove": {
           "title": "Beweise, dass du da warst",
-          "body": "Kommst du innerhalb von 25 Metern an, erkennt die App deine Ankunft automatisch und hakt das Ziel ab. XP gibt es nur, wenn du wirklich hingelaufen bist."
+          "body": "Kommst du innerhalb von 25 Metern an, erkennt die App deine Ankunft und schaltet das Ziel frei. Abhaken kannst du es, sobald du es wirklich erledigt hast. XP gibt es nur, wenn du wirklich hingelaufen bist."
         },
         "consequences": {
           "title": "Handeln hat Folgen",
@@ -312,7 +316,7 @@
           },
           {
             "q": "Wie verdiene ich XP und steige im Level auf?",
-            "a": "Du verdienst Erfahrungspunkte (XP) durch Gehen. Deine XP-Summe sinkt nie. Es gibt drei Wege, XP zu verdienen:\n\nSchritte: +1 XP pro 100 Schritte\n\nTägliches Schrittziel: +100 XP, wenn du an einem Tag 6.000 Schritte erreichst\n\nZiele: +50 XP für jedes Ziel, zu dem du gehst. Ein Ziel zählt nur, wenn du seit dem letzten belohnten Ziel mindestens 200 Schritte (oder 150 Meter) gegangen bist, und Ziele am selben Ort werden nur einmal belohnt.\n\nArbeitszeit wird weiterhin erfasst, bringt aber keine XP."
+            "a": "Du verdienst Erfahrungspunkte (XP) durch Gehen. Deine XP-Summe sinkt nie. Es gibt drei Wege, XP zu verdienen:\n\nSchritte: +1 XP pro 100 Schritte\n\nTägliches Schrittziel: +100 XP, wenn du an einem Tag 6.000 Schritte erreichst\n\nZiele: +50 XP für jedes Ziel, zu dem du gehst und das du abhakst. Ein Ziel zählt nur, wenn du seit dem letzten belohnten Ziel mindestens 200 Schritte (oder 150 Meter) gegangen bist, und Ziele am selben Ort werden nur einmal belohnt.\n\nArbeitszeit wird weiterhin erfasst, bringt aber keine XP."
           }
         ]
       },
@@ -321,7 +325,7 @@
         "faqs": [
           {
             "q": "Was passiert um Mitternacht mit meinen Zielen?",
-            "a": "Ziele gehören zu ihrem Tag. Um Mitternacht bewertet Lua den Tag, und jedes Ziel, zu dem du nicht gelaufen bist, zählt als verpasst. Vergangene Tage bleiben im Kalender des Zeitplans, wo jedes Ziel Erledigt oder Verpasst zeigt, und im Statistik-Kalender. Danach wandern die Ziele, die du für den neuen Tag geplant hast, in den heutigen Live-Zeitplan.\n\nEin Ziel aus Versehen hinzugefügt? Halte es auf der Zeitplan-Seite lange gedrückt, um es zu entfernen."
+            "a": "Ziele gehören zu ihrem Tag. Um Mitternacht bewertet Lua den Tag, und jedes Ziel, das du nicht abgehakt hast, zählt als verpasst. Vergangene Tage bleiben im Kalender des Zeitplans, wo jedes Ziel Erledigt oder Verpasst zeigt, und im Statistik-Kalender. Danach wandern die Ziele, die du für den neuen Tag geplant hast, in den heutigen Live-Zeitplan.\n\nEin Ziel aus Versehen hinzugefügt? Halte es auf der Zeitplan-Seite lange gedrückt, um es zu entfernen."
           },
           {
             "q": "Kann ich Ziele für spätere Tage planen?",
@@ -341,8 +345,8 @@
         "title": "GPS & Ortung",
         "faqs": [
           {
-            "q": "Ich bin am Ziel, aber das Ziel wird nicht als erledigt markiert. Warum?",
-            "a": "Lua muss bestätigen, dass du dich in einem Umkreis von 25 Metern um dein geplantes Ziel befindest. Wenn es sich nicht automatisch aktualisiert:\n\nBerechtigungen prüfen: Stelle sicher, dass die Standortberechtigungen deines Geräts aktiviert und auf „Genauer Standort“ eingestellt sind.\n\nSignalstörungen: GPS-Signale können durch dicke Wände oder große Gebäude blockiert werden. Geh für ein paar Sekunden nach draußen oder an ein Fenster, damit dein Standort aktualisiert wird.\n\nPin prüfen: Öffne die Live-Karte und vergewissere dich, dass dein Ziel-Pin an der richtigen Stelle sitzt."
+            "q": "Ich bin am Ziel, kann das Ziel aber nicht abhaken. Warum?",
+            "a": "Lua muss bestätigen, dass du dich in einem Umkreis von 25 Metern um dein geplantes Ziel befindest, bevor du es abhaken kannst. Wenn die Schaltfläche „Abhaken“ nicht erscheint:\n\nBerechtigungen prüfen: Stelle sicher, dass die Standortberechtigungen deines Geräts aktiviert und auf „Genauer Standort“ eingestellt sind.\n\nSignalstörungen: GPS-Signale können durch dicke Wände oder große Gebäude blockiert werden. Geh für ein paar Sekunden nach draußen oder an ein Fenster, damit dein Standort aktualisiert wird.\n\nPin prüfen: Öffne die Live-Karte und vergewissere dich, dass dein Ziel-Pin an der richtigen Stelle sitzt."
           },
           {
             "q": "Warum wird meine gelaufene Strecke auf der Statistik-Seite nicht gezählt?",

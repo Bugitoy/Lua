@@ -64,7 +64,8 @@
       "you": "Tu",
       "destination": "Destinazione",
       "destinationDescription": "Tieni premuto ovunque per spostare questo marcatore",
-      "goalCompleteWithTitle": "{{title}} · Obiettivo completato"
+      "goalCompleteWithTitle": "{{title}} · Obiettivo completato",
+      "goalReachedWithTitle": "{{title}} · Pronto da spuntare"
     },
     "study": {
       "promptTitle": "Iniziare a lavorare qui?",
@@ -103,7 +104,7 @@
     "liveMap": "Mappa live",
     "empty": {
       "todayTitle": "Nessun obiettivo ancora",
-      "todayDescription": "Tocca il pulsante + per aggiungere un luogo. Raggiungerlo camminando sulla mappa live completa l'obiettivo.",
+      "todayDescription": "Tocca il pulsante + per aggiungere un luogo. Raggiungilo a piedi, poi spunta l'obiettivo qui.",
       "pastTitle": "Niente in programma",
       "pastDescription": "Nessun obiettivo è stato fissato per questo giorno.",
       "futureTitle": "Ancora niente in programma",
@@ -203,6 +204,9 @@
     },
     "card": {
       "complete": "Completato",
+      "notReached": "Non raggiunto",
+      "tickOff": "Spunta",
+      "tickOffLabel": "Spunta {{title}}",
       "done": "Fatto",
       "missed": "Mancato",
       "planned": "Programmato",
@@ -284,7 +288,7 @@
         },
         "prove": {
           "title": "Dimostra che c'eri",
-          "body": "Entro 25 metri dalla destinazione, l'app rileva automaticamente il tuo arrivo e segna l'obiettivo come completato. Un obiettivo dà XP solo se ci sei davvero arrivato a piedi."
+          "body": "Entro 25 metri dalla destinazione, l'app rileva il tuo arrivo e sblocca l'obiettivo. Lo spunti quando l'hai fatto davvero. Un obiettivo dà XP solo se ci sei davvero arrivato a piedi."
         },
         "consequences": {
           "title": "Le azioni hanno conseguenze",
@@ -312,7 +316,7 @@
           },
           {
             "q": "Come guadagno XP e salgo di livello?",
-            "a": "Guadagni punti esperienza (XP) camminando. Il tuo totale di XP non scende mai. Puoi guadagnare XP in tre modi:\n\nPassi: +1 XP ogni 100 passi\n\nObiettivo di passi giornaliero: +100 XP quando raggiungi 6.000 passi in un giorno\n\nObiettivi: +50 XP per ogni obiettivo raggiunto a piedi. Un obiettivo vale solo se hai camminato almeno 200 passi (o 150 metri) dall'ultimo obiettivo premiato, e gli obiettivi nello stesso posto valgono una sola volta.\n\nIl tempo di lavoro viene ancora registrato, ma non fa guadagnare XP."
+            "a": "Guadagni punti esperienza (XP) camminando. Il tuo totale di XP non scende mai. Puoi guadagnare XP in tre modi:\n\nPassi: +1 XP ogni 100 passi\n\nObiettivo di passi giornaliero: +100 XP quando raggiungi 6.000 passi in un giorno\n\nObiettivi: +50 XP per ogni obiettivo raggiunto a piedi e spuntato. Un obiettivo vale solo se hai camminato almeno 200 passi (o 150 metri) dall'ultimo obiettivo premiato, e gli obiettivi nello stesso posto valgono una sola volta.\n\nIl tempo di lavoro viene ancora registrato, ma non fa guadagnare XP."
           }
         ]
       },
@@ -321,7 +325,7 @@
         "faqs": [
           {
             "q": "Cosa succede ai miei obiettivi a mezzanotte?",
-            "a": "Gli obiettivi appartengono al loro giorno. A mezzanotte Lua valuta la giornata, e ogni obiettivo che non hai raggiunto a piedi conta come mancato. I giorni passati restano nel calendario del Programma, dove ogni obiettivo mostra Fatto o Mancato, e nel calendario delle Statistiche. Poi gli obiettivi programmati per il nuovo giorno passano nel programma live di oggi.\n\nHai aggiunto un obiettivo per sbaglio? Tienilo premuto nella pagina Programma per rimuoverlo."
+            "a": "Gli obiettivi appartengono al loro giorno. A mezzanotte Lua valuta la giornata, e ogni obiettivo che non hai spuntato conta come mancato. I giorni passati restano nel calendario del Programma, dove ogni obiettivo mostra Fatto o Mancato, e nel calendario delle Statistiche. Poi gli obiettivi programmati per il nuovo giorno passano nel programma live di oggi.\n\nHai aggiunto un obiettivo per sbaglio? Tienilo premuto nella pagina Programma per rimuoverlo."
           },
           {
             "q": "Posso programmare obiettivi per altri giorni?",
@@ -341,8 +345,8 @@
         "title": "GPS e tracciamento",
         "faqs": [
           {
-            "q": "Sono a destinazione, ma l'obiettivo non risulta completato. Perché?",
-            "a": "Lua deve verificare che ti trovi entro un raggio di 25 metri dalla destinazione in programma. Se non si aggiorna da solo:\n\nControlla i permessi: assicurati che i permessi di localizzazione del dispositivo siano attivi e impostati su \"Posizione esatta\".\n\nInterferenze del segnale: muri spessi o grandi edifici possono bloccare il segnale GPS. Esci all'aperto o avvicinati a una finestra per qualche secondo per aggiornare la posizione.\n\nControlla il segnaposto: apri la mappa dal vivo e verifica che il segnaposto della destinazione sia nel punto giusto."
+            "q": "Sono a destinazione, ma non riesco a spuntare l'obiettivo. Perché?",
+            "a": "Lua deve verificare che ti trovi entro un raggio di 25 metri dalla destinazione in programma prima che tu possa spuntare l'obiettivo. Se il pulsante \"Spunta\" non compare:\n\nControlla i permessi: assicurati che i permessi di localizzazione del dispositivo siano attivi e impostati su \"Posizione esatta\".\n\nInterferenze del segnale: muri spessi o grandi edifici possono bloccare il segnale GPS. Esci all'aperto o avvicinati a una finestra per qualche secondo per aggiornare la posizione.\n\nControlla il segnaposto: apri la mappa dal vivo e verifica che il segnaposto della destinazione sia nel punto giusto."
           },
           {
             "q": "Perché la distanza percorsa non aumenta nella pagina delle statistiche?",

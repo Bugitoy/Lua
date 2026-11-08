@@ -6,11 +6,12 @@ import { Pixelify } from "@/constants/fonts";
 
 /**
  * - `pending`: today, not reached yet.
- * - `complete`: today, reached.
+ * - `reached`: today, the user has been there and can tick it off.
+ * - `complete`: today, ticked off.
  * - `done` / `missed`: a past day's result.
  * - `planned`: a later day; it counts once that day starts.
  */
-export type GoalCardStatus = "pending" | "complete" | "done" | "missed" | "planned";
+export type GoalCardStatus = "pending" | "reached" | "complete" | "done" | "missed" | "planned";
 
 export type ScheduleItemCardProps = {
   time: string;
@@ -26,6 +27,8 @@ export type ScheduleItemCardProps = {
   onPress?: () => void;
   /** Long-press action, e.g. asking to remove the goal. */
   onLongPress?: () => void;
+  /** Ticks off a `reached` goal; shows the Tick off button. */
+  onTickOff?: () => void;
 };
 
 /**
@@ -40,6 +43,7 @@ const INK = "#171717";
 const MUTED = "#737373";
 
 const PILLS = {
+  pending: { icon: "navigate-outline", color: "#404040", label: "schedule.card.notReached" },
   complete: { icon: null, color: "#15803d", label: "schedule.card.complete" },
   done: { icon: "checkmark", color: "#15803d", label: "schedule.card.done" },
   missed: { icon: "close", color: "#b91c1c", label: "schedule.card.missed" },
@@ -56,11 +60,12 @@ export function ScheduleItemCard({
   status,
   onPress,
   onLongPress,
+  onTickOff,
 }: ScheduleItemCardProps) {
   const { t } = useTranslation();
   const finished = status === "complete" || status === "done";
   const shade = finished ? SHADES.finished : SHADES.open;
-  const pill = status === "pending" ? null : PILLS[status];
+  const pill = status === "reached" ? null : PILLS[status];
   const hint = onPress
     ? t("schedule.card.editHint")
     : onLongPress
@@ -135,6 +140,21 @@ export function ScheduleItemCard({
               {pill.icon && <Ionicons name={pill.icon} size={10} color={pill.color} />}
               <Text style={{ fontFamily: Pixelify.bold, fontSize: 9, color: pill.color }}>{t(pill.label)}</Text>
             </View>
+          )}
+          {status === "reached" && onTickOff && (
+            <Pressable
+              onPress={onTickOff}
+              hitSlop={8}
+              accessibilityRole="button"
+              accessibilityLabel={t("schedule.card.tickOffLabel", { title })}
+              className="flex-row items-center gap-1 rounded-full bg-white px-2.5 py-1 active:opacity-70"
+              style={{ borderWidth: 1, borderColor: "#15803d" }}
+            >
+              <Ionicons name="checkmark-circle-outline" size={13} color="#15803d" />
+              <Text style={{ fontFamily: Pixelify.bold, fontSize: 11, color: "#15803d" }}>
+                {t("schedule.card.tickOff")}
+              </Text>
+            </Pressable>
           )}
         </View>
       </View>

@@ -64,7 +64,8 @@
       "you": "You",
       "destination": "Destination",
       "destinationDescription": "Long press anywhere to move this marker",
-      "goalCompleteWithTitle": "{{title}} · Goal complete"
+      "goalCompleteWithTitle": "{{title}} · Goal complete",
+      "goalReachedWithTitle": "{{title}} · Ready to tick off"
     },
     "study": {
       "promptTitle": "Begin working here?",
@@ -103,7 +104,7 @@
     "liveMap": "Live map",
     "empty": {
       "todayTitle": "No goals yet",
-      "todayDescription": "Tap the + button to add a place. Walking up to it on the live map completes the goal.",
+      "todayDescription": "Tap the + button to add a place. Walk up to it, then tick the goal off here.",
       "pastTitle": "Nothing scheduled",
       "pastDescription": "No goals were set for this day.",
       "futureTitle": "Nothing planned yet",
@@ -203,6 +204,9 @@
     },
     "card": {
       "complete": "Complete",
+      "notReached": "Not reached",
+      "tickOff": "Tick off",
+      "tickOffLabel": "Tick off {{title}}",
       "done": "Done",
       "missed": "Missed",
       "planned": "Planned",
@@ -284,7 +288,7 @@
         },
         "prove": {
           "title": "Prove You Were There",
-          "body": "When you walk within 25 meters of your destination, the app automatically detects your arrival and marks the goal complete. A goal only earns XP if you actually walked there."
+          "body": "When you walk within 25 meters of your destination, the app detects your arrival and unlocks the goal. You tick it off once you've actually done it. A goal only earns XP if you actually walked there."
         },
         "consequences": {
           "title": "Actions Have Consequences",
@@ -312,7 +316,7 @@
           },
           {
             "q": "How do I earn XP and level up?",
-            "a": "You earn Experience Points (XP) by walking. Your XP total never goes down. You can earn XP in three ways:\n\nSteps: +1 XP for every 100 steps\n\nDaily Step Goal: +100 XP when you reach 6,000 steps in a day\n\nGoals: +50 XP for each goal you walk to. A goal only pays if you walked at least 200 steps (or 150 meters) since the last goal that paid, and goals at the same spot pay once.\n\nWork time is still tracked, but it doesn't earn XP."
+            "a": "You earn Experience Points (XP) by walking. Your XP total never goes down. You can earn XP in three ways:\n\nSteps: +1 XP for every 100 steps\n\nDaily Step Goal: +100 XP when you reach 6,000 steps in a day\n\nGoals: +50 XP for each goal you walk to and tick off. A goal only pays if you walked at least 200 steps (or 150 meters) since the last goal that paid, and goals at the same spot pay once.\n\nWork time is still tracked, but it doesn't earn XP."
           }
         ]
       },
@@ -321,7 +325,7 @@
         "faqs": [
           {
             "q": "What happens to my goals at midnight?",
-            "a": "Goals belong to their day. At midnight Lua grades the day, and any goal you didn't walk to counts as missed. Past days stay on the Schedule calendar, where each goal shows Done or Missed, and on the Stats calendar. Goals you planned for the new day then move into today's live schedule.\n\nAdded a goal by mistake? Long-press it on the Schedule page to remove it."
+            "a": "Goals belong to their day. At midnight Lua grades the day, and any goal you didn't tick off counts as missed. Past days stay on the Schedule calendar, where each goal shows Done or Missed, and on the Stats calendar. Goals you planned for the new day then move into today's live schedule.\n\nAdded a goal by mistake? Long-press it on the Schedule page to remove it."
           },
           {
             "q": "Can I plan goals for later days?",
@@ -341,8 +345,8 @@
         "title": "GPS & Tracking",
         "faqs": [
           {
-            "q": "I am at my destination, but the goal won't mark as complete. Why?",
-            "a": "Lua needs to verify you are within a 25-meter radius of your scheduled destination. If it is not updating automatically:\n\nCheck Permissions: Ensure your device's Location Permissions are enabled and set to \"Precise Location.\"\n\nSignal Interference: GPS signals can be blocked by thick walls or large buildings. Try stepping outside or near a window for a few seconds to let your location update.\n\nCheck the Pin: Open the live map to ensure your destination pin is in the correct spot."
+            "q": "I am at my destination, but I can't tick off the goal. Why?",
+            "a": "Lua needs to verify you are within a 25-meter radius of your scheduled destination before you can tick the goal off. If the Tick off button doesn't appear:\n\nCheck Permissions: Ensure your device's Location Permissions are enabled and set to \"Precise Location.\"\n\nSignal Interference: GPS signals can be blocked by thick walls or large buildings. Try stepping outside or near a window for a few seconds to let your location update.\n\nCheck the Pin: Open the live map to ensure your destination pin is in the correct spot."
           },
           {
             "q": "Why isn't my walking distance accumulating on the stats page?",

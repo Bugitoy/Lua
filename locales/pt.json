@@ -64,7 +64,8 @@
       "you": "Você",
       "destination": "Destino",
       "destinationDescription": "Pressione e segure em qualquer lugar para mover este marcador",
-      "goalCompleteWithTitle": "{{title}} · Meta concluída"
+      "goalCompleteWithTitle": "{{title}} · Meta concluída",
+      "goalReachedWithTitle": "{{title}} · Pronta para marcar"
     },
     "study": {
       "promptTitle": "Começar a trabalhar aqui?",
@@ -103,7 +104,7 @@
     "liveMap": "Mapa ao vivo",
     "empty": {
       "todayTitle": "Ainda não há metas",
-      "todayDescription": "Toque no botão + para adicionar um lugar. Caminhar até ele no mapa ao vivo conclui a meta.",
+      "todayDescription": "Toque no botão + para adicionar um lugar. Caminhe até ele e depois marque a meta como feita aqui.",
       "pastTitle": "Nada agendado",
       "pastDescription": "Nenhuma meta foi definida para este dia.",
       "futureTitle": "Nada planejado ainda",
@@ -203,6 +204,9 @@
     },
     "card": {
       "complete": "Concluída",
+      "notReached": "Não alcançada",
+      "tickOff": "Marcar feita",
+      "tickOffLabel": "Marcar {{title}} como feita",
       "done": "Concluída",
       "missed": "Perdida",
       "planned": "Planejada",
@@ -284,7 +288,7 @@
         },
         "prove": {
           "title": "Prove que você esteve lá",
-          "body": "Ao caminhar a menos de 25 metros do destino, o app detecta sua chegada automaticamente e marca a meta como concluída. Uma meta só rende XP se você realmente caminhou até lá."
+          "body": "Ao caminhar a menos de 25 metros do destino, o app detecta sua chegada e desbloqueia a meta. Você a marca como feita quando realmente a concluir. Uma meta só rende XP se você realmente caminhou até lá."
         },
         "consequences": {
           "title": "Ações têm consequências",
@@ -312,7 +316,7 @@
           },
           {
             "q": "Como ganho XP e subo de nível?",
-            "a": "Você ganha pontos de experiência (XP) caminhando. Seu total de XP nunca diminui. Há três formas de ganhar XP:\n\nPassos: +1 XP a cada 100 passos\n\nMeta diária de passos: +100 XP quando você chega a 6.000 passos no dia\n\nMetas: +50 XP para cada meta até a qual você caminha. Uma meta só vale se você caminhou pelo menos 200 passos (ou 150 metros) desde a última meta que deu XP, e metas no mesmo lugar só valem uma vez.\n\nO tempo de trabalho continua sendo registrado, mas não dá XP."
+            "a": "Você ganha pontos de experiência (XP) caminhando. Seu total de XP nunca diminui. Há três formas de ganhar XP:\n\nPassos: +1 XP a cada 100 passos\n\nMeta diária de passos: +100 XP quando você chega a 6.000 passos no dia\n\nMetas: +50 XP para cada meta até a qual você caminha e que marca como feita. Uma meta só vale se você caminhou pelo menos 200 passos (ou 150 metros) desde a última meta que deu XP, e metas no mesmo lugar só valem uma vez.\n\nO tempo de trabalho continua sendo registrado, mas não dá XP."
           }
         ]
       },
@@ -321,7 +325,7 @@
         "faqs": [
           {
             "q": "O que acontece com minhas metas à meia-noite?",
-            "a": "As metas pertencem ao seu dia. À meia-noite, Lua avalia o dia, e qualquer meta até a qual você não caminhou conta como perdida. Os dias passados ficam no calendário da Agenda, onde cada meta mostra Concluída ou Perdida, e no calendário de Estatísticas. Depois, as metas que você planejou para o novo dia passam para a agenda ao vivo de hoje.\n\nAdicionou uma meta por engano? Toque e segure nela na página Agenda para removê-la."
+            "a": "As metas pertencem ao seu dia. À meia-noite, Lua avalia o dia, e qualquer meta que você não marcou como feita conta como perdida. Os dias passados ficam no calendário da Agenda, onde cada meta mostra Concluída ou Perdida, e no calendário de Estatísticas. Depois, as metas que você planejou para o novo dia passam para a agenda ao vivo de hoje.\n\nAdicionou uma meta por engano? Toque e segure nela na página Agenda para removê-la."
           },
           {
             "q": "Posso planejar metas para outros dias?",
@@ -341,8 +345,8 @@
         "title": "GPS e rastreamento",
         "faqs": [
           {
-            "q": "Estou no destino, mas a meta não é marcada como concluída. Por quê?",
-            "a": "A Lua precisa confirmar que você está dentro de um raio de 25 metros do destino agendado. Se não atualizar automaticamente:\n\nVerifique as permissões: confira se as permissões de localização do seu aparelho estão ativadas e definidas como \"Localização precisa\".\n\nInterferência de sinal: paredes grossas ou prédios grandes podem bloquear o sinal de GPS. Vá para fora ou fique perto de uma janela por alguns segundos para sua localização atualizar.\n\nVerifique o alfinete: abra o mapa ao vivo para confirmar que o alfinete do destino está no lugar certo."
+            "q": "Estou no destino, mas não consigo marcar a meta como feita. Por quê?",
+            "a": "A Lua precisa confirmar que você está dentro de um raio de 25 metros do destino agendado antes que você possa marcar a meta. Se o botão \"Marcar feita\" não aparecer:\n\nVerifique as permissões: confira se as permissões de localização do seu aparelho estão ativadas e definidas como \"Localização precisa\".\n\nInterferência de sinal: paredes grossas ou prédios grandes podem bloquear o sinal de GPS. Vá para fora ou fique perto de uma janela por alguns segundos para sua localização atualizar.\n\nVerifique o alfinete: abra o mapa ao vivo para confirmar que o alfinete do destino está no lugar certo."
           },
           {
             "q": "Por que a distância que caminho não aumenta na página de estatísticas?",

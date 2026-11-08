@@ -19,7 +19,7 @@ import {
  * The player's XP, saved on the phone. The total only ever goes up.
  *
  * XP comes from walking: steps, the daily step goal, and goals the player
- * actually walked to. Working time earns none.
+ * actually walked to and ticked off. Working time earns none.
  */
 
 const STORAGE_KEY = "xpLedger";
@@ -31,11 +31,13 @@ type Ledger = {
   /** XP already paid for today's steps. */
   stepXpPaid: number;
   stepGoalPaid: boolean;
-  /** Steps and GPS metres at the last paid arrival, or 0 at the start of the day. */
+  /** Steps and GPS metres at the last arrival that earned XP, or 0 at the start of the day. */
   baselineSteps: number;
   baselineMeters: number;
-  /** Where the last paid goal was; goals right next to it pay nothing. */
+  /** Where the last arrival that earned XP was; goals right next to it earn nothing. */
   lastStop: LatLngPoint | null;
+  /** Visits that were walked to but whose goals aren't ticked off yet; the first tick pays. */
+  unpaidArrivals: string[];
   /** Total XP when the day began, so the day's earnings are `totalXp - dayStartXp`. */
   dayStartXp: number;
 };
@@ -51,6 +53,7 @@ function freshDay(day: string, totalXp: number): Omit<Ledger, "totalXp"> {
     baselineSteps: 0,
     baselineMeters: 0,
     lastStop: null,
+    unpaidArrivals: [],
   };
 }
 
@@ -95,6 +98,9 @@ function sanitize(raw: unknown): Ledger | null {
       stop && typeof stop.latitude === "number" && typeof stop.longitude === "number"
         ? { latitude: stop.latitude, longitude: stop.longitude }
         : null,
+    unpaidArrivals: Array.isArray(r.unpaidArrivals)
+      ? r.unpaidArrivals.filter((id): id is string => typeof id === "string")
+      : [],
   };
 }
 
@@ -152,11 +158,13 @@ export function startXpLedger(): Promise<void> {
 }
 
 /**
- * Called when a goal is completed. Pays GOAL_ARRIVAL_XP only when the player
- * walked there: enough steps or GPS distance since the last paid arrival, and
- * not right next to the last paid goal. Returns whether XP was paid.
+ * Called when the player reaches goals, as visit `arrivalId`. The visit earns
+ * GOAL_ARRIVAL_XP only when the player walked there: enough steps or GPS
+ * distance since the last earning arrival, and not right next to it. The XP is
+ * held until a goal from the visit is ticked off (`payGoalArrival`).
+ * Returns whether the visit earned XP.
  */
-export async function awardGoalArrival(goal: LatLngPoint): Promise<boolean> {
+export async function measureGoalArrival(goal: LatLngPoint, arrivalId: string): Promise<boolean> {
   // Read progress now, before waiting, so it matches the moment of arrival.
   const steps = getGameStats().stepsToday;
   const meters = getGpsMetersToday();
@@ -170,10 +178,21 @@ export async function awardGoalArrival(goal: LatLngPoint): Promise<boolean> {
   if (!walked || sameStop) return false;
 
   commit({
-    totalXp: state.totalXp + GOAL_ARRIVAL_XP,
     baselineSteps: steps,
     baselineMeters: meters,
     lastStop: { latitude: goal.latitude, longitude: goal.longitude },
+    unpaidArrivals: [...state.unpaidArrivals, arrivalId],
+  });
+  return true;
+}
+
+/** Pays a visit's held XP when the first of its goals is ticked off. Returns whether XP was paid. */
+export async function payGoalArrival(arrivalId: string): Promise<boolean> {
+  await startXpLedger();
+  if (!state.unpaidArrivals.includes(arrivalId)) return false;
+  commit({
+    totalXp: state.totalXp + GOAL_ARRIVAL_XP,
+    unpaidArrivals: state.unpaidArrivals.filter((id) => id !== arrivalId),
   });
   return true;
 }

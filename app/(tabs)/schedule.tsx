@@ -30,6 +30,7 @@ import { LUA_GREEN } from "@/constants/mapAssets";
 import { useLocation } from "@/hooks/useLocation";
 import { dayKey, startOfDay } from "@/lib/dayKey";
 import { useDayHistory } from "@/lib/dayHistory";
+import { tickOffGoal } from "@/lib/goalCheckIn";
 import { getGoalPlan, planFields, planOccursOn, plansOn, useGoalPlans } from "@/lib/goalPlans";
 import { formatAppDate, formatAppTime } from "@/lib/i18n/formatLocale";
 import {
@@ -69,6 +70,8 @@ function itemFields(item: ScheduledItem): GoalFields {
   const {
     id: _id,
     label: _label,
+    reachedAtMs: _reachedAtMs,
+    arrivalId: _arrivalId,
     completed: _completed,
     completedAtMs: _completedAtMs,
     seriesId: _seriesId,
@@ -185,7 +188,7 @@ export default function ScheduleScreen() {
         note: item.note,
         themeKey: item.themeKey,
         repeating: !!item.seriesId,
-        status: item.completed ? "complete" : "pending",
+        status: item.completed ? "complete" : item.reachedAtMs != null ? "reached" : "pending",
         target: { kind: "today", item },
       }));
     }
@@ -418,6 +421,11 @@ export default function ScheduleScreen() {
                 status={card.status}
                 onPress={target && card.status !== "complete" ? () => openEdit(target) : undefined}
                 onLongPress={target ? () => confirmRemove(target, card.title) : undefined}
+                onTickOff={
+                  target?.kind === "today" && card.status === "reached"
+                    ? () => tickOffGoal(target.item.id)
+                    : undefined
+                }
               />
             );
           })

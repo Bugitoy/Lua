@@ -64,7 +64,8 @@
       "you": "Vous",
       "destination": "Destination",
       "destinationDescription": "Appuyez longuement n'importe où pour déplacer ce marqueur",
-      "goalCompleteWithTitle": "{{title}} · Objectif accompli"
+      "goalCompleteWithTitle": "{{title}} · Objectif accompli",
+      "goalReachedWithTitle": "{{title}} · Prêt à cocher"
     },
     "study": {
       "promptTitle": "Commencer à travailler ici ?",
@@ -103,7 +104,7 @@
     "liveMap": "Carte en direct",
     "empty": {
       "todayTitle": "Aucun objectif pour l'instant",
-      "todayDescription": "Appuyez sur le bouton + pour ajouter un lieu. Marcher jusqu'à celui-ci sur la carte en direct accomplit l'objectif.",
+      "todayDescription": "Appuyez sur le bouton + pour ajouter un lieu. Marchez jusqu'à celui-ci, puis cochez l'objectif ici.",
       "pastTitle": "Rien de prévu",
       "pastDescription": "Aucun objectif n'a été fixé pour ce jour.",
       "futureTitle": "Rien de prévu pour l'instant",
@@ -203,6 +204,9 @@
     },
     "card": {
       "complete": "Terminé",
+      "notReached": "Pas atteint",
+      "tickOff": "Cocher",
+      "tickOffLabel": "Cocher {{title}}",
       "done": "Accompli",
       "missed": "Manqué",
       "planned": "Prévu",
@@ -284,7 +288,7 @@
         },
         "prove": {
           "title": "Prouvez que vous y étiez",
-          "body": "À moins de 25 mètres de la destination, l'app détecte automatiquement votre arrivée et marque l'objectif comme terminé. Un objectif ne rapporte de l'XP que si vous y êtes vraiment allé à pied."
+          "body": "À moins de 25 mètres de la destination, l'app détecte votre arrivée et débloque l'objectif. Vous le cochez une fois que vous l'avez vraiment accompli. Un objectif ne rapporte de l'XP que si vous y êtes vraiment allé à pied."
         },
         "consequences": {
           "title": "Les actions ont des conséquences",
@@ -312,7 +316,7 @@
           },
           {
             "q": "Comment gagner de l'XP et monter de niveau ?",
-            "a": "Vous gagnez des points d'expérience (XP) en marchant. Votre total d'XP ne baisse jamais. Il y a trois façons de gagner de l'XP :\n\nPas : +1 XP tous les 100 pas\n\nObjectif de pas quotidien : +100 XP quand vous atteignez 6 000 pas dans la journée\n\nObjectifs : +50 XP pour chaque objectif rejoint à pied. Un objectif ne rapporte que si vous avez marché au moins 200 pas (ou 150 mètres) depuis le dernier objectif récompensé, et les objectifs au même endroit ne rapportent qu'une fois.\n\nLe temps de travail est toujours suivi, mais il ne rapporte pas d'XP."
+            "a": "Vous gagnez des points d'expérience (XP) en marchant. Votre total d'XP ne baisse jamais. Il y a trois façons de gagner de l'XP :\n\nPas : +1 XP tous les 100 pas\n\nObjectif de pas quotidien : +100 XP quand vous atteignez 6 000 pas dans la journée\n\nObjectifs : +50 XP pour chaque objectif rejoint à pied puis coché. Un objectif ne rapporte que si vous avez marché au moins 200 pas (ou 150 mètres) depuis le dernier objectif récompensé, et les objectifs au même endroit ne rapportent qu'une fois.\n\nLe temps de travail est toujours suivi, mais il ne rapporte pas d'XP."
           }
         ]
       },
@@ -321,7 +325,7 @@
         "faqs": [
           {
             "q": "Que deviennent mes objectifs à minuit ?",
-            "a": "Les objectifs appartiennent à leur journée. À minuit, Lua note la journée, et tout objectif jusqu'auquel vous n'avez pas marché compte comme manqué. Les jours passés restent dans le calendrier du Planning, où chaque objectif affiche Accompli ou Manqué, ainsi que dans le calendrier des Statistiques. Les objectifs prévus pour le nouveau jour passent ensuite dans le planning en direct du jour.\n\nVous avez ajouté un objectif par erreur ? Appuyez longuement dessus sur la page Planning pour le retirer."
+            "a": "Les objectifs appartiennent à leur journée. À minuit, Lua note la journée, et tout objectif que vous n'avez pas coché compte comme manqué. Les jours passés restent dans le calendrier du Planning, où chaque objectif affiche Accompli ou Manqué, ainsi que dans le calendrier des Statistiques. Les objectifs prévus pour le nouveau jour passent ensuite dans le planning en direct du jour.\n\nVous avez ajouté un objectif par erreur ? Appuyez longuement dessus sur la page Planning pour le retirer."
           },
           {
             "q": "Puis-je prévoir des objectifs pour d'autres jours ?",
@@ -341,8 +345,8 @@
         "title": "GPS et suivi",
         "faqs": [
           {
-            "q": "Je suis arrivé à destination, mais l'objectif ne se valide pas. Pourquoi ?",
-            "a": "Lua doit vérifier que vous vous trouvez dans un rayon de 25 mètres autour de votre destination planifiée. Si la validation ne se fait pas automatiquement :\n\nVérifiez les autorisations : assurez-vous que les autorisations de localisation de votre appareil sont activées et réglées sur « Position exacte ».\n\nInterférences : les murs épais ou les grands bâtiments peuvent bloquer le signal GPS. Sortez quelques secondes ou approchez-vous d'une fenêtre pour que votre position se mette à jour.\n\nVérifiez l'épingle : ouvrez la carte en direct pour vous assurer que l'épingle de votre destination est au bon endroit."
+            "q": "Je suis arrivé à destination, mais je ne peux pas cocher l'objectif. Pourquoi ?",
+            "a": "Lua doit vérifier que vous vous trouvez dans un rayon de 25 mètres autour de votre destination planifiée avant que vous puissiez cocher l'objectif. Si le bouton « Cocher » n'apparaît pas :\n\nVérifiez les autorisations : assurez-vous que les autorisations de localisation de votre appareil sont activées et réglées sur « Position exacte ».\n\nInterférences : les murs épais ou les grands bâtiments peuvent bloquer le signal GPS. Sortez quelques secondes ou approchez-vous d'une fenêtre pour que votre position se mette à jour.\n\nVérifiez l'épingle : ouvrez la carte en direct pour vous assurer que l'épingle de votre destination est au bon endroit."
           },
           {
             "q": "Pourquoi la distance parcourue ne s'ajoute-t-elle pas sur la page des statistiques ?",

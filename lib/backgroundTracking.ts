@@ -11,9 +11,9 @@ import { checkInAtGoals } from "@/lib/goalCheckIn";
 import i18n from "@/lib/i18n";
 import { recordOdometerFix } from "@/lib/odometerRecorder";
 import {
-  hasUnfinishedGoals,
+  hasUnreachedGoals,
   startSchedule,
-  useHasUnfinishedGoals,
+  useHasUnreachedGoals,
 } from "@/lib/scheduleStore";
 
 const BACKGROUND_TRACKING_TASK = "lua-background-tracking";
@@ -140,7 +140,7 @@ TaskManager.defineTask<{ locations: Location.LocationObject[] }>(
     // The phone may start Lua in the background just for this task, before anything has loaded.
     await startSchedule();
 
-    if (trackingDay !== todayKey() || !hasUnfinishedGoals()) {
+    if (trackingDay !== todayKey() || !hasUnreachedGoals()) {
       await enqueue(stopTracking);
       return;
     }
@@ -149,18 +149,18 @@ TaskManager.defineTask<{ locations: Location.LocationObject[] }>(
       processFix(loc);
     }
 
-    if (!hasUnfinishedGoals()) {
+    if (!hasUnreachedGoals()) {
       await enqueue(stopTracking);
     }
   },
 );
 
 /**
- * Keeps screen-off tracking running while there are unfinished goals today.
+ * Keeps screen-off tracking running while some goal today is still to be reached.
  * Android only allows the location service to start while Lua is on screen.
  */
 export function useBackgroundTracking(): void {
-  const goalsPending = useHasUnfinishedGoals();
+  const goalsPending = useHasUnreachedGoals();
   const onScreen = useIsOnScreen();
 
   useEffect(() => {
