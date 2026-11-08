@@ -306,7 +306,8 @@ export default function MapScreen() {
               <Text
                 style={{
                   fontFamily: Pixelify.regular,
-                  fontSize: 10,
+                  // The long-press hint is a longer line, so it's a size smaller.
+                  fontSize: destination ? 10 : 9,
                   color: "#d4d4d4",
                 }}
               >
