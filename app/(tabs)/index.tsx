@@ -244,7 +244,6 @@ export default function MapScreen() {
           <MapStatsCard
             goalsDone={stats.goalsDone}
             goalsTotal={stats.goalsTotal}
-            goalDayPercent={stats.goalDayPercent}
             distanceMiles={stats.distanceMiles}
             stepsToday={stats.stepsToday}
             bottomInset={insets.bottom}

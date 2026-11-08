@@ -49,7 +49,6 @@
     },
     "statsCard": {
       "goalsCompleted": "완료한 목표",
-      "dayPercent": "오늘 {{percent}}%",
       "goalsRatio": "{{done}}/{{total}}",
       "stepsToday": "오늘 걸음 수",
       "stepsRatio": "{{steps}}/{{goal}}",

@@ -49,7 +49,6 @@
     },
     "statsCard": {
       "goalsCompleted": "पूर्ण लक्ष्य",
-      "dayPercent": "आज {{percent}}%",
       "goalsRatio": "{{done}}/{{total}}",
       "stepsToday": "आज के कदम",
       "stepsRatio": "{{steps}}/{{goal}}",

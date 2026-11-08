@@ -49,7 +49,6 @@
     },
     "statsCard": {
       "goalsCompleted": "Obiettivi completati",
-      "dayPercent": "{{percent}}% giornata",
       "goalsRatio": "{{done}}/{{total}}",
       "stepsToday": "Passi oggi",
       "stepsRatio": "{{steps}}/{{goal}}",
