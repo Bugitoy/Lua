@@ -192,7 +192,7 @@
       "droppedPin": "लगाया गया पिन"
     },
     "card": {
-      "goalComplete": "लक्ष्य पूर्ण",
+      "complete": "पूर्ण",
       "done": "पूरा",
       "missed": "छूटा",
       "planned": "योजना में",

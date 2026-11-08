@@ -407,8 +407,6 @@ export default function ScheduleScreen() {
                 location={card.location}
                 note={card.note}
                 icon={preset.icon}
-                gradientColors={preset.gradientColors}
-                glowColor={preset.glowColor}
                 repeating={card.repeating}
                 status={card.status}
                 onPress={target && card.status !== "complete" ? () => openEdit(target) : undefined}

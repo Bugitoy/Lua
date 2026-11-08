@@ -412,9 +412,10 @@ export function AddScheduleModal({
               <View className="mb-4 flex-row flex-wrap gap-2">
                 {(
                   [
+                    // One green for every type, matching the goal cards.
                     ["academic", "schedule.addModal.types.academic", LUA_GREEN],
-                    ["meal", "schedule.addModal.types.meal", "#f97316"],
-                    ["social", "schedule.addModal.types.social", "#3b82f6"],
+                    ["meal", "schedule.addModal.types.meal", LUA_GREEN],
+                    ["social", "schedule.addModal.types.social", LUA_GREEN],
                   ] as const
                 ).map(([key, labelKey, accent]) => {
                   const selected = theme === key;
@@ -424,7 +425,7 @@ export function AddScheduleModal({
                       onPress={() => setTheme(key)}
                       accessibilityRole="button"
                       accessibilityState={{ selected }}
-                      className="rounded-full border px-2.5 py-1.5 active:opacity-80"
+                      className="rounded-lg border px-2.5 py-1.5 active:opacity-80"
                       style={{
                         borderColor: selected ? accent : "#d4d4d4",
                         backgroundColor: selected ? `${accent}1F` : "#fafafa",

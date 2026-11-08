@@ -192,7 +192,7 @@
       "droppedPin": "놓은 핀"
     },
     "card": {
-      "goalComplete": "목표 완료",
+      "complete": "완료",
       "done": "완료",
       "missed": "놓침",
       "planned": "예정",

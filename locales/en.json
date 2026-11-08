@@ -192,7 +192,7 @@
       "droppedPin": "Dropped pin"
     },
     "card": {
-      "goalComplete": "Goal complete",
+      "complete": "Complete",
       "done": "Done",
       "missed": "Missed",
       "planned": "Planned",

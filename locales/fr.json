@@ -192,7 +192,7 @@
       "droppedPin": "Épingle placée"
     },
     "card": {
-      "goalComplete": "Objectif accompli",
+      "complete": "Terminé",
       "done": "Accompli",
       "missed": "Manqué",
       "planned": "Prévu",

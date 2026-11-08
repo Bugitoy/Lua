@@ -192,7 +192,7 @@
       "droppedPin": "Alfinete colocado"
     },
     "card": {
-      "goalComplete": "Meta concluída",
+      "complete": "Concluída",
       "done": "Concluída",
       "missed": "Perdida",
       "planned": "Planejada",

@@ -192,7 +192,7 @@
       "droppedPin": "ドロップしたピン"
     },
     "card": {
-      "goalComplete": "目標達成",
+      "complete": "完了",
       "done": "達成",
       "missed": "未達成",
       "planned": "予定",

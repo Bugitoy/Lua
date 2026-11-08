@@ -192,7 +192,7 @@
       "droppedPin": "已放置的图钉"
     },
     "card": {
-      "goalComplete": "目标已完成",
+      "complete": "已完成",
       "done": "已完成",
       "missed": "已错过",
       "planned": "已计划",
