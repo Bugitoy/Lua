@@ -312,20 +312,6 @@ export default function ScheduleScreen() {
           </Link>
         </View>
 
-        <ScheduleCalendar
-          selectedDay={selectedDay}
-          today={today}
-          onSelectDay={selectDay}
-          countFor={countFor}
-        />
-
-        <View className="mb-4 mt-3 flex-row items-center gap-2 px-1">
-          <View style={{ width: 7, height: 7, borderRadius: 4, backgroundColor: STATUS_DOT[kind] }} />
-          <Text className="text-neutral-600" style={{ fontFamily: Pixelify.medium, fontSize: 12 }}>
-            {`${t(`schedule.status.${kind}`)} · ${statusDetail}`}
-          </Text>
-        </View>
-
         {kind === "today" && (
           <View
             className="mb-5 overflow-hidden rounded-2xl"
@@ -371,6 +357,20 @@ export default function ScheduleScreen() {
             </Link>
           </View>
         )}
+
+        <ScheduleCalendar
+          selectedDay={selectedDay}
+          today={today}
+          onSelectDay={selectDay}
+          countFor={countFor}
+        />
+
+        <View className="mb-4 mt-3 flex-row items-center gap-2 px-1">
+          <View style={{ width: 7, height: 7, borderRadius: 4, backgroundColor: STATUS_DOT[kind] }} />
+          <Text className="text-neutral-600" style={{ fontFamily: Pixelify.medium, fontSize: 12 }}>
+            {`${t(`schedule.status.${kind}`)} · ${statusDetail}`}
+          </Text>
+        </View>
 
         {cards.length === 0 ? (
           <View
