@@ -38,8 +38,8 @@
     },
     "gpsDebug": {
       "title": "DÉBOGAGE GPS",
-      "lat": "Lat : {{value}}",
-      "lng": "Lng : {{value}}",
+      "lat": "Lat :  {{value}}",
+      "lng": "Lng :  {{value}}",
       "accuracy": "Préc : ±{{value}} m",
       "speed": "Vit : {{speed}}   brut : {{rawSpeed}} m/s",
       "stateStationary": "État : immobile",
@@ -49,6 +49,7 @@
     },
     "statsCard": {
       "goalsCompleted": "Objectifs accomplis",
+      "dayPercent": "{{percent}}% de la journée",
       "goalsRatio": "{{done}}/{{total}}",
       "stepsToday": "Pas aujourd'hui",
       "stepsRatio": "{{steps}}/{{goal}}",

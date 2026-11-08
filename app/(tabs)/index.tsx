@@ -65,9 +65,6 @@ export default function MapScreen() {
   const [studyCalloutGoalId, setStudyCalloutGoalId] = useState<string | null>(
     null,
   );
-  /** Heights of the bottom boxes, so the GPS box can sit just above the taller one. */
-  const [statsCardHeight, setStatsCardHeight] = useState(0);
-  const [liveTrackingHeight, setLiveTrackingHeight] = useState(0);
   /** The pin or sprite whose card is open. */
   const [selection, setSelection] = useState<MapSelection | null>(null);
   const closeSelection = useCallback(() => setSelection(null), []);
@@ -247,114 +244,102 @@ export default function MapScreen() {
           <MapStatsCard
             goalsDone={stats.goalsDone}
             goalsTotal={stats.goalsTotal}
+            goalDayPercent={stats.goalDayPercent}
             distanceMiles={stats.distanceMiles}
             stepsToday={stats.stepsToday}
             bottomInset={insets.bottom}
-            onHeight={setStatsCardHeight}
           />
-          {/* Live tracking, level with the stats card; its height places the GPS box. */}
           <View
-            pointerEvents="box-none"
-            onLayout={(e) => setLiveTrackingHeight(e.nativeEvent.layout.height)}
+            pointerEvents="auto"
             style={{
               position: "absolute",
               left: 12,
               bottom: insets.bottom + 24,
               width: liveTrackingWidth,
+              backgroundColor: "rgba(0,0,0,0.75)",
+              borderRadius: 12,
+              paddingHorizontal: 12,
+              paddingVertical: 10,
+              gap: 4,
             }}
           >
             <View
-              pointerEvents="auto"
               style={{
-                backgroundColor: "rgba(0,0,0,0.75)",
-                borderRadius: 12,
-                paddingHorizontal: 12,
-                paddingVertical: 7,
-                gap: 2,
+                flexDirection: "row",
+                justifyContent: "space-between",
+                alignItems: "center",
               }}
             >
-              <View
+              <Text
                 style={{
-                  flexDirection: "row",
-                  justifyContent: "space-between",
-                  alignItems: "center",
+                  fontFamily: Pixelify.bold,
+                  fontSize: 11,
+                  color: "#e5e5e5",
+                  letterSpacing: 0.6,
                 }}
               >
-                <Text
-                  style={{
-                    fontFamily: Pixelify.bold,
-                    fontSize: 11,
-                    color: "#e5e5e5",
-                    letterSpacing: 0.6,
-                  }}
-                >
-                  {t("map.liveTracking.title")}
-                </Text>
-                {destination ? (
-                  <Pressable onPress={clearDestination} hitSlop={8}>
-                    <Text
-                      style={{
-                        fontFamily: Pixelify.bold,
-                        fontSize: 10,
-                        color: LUA_GREEN,
-                      }}
-                    >
-                      {t("map.liveTracking.clearPin")}
-                    </Text>
-                  </Pressable>
-                ) : null}
-              </View>
+                {t("map.liveTracking.title")}
+              </Text>
+              {destination ? (
+                <Pressable onPress={clearDestination} hitSlop={8}>
+                  <Text
+                    style={{
+                      fontFamily: Pixelify.bold,
+                      fontSize: 10,
+                      color: LUA_GREEN,
+                    }}
+                  >
+                    {t("map.liveTracking.clearPin")}
+                  </Text>
+                </Pressable>
+              ) : null}
+            </View>
 
+            <Text
+              style={{
+                fontFamily: Pixelify.regular,
+                fontSize: 10,
+                color: "#d4d4d4",
+              }}
+            >
+              {!destination
+                ? t("map.liveTracking.longPressHint")
+                : findingRoute
+                  ? t("map.liveTracking.findingRoute")
+                  : t("map.liveTracking.destinationAway", {
+                      distance: distanceMilesToDestination ?? 0,
+                    })}
+            </Text>
+            {destination ? (
               <Text
                 style={{
                   fontFamily: Pixelify.regular,
-                  // The long-press hint is a longer line, so it's a size smaller.
-                  fontSize: destination ? 10 : 9,
-                  color: "#d4d4d4",
+                  fontSize: 10,
+                  color: hasArrived ? "#86efac" : "#a3a3a3",
                 }}
               >
-                {!destination
-                  ? t("map.liveTracking.longPressHint")
-                  : findingRoute
-                    ? t("map.liveTracking.findingRoute")
-                    : t("map.liveTracking.destinationAway", {
-                        distance: distanceMilesToDestination ?? 0,
-                      })}
+                {hasArrived
+                  ? t("map.liveTracking.arrived")
+                  : t("map.liveTracking.bearingEta", {
+                      bearing:
+                        bearingDeg != null ? Math.round(bearingDeg) : "?",
+                      eta: findingRoute
+                        ? "…"
+                        : etaMinutes != null
+                          ? formatWalkingEta(etaMinutes)
+                          : t("common.notAvailable"),
+                    })}
               </Text>
-              {destination ? (
-                <Text
-                  style={{
-                    fontFamily: Pixelify.regular,
-                    fontSize: 10,
-                    color: hasArrived ? "#86efac" : "#a3a3a3",
-                  }}
-                >
-                  {hasArrived
-                    ? t("map.liveTracking.arrived")
-                    : t("map.liveTracking.bearingEta", {
-                        bearing:
-                          bearingDeg != null ? Math.round(bearingDeg) : "?",
-                        eta: findingRoute
-                          ? "…"
-                          : etaMinutes != null
-                            ? formatWalkingEta(etaMinutes)
-                            : t("common.notAvailable"),
-                      })}
-                </Text>
-              ) : null}
-            </View>
+            ) : null}
           </View>
 
-          {/* GPS debug spans the map, just above the taller of the stats card and live tracking. */}
           <View
             pointerEvents="none"
             style={{
               position: "absolute",
               left: 12,
-              right: 12,
-              bottom: insets.bottom + 24 + Math.max(statsCardHeight, liveTrackingHeight) + 6,
-              // Hidden until the boxes below are measured, so it doesn't jump into place.
-              opacity: statsCardHeight > 0 ? 1 : 0,
+              bottom: insets.bottom + 100,
+              width: liveTrackingWidth,
               backgroundColor: "rgba(0,0,0,0.72)",
               borderRadius: 10,
               paddingHorizontal: 12,
@@ -404,7 +389,6 @@ export default function MapScreen() {
               </Text>
             ) : location ? (
               <>
-                {/* Lat and Lng on one row. */}
                 <Text
                   style={{
                     fontFamily: Pixelify.regular,
@@ -412,13 +396,21 @@ export default function MapScreen() {
                     color: "#d4d4d4",
                   }}
                 >
-                  {`${t("map.gpsDebug.lat", {
+                  {t("map.gpsDebug.lat", {
                     value: location.latitude.toFixed(5),
-                  })}   ${t("map.gpsDebug.lng", {
-                    value: location.longitude.toFixed(5),
-                  })}`}
+                  })}
                 </Text>
-                {/* Accuracy and State on one row. */}
+                <Text
+                  style={{
+                    fontFamily: Pixelify.regular,
+                    fontSize: 10,
+                    color: "#d4d4d4",
+                  }}
+                >
+                  {t("map.gpsDebug.lng", {
+                    value: location.longitude.toFixed(5),
+                  })}
+                </Text>
                 <Text
                   style={{
                     fontFamily: Pixelify.regular,
@@ -432,16 +424,6 @@ export default function MapScreen() {
                         ? location.accuracy.toFixed(1)
                         : "?",
                   })}
-                  {"   "}
-                  <Text style={{ color: location.isStationary ? "#a3a3a3" : "#86efac" }}>
-                    {location.isStationary
-                      ? t("map.gpsDebug.stateStationary")
-                      : location.compassHeading != null
-                        ? t("map.gpsDebug.stateMovingWithHeading", {
-                            heading: Math.round(location.compassHeading),
-                          })
-                        : t("map.gpsDebug.stateMoving")}
-                  </Text>
                 </Text>
                 <Text
                   style={{
@@ -460,6 +442,21 @@ export default function MapScreen() {
                         ? location.rawDeviceSpeed.toFixed(2)
                         : t("common.notAvailable"),
                   })}
+                </Text>
+                <Text
+                  style={{
+                    fontFamily: Pixelify.regular,
+                    fontSize: 10,
+                    color: location.isStationary ? "#a3a3a3" : "#86efac",
+                  }}
+                >
+                  {location.isStationary
+                    ? t("map.gpsDebug.stateStationary")
+                    : location.compassHeading != null
+                      ? t("map.gpsDebug.stateMovingWithHeading", {
+                          heading: Math.round(location.compassHeading),
+                        })
+                      : t("map.gpsDebug.stateMoving")}
                 </Text>
                 {destination ? (
                   <>

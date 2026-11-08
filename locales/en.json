@@ -38,8 +38,8 @@
     },
     "gpsDebug": {
       "title": "GPS DEBUG",
-      "lat": "Lat: {{value}}",
-      "lng": "Lng: {{value}}",
+      "lat": "Lat:  {{value}}",
+      "lng": "Lng:  {{value}}",
       "accuracy": "Acc: ±{{value}} m",
       "speed": "Spd: {{speed}}   raw: {{rawSpeed}} m/s",
       "stateStationary": "State: stationary",
@@ -49,6 +49,7 @@
     },
     "statsCard": {
       "goalsCompleted": "Goals Completed",
+      "dayPercent": "{{percent}}% day",
       "goalsRatio": "{{done}}/{{total}}",
       "stepsToday": "Steps Today",
       "stepsRatio": "{{steps}}/{{goal}}",

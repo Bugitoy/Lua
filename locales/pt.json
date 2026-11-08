@@ -38,8 +38,8 @@
     },
     "gpsDebug": {
       "title": "DEPURAÇÃO GPS",
-      "lat": "Lat: {{value}}",
-      "lng": "Lng: {{value}}",
+      "lat": "Lat:  {{value}}",
+      "lng": "Lng:  {{value}}",
       "accuracy": "Prec: ±{{value}} m",
       "speed": "Vel: {{speed}}   bruta: {{rawSpeed}} m/s",
       "stateStationary": "Estado: parado",
@@ -49,6 +49,7 @@
     },
     "statsCard": {
       "goalsCompleted": "Metas concluídas",
+      "dayPercent": "{{percent}}% do dia",
       "goalsRatio": "{{done}}/{{total}}",
       "stepsToday": "Passos hoje",
       "stepsRatio": "{{steps}}/{{goal}}",

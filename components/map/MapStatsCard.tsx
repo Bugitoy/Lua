@@ -14,20 +14,19 @@ import { DAILY_STEP_GOAL } from "@/lib/walkingRules";
 type MapStatsCardProps = {
   goalsDone: number;
   goalsTotal: number;
+  goalDayPercent: number;
   distanceMiles: number;
   stepsToday: number;
   bottomInset: number;
-  /** Reports the card's height, so boxes above it can sit clear of it. */
-  onHeight?: (height: number) => void;
 };
 
 export function MapStatsCard({
   goalsDone,
   goalsTotal,
+  goalDayPercent,
   distanceMiles,
   stepsToday,
   bottomInset,
-  onHeight,
 }: MapStatsCardProps) {
   const { t } = useTranslation();
   const openHealthStatus = useCallback(() => {
@@ -39,7 +38,6 @@ export function MapStatsCard({
     <View
       className="absolute z-10"
       pointerEvents="auto"
-      onLayout={onHeight ? (e) => onHeight(e.nativeEvent.layout.height) : undefined}
       style={{
         right: 12,
         // Level with the live tracking box on the left (app/(tabs)/index.tsx),
@@ -50,7 +48,7 @@ export function MapStatsCard({
       }}
     >
       <View
-        className="rounded-xl bg-white px-3 py-2.5"
+        className="rounded-xl bg-white p-3"
         style={{
           shadowColor: "#000",
           shadowOffset: { width: 0, height: 4 },
@@ -59,30 +57,49 @@ export function MapStatsCard({
           elevation: 6,
         }}
       >
-        <View className="flex-row items-center justify-between gap-2">
-          <View className="min-w-0 flex-1 flex-row items-center gap-1.5">
-            <Ionicons name="flag-outline" size={16} color={LUA_GREEN} />
-            <Text
-              className="shrink text-xs text-neutral-800"
-              style={{ fontFamily: Pixelify.semibold }}
-            >
-              {t("map.statsCard.goalsCompleted")}
-            </Text>
+        <View className="flex-row items-start gap-1.5">
+          <Ionicons name="flag-outline" size={18} color={LUA_GREEN} />
+          <View className="min-w-0 flex-1">
+            <View className="flex-row items-start justify-between gap-2">
+              <View className="min-w-0 flex-1">
+                <Text
+                  className="text-xs text-neutral-800"
+                  style={{ fontFamily: Pixelify.semibold }}
+                >
+                  {t("map.statsCard.goalsCompleted")}
+                </Text>
+                <Text
+                  className="mt-0.5 text-[11px] text-neutral-500"
+                  style={{ fontFamily: Pixelify.semibold }}
+                >
+                  {t("map.statsCard.dayPercent", { percent: goalDayPercent })}
+                </Text>
+              </View>
+              <Text
+                className="text-base text-neutral-900"
+                style={{ fontFamily: Pixelify.bold }}
+              >
+                {t("map.statsCard.goalsRatio", {
+                  done: goalsDone,
+                  total: goalsTotal,
+                })}
+              </Text>
+            </View>
+            <View className="mt-1.5 h-1 overflow-hidden rounded-full bg-neutral-200">
+              <View
+                className="h-full rounded-full"
+                style={{
+                  width: "50%",
+                  backgroundColor: LUA_GREEN,
+                }}
+              />
+            </View>
           </View>
-          <Text
-            className="text-xs text-neutral-900"
-            style={{ fontFamily: Pixelify.bold }}
-          >
-            {t("map.statsCard.goalsRatio", {
-              done: goalsDone,
-              total: goalsTotal,
-            })}
-          </Text>
         </View>
 
-        <View className="mt-1.5 flex-row items-center justify-between gap-2">
+        <View className="mt-2.5 flex-row items-center justify-between gap-2">
           <View className="min-w-0 flex-1 flex-row items-center gap-1.5">
-            <Ionicons name="walk-outline" size={16} color={LUA_GREEN} />
+            <Ionicons name="walk-outline" size={18} color={LUA_GREEN} />
             <Text
               className="shrink text-xs text-neutral-800"
               style={{ fontFamily: Pixelify.semibold }}
@@ -91,7 +108,7 @@ export function MapStatsCard({
             </Text>
           </View>
           <Text
-            className="text-xs text-neutral-900"
+            className="text-base text-neutral-900"
             style={{ fontFamily: Pixelify.bold }}
           >
             {t("map.statsCard.stepsRatio", {
@@ -101,9 +118,9 @@ export function MapStatsCard({
           </Text>
         </View>
 
-        <View className="mt-1.5 flex-row items-center justify-between gap-2">
+        <View className="mt-2.5 flex-row items-center justify-between gap-2">
           <View className="min-w-0 flex-1 flex-row items-center gap-1.5">
-            <Ionicons name="footsteps" size={16} color={LUA_GREEN} />
+            <Ionicons name="footsteps" size={18} color={LUA_GREEN} />
             <Text
               className="shrink text-xs text-neutral-800"
               style={{ fontFamily: Pixelify.semibold }}
@@ -112,7 +129,7 @@ export function MapStatsCard({
             </Text>
           </View>
           <Text
-            className="text-xs text-neutral-900"
+            className="text-base text-neutral-900"
             style={{ fontFamily: Pixelify.bold }}
           >
             {t("map.statsCard.distanceMiles", { distance: distanceMiles })}
@@ -121,7 +138,7 @@ export function MapStatsCard({
 
         <Pressable
           onPress={openHealthStatus}
-          className="mt-2 items-center rounded-lg py-1.5 active:opacity-90"
+          className="mt-2.5 items-center rounded-lg py-2 active:opacity-90"
           style={{ backgroundColor: LUA_GREEN }}
         >
           <Text
