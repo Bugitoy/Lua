@@ -307,7 +307,7 @@ export default function ScheduleScreen() {
           </View>
           <Link href="/(tabs)/profile" asChild>
             <Pressable accessibilityLabel={t("a11y.openProfile")}>
-              <MySpriteAvatar size={44} ringWidth={1} ringColor="rgba(0,0,0,0.08)" />
+              <MySpriteAvatar size={44} backdrop="transparent" />
             </Pressable>
           </Link>
         </View>

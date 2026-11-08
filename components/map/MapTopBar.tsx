@@ -23,8 +23,9 @@ export function MapTopBar({ topInset }: MapTopBarProps) {
         </Text>
         <View className="flex-row items-center gap-3 pr-5">
           <Link href="/(tabs)/profile" asChild>
-            <Pressable accessibilityLabel={t("a11y.profile")}>
-              <MySpriteAvatar size={40} ringWidth={1} ringColor="rgba(0,0,0,0.08)" />
+            {/* Lua stands below the middle of the avatar square, so lift it level with the logo. */}
+            <Pressable accessibilityLabel={t("a11y.profile")} style={{ transform: [{ translateY: -8 }] }}>
+              <MySpriteAvatar size={40} backdrop="transparent" />
             </Pressable>
           </Link>
         </View>
