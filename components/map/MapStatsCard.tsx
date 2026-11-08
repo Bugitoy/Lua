@@ -45,7 +45,7 @@ export function MapStatsCard({
       }}
     >
       <View
-        className="rounded-xl bg-white p-3"
+        className="rounded-xl bg-white px-3 py-2.5"
         style={{
           shadowColor: "#000",
           shadowOffset: { width: 0, height: 4 },
@@ -64,7 +64,7 @@ export function MapStatsCard({
             </Text>
           </View>
           <Text
-            className="text-base text-neutral-900"
+            className="text-sm text-neutral-900"
             style={{ fontFamily: Pixelify.bold }}
           >
             {t("map.statsCard.goalsRatio", {
@@ -74,7 +74,7 @@ export function MapStatsCard({
           </Text>
         </View>
 
-        <View className="mt-2.5 flex-row items-center justify-between gap-2">
+        <View className="mt-1.5 flex-row items-center justify-between gap-2">
           <View className="min-w-0 flex-1 flex-row items-center">
             <Text
               className="shrink text-xs text-neutral-800"
@@ -84,7 +84,7 @@ export function MapStatsCard({
             </Text>
           </View>
           <Text
-            className="text-base text-neutral-900"
+            className="text-sm text-neutral-900"
             style={{ fontFamily: Pixelify.bold }}
           >
             {t("map.statsCard.stepsRatio", {
@@ -94,7 +94,7 @@ export function MapStatsCard({
           </Text>
         </View>
 
-        <View className="mt-2.5 flex-row items-center justify-between gap-2">
+        <View className="mt-1.5 flex-row items-center justify-between gap-2">
           <View className="min-w-0 flex-1 flex-row items-center">
             <Text
               className="shrink text-xs text-neutral-800"
@@ -104,7 +104,7 @@ export function MapStatsCard({
             </Text>
           </View>
           <Text
-            className="text-base text-neutral-900"
+            className="text-sm text-neutral-900"
             style={{ fontFamily: Pixelify.bold }}
           >
             {t("map.statsCard.distanceMiles", { distance: distanceMiles })}
@@ -113,7 +113,7 @@ export function MapStatsCard({
 
         <Pressable
           onPress={openHealthStatus}
-          className="mt-2.5 items-center rounded-lg py-2 active:opacity-90"
+          className="mt-2 items-center rounded-lg py-1.5 active:opacity-90"
           style={{ backgroundColor: LUA_GREEN }}
         >
           <Text
