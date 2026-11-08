@@ -54,6 +54,11 @@ function subscribe(listener: Listener): () => void {
   return () => listeners.delete(listener);
 }
 
+/** Calls `listener` on every schedule change, for stores that depend on the schedule. */
+export function subscribeSchedule(listener: Listener): () => void {
+  return subscribe(listener);
+}
+
 /** Keeps the goal counts in game stats in step with the schedule. */
 function mirrorStats(): void {
   const total = state.items.size;
@@ -266,7 +271,11 @@ export function useScheduledItems(): ScheduledItem[] {
   return useMemo(() => Array.from(snap.items.values()), [snap]);
 }
 
-/** Re-renders only when the answer flips, not on every schedule change. */
-export function useHasUnreachedGoals(): boolean {
-  return useSyncExternalStore(subscribe, hasUnreachedGoals);
+function getHydrated(): boolean {
+  return state.hydrated;
+}
+
+/** False until saved goals have loaded, so screens don't treat the starting empty list as real. */
+export function useScheduleLoaded(): boolean {
+  return useSyncExternalStore(subscribe, getHydrated);
 }

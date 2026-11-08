@@ -231,6 +231,17 @@
       "dayGoals_other": "{{date}}, {{count}} metas"
     }
   },
+  "checkIn": {
+    "leaveTitle": "Você saiu de {{place}}",
+    "leaveMessage_one": "Você saiu às {{time}}. Concluiu esta meta?",
+    "leaveMessage_other": "Você saiu às {{time}}. Concluiu estas metas?",
+    "returnTitle": "De volta a {{place}}",
+    "returnMessage_one": "Da última vez você não marcou esta meta como feita. Você a concluiu?",
+    "returnMessage_other": "Da última vez você não marcou estas metas como feitas. Você as concluiu?",
+    "tickedOff": "Feita",
+    "notYet": "Ainda não",
+    "done": "Pronto"
+  },
   "profile": {
     "title": "Perfil",
     "experienceLevel": "Nível de experiência",

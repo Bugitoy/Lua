@@ -231,6 +231,17 @@
       "dayGoals_other": "{{date}}, {{count}} लक्ष्य"
     }
   },
+  "checkIn": {
+    "leaveTitle": "आप {{place}} से निकल गए",
+    "leaveMessage_one": "आप {{time}} पर निकले। क्या आपने यह लक्ष्य पूरा किया?",
+    "leaveMessage_other": "आप {{time}} पर निकले। क्या आपने ये लक्ष्य पूरे किए?",
+    "returnTitle": "{{place}} पर वापस",
+    "returnMessage_one": "पिछली बार आपने यह लक्ष्य पूरा चिह्नित नहीं किया था। क्या आपने इसे पूरा किया?",
+    "returnMessage_other": "पिछली बार आपने ये लक्ष्य पूरे चिह्नित नहीं किए थे। क्या आपने इन्हें पूरा किया?",
+    "tickedOff": "पूरा हुआ",
+    "notYet": "अभी नहीं",
+    "done": "हो गया"
+  },
   "profile": {
     "title": "प्रोफ़ाइल",
     "experienceLevel": "अनुभव स्तर",

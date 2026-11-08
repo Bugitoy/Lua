@@ -231,6 +231,17 @@
       "dayGoals_other": "{{date}}, {{count}} obiettivi"
     }
   },
+  "checkIn": {
+    "leaveTitle": "Hai lasciato {{place}}",
+    "leaveMessage_one": "Sei andato via alle {{time}}. Hai completato questo obiettivo?",
+    "leaveMessage_other": "Sei andato via alle {{time}}. Hai completato questi obiettivi?",
+    "returnTitle": "Di nuovo a {{place}}",
+    "returnMessage_one": "L'ultima volta non hai spuntato questo obiettivo. L'hai completato?",
+    "returnMessage_other": "L'ultima volta non hai spuntato questi obiettivi. Li hai completati?",
+    "tickedOff": "Spuntato",
+    "notYet": "Non ancora",
+    "done": "Fatto"
+  },
   "profile": {
     "title": "Profilo",
     "experienceLevel": "Livello di esperienza",

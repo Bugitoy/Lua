@@ -8,13 +8,14 @@ import { LUA_GREEN } from "@/constants/mapAssets";
 import { isOnScreen, useIsOnScreen } from "@/hooks/useIsOnScreen";
 import { haversineMeters, type LatLngPoint } from "@/lib/geo";
 import { checkInAtGoals } from "@/lib/goalCheckIn";
+import {
+  needsGoalTracking,
+  startGoalVisits,
+  useNeedsGoalTracking,
+} from "@/lib/goalVisits";
 import i18n from "@/lib/i18n";
 import { recordOdometerFix } from "@/lib/odometerRecorder";
-import {
-  hasUnreachedGoals,
-  startSchedule,
-  useHasUnreachedGoals,
-} from "@/lib/scheduleStore";
+import { startSchedule } from "@/lib/scheduleStore";
 
 const BACKGROUND_TRACKING_TASK = "lua-background-tracking";
 
@@ -65,7 +66,7 @@ function processFix(loc: Location.LocationObject): void {
     },
     fix.timestamp,
   );
-  checkInAtGoals(fix);
+  checkInAtGoals(fix, fix.timestamp);
 }
 
 /** Android 13+ hides the tracking notification unless Lua may post notifications. */
@@ -139,8 +140,9 @@ TaskManager.defineTask<{ locations: Location.LocationObject[] }>(
 
     // The phone may start Lua in the background just for this task, before anything has loaded.
     await startSchedule();
+    await startGoalVisits();
 
-    if (trackingDay !== todayKey() || !hasUnreachedGoals()) {
+    if (trackingDay !== todayKey() || !needsGoalTracking()) {
       await enqueue(stopTracking);
       return;
     }
@@ -149,18 +151,20 @@ TaskManager.defineTask<{ locations: Location.LocationObject[] }>(
       processFix(loc);
     }
 
-    if (!hasUnreachedGoals()) {
+    if (!needsGoalTracking()) {
       await enqueue(stopTracking);
     }
   },
 );
 
 /**
- * Keeps screen-off tracking running while some goal today is still to be reached.
- * Android only allows the location service to start while Lua is on screen.
+ * Keeps screen-off tracking running while some goal today is still to be
+ * reached, or the user is at a place with goals to tick off (so leaving it
+ * is noticed). Android only allows the location service to start while Lua
+ * is on screen.
  */
 export function useBackgroundTracking(): void {
-  const goalsPending = useHasUnreachedGoals();
+  const goalsPending = useNeedsGoalTracking();
   const onScreen = useIsOnScreen();
 
   useEffect(() => {

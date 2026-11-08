@@ -229,6 +229,17 @@
       "dayGoals_other": "{{date}}，{{count}} 个目标"
     }
   },
+  "checkIn": {
+    "leaveTitle": "你离开了{{place}}",
+    "leaveMessage_one": "你在 {{time}} 离开。这个目标完成了吗？",
+    "leaveMessage_other": "你在 {{time}} 离开。这些目标完成了吗？",
+    "returnTitle": "回到{{place}}",
+    "returnMessage_one": "上次你没有勾选完成这个目标。完成了吗？",
+    "returnMessage_other": "上次你没有勾选完成这些目标。完成了吗？",
+    "tickedOff": "已勾选",
+    "notYet": "还没有",
+    "done": "完成"
+  },
   "profile": {
     "title": "个人资料",
     "experienceLevel": "经验等级",

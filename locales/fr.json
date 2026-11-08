@@ -231,6 +231,17 @@
       "dayGoals_other": "{{date}}, {{count}} objectifs"
     }
   },
+  "checkIn": {
+    "leaveTitle": "Vous avez quitté {{place}}",
+    "leaveMessage_one": "Vous êtes parti à {{time}}. Avez-vous accompli cet objectif ?",
+    "leaveMessage_other": "Vous êtes parti à {{time}}. Avez-vous accompli ces objectifs ?",
+    "returnTitle": "De retour à {{place}}",
+    "returnMessage_one": "Vous n'avez pas coché cet objectif la dernière fois. L'avez-vous accompli ?",
+    "returnMessage_other": "Vous n'avez pas coché ces objectifs la dernière fois. Les avez-vous accomplis ?",
+    "tickedOff": "Coché",
+    "notYet": "Pas encore",
+    "done": "Terminé"
+  },
   "profile": {
     "title": "Profil",
     "experienceLevel": "Niveau d'expérience",

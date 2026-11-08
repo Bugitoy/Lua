@@ -229,6 +229,17 @@
       "dayGoals_other": "{{date}}、目標 {{count}} 件"
     }
   },
+  "checkIn": {
+    "leaveTitle": "{{place}}を出ました",
+    "leaveMessage_one": "{{time}}に出発しました。この目標は終わりましたか？",
+    "leaveMessage_other": "{{time}}に出発しました。これらの目標は終わりましたか？",
+    "returnTitle": "{{place}}に戻りました",
+    "returnMessage_one": "前回この目標にチェックを入れていません。終わりましたか？",
+    "returnMessage_other": "前回これらの目標にチェックを入れていません。終わりましたか？",
+    "tickedOff": "チェック済み",
+    "notYet": "まだ",
+    "done": "完了"
+  },
   "profile": {
     "title": "プロフィール",
     "experienceLevel": "経験レベル",

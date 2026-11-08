@@ -231,6 +231,17 @@
       "dayGoals_other": "{{date}}, {{count}} goals"
     }
   },
+  "checkIn": {
+    "leaveTitle": "You left {{place}}",
+    "leaveMessage_one": "You left at {{time}}. Did you finish this goal?",
+    "leaveMessage_other": "You left at {{time}}. Did you finish these goals?",
+    "returnTitle": "Back at {{place}}",
+    "returnMessage_one": "You didn't tick this goal off last time. Did you finish it?",
+    "returnMessage_other": "You didn't tick these goals off last time. Did you finish them?",
+    "tickedOff": "Ticked off",
+    "notYet": "Not yet",
+    "done": "Done"
+  },
   "profile": {
     "title": "Profile",
     "experienceLevel": "Experience Level",

@@ -231,6 +231,17 @@
       "dayGoals_other": "{{date}}, {{count}} metas"
     }
   },
+  "checkIn": {
+    "leaveTitle": "Saliste de {{place}}",
+    "leaveMessage_one": "Saliste a las {{time}}. ¿Terminaste esta meta?",
+    "leaveMessage_other": "Saliste a las {{time}}. ¿Terminaste estas metas?",
+    "returnTitle": "De vuelta en {{place}}",
+    "returnMessage_one": "La última vez no marcaste esta meta como hecha. ¿La terminaste?",
+    "returnMessage_other": "La última vez no marcaste estas metas como hechas. ¿Las terminaste?",
+    "tickedOff": "Hecha",
+    "notYet": "Todavía no",
+    "done": "Listo"
+  },
   "profile": {
     "title": "Perfil",
     "experienceLevel": "Nivel de experiencia",

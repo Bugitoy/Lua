@@ -13,6 +13,7 @@ import { useEffect, useRef } from "react";
 import { View } from "react-native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 
+import { GoalCheckInHost } from "@/components/schedule/GoalCheckInPrompt";
 import { useDayRollover } from "@/hooks/useDayRollover";
 import { useBackgroundTracking } from "@/lib/backgroundTracking";
 import { LanguageProvider } from "@/lib/i18n/LanguageProvider";
@@ -56,6 +57,7 @@ export default function RootLayout() {
         <ProfileProvider>
           <View className="flex-1 font-sans">
             <Stack screenOptions={{ headerShown: false }} />
+            <GoalCheckInHost />
           </View>
         </ProfileProvider>
       </LanguageProvider>

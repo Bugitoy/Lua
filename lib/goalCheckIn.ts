@@ -4,21 +4,33 @@ import {
   markGoalCompleted,
   markGoalsReached,
 } from "@/lib/scheduleStore";
+import {
+  updateGoalVisits,
+  VISIT_ENTER_RADIUS_METERS,
+  VISIT_LEAVE_RADIUS_METERS,
+} from "@/lib/goalVisits";
 import { getStudySession, stopStudySession } from "@/lib/studySession";
 import { measureGoalArrival, payGoalArrival } from "@/lib/xpLedger";
 
-export const GOAL_ARRIVAL_RADIUS_METERS = 25;
-export const STUDY_EXIT_RADIUS_METERS = 50;
+export const GOAL_ARRIVAL_RADIUS_METERS = VISIT_ENTER_RADIUS_METERS;
+export const STUDY_EXIT_RADIUS_METERS = VISIT_LEAVE_RADIUS_METERS;
 
 /**
  * Marks every goal within arrival range of `point` as reached, so the user can
- * tick it off, and ends the study session once the user has walked away from
- * its goal. Shared by the map screen and background location tracking.
+ * tick it off, follows the user in and out of reached goals' places (see
+ * `updateGoalVisits`), and ends the study session once the user has walked
+ * away from its goal. Shared by the map screen and background location
+ * tracking. `atMs` is when the fix was taken.
  *
  * Goals reached together are one visit: it earns XP only if the user walked
  * there (see `measureGoalArrival`), paid when one of its goals is ticked off.
  */
-export function checkInAtGoals(point: LatLngPoint): void {
+export function checkInAtGoals(point: LatLngPoint, atMs: number = Date.now()): void {
+  checkInAtNewGoals(point);
+  updateGoalVisits(point, atMs);
+}
+
+function checkInAtNewGoals(point: LatLngPoint): void {
   const items = getScheduledItems();
 
   const { activeGoalId } = getStudySession();

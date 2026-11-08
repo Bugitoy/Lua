@@ -229,6 +229,17 @@
       "dayGoals_other": "{{date}}, 목표 {{count}}개"
     }
   },
+  "checkIn": {
+    "leaveTitle": "{{place}}에서 나왔어요",
+    "leaveMessage_one": "{{time}}에 나왔어요. 이 목표를 마쳤나요?",
+    "leaveMessage_other": "{{time}}에 나왔어요. 이 목표들을 마쳤나요?",
+    "returnTitle": "{{place}}에 돌아왔어요",
+    "returnMessage_one": "지난번에 이 목표를 체크하지 않았어요. 마쳤나요?",
+    "returnMessage_other": "지난번에 이 목표들을 체크하지 않았어요. 마쳤나요?",
+    "tickedOff": "체크됨",
+    "notYet": "아직이요",
+    "done": "완료"
+  },
   "profile": {
     "title": "프로필",
     "experienceLevel": "경험 레벨",
