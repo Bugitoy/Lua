@@ -2,7 +2,7 @@ import { Ionicons } from "@expo/vector-icons";
 import * as Haptics from "expo-haptics";
 import { router } from "expo-router";
 import { useCallback } from "react";
-import { Platform, Pressable, Text, View } from "react-native";
+import { Pressable, Text, View } from "react-native";
 import { useTranslation } from "react-i18next";
 
 import { formatXp } from "@/components/achievements/theme";
@@ -40,9 +40,9 @@ export function MapStatsCard({
       pointerEvents="auto"
       style={{
         right: 12,
-        // Larger offset = card sits higher above the bottom edge (above tab bar /
-        // overlays). Bumped from 92/25 so Goals Completed clears the map HUDs.
-        bottom: (Platform.OS === "ios" ? 120 : 50) + bottomInset,
+        // Level with the live tracking box on the left (app/(tabs)/index.tsx),
+        // which is sized to stay clear of this column.
+        bottom: 24 + bottomInset,
         maxWidth: 180,
         width: "58%",
       }}
