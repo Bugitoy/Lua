@@ -13,10 +13,9 @@ import { StepCalendar } from "@/components/stats/StepCalendar";
 import { Pixelify } from "@/constants/fonts";
 import { LUA_GREEN } from "@/constants/mapAssets";
 import { weekDays } from "@/lib/calendarGrid";
-import { startOfDay } from "@/lib/dayKey";
 import { useDayHistory, type DayRecord } from "@/lib/dayHistory";
 import { formatHours } from "@/lib/formatters";
-import { formatAppDate, getAppLocale } from "@/lib/i18n/formatLocale";
+import { getAppLocale } from "@/lib/i18n/formatLocale";
 import {
   rankLeaderboard,
   useLeaderValue,
@@ -62,9 +61,7 @@ export default function StatsScreen() {
     const records = counted.map((d) => (d === todayRecord.day ? todayRecord : history[d]));
     const average = (pick: (r: DayRecord) => number) =>
       counted.length > 0 ? records.reduce((s, r) => s + (r ? pick(r) : 0), 0) / counted.length : 0;
-    const fmt = { month: "short", day: "numeric" } as const;
     return {
-      range: `${formatAppDate(startOfDay(days[0]), fmt)} – ${formatAppDate(startOfDay(days[6]), fmt)}`,
       steps: average((r) => r.steps),
       miles: average((r) => r.meters * MILES_PER_METER),
       workHours: average((r) => r.workHours),
@@ -112,7 +109,7 @@ export default function StatsScreen() {
         </Text>
 
         {/* Averages for the calendar's chosen week */}
-        <SectionLabel>{t("stats.averages.weekTitle", { range: averageWeek.range })}</SectionLabel>
+        <SectionLabel>{t("stats.averages.weekTitle")}</SectionLabel>
         <View className="mb-5 flex-row gap-2.5">
           {averages.map((card) => (
             <View key={card.label} className="min-w-0 flex-1 rounded-2xl bg-white p-3" style={CARD_SHADOW}>

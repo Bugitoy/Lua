@@ -97,7 +97,7 @@
       "description": "+ 버튼을 눌러 장소를 추가하세요. 실시간 지도에서 그곳까지 걸어가면 목표가 완료됩니다. 목표는 오늘 하루만 유지됩니다."
     },
     "addModal": {
-      "title": "새 항목",
+      "title": "새 목표",
       "type": "유형",
       "types": {
         "academic": "업무",
@@ -111,7 +111,7 @@
       "titleLabel": "제목",
       "titlePlaceholder": "제목 추가",
       "location": "위치",
-      "locationSearchHint": "2자 이상 입력하면 전 세계를 검색할 수 있습니다(내 위치는 비슷한 이름 정렬에 도움이 됩니다).",
+      "locationSearchHint": "2자 이상 입력하면 전 세계를 검색할 수 있습니다.",
       "tooCloseWarning": "이 장소는 지금 있는 곳과 너무 가까워서 XP를 받을 수 없어요. 걸어서 갈 곳을 골라 보세요.",
       "pickOnMap": "지도에서 선택",
       "addButton": "일정에 추가",
@@ -343,7 +343,7 @@
     },
     "averages": {
       "workTime": "작업 시간",
-      "weekTitle": "주간 평균: ({{range}})"
+      "weekTitle": "주간 평균"
     },
     "leaderboard": {
       "title": "리더보드 ·",

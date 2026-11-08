@@ -1,15 +1,15 @@
 import { Ionicons } from "@expo/vector-icons";
 import { useCallback, useEffect, useRef, useState } from "react";
 import {
-    Keyboard,
-    type LayoutChangeEvent,
-    Modal,
-    Platform,
-    Pressable,
-    ScrollView,
-    Text,
-    TextInput,
-    View,
+  Keyboard,
+  type LayoutChangeEvent,
+  Modal,
+  Platform,
+  Pressable,
+  ScrollView,
+  Text,
+  TextInput,
+  View,
 } from "react-native";
 import { useTranslation } from "react-i18next";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
@@ -25,9 +25,9 @@ import type { NearbyPlace } from "@/lib/nearbyPlacesProvider";
 import { TOO_CLOSE_GOAL_METERS } from "@/lib/walkingRules";
 
 import {
-    SCHEDULE_THEME_PRESETS,
-    type ScheduleItemData,
-    type ScheduleThemeKey,
+  SCHEDULE_THEME_PRESETS,
+  type ScheduleItemData,
+  type ScheduleThemeKey,
 } from "./scheduleTypes";
 
 /** Returns a clean copy of `now` rounded down to the current hour. */
@@ -271,27 +271,28 @@ export function AddScheduleModal({
               <View className="mb-4 flex-row flex-wrap gap-2">
                 {(
                   [
-                    ["academic", "schedule.addModal.types.academic"],
-                    ["meal", "schedule.addModal.types.meal"],
-                    ["social", "schedule.addModal.types.social"],
+                    ["academic", "schedule.addModal.types.academic", LUA_GREEN],
+                    ["meal", "schedule.addModal.types.meal", "#f97316"],
+                    ["social", "schedule.addModal.types.social", "#3b82f6"],
                   ] as const
-                ).map(([key, labelKey]) => {
+                ).map(([key, labelKey, accent]) => {
                   const selected = theme === key;
                   return (
                     <Pressable
                       key={key}
                       onPress={() => setTheme(key)}
-                      className="rounded-full border px-3 py-2 active:opacity-80"
+                      className="rounded-full border px-2.5 py-1.5 active:opacity-80"
                       style={{
-                        borderColor: selected ? LUA_GREEN : "#d4d4d4",
-                        backgroundColor: selected
-                          ? "rgba(22,163,74,0.12)"
-                          : "#fafafa",
+                        borderColor: selected ? accent : "#d4d4d4",
+                        backgroundColor: selected ? `${accent}1F` : "#fafafa",
                       }}
                     >
                       <Text
-                        className="text-sm text-neutral-800"
-                        style={{ fontFamily: Pixelify.semibold }}
+                        style={{
+                          fontFamily: Pixelify.semibold,
+                          fontSize: 13,
+                          color: selected ? accent : "#262626",
+                        }}
                       >
                         {t(labelKey)}
                       </Text>
@@ -410,23 +411,21 @@ export function AddScheduleModal({
                 pickedTitle={picked?.title ?? null}
                 onClearPick={() => setPicked(null)}
                 onFocus={() => focusField("location")}
+                trailing={
+                  <Pressable
+                    onPress={openMapPicker}
+                    accessibilityRole="button"
+                    accessibilityLabel={t("schedule.addModal.pickOnMap")}
+                    className="w-[52px] items-center justify-center rounded-xl border active:opacity-80"
+                    style={{
+                      borderColor: LUA_GREEN,
+                      backgroundColor: "rgba(22,163,74,0.08)",
+                    }}
+                  >
+                    <Ionicons name="map-outline" size={20} color={LUA_GREEN} />
+                  </Pressable>
+                }
               />
-              <Pressable
-                onPress={openMapPicker}
-                className="mb-2 flex-row items-center self-start rounded-full border px-3 py-2 active:opacity-80"
-                style={{
-                  borderColor: LUA_GREEN,
-                  backgroundColor: "rgba(22,163,74,0.08)",
-                }}
-              >
-                <Ionicons name="map-outline" size={16} color={LUA_GREEN} />
-                <Text
-                  className="ml-1.5 text-sm"
-                  style={{ fontFamily: Pixelify.semibold, color: LUA_GREEN }}
-                >
-                  {t("schedule.addModal.pickOnMap")}
-                </Text>
-              </Pressable>
               <Text
                 className="mb-6 text-xs text-neutral-500"
                 style={{ fontFamily: Pixelify.regular }}

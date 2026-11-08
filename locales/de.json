@@ -97,7 +97,7 @@
       "description": "Tippe auf die +-Schaltfläche, um einen Ort hinzuzufügen. Wenn du auf der Live-Karte dorthin gehst, ist das Ziel erreicht. Ziele gelten nur für heute."
     },
     "addModal": {
-      "title": "Neuer Eintrag",
+      "title": "Neues Ziel",
       "type": "Typ",
       "types": {
         "academic": "Arbeit",
@@ -111,7 +111,7 @@
       "titleLabel": "Titel",
       "titlePlaceholder": "Titel hinzufügen",
       "location": "Ort",
-      "locationSearchHint": "Gib mindestens 2 Zeichen ein, um überall zu suchen (dein Standort hilft bei ähnlichen Namen).",
+      "locationSearchHint": "Gib mindestens 2 Zeichen ein, um überall zu suchen.",
       "tooCloseWarning": "Dieser Ort ist genau da, wo du gerade bist, und bringt daher keine XP. Wähle einen Ort, zu dem du hinläufst.",
       "pickOnMap": "Auf Karte wählen",
       "addButton": "Zum Zeitplan hinzufügen",
@@ -343,7 +343,7 @@
     },
     "averages": {
       "workTime": "Arbeitszeit",
-      "weekTitle": "Wochenschnitt: ({{range}})"
+      "weekTitle": "Wochenschnitt"
     },
     "leaderboard": {
       "title": "Bestenliste ·",

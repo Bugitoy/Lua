@@ -97,7 +97,7 @@
       "description": "Toque no botão + para adicionar um lugar. Caminhar até ele no mapa ao vivo conclui a meta. As metas valem só para hoje."
     },
     "addModal": {
-      "title": "Novo item",
+      "title": "Nova meta",
       "type": "Tipo",
       "types": {
         "academic": "Trabalho",
@@ -111,7 +111,7 @@
       "titleLabel": "Título",
       "titlePlaceholder": "Adicionar um título",
       "location": "Local",
-      "locationSearchHint": "Digite pelo menos 2 caracteres para buscar em qualquer lugar (sua localização ajuda a ordenar nomes semelhantes).",
+      "locationSearchHint": "Digite pelo menos 2 caracteres para buscar em qualquer lugar.",
       "tooCloseWarning": "Este lugar é exatamente onde você está, então não vai render XP. Escolha um lugar até onde você vá caminhar.",
       "pickOnMap": "Escolher no mapa",
       "addButton": "Adicionar à agenda",
@@ -343,7 +343,7 @@
     },
     "averages": {
       "workTime": "Tempo de trabalho",
-      "weekTitle": "Média semanal: ({{range}})"
+      "weekTitle": "Média semanal"
     },
     "leaderboard": {
       "title": "Ranking ·",

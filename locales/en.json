@@ -97,7 +97,7 @@
       "description": "Tap the + button to add a place. Walking up to it on the live map completes the goal. Goals last for today only."
     },
     "addModal": {
-      "title": "New item",
+      "title": "New goal",
       "type": "Type",
       "types": {
         "academic": "Work",
@@ -111,7 +111,7 @@
       "titleLabel": "Title",
       "titlePlaceholder": "Add a title",
       "location": "Location",
-      "locationSearchHint": "Type at least 2 characters to search anywhere (your location helps rank similar names).",
+      "locationSearchHint": "Type at least 2 characters to search anywhere.",
       "tooCloseWarning": "This place is right where you are, so it won't earn XP. Pick somewhere you'll walk to.",
       "pickOnMap": "Pick on map",
       "addButton": "Add to schedule",
@@ -343,7 +343,7 @@
     },
     "averages": {
       "workTime": "Work time",
-      "weekTitle": "Weekly average: ({{range}})"
+      "weekTitle": "Weekly average"
     },
     "leaderboard": {
       "title": "Leaderboard ·",

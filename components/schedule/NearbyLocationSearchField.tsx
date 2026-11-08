@@ -1,5 +1,11 @@
 import { Ionicons } from "@expo/vector-icons";
-import { useCallback, useEffect, useRef, useState } from "react";
+import {
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+  type ReactNode,
+} from "react";
 import {
   ActivityIndicator,
   Keyboard,
@@ -36,6 +42,8 @@ type NearbyLocationSearchFieldProps = {
   onClearPick?: () => void;
   /** Called when the search input gains focus. */
   onFocus?: () => void;
+  /** Shown on the same row, right of the search bar; the results list still spans the full width below. */
+  trailing?: ReactNode;
 };
 
 export function NearbyLocationSearchField({
@@ -47,6 +55,7 @@ export function NearbyLocationSearchField({
   pickedTitle,
   onClearPick,
   onFocus,
+  trailing,
 }: NearbyLocationSearchFieldProps) {
   const { t } = useTranslation();
   const [results, setResults] = useState<NearbyPlace[]>([]);
@@ -65,7 +74,13 @@ export function NearbyLocationSearchField({
 
   useEffect(() => {
     const trimmed = value.trim();
-    if (!active || userLat == null || userLng == null || trimmed.length < 2 || pickedTitle) {
+    if (
+      !active ||
+      userLat == null ||
+      userLng == null ||
+      trimmed.length < 2 ||
+      pickedTitle
+    ) {
       setResults([]);
       setLoading(false);
       setError(null);
@@ -126,8 +141,7 @@ export function NearbyLocationSearchField({
 
   const trimmed = value.trim();
   const showWaiting = !userLocation;
-  const showResults =
-    menuOpen && active && !pickedTitle && results.length > 0;
+  const showResults = menuOpen && active && !pickedTitle && results.length > 0;
   const showEmpty =
     menuOpen &&
     active &&
@@ -139,66 +153,67 @@ export function NearbyLocationSearchField({
 
   return (
     <View className="z-10 mb-2">
-      <View
-        className="flex-row items-center rounded-xl border border-neutral-200 bg-neutral-50 px-3"
-        style={{
-          borderColor: pickedTitle ? "rgba(22,163,74,0.6)" : "#e5e5e5",
-          backgroundColor: pickedTitle
-            ? "rgba(22,163,74,0.06)"
-            : "#fafafa",
-        }}
-      >
-        <Ionicons
-          name={pickedTitle ? "checkmark-circle" : "location-outline"}
-          size={20}
-          color={pickedTitle ? "#16a34a" : "#525252"}
-        />
-        {pickedTitle ? (
-          <View className="min-h-[48px] flex-1 justify-center py-3 pl-2 pr-2">
-            <Text
-              className="text-base text-neutral-900"
-              style={{ fontFamily: Pixelify.semibold }}
-              numberOfLines={2}
-            >
-              {pickedTitle}
-            </Text>
-          </View>
-        ) : (
-          <TextInput
-            value={value}
-            onChangeText={(t) => {
-              onChangeQuery(t);
-              setMenuOpen(true);
-            }}
-            onFocus={() => {
-              setMenuOpen(true);
-              onFocus?.();
-            }}
-            placeholder={
-              showWaiting
-                ? t("schedule.search.waitingForGps")
-                : t("schedule.search.placeholder")
-            }
-            placeholderTextColor="#a3a3a3"
-            className="min-h-[48px] flex-1 py-3 pl-2 pr-2 text-base text-neutral-900"
-            style={{ fontFamily: Pixelify.regular }}
-            autoCorrect={false}
-            autoCapitalize="words"
-            editable={!showWaiting}
+      <View className="flex-row gap-2">
+        <View
+          className="flex-1 flex-row items-center rounded-xl border border-neutral-200 bg-neutral-50 px-3"
+          style={{
+            borderColor: pickedTitle ? "rgba(22,163,74,0.6)" : "#e5e5e5",
+            backgroundColor: pickedTitle ? "rgba(22,163,74,0.06)" : "#fafafa",
+          }}
+        >
+          <Ionicons
+            name={pickedTitle ? "checkmark-circle" : "location-outline"}
+            size={20}
+            color={pickedTitle ? "#16a34a" : "#525252"}
           />
-        )}
+          {pickedTitle ? (
+            <View className="min-h-[48px] flex-1 justify-center py-3 pl-2 pr-2">
+              <Text
+                className="text-base text-neutral-900"
+                style={{ fontFamily: Pixelify.semibold }}
+                numberOfLines={2}
+              >
+                {pickedTitle}
+              </Text>
+            </View>
+          ) : (
+            <TextInput
+              value={value}
+              onChangeText={(t) => {
+                onChangeQuery(t);
+                setMenuOpen(true);
+              }}
+              onFocus={() => {
+                setMenuOpen(true);
+                onFocus?.();
+              }}
+              placeholder={
+                showWaiting
+                  ? t("schedule.search.waitingForGps")
+                  : t("schedule.search.placeholder")
+              }
+              placeholderTextColor="#a3a3a3"
+              className="min-h-[48px] flex-1 py-3 pl-2 pr-2 text-base text-neutral-900"
+              style={{ fontFamily: Pixelify.regular }}
+              autoCorrect={false}
+              autoCapitalize="words"
+              editable={!showWaiting}
+            />
+          )}
 
-        {pickedTitle ? (
-          <Pressable
-            onPress={clearPick}
-            hitSlop={8}
-            accessibilityLabel={t("a11y.clearSelectedLocation")}
-          >
-            <Ionicons name="close-circle" size={22} color="#525252" />
-          </Pressable>
-        ) : loading ? (
-          <ActivityIndicator size="small" color="#525252" />
-        ) : null}
+          {pickedTitle ? (
+            <Pressable
+              onPress={clearPick}
+              hitSlop={8}
+              accessibilityLabel={t("a11y.clearSelectedLocation")}
+            >
+              <Ionicons name="close-circle" size={22} color="#525252" />
+            </Pressable>
+          ) : loading ? (
+            <ActivityIndicator size="small" color="#525252" />
+          ) : null}
+        </View>
+        {trailing}
       </View>
 
       {showResults ? (

@@ -97,7 +97,7 @@
       "description": "点击 + 按钮添加地点。在实时地图上步行到达该地点即可完成目标。目标只在当天有效。"
     },
     "addModal": {
-      "title": "新建项目",
+      "title": "新建目标",
       "type": "类型",
       "types": {
         "academic": "工作",
@@ -111,7 +111,7 @@
       "titleLabel": "标题",
       "titlePlaceholder": "添加标题",
       "location": "位置",
-      "locationSearchHint": "输入至少 2 个字符即可搜索全球地点（你的位置有助于排序相似名称）。",
+      "locationSearchHint": "输入至少 2 个字符即可搜索全球地点。",
       "tooCloseWarning": "这个地点就在你现在的位置，所以不会获得 XP。选一个需要步行前往的地方吧。",
       "pickOnMap": "在地图上选择",
       "addButton": "添加到日程",
@@ -343,7 +343,7 @@
     },
     "averages": {
       "workTime": "工作时间",
-      "weekTitle": "每周平均:({{range}})"
+      "weekTitle": "每周平均"
     },
     "leaderboard": {
       "title": "排行榜 ·",
