@@ -16,6 +16,7 @@ import { LanguagePickerModal } from "@/components/settings/LanguagePickerModal";
 import { APP_VERSION } from "@/constants/appVersion";
 import { Pixelify } from "@/constants/fonts";
 import { LUA_GREEN } from "@/constants/mapAssets";
+import { signOut, useAccount } from "@/lib/account";
 import { useAchievements } from "@/lib/achievementsStore";
 import { showAppAlert, showAppNotice } from "@/lib/appAlert";
 import { useGameStats } from "@/lib/gameStats";
@@ -106,6 +107,8 @@ export default function ProfileScreen() {
   const { devXpBonus } = useAchievements();
   const statsXp = useStatsXp();
   const { profile } = useProfile();
+  const account = useAccount();
+  const signedIn = account.status === "signedIn";
   const [notificationsEnabled, setNotificationsEnabled] = useState(false);
   const [languageModalVisible, setLanguageModalVisible] = useState(false);
 
@@ -207,8 +210,7 @@ export default function ProfileScreen() {
       tone: "danger",
       title: t("common.signOutConfirmTitle"),
       message: t("common.signOutConfirmMessage"),
-      // Signing out isn't wired up yet; the button only closes the alert, as before.
-      buttons: [{ label: t("common.signOut"), tone: "danger" }],
+      buttons: [{ label: t("common.signOut"), tone: "danger", onPress: () => void signOut() }],
     });
   }, [t]);
 
@@ -322,6 +324,21 @@ export default function ProfileScreen() {
           {t("profile.sections.account")}
         </Text>
         <SectionCard>
+          {signedIn ? (
+            <SettingRow
+              icon="mail-outline"
+              label={t("profile.rows.signedIn")}
+              sublabel={account.email ?? undefined}
+            />
+          ) : (
+            <SettingRow
+              icon="person-add-outline"
+              label={t("profile.rows.signIn")}
+              sublabel={t("profile.rows.signInSublabel")}
+              onPress={() => router.push("/sign-in")}
+            />
+          )}
+          <View className="mx-4 h-px bg-neutral-100" />
           <SettingRow
             icon="person-outline"
             label={t("profile.rows.manageProfile")}
@@ -417,24 +434,26 @@ export default function ProfileScreen() {
           />
         </SectionCard>
 
-        <Pressable
-          onPress={onSignOut}
-          className="items-center rounded-2xl bg-white py-4 active:opacity-80"
-          style={{
-            shadowColor: "#000",
-            shadowOffset: { width: 0, height: 2 },
-            shadowOpacity: 0.05,
-            shadowRadius: 6,
-            elevation: 2,
-          }}
-        >
-          <Text
-            className="text-base text-red-500"
-            style={{ fontFamily: Pixelify.semibold }}
+        {signedIn ? (
+          <Pressable
+            onPress={onSignOut}
+            className="items-center rounded-2xl bg-white py-4 active:opacity-80"
+            style={{
+              shadowColor: "#000",
+              shadowOffset: { width: 0, height: 2 },
+              shadowOpacity: 0.05,
+              shadowRadius: 6,
+              elevation: 2,
+            }}
           >
-            {t("common.signOut")}
-          </Text>
-        </Pressable>
+            <Text
+              className="text-base text-red-500"
+              style={{ fontFamily: Pixelify.semibold }}
+            >
+              {t("common.signOut")}
+            </Text>
+          </Pressable>
+        ) : null}
       </ScrollView>
 
       <LanguagePickerModal

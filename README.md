@@ -13,7 +13,7 @@ Built with Expo (SDK 54), Expo Router, React Native, NativeWind, Skia and react-
 
 ## Current state
 
-The app runs fully on the phone. Everything is saved locally with AsyncStorage, and there is no backend or account system yet. The leaderboard uses sample players, and buying a costume doesn't charge anything yet.
+The app runs fully on the phone. Everything is saved locally with AsyncStorage. Accounts are optional: signing in with an email and password (Supabase Auth) gives you a username and friend code, and copies your XP, streak, Lua's outfit and each day's stats to Supabase. Nothing comes back down except your username and display name. Friends aren't built yet, the leaderboard still uses sample players, and buying a costume doesn't charge anything yet.
 
 ## Setup
 
@@ -28,13 +28,18 @@ The app runs fully on the phone. Everything is saved locally with AsyncStorage, 
    | Variable | What it's for |
    |---|---|
    | `EXPO_PUBLIC_GOOGLE_MAPS_API_KEY` | Google Maps on Android (Maps SDK for Android enabled). Restrict it to the package `com.anonymous.Lua`. |
-   | `EXPO_PUBLIC_SUPABASE_URL`, `EXPO_PUBLIC_SUPABASE_ANON_KEY` | Your Supabase project. Used to call the `walking-route` function (see below). |
+   | `EXPO_PUBLIC_SUPABASE_URL`, `EXPO_PUBLIC_SUPABASE_ANON_KEY` | Your Supabase project. Used for accounts and the `walking-route` function (see below). Without them the app works signed out only. |
    | `EXPO_PUBLIC_DEV_XP_CONTROLS` | `1` shows the dev XP buttons on the Achievements tab outside dev mode. **Set it to `0` (or remove it) for release builds.** |
 
 3. Walking routes (optional). The map and the goal cards show real walking distance, time and path from the Google Routes API, through the Supabase Edge Function in [supabase/functions/walking-route](supabase/functions/walking-route/index.ts). Without it they fall back to a straight-line estimate shown with "~". To set it up:
    - In Google Cloud, enable the **Routes API** and create a separate key restricted to it (no application restriction, since only Supabase uses it).
    - In Supabase, add that key as the Edge Function secret `GOOGLE_ROUTES_API_KEY`.
    - Deploy: `npx supabase login`, then `npx supabase functions deploy walking-route --project-ref <your project ref>`.
+
+4. Accounts. The tables, row level security and sign-up trigger are in [supabase/migrations](supabase/migrations/). To set them up:
+   - `npx supabase link --project-ref <your project ref>`, then `npx supabase db push --remote`.
+   - Deploy the function that deletes an account: `npx supabase functions deploy delete-account --no-verify-jwt`. It checks the user's token itself.
+   - Without an email service, Supabase only sends emails to your own team, so new accounts can't be confirmed. Until you add one (Authentication → Emails → SMTP settings), turn off **Confirm email** under Authentication → Sign In / Providers → Email.
 
 ## Running
 

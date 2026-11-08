@@ -16,6 +16,7 @@ import { NearbyLocationSearchField } from "@/components/schedule/NearbyLocationS
 import { Pixelify } from "@/constants/fonts";
 import { LUA_GREEN } from "@/constants/mapAssets";
 import { useLocation } from "@/hooks/useLocation";
+import { getAccount, updateAccountProfile, usernameFromHandle } from "@/lib/account";
 import { showAppNotice } from "@/lib/appAlert";
 import { homeFromPlace } from "@/lib/homeAddress";
 import type { NearbyPlace } from "@/lib/nearbyPlacesProvider";
@@ -95,6 +96,28 @@ export function ManageProfileForm() {
 
     setSaving(true);
     try {
+      // Signed in, the name and handle are saved to the account first, since
+      // the server is where a handle can turn out to be taken.
+      if (getAccount().status === "signedIn") {
+        const result = await updateAccountProfile({
+          username: usernameFromHandle(normalizedHandle),
+          displayName: trimmedName,
+        });
+        if (!result.ok) {
+          cannotSave(
+            t(
+              result.error === "usernameTaken"
+                ? "account.errors.usernameTaken"
+                : result.error === "invalidUsername"
+                  ? "manageProfile.errorInvalidHandle"
+                  : result.error === "network"
+                    ? "account.errors.network"
+                    : "manageProfile.errorSave",
+            ),
+          );
+          return;
+        }
+      }
       await updateProfile({
         displayName: trimmedName,
         handle: normalizedHandle,
@@ -157,6 +180,7 @@ export function ManageProfileForm() {
         placeholder={t("manageProfile.displayNamePlaceholder")}
         placeholderTextColor="#a3a3a3"
         autoCapitalize="words"
+        maxLength={40}
         className="mb-4 rounded-xl border border-neutral-200 bg-neutral-50 px-4 py-3 text-base text-neutral-900"
         style={{ fontFamily: Pixelify.regular }}
       />

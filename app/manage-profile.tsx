@@ -5,12 +5,15 @@ import { Pressable, ScrollView, Text, View } from "react-native";
 import { useTranslation } from "react-i18next";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
+import { AccountCard } from "@/components/profile/AccountCard";
 import { ManageProfileForm } from "@/components/profile/ManageProfileForm";
 import { Pixelify } from "@/constants/fonts";
+import { useAccount } from "@/lib/account";
 
 export default function ManageProfileScreen() {
   const insets = useSafeAreaInsets();
   const { t } = useTranslation();
+  const signedIn = useAccount().status === "signedIn";
 
   return (
     <View className="flex-1 bg-neutral-100">
@@ -47,6 +50,7 @@ export default function ManageProfileScreen() {
         </Text>
 
         <ManageProfileForm />
+        {signedIn ? <AccountCard /> : null}
       </ScrollView>
     </View>
   );

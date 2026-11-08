@@ -16,6 +16,7 @@ import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { GoalCheckInHost } from "@/components/schedule/GoalCheckInPrompt";
 import { AppAlertHost } from "@/components/settings/AppAlertHost";
 import { useDayRollover } from "@/hooks/useDayRollover";
+import { AccountSync } from "@/lib/AccountSync";
 import { useBackgroundTracking } from "@/lib/backgroundTracking";
 import { startGoalNotifications } from "@/lib/goalNotifications";
 import { LanguageProvider } from "@/lib/i18n/LanguageProvider";
@@ -62,6 +63,7 @@ export default function RootLayout() {
           <View className="flex-1 font-sans">
             <Stack screenOptions={{ headerShown: false }} />
             <GoalCheckInHost />
+            <AccountSync />
             <AppAlertHost />
           </View>
         </ProfileProvider>

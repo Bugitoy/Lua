@@ -17,7 +17,8 @@ export type UserProfile = {
   home: HomeAddress | null;
 };
 
-const DEFAULT_PROFILE: UserProfile = {
+/** Placeholder name and handle shown until the user sets their own. */
+export const DEFAULT_PROFILE: UserProfile = {
   displayName: "Mason",
   handle: "@masonmavinga",
   home: null,
@@ -65,6 +66,11 @@ function getSnapshot(): UserProfile {
 
 function notify() {
   listeners.forEach((l) => l());
+}
+
+/** The current profile, for code outside React. */
+export function getProfile(): UserProfile {
+  return state;
 }
 
 export function normalizeHandle(raw: string): string {
