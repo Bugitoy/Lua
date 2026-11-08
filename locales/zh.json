@@ -93,6 +93,12 @@
       "thisOnly": "仅此目标",
       "thisAndFuture": "此目标及之后的目标"
     },
+    "scope": {
+      "editTitle": "更改重复目标",
+      "editMessage": "“{{title}}”是重复目标。要更改哪些目标？",
+      "onlyDay": "仅 {{date}}",
+      "fromDay": "{{date}} 及之后的所有重复"
+    },
     "title": "日程",
     "backToToday": "回到今天",
     "liveMap": "实时地图",
@@ -121,8 +127,6 @@
       "note": "备注",
       "notePlaceholder": "添加一些细节",
       "location": "位置",
-      "locationSearchHint": "输入至少 2 个字符即可搜索全球地点。",
-      "usesHomeHint": "未选择地点，此目标将设在家。",
       "tooCloseWarning": "这个地点就在你现在的位置，所以不会获得 XP。选一个需要步行前往的地方吧。",
       "pickOnMap": "在地图上选择",
       "useHome": "使用家庭住址",
@@ -168,6 +172,13 @@
           "month_other": "每 {{count}} 个月",
           "year_other": "每 {{count}} 年"
         }
+      },
+      "until": {
+        "label": "直到",
+        "forever": "永久",
+        "title": "重复至",
+        "hint": "绿色日期为此目标发生的日子",
+        "choose": "选择此目标停止重复的日期"
       }
     },
     "search": {

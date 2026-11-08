@@ -23,6 +23,8 @@ import {
   ruleFromChoice,
   type RepeatChoice,
 } from "@/components/schedule/RepeatField";
+import { ChoicePrompt } from "@/components/schedule/ChoicePrompt";
+import { RepeatUntilPicker } from "@/components/schedule/RepeatUntilPicker";
 import { ScheduleCalendar } from "@/components/schedule/ScheduleCalendar";
 import { TimeWheelPicker } from "@/components/schedule/TimeWheelPicker";
 import { Pixelify } from "@/constants/fonts";
@@ -34,7 +36,7 @@ import { formatAppDate, formatAppTime } from "@/lib/i18n/formatLocale";
 import type { NearbyPlace } from "@/lib/nearbyPlacesProvider";
 import { useProfile, type HomeAddress } from "@/lib/profileStore";
 import { presetOf, type RepeatRule } from "@/lib/repeatRule";
-import type { GoalDraft } from "@/lib/scheduleActions";
+import type { GoalDraft, RepeatScope } from "@/lib/scheduleActions";
 import { TOO_CLOSE_GOAL_METERS } from "@/lib/walkingRules";
 
 import { SCHEDULE_THEME_PRESETS, type ScheduleThemeKey } from "./scheduleTypes";
@@ -52,6 +54,11 @@ function timeFromMinutes(minutes: number): Date {
   return d;
 }
 
+/** "Sat, Nov 14" */
+function shortDate(day: string): string {
+  return formatAppDate(startOfDay(day), { weekday: "short", month: "short", day: "numeric" });
+}
+
 function choiceFromRule(rule: RepeatRule | null): RepeatChoice {
   const preset = presetOf(rule);
   if (preset === "custom" && rule && rule.unit !== "weekdays") {
@@ -60,7 +67,7 @@ function choiceFromRule(rule: RepeatRule | null): RepeatChoice {
   return { ...DEFAULT_REPEAT_CHOICE, preset };
 }
 
-type FieldKey = "when" | "title" | "note" | "location" | "repeat";
+type FieldKey = "when" | "title" | "note" | "location";
 
 /**
  * Height of the on-screen keyboard. Android runs edge-to-edge, so the modal
@@ -88,7 +95,8 @@ function useKeyboardHeight(): number {
 type AddScheduleModalProps = {
   visible: boolean;
   onClose: () => void;
-  onSave: (draft: GoalDraft) => void;
+  /** `scope` is "this" only when editing one day of a repeating goal and that was chosen. */
+  onSave: (draft: GoalDraft, scope: RepeatScope) => void;
   /** Current user coordinates — used to rank / disambiguate search results. */
   userLocation: { latitude: number; longitude: number } | null;
   today: string;
@@ -98,6 +106,8 @@ type AddScheduleModalProps = {
   editing?: GoalDraft | null;
   /** Keeps the date fixed while editing (a repeating goal). */
   lockDate?: boolean;
+  /** Editing one day of a repeating goal: ask "This goal only / This and future goals" on save. */
+  askScope?: boolean;
 };
 
 export function AddScheduleModal({
@@ -109,6 +119,7 @@ export function AddScheduleModal({
   defaultDay,
   editing = null,
   lockDate = false,
+  askScope = false,
 }: AddScheduleModalProps) {
   const { t } = useTranslation();
   const insets = useSafeAreaInsets();
@@ -125,6 +136,11 @@ export function AddScheduleModal({
   const [picked, setPicked] = useState<NearbyPlace | null>(null);
   const [theme, setTheme] = useState<ScheduleThemeKey>("academic");
   const [repeat, setRepeat] = useState<RepeatChoice>(DEFAULT_REPEAT_CHOICE);
+  /** Last day of a repeating goal; null repeats forever. */
+  const [until, setUntil] = useState<string | null>(null);
+  const [untilPickerOpen, setUntilPickerOpen] = useState(false);
+  /** "This goal only / This and future goals" is open, for saving at `place`. */
+  const [scopePrompt, setScopePrompt] = useState<{ place: NearbyPlace } | null>(null);
   const [mapPickerOpen, setMapPickerOpen] = useState(false);
   /** "Set your home address" is open; `saveAfter` adds the goal once the home is saved. */
   const [homePrompt, setHomePrompt] = useState<{ saveAfter: boolean } | null>(null);
@@ -161,6 +177,7 @@ export function AddScheduleModal({
         });
         setSearchQuery(fields.location);
         setRepeat(choiceFromRule(editing.repeat));
+        setUntil(editing.until);
       } else {
         setDay(defaultDay);
       }
@@ -225,6 +242,9 @@ export function AddScheduleModal({
     setPicked(null);
     setTheme("academic");
     setRepeat(DEFAULT_REPEAT_CHOICE);
+    setUntil(null);
+    setUntilPickerOpen(false);
+    setScopePrompt(null);
     setMapPickerOpen(false);
     setHomePrompt(null);
   }, [defaultDay]);
@@ -267,15 +287,21 @@ export function AddScheduleModal({
     setShowTimePicker((prev) => !prev);
   }, [scrollToField, showTimePicker, time]);
 
+  /** The end day that would be saved: dropped when it falls before the goal's first day. */
+  const goalDay = day < today ? today : day;
+  const savedRule = ruleFromChoice(repeat);
+  const savedUntil = savedRule && until && until >= goalDay ? until : null;
+
   /** Saves the goal at `place`. */
-  const saveAt = useCallback((place: NearbyPlace) => {
+  const saveAt = useCallback((place: NearbyPlace, scope: RepeatScope = "future") => {
     const trimmedTitle = title.trim();
     if (!trimmedTitle) return;
     const preset = SCHEDULE_THEME_PRESETS[theme];
     const trimmedNote = note.trim();
     onSave({
-      day: day < today ? today : day,
-      repeat: ruleFromChoice(repeat),
+      day: goalDay,
+      repeat: savedRule,
+      until: savedUntil,
       fields: {
         themeKey: theme,
         time: time
@@ -293,22 +319,41 @@ export function AddScheduleModal({
         gradientColors: preset.gradientColors,
         glowColor: preset.glowColor,
       },
-    });
+    }, scope);
     reset();
     onClose();
-  }, [day, fallbackTime, note, onClose, onSave, repeat, reset, t, theme, time, title, today]);
+  }, [fallbackTime, goalDay, note, onClose, onSave, reset, savedRule, savedUntil, t, theme, time, title]);
+
+  /**
+   * One day of a repeating goal asks which days change. A new repeat rule or
+   * end day can only apply going forward, so then it doesn't ask.
+   */
+  const repeatChanged =
+    editing != null &&
+    (JSON.stringify(savedRule) !== JSON.stringify(editing.repeat) || savedUntil !== editing.until);
+  const saveOrAsk = useCallback(
+    (place: NearbyPlace) => {
+      if (askScope && !repeatChanged) {
+        Keyboard.dismiss();
+        setScopePrompt({ place });
+      } else {
+        saveAt(place);
+      }
+    },
+    [askScope, repeatChanged, saveAt],
+  );
 
   /** A goal with no place is set at home; with no home yet, ask for one first. */
   const handleSave = useCallback(() => {
     if (!title.trim()) return;
     const place = picked ?? homePlace;
     if (place) {
-      saveAt(place);
+      saveOrAsk(place);
       return;
     }
     Keyboard.dismiss();
     setHomePrompt({ saveAfter: true });
-  }, [homePlace, picked, saveAt, title]);
+  }, [homePlace, picked, saveOrAsk, title]);
 
   /** The Home button: use the saved home, or ask for one. */
   const pickHome = useCallback(() => {
@@ -337,6 +382,7 @@ export function AddScheduleModal({
   );
 
   const canSave = !!title.trim();
+  const repeatRule = ruleFromChoice(repeat);
   /** Where the goal will be: the picked place, or home when none is picked. */
   const goalPlace = picked ?? homePlace;
   const pickedIsHome = picked?.id === HOME_PLACE_ID;
@@ -361,7 +407,11 @@ export function AddScheduleModal({
           ? () => setMapPickerOpen(false)
           : homePrompt
             ? () => setHomePrompt(null)
-            : handleClose
+            : untilPickerOpen
+              ? () => setUntilPickerOpen(false)
+              : scopePrompt
+                ? () => setScopePrompt(null)
+              : handleClose
       }
     >
       {mapPickerOpen ? (
@@ -575,14 +625,7 @@ export function AddScheduleModal({
                   </>
                 }
               />
-              <Text
-                className="mb-4 text-xs text-neutral-500"
-                style={{ fontFamily: Pixelify.regular }}
-              >
-                {!picked && homePlace
-                  ? t("schedule.addModal.usesHomeHint")
-                  : t("schedule.addModal.locationSearchHint")}
-              </Text>
+              <View className="mb-3" />
               {pickedTooClose ? (
                 <View
                   className="-mt-1 mb-4 flex-row items-start gap-2 rounded-xl px-3 py-2.5"
@@ -598,8 +641,15 @@ export function AddScheduleModal({
                 </View>
               ) : null}
 
-              <FieldLabel onLayout={recordFieldY("repeat")}>{t("schedule.addModal.repeat")}</FieldLabel>
-              <RepeatField value={repeat} onChange={setRepeat} />
+              <RepeatField
+                value={repeat}
+                onChange={setRepeat}
+                until={until && until >= day ? until : null}
+                onPressUntil={() => {
+                  Keyboard.dismiss();
+                  setUntilPickerOpen(true);
+                }}
+              />
 
               <Pressable
                 onPress={handleSave}
@@ -625,6 +675,41 @@ export function AddScheduleModal({
               bottomInset={keyboardOverlap}
               onCancel={() => setHomePrompt(null)}
               onSaved={handleHomeSaved}
+            />
+          ) : null}
+          {scopePrompt ? (
+            <ChoicePrompt
+              icon="create-outline"
+              tone="primary"
+              title={t("schedule.scope.editTitle")}
+              message={t("schedule.scope.editMessage", { title: title.trim() })}
+              onCancel={() => setScopePrompt(null)}
+              choices={[
+                {
+                  label: t("schedule.remove.thisOnly"),
+                  detail: t("schedule.scope.onlyDay", { date: shortDate(goalDay) }),
+                  tone: "neutral",
+                  onPress: () => saveAt(scopePrompt.place, "this"),
+                },
+                {
+                  label: t("schedule.remove.thisAndFuture"),
+                  detail: t("schedule.scope.fromDay", { date: shortDate(goalDay) }),
+                  tone: "primary",
+                  onPress: () => saveAt(scopePrompt.place, "future"),
+                },
+              ]}
+            />
+          ) : null}
+          {untilPickerOpen && repeatRule ? (
+            <RepeatUntilPicker
+              startDay={day}
+              rule={repeatRule}
+              value={until && until >= day ? until : null}
+              onCancel={() => setUntilPickerOpen(false)}
+              onConfirm={(next) => {
+                setUntil(next);
+                setUntilPickerOpen(false);
+              }}
             />
           ) : null}
         </View>

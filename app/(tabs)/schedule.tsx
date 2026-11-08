@@ -3,7 +3,7 @@ import { useIsFocused } from "@react-navigation/native";
 import { Link } from "expo-router";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import {
-  Alert,
+  Modal,
   Platform,
   Pressable,
   ScrollView,
@@ -17,6 +17,7 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { GeoMapView } from "@/components/map/GeoMapView";
 import { MySpriteAvatar } from "@/components/profile/SpriteAvatar";
 import { AddScheduleModal } from "@/components/schedule/AddScheduleModal";
+import { ChoicePrompt } from "@/components/schedule/ChoicePrompt";
 import { ScheduleCalendar } from "@/components/schedule/ScheduleCalendar";
 import { ScheduleItemCard, type GoalCardStatus } from "@/components/schedule/ScheduleItemCard";
 import {
@@ -38,6 +39,7 @@ import {
   removeGoal,
   type GoalDraft,
   type GoalTarget,
+  type RepeatScope,
 } from "@/lib/scheduleActions";
 import { useScheduledItems, type ScheduledItem } from "@/lib/scheduleStore";
 
@@ -78,11 +80,23 @@ function itemFields(item: ScheduledItem): GoalFields {
 /** The sheet's starting values for a goal being edited. */
 function draftFor(target: GoalTarget, today: string): GoalDraft {
   if (target.kind === "planned") {
-    return { fields: planFields(target.plan), day: target.day, repeat: target.plan.repeat };
+    return {
+      fields: planFields(target.plan),
+      day: target.day,
+      repeat: target.plan.repeat,
+      until: target.plan.repeat ? target.plan.endDay : null,
+    };
   }
   const { item } = target;
-  const series = item.seriesId ? getGoalPlan(item.seriesId) : undefined;
-  return { fields: itemFields(item), day: today, repeat: series?.repeat ?? null };
+  const plan = item.seriesId ? getGoalPlan(item.seriesId) : undefined;
+  // A series that already ended (its later repeats were removed) no longer repeats.
+  const series = plan && (plan.endDay == null || plan.endDay >= today) ? plan : undefined;
+  return {
+    fields: itemFields(item),
+    day: today,
+    repeat: series?.repeat ?? null,
+    until: series?.repeat ? series.endDay : null,
+  };
 }
 
 export default function ScheduleScreen() {
@@ -219,8 +233,8 @@ export default function ScheduleScreen() {
   );
 
   const handleSave = useCallback(
-    (draft: GoalDraft) => {
-      if (sheetTarget) editGoal(sheetTarget, draft, today);
+    (draft: GoalDraft, scope: RepeatScope) => {
+      if (sheetTarget) editGoal(sheetTarget, draft, today, scope);
       else addGoal(draft, today);
       // Show the day the goal landed on.
       selectDay(draft.day);
@@ -228,32 +242,25 @@ export default function ScheduleScreen() {
     [selectDay, sheetTarget, today],
   );
 
-  const confirmRemove = useCallback(
-    (target: GoalTarget, title: string) => {
-      const cancel = { text: t("common.cancel"), style: "cancel" as const };
-      if (isRepeating(target)) {
-        Alert.alert(t("schedule.remove.title"), t("schedule.remove.repeatMessage", { title }), [
-          cancel,
-          { text: t("schedule.remove.thisOnly"), onPress: () => removeGoal(target, "this", today) },
-          {
-            text: t("schedule.remove.thisAndFuture"),
-            style: "destructive",
-            onPress: () => removeGoal(target, "future", today),
-          },
-        ]);
-        return;
-      }
-      Alert.alert(t("schedule.remove.title"), t("schedule.remove.message", { title }), [
-        cancel,
-        {
-          text: t("schedule.remove.confirm"),
-          style: "destructive",
-          onPress: () => removeGoal(target, "this", today),
-        },
-      ]);
+  /** The goal being removed, while "Remove goal?" is open. */
+  const [removing, setRemoving] = useState<{ target: GoalTarget; title: string } | null>(null);
+  const confirmRemove = useCallback((target: GoalTarget, title: string) => {
+    setRemoving({ target, title });
+  }, []);
+  const finishRemove = useCallback(
+    (scope: RepeatScope) => {
+      if (removing) removeGoal(removing.target, scope, today);
+      setRemoving(null);
     },
-    [t, today],
+    [removing, today],
   );
+  const removingDay = removing
+    ? formatAppDate(startOfDay(removing.target.kind === "planned" ? removing.target.day : today), {
+        weekday: "short",
+        month: "short",
+        day: "numeric",
+      })
+    : "";
 
   const tabBarClearance = Platform.OS === "ios" ? 88 : 72;
   const fabBottom = insets.bottom + tabBarClearance - 74;
@@ -445,7 +452,48 @@ export default function ScheduleScreen() {
         defaultDay={kind === "past" ? today : selectedDay}
         editing={sheetDraft}
         lockDate={sheetTarget != null && isRepeating(sheetTarget)}
+        askScope={sheetTarget != null && isRepeating(sheetTarget)}
       />
+
+      <Modal
+        visible={removing != null}
+        transparent
+        animationType="fade"
+        statusBarTranslucent
+        onRequestClose={() => setRemoving(null)}
+      >
+        {removing ? (
+          <ChoicePrompt
+            icon="trash-outline"
+            tone="danger"
+            title={t("schedule.remove.title")}
+            message={
+              isRepeating(removing.target)
+                ? t("schedule.remove.repeatMessage", { title: removing.title })
+                : t("schedule.remove.message", { title: removing.title })
+            }
+            onCancel={() => setRemoving(null)}
+            choices={
+              isRepeating(removing.target)
+                ? [
+                    {
+                      label: t("schedule.remove.thisOnly"),
+                      detail: t("schedule.scope.onlyDay", { date: removingDay }),
+                      tone: "neutral",
+                      onPress: () => finishRemove("this"),
+                    },
+                    {
+                      label: t("schedule.remove.thisAndFuture"),
+                      detail: t("schedule.scope.fromDay", { date: removingDay }),
+                      tone: "danger",
+                      onPress: () => finishRemove("future"),
+                    },
+                  ]
+                : [{ label: t("schedule.remove.confirm"), tone: "danger", onPress: () => finishRemove("this") }]
+            }
+          />
+        ) : null}
+      </Modal>
     </View>
   );
 }

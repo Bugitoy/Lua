@@ -93,6 +93,12 @@
       "thisOnly": "이 목표만",
       "thisAndFuture": "이 목표와 이후 목표"
     },
+    "scope": {
+      "editTitle": "반복 목표 변경",
+      "editMessage": "\"{{title}}\"은(는) 반복되는 목표입니다. 어떤 목표를 바꿀까요?",
+      "onlyDay": "{{date}}만",
+      "fromDay": "{{date}} 및 이후 모든 반복"
+    },
     "title": "일정",
     "backToToday": "오늘로 돌아가기",
     "liveMap": "실시간 지도",
@@ -121,8 +127,6 @@
       "note": "메모",
       "notePlaceholder": "세부 내용 추가",
       "location": "위치",
-      "locationSearchHint": "2자 이상 입력하면 전 세계를 검색할 수 있습니다.",
-      "usesHomeHint": "장소를 고르지 않아 이 목표는 집으로 설정됩니다.",
       "tooCloseWarning": "이 장소는 지금 있는 곳과 너무 가까워서 XP를 받을 수 없어요. 걸어서 갈 곳을 골라 보세요.",
       "pickOnMap": "지도에서 선택",
       "useHome": "집 주소 사용",
@@ -168,6 +172,13 @@
           "month_other": "{{count}}개월마다",
           "year_other": "{{count}}년마다"
         }
+      },
+      "until": {
+        "label": "종료",
+        "forever": "계속",
+        "title": "반복 종료일",
+        "hint": "초록색 날이 이 목표가 있는 날이에요",
+        "choose": "이 목표의 반복이 끝나는 날 선택"
       }
     },
     "search": {

@@ -93,6 +93,12 @@
       "thisOnly": "This goal only",
       "thisAndFuture": "This and future goals"
     },
+    "scope": {
+      "editTitle": "Change a repeating goal",
+      "editMessage": "\"{{title}}\" repeats. Which goals should change?",
+      "onlyDay": "Only {{date}}",
+      "fromDay": "{{date}} and every repeat after it"
+    },
     "title": "Schedule",
     "backToToday": "Back to today",
     "liveMap": "Live map",
@@ -121,8 +127,6 @@
       "note": "Note",
       "notePlaceholder": "Add some detail",
       "location": "Location",
-      "locationSearchHint": "Type at least 2 characters to search anywhere.",
-      "usesHomeHint": "No place picked, so this goal will be at Home.",
       "tooCloseWarning": "This place is right where you are, so it won't earn XP. Pick somewhere you'll walk to.",
       "pickOnMap": "Pick on map",
       "useHome": "Use home address",
@@ -168,6 +172,13 @@
           "month_other": "Every {{count}} months",
           "year_other": "Every {{count}} years"
         }
+      },
+      "until": {
+        "label": "Until",
+        "forever": "Forever",
+        "title": "Repeat until",
+        "hint": "green days are when this goal happens",
+        "choose": "Choose when this goal stops repeating"
       }
     },
     "search": {

@@ -93,6 +93,12 @@
       "thisOnly": "Solo esta meta",
       "thisAndFuture": "Esta y las siguientes"
     },
+    "scope": {
+      "editTitle": "Cambiar una meta que se repite",
+      "editMessage": "«{{title}}» se repite. ¿Qué metas deben cambiar?",
+      "onlyDay": "Solo {{date}}",
+      "fromDay": "{{date}} y todas las repeticiones siguientes"
+    },
     "title": "Horario",
     "backToToday": "Volver a hoy",
     "liveMap": "Mapa en vivo",
@@ -121,8 +127,6 @@
       "note": "Nota",
       "notePlaceholder": "Añade algún detalle",
       "location": "Ubicación",
-      "locationSearchHint": "Escribe al menos 2 caracteres para buscar en cualquier lugar.",
-      "usesHomeHint": "No elegiste un lugar, así que esta meta será en Casa.",
       "tooCloseWarning": "Este lugar está justo donde estás, así que no dará XP. Elige un sitio al que vayas a caminar.",
       "pickOnMap": "Elegir en el mapa",
       "useHome": "Usar dirección de casa",
@@ -168,6 +172,13 @@
           "month_other": "Cada {{count}} meses",
           "year_other": "Cada {{count}} años"
         }
+      },
+      "until": {
+        "label": "Hasta",
+        "forever": "Siempre",
+        "title": "Repetir hasta",
+        "hint": "los días verdes son cuando ocurre esta meta",
+        "choose": "Elige cuándo deja de repetirse esta meta"
       }
     },
     "search": {

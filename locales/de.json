@@ -93,6 +93,12 @@
       "thisOnly": "Nur dieses Ziel",
       "thisAndFuture": "Dieses und alle folgenden"
     },
+    "scope": {
+      "editTitle": "Wiederkehrendes Ziel ändern",
+      "editMessage": "„{{title}}“ wiederholt sich. Welche Ziele sollen sich ändern?",
+      "onlyDay": "Nur {{date}}",
+      "fromDay": "{{date}} und alle folgenden Wiederholungen"
+    },
     "title": "Zeitplan",
     "backToToday": "Zurück zu heute",
     "liveMap": "Live-Karte",
@@ -121,8 +127,6 @@
       "note": "Notiz",
       "notePlaceholder": "Details hinzufügen",
       "location": "Ort",
-      "locationSearchHint": "Gib mindestens 2 Zeichen ein, um überall zu suchen.",
-      "usesHomeHint": "Kein Ort gewählt, daher ist dieses Ziel zu Hause.",
       "tooCloseWarning": "Dieser Ort ist genau da, wo du gerade bist, und bringt daher keine XP. Wähle einen Ort, zu dem du hinläufst.",
       "pickOnMap": "Auf Karte wählen",
       "useHome": "Wohnadresse verwenden",
@@ -168,6 +172,13 @@
           "month_other": "Alle {{count}} Monate",
           "year_other": "Alle {{count}} Jahre"
         }
+      },
+      "until": {
+        "label": "Bis",
+        "forever": "Für immer",
+        "title": "Wiederholen bis",
+        "hint": "grüne Tage sind die Tage dieses Ziels",
+        "choose": "Wählen, wann sich dieses Ziel nicht mehr wiederholt"
       }
     },
     "search": {

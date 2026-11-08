@@ -27,7 +27,11 @@ export type GoalPlan = GoalFields & {
   skipDays: string[];
 };
 
-export type NewGoalPlan = GoalFields & Pick<GoalPlan, "startDay" | "repeat">;
+export type NewGoalPlan = GoalFields &
+  Pick<GoalPlan, "startDay" | "repeat"> & {
+    /** A repeating goal's last day; left out or null repeats forever. */
+    endDay?: string | null;
+  };
 
 type StoreState = {
   plans: ReadonlyMap<string, GoalPlan>;
@@ -148,7 +152,7 @@ export function useGoalPlans(): GoalPlan[] {
 export function addGoalPlan(data: NewGoalPlan): string {
   const id = `plan-${Date.now()}-${Math.random().toString(36).slice(2, 9)}`;
   const next = new Map(state.plans);
-  next.set(id, { ...data, id, endDay: null, skipDays: [] });
+  next.set(id, { ...data, id, endDay: data.endDay ?? null, skipDays: [] });
   commit(next);
   return id;
 }
@@ -191,7 +195,7 @@ export function endGoalPlanBefore(id: string, day: string): void {
 export function splitGoalPlanAt(id: string, day: string, changes: NewGoalPlan): string {
   const plan = state.plans.get(id);
   if (plan && plan.startDay >= day) {
-    updateGoalPlan(id, { ...changes, startDay: day });
+    updateGoalPlan(id, { ...changes, startDay: day, endDay: changes.endDay ?? null });
     return id;
   }
   if (plan) endGoalPlanBefore(id, day);

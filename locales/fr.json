@@ -93,6 +93,12 @@
       "thisOnly": "Cet objectif seulement",
       "thisAndFuture": "Celui-ci et les suivants"
     },
+    "scope": {
+      "editTitle": "Modifier un objectif récurrent",
+      "editMessage": "« {{title}} » se répète. Quels objectifs modifier ?",
+      "onlyDay": "Seulement {{date}}",
+      "fromDay": "{{date}} et toutes les répétitions suivantes"
+    },
     "title": "Planning",
     "backToToday": "Revenir à aujourd'hui",
     "liveMap": "Carte en direct",
@@ -121,8 +127,6 @@
       "note": "Note",
       "notePlaceholder": "Ajoutez un détail",
       "location": "Lieu",
-      "locationSearchHint": "Saisissez au moins 2 caractères pour rechercher partout.",
-      "usesHomeHint": "Aucun lieu choisi : cet objectif sera au Domicile.",
       "tooCloseWarning": "Ce lieu est juste là où vous êtes, il ne rapportera donc pas d'XP. Choisissez un endroit où vous irez à pied.",
       "pickOnMap": "Choisir sur la carte",
       "useHome": "Utiliser l'adresse du domicile",
@@ -168,6 +172,13 @@
           "month_other": "Tous les {{count}} mois",
           "year_other": "Tous les {{count}} ans"
         }
+      },
+      "until": {
+        "label": "Jusqu'au",
+        "forever": "Toujours",
+        "title": "Répéter jusqu'au",
+        "hint": "les jours en vert sont ceux de cet objectif",
+        "choose": "Choisir quand cet objectif cesse de se répéter"
       }
     },
     "search": {
