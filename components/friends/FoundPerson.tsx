@@ -9,6 +9,7 @@ import { LUA_GREEN } from "@/constants/mapAssets";
 import { useAccount } from "@/lib/account";
 import {
   findByFriendCode,
+  respondToRequest,
   sendFriendRequest,
   useFriends,
   type FriendsError,
@@ -115,10 +116,16 @@ export function FoundPerson({ code, onDone }: { code: string; onDone: () => void
   const isMe = person.id === account.userId;
   const relation = connections.find((c) => c.id === person.id)?.relation;
 
-  const onSend = async () => {
+  /**
+   * Sends a request, or accepts theirs if they asked first. Only accepting an
+   * incoming request makes a friendship; sending one never does, even when
+   * they'd already asked (the list then refreshes and shows Accept request).
+   */
+  const onPress = async () => {
     setSending(true);
     setSendError(null);
-    const result = await sendFriendRequest(person.id);
+    const result =
+      relation === "incoming" ? await respondToRequest(person.id, true) : await sendFriendRequest(person.id);
     setSending(false);
     if (!result.ok) setSendError(result.error);
   };
@@ -127,13 +134,14 @@ export function FoundPerson({ code, onDone }: { code: string; onDone: () => void
   if (isMe) footer = message(t("friends.thatsYou"));
   else if (relation === "friend") footer = message(t("friends.alreadyFriends", { name: person.displayName }));
   else if (relation === "outgoing") footer = message(t("friends.requestSent", { name: person.displayName }));
-  else
-    footer = button(
-      t(relation === "incoming" ? "friends.accept" : "friends.addFriend"),
-      () => void onSend(),
-      true,
-      sending,
+  else if (relation === "incoming")
+    footer = (
+      <>
+        {message(t("friends.theyAsked", { name: person.displayName }))}
+        {button(t("friends.acceptRequest"), () => void onPress(), true, sending)}
+      </>
     );
+  else footer = button(t("friends.addFriend"), () => void onPress(), true, sending);
 
   return card(
     <>
@@ -146,7 +154,11 @@ export function FoundPerson({ code, onDone }: { code: string; onDone: () => void
           {t(sendError === "network" ? "account.errors.network" : "account.errors.unknown")}
         </Text>
       ) : null}
-      {relation !== undefined || isMe ? button(t("common.done"), onDone, false) : null}
+      {relation === "incoming"
+        ? button(t("common.notNow"), onDone, false)
+        : relation === "friend" || relation === "outgoing" || isMe
+          ? button(t("common.done"), onDone, false)
+          : null}
     </>,
   );
 }

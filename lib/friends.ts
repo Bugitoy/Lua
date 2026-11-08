@@ -33,7 +33,8 @@ export type FriendsState = {
 };
 
 export type FriendsError = "notSignedIn" | "network" | "unknown";
-export type SendResult = "requested" | "accepted" | "already_requested" | "already_friends";
+/** incoming: they'd already asked the user, so nothing was sent; accept theirs instead. */
+export type SendResult = "requested" | "incoming" | "already_requested" | "already_friends";
 
 const EMPTY: FriendsState = { status: "idle", connections: [] };
 
@@ -210,7 +211,7 @@ async function call<T>(fn: string, args: Record<string, unknown>): Promise<{ ok:
   return { ok: true, data: data as T };
 }
 
-/** Asks someone to be friends; accepts instead if they'd already asked. */
+/** Asks someone to be friends. Never makes a friendship by itself; the other person has to accept. */
 export function sendFriendRequest(personId: string) {
   return call<SendResult>("send_friend_request", { target: personId });
 }
