@@ -17,6 +17,7 @@ import { APP_VERSION } from "@/constants/appVersion";
 import { Pixelify } from "@/constants/fonts";
 import { LUA_GREEN } from "@/constants/mapAssets";
 import { signOut, useAccount } from "@/lib/account";
+import { useIncomingCount } from "@/lib/friends";
 import { useAchievements } from "@/lib/achievementsStore";
 import { showAppAlert, showAppNotice } from "@/lib/appAlert";
 import { useGameStats } from "@/lib/gameStats";
@@ -109,6 +110,7 @@ export default function ProfileScreen() {
   const { profile } = useProfile();
   const account = useAccount();
   const signedIn = account.status === "signedIn";
+  const incomingRequests = useIncomingCount();
   const [notificationsEnabled, setNotificationsEnabled] = useState(false);
   const [languageModalVisible, setLanguageModalVisible] = useState(false);
 
@@ -338,6 +340,29 @@ export default function ProfileScreen() {
               onPress={() => router.push("/sign-in")}
             />
           )}
+          <View className="mx-4 h-px bg-neutral-100" />
+          <SettingRow
+            icon="people-outline"
+            label={t("profile.rows.friends")}
+            sublabel={
+              incomingRequests > 0
+                ? t("profile.rows.friendsRequests", { count: incomingRequests })
+                : t("profile.rows.friendsSublabel")
+            }
+            onPress={() => router.push("/friends")}
+            rightElement={
+              <View className="flex-row items-center gap-2">
+                {incomingRequests > 0 ? (
+                  <View className="min-w-5 items-center rounded-full bg-red-500 px-1.5 py-0.5">
+                    <Text className="text-xs text-white" style={{ fontFamily: Pixelify.bold }}>
+                      {incomingRequests > 9 ? "9+" : incomingRequests}
+                    </Text>
+                  </View>
+                ) : null}
+                <Ionicons name="chevron-forward" size={18} color="#a3a3a3" />
+              </View>
+            }
+          />
           <View className="mx-4 h-px bg-neutral-100" />
           <SettingRow
             icon="person-outline"

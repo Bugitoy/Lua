@@ -4,6 +4,8 @@ import { Tabs } from "expo-router";
 import { useTranslation } from "react-i18next";
 import { Platform, Text } from "react-native";
 
+import { useIncomingCount } from "@/lib/friends";
+
 const LUA_GREEN = "#16a34a";
 const TAB_INACTIVE = "#6b7280";
 const TAB_LABEL_STYLE = {
@@ -13,6 +15,8 @@ const TAB_LABEL_STYLE = {
 
 export default function TabsLayout() {
   const { t } = useTranslation();
+  // Friend requests waiting for an answer, so they're noticed from any tab.
+  const incomingRequests = useIncomingCount();
 
   return (
     <Tabs
@@ -54,6 +58,8 @@ export default function TabsLayout() {
           // Display-only tabs subscribe to game stats; freezing them while hidden stops
           // re-renders on every distance update and study-timer second.
           freezeOnBlur: true,
+          tabBarBadge: incomingRequests > 0 ? (incomingRequests > 9 ? "9+" : incomingRequests) : undefined,
+          tabBarBadgeStyle: { fontFamily: "PixelifySans_700Bold", fontSize: 10 },
           tabBarIcon: ({ color, size }) => (
             <Ionicons name="person-outline" size={size} color={color} />
           ),

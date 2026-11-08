@@ -304,7 +304,11 @@
       "privacyPolicy": "Privacy Policy",
       "signIn": "Sign in or create account",
       "signInSublabel": "Add friends and join the leaderboard",
-      "signedIn": "Signed in"
+      "signedIn": "Signed in",
+      "friends": "Friends",
+      "friendsSublabel": "Find friends and answer requests",
+      "friendsRequests_one": "{{count}} new request",
+      "friendsRequests_other": "{{count}} new requests"
     }
   },
   "aboutUs": {
@@ -502,6 +506,41 @@
       "emptyName": "Please enter a display name.",
       "missingPassword": "Enter your password."
     }
+  },
+  "friends": {
+    "title": "Friends",
+    "signInToAdd": "Sign in to add friends and see your requests.",
+    "searchPlaceholder": "Username or friend code",
+    "clearSearch": "Clear search",
+    "myQr": "My QR code",
+    "scanQr": "Scan QR code",
+    "qrHint": "Friends can scan this to add you.",
+    "shareCode": "Share code",
+    "noResults": "No one found. Check the spelling, or try their friend code.",
+    "requestsTitle": "Requests ({{count}})",
+    "friendsTitle": "Friends ({{count}})",
+    "sentTitle": "Sent ({{count}})",
+    "empty": "No friends yet. Search for a username, or share your friend code.",
+    "loadError": "Couldn't load your friends. Pull down to try again.",
+    "add": "Add",
+    "addFriend": "Add friend",
+    "accept": "Accept",
+    "decline": "Decline",
+    "cancelRequest": "Cancel",
+    "friendsLabel": "Friends",
+    "requestedLabel": "Requested",
+    "removeTitle": "Remove {{name}}?",
+    "removeMessage": "{{name}} won't be your friend anymore. You can add each other again later.",
+    "remove": "Remove friend",
+    "codeNotFound": "No one has the friend code {{code}}.",
+    "thatsYou": "That's your own code!",
+    "alreadyFriends": "You and {{name}} are already friends.",
+    "requestSent": "Request sent. You'll be friends once {{name}} accepts.",
+    "cameraTitle": "Scan a friend's code",
+    "cameraMessage": "Lua needs the camera to scan a friend's QR code. It's only used while this screen is open.",
+    "allowCamera": "Allow camera",
+    "scanHint": "Point the camera at a friend's Lua QR code.",
+    "notLuaCode": "That's not a Lua friend code."
   },
   "stats": {
     "calendar": {

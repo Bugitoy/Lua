@@ -304,7 +304,11 @@
       "privacyPolicy": "Datenschutzerklärung",
       "signIn": "Anmelden oder Konto erstellen",
       "signInSublabel": "Freunde hinzufügen und in die Rangliste",
-      "signedIn": "Angemeldet"
+      "signedIn": "Angemeldet",
+      "friends": "Freunde",
+      "friendsSublabel": "Freunde finden und Anfragen beantworten",
+      "friendsRequests_one": "{{count}} neue Anfrage",
+      "friendsRequests_other": "{{count}} neue Anfragen"
     }
   },
   "aboutUs": {
@@ -502,6 +506,41 @@
       "emptyName": "Bitte gib einen Anzeigenamen ein.",
       "missingPassword": "Gib dein Passwort ein."
     }
+  },
+  "friends": {
+    "title": "Freunde",
+    "signInToAdd": "Melde dich an, um Freunde hinzuzufügen und deine Anfragen zu sehen.",
+    "searchPlaceholder": "Benutzername oder Freundescode",
+    "clearSearch": "Suche löschen",
+    "myQr": "Mein QR-Code",
+    "scanQr": "QR-Code scannen",
+    "qrHint": "Freunde können ihn scannen, um dich hinzuzufügen.",
+    "shareCode": "Code teilen",
+    "noResults": "Niemand gefunden. Prüfe die Schreibweise oder versuche es mit dem Freundescode.",
+    "requestsTitle": "Anfragen ({{count}})",
+    "friendsTitle": "Freunde ({{count}})",
+    "sentTitle": "Gesendet ({{count}})",
+    "empty": "Noch keine Freunde. Suche nach einem Benutzernamen oder teile deinen Freundescode.",
+    "loadError": "Deine Freunde konnten nicht geladen werden. Zieh nach unten, um es erneut zu versuchen.",
+    "add": "Hinzufügen",
+    "addFriend": "Freund hinzufügen",
+    "accept": "Annehmen",
+    "decline": "Ablehnen",
+    "cancelRequest": "Zurückziehen",
+    "friendsLabel": "Befreundet",
+    "requestedLabel": "Angefragt",
+    "removeTitle": "{{name}} entfernen?",
+    "removeMessage": "{{name}} ist dann nicht mehr dein Freund. Ihr könnt euch später wieder hinzufügen.",
+    "remove": "Freund entfernen",
+    "codeNotFound": "Niemand hat den Freundescode {{code}}.",
+    "thatsYou": "Das ist dein eigener Code!",
+    "alreadyFriends": "Du und {{name}} seid schon befreundet.",
+    "requestSent": "Anfrage gesendet. Ihr seid befreundet, sobald {{name}} annimmt.",
+    "cameraTitle": "Code eines Freundes scannen",
+    "cameraMessage": "Lua braucht die Kamera, um den QR-Code eines Freundes zu scannen. Sie wird nur genutzt, solange dieser Bildschirm offen ist.",
+    "allowCamera": "Kamera erlauben",
+    "scanHint": "Richte die Kamera auf den Lua-QR-Code eines Freundes.",
+    "notLuaCode": "Das ist kein Lua-Freundescode."
   },
   "stats": {
     "calendar": {

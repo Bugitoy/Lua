@@ -304,7 +304,11 @@
       "privacyPolicy": "Politique de confidentialité",
       "signIn": "Se connecter ou créer un compte",
       "signInSublabel": "Ajoute des amis et rejoins le classement",
-      "signedIn": "Connecté"
+      "signedIn": "Connecté",
+      "friends": "Amis",
+      "friendsSublabel": "Trouve des amis et réponds aux demandes",
+      "friendsRequests_one": "{{count}} nouvelle demande",
+      "friendsRequests_other": "{{count}} nouvelles demandes"
     }
   },
   "aboutUs": {
@@ -502,6 +506,41 @@
       "emptyName": "Saisis un nom d'affichage.",
       "missingPassword": "Saisis ton mot de passe."
     }
+  },
+  "friends": {
+    "title": "Amis",
+    "signInToAdd": "Connecte-toi pour ajouter des amis et voir tes demandes.",
+    "searchPlaceholder": "Nom d'utilisateur ou code ami",
+    "clearSearch": "Effacer la recherche",
+    "myQr": "Mon code QR",
+    "scanQr": "Scanner un QR",
+    "qrHint": "Tes amis peuvent le scanner pour t'ajouter.",
+    "shareCode": "Partager le code",
+    "noResults": "Personne trouvé. Vérifie l'orthographe ou essaie son code ami.",
+    "requestsTitle": "Demandes ({{count}})",
+    "friendsTitle": "Amis ({{count}})",
+    "sentTitle": "Envoyées ({{count}})",
+    "empty": "Pas encore d'amis. Cherche un nom d'utilisateur ou partage ton code ami.",
+    "loadError": "Impossible de charger tes amis. Tire vers le bas pour réessayer.",
+    "add": "Ajouter",
+    "addFriend": "Ajouter un ami",
+    "accept": "Accepter",
+    "decline": "Refuser",
+    "cancelRequest": "Annuler",
+    "friendsLabel": "Amis",
+    "requestedLabel": "Envoyée",
+    "removeTitle": "Retirer {{name}} ?",
+    "removeMessage": "{{name}} ne sera plus ton ami. Vous pourrez vous rajouter plus tard.",
+    "remove": "Retirer l'ami",
+    "codeNotFound": "Personne n'a le code ami {{code}}.",
+    "thatsYou": "C'est ton propre code !",
+    "alreadyFriends": "{{name}} et toi êtes déjà amis.",
+    "requestSent": "Demande envoyée. Vous serez amis dès que {{name}} l'aura acceptée.",
+    "cameraTitle": "Scanne le code d'un ami",
+    "cameraMessage": "Lua a besoin de l'appareil photo pour scanner le code QR d'un ami. Il n'est utilisé que tant que cet écran est ouvert.",
+    "allowCamera": "Autoriser l'appareil photo",
+    "scanHint": "Vise le code QR Lua d'un ami avec l'appareil photo.",
+    "notLuaCode": "Ce n'est pas un code ami Lua."
   },
   "stats": {
     "calendar": {

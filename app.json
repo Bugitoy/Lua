@@ -60,6 +60,14 @@
         {
           "motionPermission": "Lua counts your steps so the walking you do earns XP and keeps Lua healthy."
         }
+      ],
+      [
+        "expo-camera",
+        {
+          "cameraPermission": "Lua uses the camera to scan a friend's QR code so you can add them.",
+          "microphonePermission": false,
+          "recordAudioAndroid": false
+        }
       ]
     ],
     "experiments": {

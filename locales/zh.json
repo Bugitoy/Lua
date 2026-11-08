@@ -300,7 +300,11 @@
       "privacyPolicy": "隐私政策",
       "signIn": "登录或创建账号",
       "signInSublabel": "添加好友并加入排行榜",
-      "signedIn": "已登录"
+      "signedIn": "已登录",
+      "friends": "好友",
+      "friendsSublabel": "查找好友并回复请求",
+      "friendsRequests_one": "{{count}} 个新请求",
+      "friendsRequests_other": "{{count}} 个新请求"
     }
   },
   "aboutUs": {
@@ -498,6 +502,41 @@
       "emptyName": "请输入显示名称。",
       "missingPassword": "请输入密码。"
     }
+  },
+  "friends": {
+    "title": "好友",
+    "signInToAdd": "登录后即可添加好友并查看请求。",
+    "searchPlaceholder": "用户名或好友码",
+    "clearSearch": "清除搜索",
+    "myQr": "我的二维码",
+    "scanQr": "扫描二维码",
+    "qrHint": "好友扫描此码即可添加你。",
+    "shareCode": "分享好友码",
+    "noResults": "没有找到。请检查拼写,或试试对方的好友码。",
+    "requestsTitle": "请求({{count}})",
+    "friendsTitle": "好友({{count}})",
+    "sentTitle": "已发送({{count}})",
+    "empty": "还没有好友。搜索用户名,或分享你的好友码。",
+    "loadError": "无法加载好友列表。下拉重试。",
+    "add": "添加",
+    "addFriend": "添加好友",
+    "accept": "接受",
+    "decline": "拒绝",
+    "cancelRequest": "取消",
+    "friendsLabel": "好友",
+    "requestedLabel": "已申请",
+    "removeTitle": "删除 {{name}}?",
+    "removeMessage": "你和 {{name}} 将不再是好友。之后可以再互相添加。",
+    "remove": "删除好友",
+    "codeNotFound": "没有人使用好友码 {{code}}。",
+    "thatsYou": "这是你自己的好友码!",
+    "alreadyFriends": "你和 {{name}} 已经是好友了。",
+    "requestSent": "请求已发送。{{name}} 接受后你们就是好友了。",
+    "cameraTitle": "扫描好友的二维码",
+    "cameraMessage": "Lua 需要使用相机扫描好友的二维码,仅在此页面打开时使用。",
+    "allowCamera": "允许使用相机",
+    "scanHint": "将相机对准好友的 Lua 二维码。",
+    "notLuaCode": "这不是 Lua 好友码。"
   },
   "stats": {
     "calendar": {

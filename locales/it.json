@@ -304,7 +304,11 @@
       "privacyPolicy": "Informativa sulla privacy",
       "signIn": "Accedi o crea un account",
       "signInSublabel": "Aggiungi amici e partecipa alla classifica",
-      "signedIn": "Accesso effettuato"
+      "signedIn": "Accesso effettuato",
+      "friends": "Amici",
+      "friendsSublabel": "Trova amici e rispondi alle richieste",
+      "friendsRequests_one": "{{count}} nuova richiesta",
+      "friendsRequests_other": "{{count}} nuove richieste"
     }
   },
   "aboutUs": {
@@ -502,6 +506,41 @@
       "emptyName": "Inserisci un nome visualizzato.",
       "missingPassword": "Inserisci la tua password."
     }
+  },
+  "friends": {
+    "title": "Amici",
+    "signInToAdd": "Accedi per aggiungere amici e vedere le tue richieste.",
+    "searchPlaceholder": "Nome utente o codice amico",
+    "clearSearch": "Cancella ricerca",
+    "myQr": "Il mio codice QR",
+    "scanQr": "Scansiona QR",
+    "qrHint": "Gli amici possono scansionarlo per aggiungerti.",
+    "shareCode": "Condividi codice",
+    "noResults": "Nessuno trovato. Controlla come è scritto o prova con il suo codice amico.",
+    "requestsTitle": "Richieste ({{count}})",
+    "friendsTitle": "Amici ({{count}})",
+    "sentTitle": "Inviate ({{count}})",
+    "empty": "Ancora nessun amico. Cerca un nome utente o condividi il tuo codice amico.",
+    "loadError": "Impossibile caricare i tuoi amici. Trascina verso il basso per riprovare.",
+    "add": "Aggiungi",
+    "addFriend": "Aggiungi amico",
+    "accept": "Accetta",
+    "decline": "Rifiuta",
+    "cancelRequest": "Annulla",
+    "friendsLabel": "Amici",
+    "requestedLabel": "Inviata",
+    "removeTitle": "Rimuovere {{name}}?",
+    "removeMessage": "{{name}} non sarà più tuo amico. Potrete aggiungervi di nuovo più avanti.",
+    "remove": "Rimuovi amico",
+    "codeNotFound": "Nessuno ha il codice amico {{code}}.",
+    "thatsYou": "È il tuo codice!",
+    "alreadyFriends": "Tu e {{name}} siete già amici.",
+    "requestSent": "Richiesta inviata. Sarete amici quando {{name}} accetterà.",
+    "cameraTitle": "Scansiona il codice di un amico",
+    "cameraMessage": "Lua ha bisogno della fotocamera per scansionare il codice QR di un amico. Viene usata solo mentre questa schermata è aperta.",
+    "allowCamera": "Consenti fotocamera",
+    "scanHint": "Inquadra il codice QR Lua di un amico.",
+    "notLuaCode": "Questo non è un codice amico di Lua."
   },
   "stats": {
     "calendar": {

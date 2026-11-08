@@ -73,6 +73,11 @@ function subscribe(listener: Listener): () => void {
   };
 }
 
+/** Runs `listener` after every account change; for code outside React. Returns an unsubscribe. */
+export function subscribeAccount(listener: Listener): () => void {
+  return subscribe(listener);
+}
+
 export function getAccount(): AccountState {
   return state;
 }

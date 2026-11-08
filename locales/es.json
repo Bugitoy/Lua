@@ -304,7 +304,11 @@
       "privacyPolicy": "Política de privacidad",
       "signIn": "Inicia sesión o crea una cuenta",
       "signInSublabel": "Añade amigos y únete a la clasificación",
-      "signedIn": "Sesión iniciada"
+      "signedIn": "Sesión iniciada",
+      "friends": "Amigos",
+      "friendsSublabel": "Busca amigos y responde solicitudes",
+      "friendsRequests_one": "{{count}} solicitud nueva",
+      "friendsRequests_other": "{{count}} solicitudes nuevas"
     }
   },
   "aboutUs": {
@@ -502,6 +506,41 @@
       "emptyName": "Introduce un nombre visible.",
       "missingPassword": "Introduce tu contraseña."
     }
+  },
+  "friends": {
+    "title": "Amigos",
+    "signInToAdd": "Inicia sesión para añadir amigos y ver tus solicitudes.",
+    "searchPlaceholder": "Usuario o código de amigo",
+    "clearSearch": "Borrar búsqueda",
+    "myQr": "Mi código QR",
+    "scanQr": "Escanear QR",
+    "qrHint": "Tus amigos pueden escanearlo para añadirte.",
+    "shareCode": "Compartir código",
+    "noResults": "No se encontró a nadie. Revisa cómo está escrito o prueba con su código de amigo.",
+    "requestsTitle": "Solicitudes ({{count}})",
+    "friendsTitle": "Amigos ({{count}})",
+    "sentTitle": "Enviadas ({{count}})",
+    "empty": "Aún no tienes amigos. Busca un nombre de usuario o comparte tu código de amigo.",
+    "loadError": "No se pudieron cargar tus amigos. Desliza hacia abajo para intentarlo de nuevo.",
+    "add": "Añadir",
+    "addFriend": "Añadir amigo",
+    "accept": "Aceptar",
+    "decline": "Rechazar",
+    "cancelRequest": "Cancelar",
+    "friendsLabel": "Amigos",
+    "requestedLabel": "Enviada",
+    "removeTitle": "¿Eliminar a {{name}}?",
+    "removeMessage": "{{name}} dejará de ser tu amigo. Podéis volver a añadiros más adelante.",
+    "remove": "Eliminar amigo",
+    "codeNotFound": "Nadie tiene el código de amigo {{code}}.",
+    "thatsYou": "¡Ese es tu propio código!",
+    "alreadyFriends": "{{name}} y tú ya sois amigos.",
+    "requestSent": "Solicitud enviada. Seréis amigos cuando {{name}} la acepte.",
+    "cameraTitle": "Escanea el código de un amigo",
+    "cameraMessage": "Lua necesita la cámara para escanear el código QR de un amigo. Solo se usa mientras esta pantalla está abierta.",
+    "allowCamera": "Permitir cámara",
+    "scanHint": "Apunta la cámara al código QR de Lua de un amigo.",
+    "notLuaCode": "Ese no es un código de amigo de Lua."
   },
   "stats": {
     "calendar": {

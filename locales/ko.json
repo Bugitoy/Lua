@@ -300,7 +300,11 @@
       "privacyPolicy": "개인정보 처리방침",
       "signIn": "로그인 또는 계정 만들기",
       "signInSublabel": "친구를 추가하고 리더보드에 참여하세요",
-      "signedIn": "로그인됨"
+      "signedIn": "로그인됨",
+      "friends": "친구",
+      "friendsSublabel": "친구를 찾고 요청에 응답하세요",
+      "friendsRequests_one": "새 요청 {{count}}개",
+      "friendsRequests_other": "새 요청 {{count}}개"
     }
   },
   "aboutUs": {
@@ -498,6 +502,41 @@
       "emptyName": "표시 이름을 입력하세요.",
       "missingPassword": "비밀번호를 입력하세요."
     }
+  },
+  "friends": {
+    "title": "친구",
+    "signInToAdd": "로그인하면 친구를 추가하고 요청을 확인할 수 있어요.",
+    "searchPlaceholder": "사용자 이름 또는 친구 코드",
+    "clearSearch": "검색 지우기",
+    "myQr": "내 QR 코드",
+    "scanQr": "QR 코드 스캔",
+    "qrHint": "친구가 이 코드를 스캔하면 나를 추가할 수 있어요.",
+    "shareCode": "코드 공유",
+    "noResults": "찾을 수 없어요. 철자를 확인하거나 친구 코드로 시도해 보세요.",
+    "requestsTitle": "요청 ({{count}})",
+    "friendsTitle": "친구 ({{count}})",
+    "sentTitle": "보낸 요청 ({{count}})",
+    "empty": "아직 친구가 없어요. 사용자 이름을 검색하거나 친구 코드를 공유해 보세요.",
+    "loadError": "친구 목록을 불러오지 못했어요. 아래로 당겨 다시 시도하세요.",
+    "add": "추가",
+    "addFriend": "친구 추가",
+    "accept": "수락",
+    "decline": "거절",
+    "cancelRequest": "취소",
+    "friendsLabel": "친구",
+    "requestedLabel": "요청됨",
+    "removeTitle": "{{name}}님을 삭제할까요?",
+    "removeMessage": "{{name}}님과 더 이상 친구가 아니게 돼요. 나중에 다시 서로 추가할 수 있어요.",
+    "remove": "친구 삭제",
+    "codeNotFound": "친구 코드 {{code}}를 가진 사람이 없어요.",
+    "thatsYou": "내 코드예요!",
+    "alreadyFriends": "{{name}}님과 이미 친구예요.",
+    "requestSent": "요청을 보냈어요. {{name}}님이 수락하면 친구가 돼요.",
+    "cameraTitle": "친구 코드 스캔",
+    "cameraMessage": "친구의 QR 코드를 스캔하려면 카메라가 필요해요. 이 화면이 열려 있을 때만 사용해요.",
+    "allowCamera": "카메라 허용",
+    "scanHint": "친구의 Lua QR 코드에 카메라를 맞추세요.",
+    "notLuaCode": "Lua 친구 코드가 아니에요."
   },
   "stats": {
     "calendar": {

@@ -300,7 +300,11 @@
       "privacyPolicy": "プライバシーポリシー",
       "signIn": "サインインまたはアカウント作成",
       "signInSublabel": "フレンドを追加してランキングに参加",
-      "signedIn": "サインイン中"
+      "signedIn": "サインイン中",
+      "friends": "フレンド",
+      "friendsSublabel": "フレンドを探してリクエストに応える",
+      "friendsRequests_one": "新しいリクエスト{{count}}件",
+      "friendsRequests_other": "新しいリクエスト{{count}}件"
     }
   },
   "aboutUs": {
@@ -498,6 +502,41 @@
       "emptyName": "表示名を入力してください。",
       "missingPassword": "パスワードを入力してください。"
     }
+  },
+  "friends": {
+    "title": "フレンド",
+    "signInToAdd": "サインインすると、フレンドを追加したりリクエストを確認したりできます。",
+    "searchPlaceholder": "ユーザー名またはフレンドコード",
+    "clearSearch": "検索をクリア",
+    "myQr": "マイQRコード",
+    "scanQr": "QRコードを読み取る",
+    "qrHint": "フレンドがこれを読み取るとあなたを追加できます。",
+    "shareCode": "コードを共有",
+    "noResults": "見つかりませんでした。綴りを確認するか、フレンドコードで試してください。",
+    "requestsTitle": "リクエスト({{count}})",
+    "friendsTitle": "フレンド({{count}})",
+    "sentTitle": "送信済み({{count}})",
+    "empty": "まだフレンドがいません。ユーザー名を検索するか、フレンドコードを共有しましょう。",
+    "loadError": "フレンドを読み込めませんでした。下に引っ張ってもう一度お試しください。",
+    "add": "追加",
+    "addFriend": "フレンドを追加",
+    "accept": "承認",
+    "decline": "拒否",
+    "cancelRequest": "取り消す",
+    "friendsLabel": "フレンド",
+    "requestedLabel": "申請中",
+    "removeTitle": "{{name}}さんを削除しますか?",
+    "removeMessage": "{{name}}さんとはフレンドではなくなります。あとでまた追加し合えます。",
+    "remove": "フレンドを削除",
+    "codeNotFound": "フレンドコード {{code}} のユーザーはいません。",
+    "thatsYou": "それはあなた自身のコードです!",
+    "alreadyFriends": "{{name}}さんとはすでにフレンドです。",
+    "requestSent": "リクエストを送りました。{{name}}さんが承認するとフレンドになります。",
+    "cameraTitle": "フレンドのコードを読み取る",
+    "cameraMessage": "フレンドのQRコードを読み取るためにカメラを使います。この画面を開いている間だけ使用します。",
+    "allowCamera": "カメラを許可",
+    "scanHint": "フレンドのLua QRコードにカメラを向けてください。",
+    "notLuaCode": "これはLuaのフレンドコードではありません。"
   },
   "stats": {
     "calendar": {

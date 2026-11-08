@@ -90,6 +90,29 @@ export function randomAvatars(seeds: string[]): { look: AvatarLook; backdrop: st
   });
 }
 
+/**
+ * Another player's look as their phone saved it on the server. Anything this
+ * version of the app doesn't know (a newer item, a typo) is left off.
+ */
+export function parseLook(raw: unknown): AvatarLook {
+  const r = raw && typeof raw === "object" ? (raw as Record<string, unknown>) : {};
+  const worn = r.equipped && typeof r.equipped === "object" ? (r.equipped as Record<string, unknown>) : {};
+  const equipped: Equipped = {};
+  for (const item of ITEMS) {
+    if (worn[item.slot] === item.id) equipped[item.slot] = item.id;
+  }
+  return {
+    skin: PALETTE_SKINS.find((s) => s.id === r.skin)?.id ?? "classic",
+    costume: COSTUMES.find((c) => c.id === r.costume)?.id ?? null,
+    equipped,
+  };
+}
+
+/** A soft tint behind a player's avatar, the same every time for the same id. */
+export function backdropFor(seed: string): string {
+  return BACKDROPS[hashSeed(seed) % BACKDROPS.length];
+}
+
 /** The signed-in player's Lua, wearing only what their XP has unlocked. */
 export function useMyLook(): AvatarLook {
   const statsXp = useStatsXp();
